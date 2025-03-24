@@ -1,11 +1,12 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-header',
+  imports: [],
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-  @Input() pageTitle!: string;
-  @Input() logoSrc!: string;
+  @Input() PageTitle: string | undefined;
+  @Input() LogoSrc: string | undefined;
 }
