@@ -1,0 +1,41 @@
+header{
+  display: flex;
+  font-family: "Tiempos Headline", serif;
+
+  .logo {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+
+    *{
+      margin: 0 1rem ;
+    }
+
+    .splitter{
+      border: solid .5px;
+      height: 60px;
+    }
+  }
+
+  &.logged-in{
+    justify-content: space-between;
+  }
+}
+
+h1{
+  align-content: center;
+}
+
+button {
+  padding: .1rem;
+  background: none;
+  border: none;
+  font-size: xxx-large;
+}
+
+.account-info{
+  margin: 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}

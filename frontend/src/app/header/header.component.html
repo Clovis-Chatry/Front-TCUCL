@@ -1,4 +1,19 @@
-<header>
-  <img [src]="LogoSrc" alt="Logo" />
-  <h1>{{ PageTitle }}</h1>
+<header [class.logged-in]="isLoggedIn">
+  <div class="logo">
+    <img ngSrc="{{LogoSrc}}" alt="logo" width="77" height="75"/>
+    <div class="splitter"><br class="splitter"></div>
+    <h1>{{ PageTitle }}</h1>
+  </div>
+
+  @if (isLoggedIn) {
+    <div class="account-info">
+      <div class="info">
+        <div class="name">Nom du gadjo</div>
+        <div class="entity">D'où qu'cest qu'y bosse le gadjo</div>
+      </div>
+      <button><img ngSrc="/assets/icons/utilisateur.svg" alt="Utilisateur" width="50" height="50">
+      </button>
+    </div>
+
+  }
 </header>
