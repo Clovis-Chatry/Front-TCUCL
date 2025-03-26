@@ -1,5 +1,6 @@
 <div class="app">
   <app-header [PageTitle]="'Outil de Trajectoire Carbone de l\'UCL'" [LogoSrc]="'assets/images/logo.png'"></app-header>
+  <router-outlet></router-outlet>
 
   <!-- Composant header spécifique à la saisie des données, visible uniquement sur certaines pages -->
   <ng-container *ngIf="isSaisiePage()">
