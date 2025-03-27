@@ -1,0 +1,162 @@
+/* Fond bleu pastel pour la page entière */
+body {
+  height: 100%;
+  background-color: #60aecb; /* Bleu pastel */
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Conteneur global */
+.header-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* Boutons au-dessus de la barre de navigation */
+.sur-bar-navigation-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.boutons-sur-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 20px;
+}
+
+/* Espacement égal entre les éléments */
+.boutons-sur-bar > * {
+  text-align: center;
+}
+
+.home-button {
+  background-color: #28a745;
+}
+
+.home-button:hover {
+  background-color: #1e7e34;
+}
+
+/* Texte année */
+.year-label, .year-change-label {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+
+/* Liste déroulante */
+.year-select {
+  padding: 5px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.year-selector {
+  margin-left: auto;
+  padding: 5px;
+  font-size: 16px;
+  border: 1px solid #007bff;
+  border-radius: 5px;
+  background-color: white;
+  color: #007bff;
+  cursor: pointer;
+}
+
+.splitter{
+  border: solid .5px;
+  height: 60px;
+}
+
+.button {
+  width: 130px;
+  text-align: center;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+/* Rectangle blanc autour de la barre de navigation */
+.nav-wrapper {
+  background-color: white; /* Fond blanc */
+  border-radius: 10px; /* Coins arrondis */
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre légère */
+  width: 90%; /* Largeur adaptable */
+  max-width: 1200px; /* Largeur max */
+  margin-bottom: 20px;
+}
+
+/* Barre de navigation */
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Conteneur des onglets */
+.tabs-container {
+  display: flex;
+  overflow-x: auto;
+  width: 100%;
+  scroll-behavior: smooth;
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+/* Style des onglets */
+.tab {
+  padding: 10px 20px;
+  background-color: white;
+  color: #007bff;
+  border: 1px solid #007bff;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+  height: 50px;
+  min-width: 100px;
+}
+
+.tab:hover {
+  background-color: #f0f0f0;
+}
+
+.tab.active {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Style des flèches */
+.nav-arrow {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #007bff;
+}
+
+.nav-arrow:disabled {
+  color: #ccc;
+}
