@@ -15,6 +15,6 @@ export class AppComponent {
   title = 'frontend';
   constructor(private router: Router) {}
   isSaisiePage(): boolean {
-    return this.router.url.includes('saisie-donnees'); // Remplace par ton path de saisie des données
+    return this.router.url.includes('energieOnglet'); // Remplace par ton path de saisie des données
   }
 }

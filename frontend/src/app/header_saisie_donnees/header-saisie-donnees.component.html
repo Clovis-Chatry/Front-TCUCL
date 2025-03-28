@@ -17,10 +17,12 @@
     <button class="button primary-button">Récap</button>
 
     <!-- Changer d'année + Sélecteur -->
-    <span class="year-change-label">Changer d'année :</span>
-    <select class="year-select" [(ngModel)]="selectedYear">
-      <option *ngFor="let year of years" [value]="year">{{ year }}</option>
-    </select>
+    <div class="year-change-container">
+      <span class="year-change-label">Changer d'année :</span>
+      <select class="year-select" [(ngModel)]="selectedYear">
+        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+      </select>
+    </div>
   </div>
 
   <!-- Barre de navigation dans un rectangle blanc -->

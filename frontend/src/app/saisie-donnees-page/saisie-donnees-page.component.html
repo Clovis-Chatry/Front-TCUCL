@@ -1,4 +1,63 @@
-<!-- Contenu principal de la page -->
-<div class="content">
-  <p>Bienvenue sur la page de saisie des données !</p>
-</div>
+<table class="data-table">
+  <thead>
+  <tr>
+    <th>Consommation</th>
+    <th>Valeur</th>
+    <th>Unité</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>Gaz</td>
+    <td><input type="number" class="value-input" [(ngModel)]="items.consoGaz" (blur)="updateConsoGaz()" /></td>
+    <td>
+      <select class="unit-select" [(ngModel)]="items.unitGaz">
+        <option value="Tonnes">Tonnes</option>
+        <option value="MWh PCS">MWh PCS</option>
+        <option value="m3">m3</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>Fioul</td>
+    <td><input type="number" class="value-input" [(ngModel)]="items.consoFioul" /></td>
+    <td>
+      <select class="unit-select" [(ngModel)]="items.consoFioul">
+        <option value="Tonnes">Tonnes</option>
+        <option value="MWh PCS">MWh PCS</option>
+        <option value="m3">m3</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>Bois</td>
+    <td><input type="number" class="value-input" [(ngModel)]="items.consoBois" /></td>
+    <td>
+      <select class="unit-select" [(ngModel)]="items.consoBois">
+        <option value="Tonnes">Tonnes</option>
+        <option value="MWh PCS">MWh PCS</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>Réseau de chaleur urbain</td>
+    <td><input type="number" class="value-input" [(ngModel)]="items.consoReseauVille" /></td>
+    <td>MWh PCS </td>
+  </tr>
+  <tr>
+    <td>Électricité pour le chauffage</td>
+    <td><input type="number" class="value-input" [(ngModel)]="items.consoElecChauffage" /></td>
+    <td>MWh PCS </td>
+  </tr>
+  <tr>
+    <td>Électricité spécifique</td>
+    <td><input type="number" class="value-input" [(ngModel)]="items.consoElecSpecifique" /></td>
+    <td>MWh PCS </td>
+  </tr>
+  <tr>
+    <td>Eau</td>
+    <td><input type="number" class="value-input" [(ngModel)]="items.consoEau" /></td>
+    <td>m³</td>
+  </tr>
+  </tbody>
+</table>

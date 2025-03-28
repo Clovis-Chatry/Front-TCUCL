@@ -20,7 +20,7 @@ export const routes: Routes = [
     component: DashboardComponent,
     canActivate: [AuthGuard],
   },
-  { path: 'saisie-donnees',
+  { path: 'energieOnglet/:id',
     component: SaisieDonneesPageComponent
   },
   {

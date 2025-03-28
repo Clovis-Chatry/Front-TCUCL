@@ -18,6 +18,7 @@ export class DashboardComponent implements OnInit{
   }
 
   goToSaisieDonnees() {
-    this.router.navigate(['/saisie-donnees']);
+    let id = 2;
+    this.router.navigate([`/energieOnglet/${id}`]);
   }
 }
