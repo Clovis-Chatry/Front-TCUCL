@@ -1,13 +1,20 @@
 import {Component} from '@angular/core';
-import {HeaderComponent} from './header/header.component';
-import {LoginPageComponent} from './login-page/login-page.component';
+import {HeaderComponent} from './components/header/header.component';
+import {Router, RouterModule} from '@angular/router';
+import {CommonModule} from '@angular/common';
+import {HeaderSaisieDonneesComponent} from './header_saisie_donnees/header-saisie-donnees.component';
 
 @Component({
+  standalone: true,
   selector: 'app-root',
-  imports: [HeaderComponent, LoginPageComponent],
+  imports: [CommonModule, HeaderComponent, RouterModule, HeaderSaisieDonneesComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'frontend';
+  constructor(private router: Router) {}
+  isSaisiePage(): boolean {
+    return this.router.url.includes('energieOnglet'); // Remplace par ton path de saisie des données
+  }
 }
