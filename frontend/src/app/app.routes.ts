@@ -1,5 +1,4 @@
-import {Routes} from '@angular/router';
-import {provideRouter} from '@angular/router';
+import {provideRouter, Routes} from '@angular/router';
 import {LoginPageComponent} from './components/login-page/login-page.component';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {AuthGuard} from './guards/authguard';

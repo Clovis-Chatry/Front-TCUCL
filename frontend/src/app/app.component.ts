@@ -7,7 +7,6 @@ import {HeaderSaisieDonneesComponent} from './header_saisie_donnees/header-saisi
 
 
 @Component({
-  standalone: true,
   selector: 'app-root',
 
   imports: [CommonModule, RouterOutlet, HeaderComponent, RouterModule, HeaderSaisieDonneesComponent],
