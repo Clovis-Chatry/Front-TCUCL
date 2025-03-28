@@ -7,14 +7,16 @@ import { NgIf } from '@angular/common';
   selector: 'app-header',
   standalone: true,
   imports: [NgOptimizedImage, NgIf],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  templateUrl: '././header.component.html',
+  styleUrl: '././header.component.scss'
+  
 })
 export class HeaderComponent {
   @Input() PageTitle: string | undefined;
   @Input() LogoSrc: string | undefined;
 
   isLoggedIn = true;
+
   dropdownOpen = false;
 
   constructor(private router: Router) {}
