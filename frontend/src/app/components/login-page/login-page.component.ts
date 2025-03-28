@@ -16,7 +16,6 @@ export class LoginPageComponent {
   credentials = {
     username: '',
     password: '',
-    rememberMe: false
   };
   errorMessage: string = '';
 
