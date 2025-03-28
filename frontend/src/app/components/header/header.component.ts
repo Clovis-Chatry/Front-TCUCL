@@ -1,28 +1,42 @@
-import { Component, Input, HostListener } from '@angular/core';
-import { NgOptimizedImage } from '@angular/common';
+import { Component, HostListener, Input, inject, signal, effect } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgIf } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
+import { NgIf, NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [NgOptimizedImage, NgIf],
-  templateUrl: '././header.component.html',
-  styleUrl: '././header.component.scss'
-  
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
   @Input() PageTitle: string | undefined;
   @Input() LogoSrc: string | undefined;
 
-  isLoggedIn = true;
+  private router = inject(Router);
+  private authService = inject(AuthService);
+
+  nom = signal('');
+  prenom = signal('');
+  entite = signal('');
 
   dropdownOpen = false;
+  isLoggedIn = this.authService.isAuthenticated; // signal directement
 
-  constructor(private router: Router) {}
+  constructor() {
+    effect(() => {
+      const user = this.authService.getUserInfo()();
+
+      if (user) {
+        this.nom.set(user.nom ?? '');
+        this.prenom.set(user.prenom ?? '');
+        this.entite.set(user.entiteNom ?? '');
+      }
+    });
+  }
 
   toggleDropdown(): void {
-    console.log("connecté")
     this.dropdownOpen = !this.dropdownOpen;
   }
 
@@ -32,6 +46,7 @@ export class HeaderComponent {
   }
 
   logout(): void {
+    this.authService.logout();
     this.dropdownOpen = false;
     this.router.navigate(['/login']);
   }
@@ -42,5 +57,9 @@ export class HeaderComponent {
     if (!target.closest('.dropdown-wrapper')) {
       this.dropdownOpen = false;
     }
+  }
+
+  goToAdmin() {
+    this.router.navigate(['/admin']);
   }
 }

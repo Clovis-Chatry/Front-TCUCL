@@ -19,7 +19,8 @@ export class DashboardComponent implements OnInit{
   ngOnInit() {
     console.log("Connecté")
   }
-goToSaisieDonnees() {
+
+  goToSaisieDonnees() {
     let id = 2;
     this.router.navigate([`/energieOnglet/${id}`]);
   }

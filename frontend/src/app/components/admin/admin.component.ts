@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { HeaderComponent } from '../header/header.component';
+import {Component} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
 interface User {
   firstName: string;
@@ -21,8 +20,7 @@ interface Entity {
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
-    HeaderComponent
+    FormsModule
   ],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss']
