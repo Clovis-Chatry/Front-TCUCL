@@ -1,13 +1,17 @@
 import {Component} from '@angular/core';
 import {HeaderComponent} from './components/header/header.component';
+import {RouterOutlet} from '@angular/router';
 import {Router, RouterModule} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {HeaderSaisieDonneesComponent} from './header_saisie_donnees/header-saisie-donnees.component';
 
+
 @Component({
   standalone: true,
   selector: 'app-root',
-  imports: [CommonModule, HeaderComponent, RouterModule, HeaderSaisieDonneesComponent],
+
+  imports: [CommonModule, RouterOutlet, HeaderComponent, RouterModule, HeaderSaisieDonneesComponent],
+
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
