@@ -1,13 +1,14 @@
 .data-entry-container {
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start; /* Aligner à gauche */
   margin-top: 1.5em; /* Espacement avec la barre de navigation */
+  padding-left: 10em; /* Décalage léger du bord gauche */
 }
 
 .data-table {
-  width: 90%;
-  max-width: 600px;
+  margin-left: 3em;
+  width: 45%; /* Le tableau prend 50% de la page */
   border-collapse: collapse;
 }
 

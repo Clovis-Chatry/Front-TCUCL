@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router'; // Permet de récupérer l'ID de l'URL
 import {AuthService} from '../services/auth.service';
+import { ApiEndpoints } from '../services/api-endpoints'; // adapte le chemin selon ton projet
 
 
 @Component({
@@ -43,8 +44,8 @@ export class SaisieDonneesPageComponent implements OnInit {
       'Authorization': `Bearer ${token}` // 🔥 Ajout du token dans l'en-tête
     };
 
-    this.http.get<any>(`http://localhost:8080/api/energieOnglet/${id}`, { headers }).subscribe(
-      (data) => {
+    this.http.get<any>(ApiEndpoints.EnergieOnglet.getById(id), { headers }).subscribe(
+    (data) => {
         this.items = {
           consoGaz: data.consoGaz,
           unitGaz: data.parametreEnergie.uniteGaz,
@@ -78,11 +79,11 @@ export class SaisieDonneesPageComponent implements OnInit {
       };
 
       this.http.patch<any>(
-        `http://localhost:8080/energieOnglet/${id}/consoGaz`,
+        ApiEndpoints.EnergieOnglet.updateConsoGaz(id),
         this.items.consoGaz,
-        {headers}
+        { headers }
       ).subscribe(
-        () => console.log('ConsoGaz mise à jour'),
+      () => console.log('ConsoGaz mise à jour'),
         (error) => console.error('Erreur lors de la mise à jour de ConsoGaz', error)
       );
     } else {
