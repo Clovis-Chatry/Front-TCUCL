@@ -40,10 +40,23 @@ export class HeaderSaisieDonneesComponent {
   }
 
   navigateTo(tab: string) {
-    this.activeTab = tab;  // Définir l'onglet actif lorsque cliqué
+    this.activeTab = tab;
     console.log(`Navigation vers ${tab}`);
-    // Ici, tu peux utiliser un routeur Angular pour naviguer, ex :
-    // this.router.navigate([`/${tab.toLowerCase()}`]);
+
+    const urlPart = this.tabToRoute[tab];
+
+    if (!urlPart) {
+      console.error('Tab non reconnu:', tab);
+      return;
+    }
+
+    const id = this.extractIdFromUrl();
+
+    if (id) {
+      this.router.navigate([`/${urlPart}/${id}`]);
+    } else {
+      console.error('ID manquant pour la redirection');
+    }
   }
 
   navigateToDashboard() {
@@ -53,4 +66,26 @@ export class HeaderSaisieDonneesComponent {
   getTabClass(tab: string) {
     return this.activeTab === tab ? 'tab active' : 'tab'; // Ajouter la classe active au bouton sélectionné
   }
+
+  private extractIdFromUrl(): string | null {
+    const urlSegments = this.router.url.split('/');
+    const id = urlSegments[urlSegments.length - 1];
+    return id || null;
+  }
+
+  private tabToRoute: { [key: string]: string } = {
+    'Energie': 'energieOnglet',
+    'Emissions fugitives': 'emissionsFugitivesOnglet',
+    'Mobilité dom-trav': 'mobiliteDomTravOnglet',
+    'Autre mob FR': 'autreMobFrOnglet',
+    'Mob internationale': 'mobiliteInternationaleOnglet',
+    'Bâtiments': 'batimentsOnglet',
+    'Parkings': 'parkingsOnglet',
+    'Auto': 'autoOnglet',
+    'Numérique': 'numeriqueOnglet',
+    'Autre immob': 'autreImmobOnglet',
+    'Achats': 'achatsOnglet',
+    'Déchets': 'dechetsOnglet'
+  };
+
 }
