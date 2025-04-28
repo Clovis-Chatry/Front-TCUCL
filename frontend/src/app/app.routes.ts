@@ -3,7 +3,7 @@ import {provideRouter} from '@angular/router';
 import {LoginPageComponent} from './components/login-page/login-page.component';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {AuthGuard} from './guards/authguard';
-import {SaisieDonneesPageComponent} from './saisie-donnees-page/saisie-donnees-page.component';
+import {EnergieSaisieDonneesPageComponent} from './saisie-donnees-page/energie/energie-saisie-donnees-page.component';
 
 export const routes: Routes = [
   {
@@ -21,7 +21,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   { path: 'energieOnglet/:id',
-    component: SaisieDonneesPageComponent
+    component: EnergieSaisieDonneesPageComponent
   },
   {
     path: '**',

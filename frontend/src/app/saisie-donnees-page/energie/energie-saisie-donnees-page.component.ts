@@ -1,20 +1,18 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router'; // Permet de récupérer l'ID de l'URL
-import {AuthService} from '../services/auth.service';
-import { ApiEndpoints } from '../services/api-endpoints'; // adapte le chemin selon ton projet
-
+import {Component, inject, OnInit} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {ActivatedRoute} from '@angular/router'; // Permet de récupérer l'ID de l'URL
+import {AuthService} from '../../services/auth.service';
+import {ApiEndpoints} from '../../services/api-endpoints';
 
 @Component({
   selector: 'app-saisie-donnees-page',
   standalone: true,
-  templateUrl: './saisie-donnees-page.component.html',
-  styleUrls: ['./saisie-donnees-page.component.scss'],
+  templateUrl: './energie-saisie-donnees-page.component.html',
+  styleUrls: ['./energie-saisie-donnees-page.component.scss'],
   imports: [FormsModule, HttpClientModule]
 })
-export class SaisieDonneesPageComponent implements OnInit {
+export class EnergieSaisieDonneesPageComponent implements OnInit {
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute); // Récupération des paramètres de l'URL
   private authService = inject(AuthService);
@@ -44,8 +42,8 @@ export class SaisieDonneesPageComponent implements OnInit {
       'Authorization': `Bearer ${token}` // 🔥 Ajout du token dans l'en-tête
     };
 
-    this.http.get<any>(ApiEndpoints.EnergieOnglet.getById(id), { headers }).subscribe(
-    (data) => {
+    this.http.get<any>(ApiEndpoints.EnergieOnglet.getById(id), {headers}).subscribe(
+      (data) => {
         this.items = {
           consoGaz: data.consoGaz,
           unitGaz: data.parametreEnergie.uniteGaz,
@@ -81,9 +79,9 @@ export class SaisieDonneesPageComponent implements OnInit {
       this.http.patch<any>(
         ApiEndpoints.EnergieOnglet.updateConsoGaz(id),
         this.items.consoGaz,
-        { headers }
+        {headers}
       ).subscribe(
-      () => console.log('ConsoGaz mise à jour'),
+        () => console.log('ConsoGaz mise à jour'),
         (error) => console.error('Erreur lors de la mise à jour de ConsoGaz', error)
       );
     } else {
