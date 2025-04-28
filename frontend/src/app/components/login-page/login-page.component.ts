@@ -1,30 +1,37 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import {Component} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
+import {Router} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-login-page',
+  templateUrl: './login-page.component.html',
   imports: [
     FormsModule
   ],
-  templateUrl: './login-page.component.html' ,
-  styleUrl: './login-page.component.scss'
+  styleUrls: ['./login-page.component.scss']
 })
 export class LoginPageComponent {
-  email = '';
-  password = '';
-  loginError = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  credentials = {
+    username: '',
+    password: '',
+    rememberMe: false
+  };
+  errorMessage: string = '';
 
-  onLogin(): void {
-    this.authService.login(this.email, this.password).subscribe(success => {
-      if (success) {
+  constructor(private authService: AuthService, private router: Router) {
+  }
+
+  login() {
+    this.authService.login(this.credentials).subscribe({
+      next: () => {
         this.router.navigate(['/dashboard']);
-      } else {
-        this.loginError = true;
+      },
+      error: (err) => {
+        this.errorMessage = 'Mot de passe ou nom d\'utilisateur incorrect';
+        console.error('Login failed', err);
       }
     });
-  }
+    }
 }

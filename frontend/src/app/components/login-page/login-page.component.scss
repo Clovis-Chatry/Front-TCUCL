@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 90vh;
+  height: 100vh;
   background-color: #C4CAD4;
 }
 
@@ -69,4 +69,10 @@ button[type="submit"]:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+
+.remember{
+  display: flex;
+  margin-bottom: 1rem;
 }

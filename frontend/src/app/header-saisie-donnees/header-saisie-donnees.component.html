@@ -4,7 +4,7 @@
     <button class="button home-button" (click)="navigateToDashboard()">Accueil</button>
 
     <!-- Texte Année -->
-    <span class="year-label">Année : {{ currentYear-1 }} - {{currentYear}}</span>
+    <span class="year-label">Année : {{ currentYear }}</span>
 
     <!-- Bouton Sauvegarder -->
     <button class="button primary-button">Sauvegarder</button>
@@ -13,12 +13,12 @@
     <div class="splitter"><br class="splitter"></div>
 
     <!-- Boutons Suivi et Récap -->
-    <button class="button primary-button">Trajectoire</button>
-    <button class="button primary-button">Synthèse EGES en 2024-25</button>
+    <button class="button primary-button">Suivi</button>
+    <button class="button primary-button">Récap</button>
 
     <!-- Changer d'année + Sélecteur -->
     <div class="year-change-container">
-      <span class="year-change-label">Editer l'année :</span>
+      <span class="year-change-label">Changer d'année :</span>
       <select class="year-select" [(ngModel)]="selectedYear">
         <option *ngFor="let year of years" [value]="year">{{ year }}</option>
       </select>
