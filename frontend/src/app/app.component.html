@@ -1,4 +1,12 @@
 <div class="app">
+  <!-- Composant header commun à toutes les pages -->
   <app-header [PageTitle]="'Outil de Trajectoire Carbone de l\'UCL'" [LogoSrc]="'assets/images/logo.png'"></app-header>
-  <app-login-page></app-login-page>
+
+  <!-- Composant header spécifique à la saisie des données, visible uniquement sur certaines pages -->
+  <ng-container *ngIf="isSaisiePage()">
+    <app-header-saisie-donnees></app-header-saisie-donnees>
+  </ng-container>
+
+  <!-- Contenu principal (formulaires, tableaux, etc.) -->
+  <router-outlet></router-outlet>
 </div>

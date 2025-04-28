@@ -6,8 +6,8 @@ import {NgOptimizedImage} from '@angular/common';
   imports: [
     NgOptimizedImage
   ],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  templateUrl: '././header.component.html',
+  styleUrl: '././header.component.scss'
 })
 export class HeaderComponent {
   @Input() PageTitle: string | undefined;
