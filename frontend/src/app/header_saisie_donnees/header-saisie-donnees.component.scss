@@ -1,7 +1,5 @@
-/* Fond bleu pastel pour la page entière */
 body {
   height: 100%;
-  background-color: #60aecb; /* Bleu pastel */
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
@@ -11,6 +9,7 @@ body {
 /* Conteneur global */
 .header-container {
   padding: 0 2em;
+  background-color: #E6F0FF; /* Bleu pastel */
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
