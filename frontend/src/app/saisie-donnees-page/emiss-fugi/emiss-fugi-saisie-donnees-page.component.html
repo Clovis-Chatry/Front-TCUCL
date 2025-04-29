@@ -1,5 +1,58 @@
 <div class="main-container">
   <div class="left-panel">
-    
+    <div class="page-container">
+
+      <h2>Liste des Machines de l'année dernière</h2>
+
+      <div *ngIf="machines.length === 0" class="empty-list">
+        Aucune machine enregistrée.
+      </div>
+
+      <div *ngIf="machines.length > 0" class="machines-list">
+        <div *ngFor="let machine of machines" class="machine-card">
+          <p><strong>Description:</strong> {{ machine.description }}</p>
+          <p><strong>Type de fluide:</strong> {{ machine.typeFluide }}</p>
+          <p><strong>Quantité de fluide:</strong> {{ machine.quantiteFluide }}</p>
+          <p *ngIf="machine.tauxFuite !== null"><strong>Taux de fuite:</strong> {{ machine.tauxFuite }}%</p>
+          <p *ngIf="machine.tauxFuite === null"><strong>Type de machine:</strong> {{ machine.typeMachine }}</p>
+        </div>
+      </div>
+
+      <h2>Ajouter une Machine</h2>
+
+      <div class="form-container">
+        <label>Description :</label>
+        <input type="text" [(ngModel)]="newMachine.description" maxlength="75" placeholder="75 caractères max">
+
+        <label>Type de fluide :</label>
+        <select [(ngModel)]="newMachine.typeFluide">
+          <option *ngFor="let type of typesFluide" [value]="type">{{ type }}</option>
+        </select>
+
+        <label>Quantité de fluide :</label>
+        <input type="number" [(ngModel)]="newMachine.quantiteFluide">
+
+        <label>Taux de fuite réel connu ?</label>
+        <div class="radio-group">
+          <label><input type="radio" [(ngModel)]="fuiteReelleConnue" [value]="true"> Oui</label>
+          <label><input type="radio" [(ngModel)]="fuiteReelleConnue" [value]="false"> Non</label>
+        </div>
+
+        <div *ngIf="fuiteReelleConnue">
+          <label>Taux de fuite (%) :</label>
+          <input type="number" [(ngModel)]="newMachine.tauxFuite">
+        </div>
+
+        <div *ngIf="!fuiteReelleConnue">
+          <label>Type de machine :</label>
+          <select [(ngModel)]="newMachine.typeMachine">
+            <option *ngFor="let type of typesMachine" [value]="type">{{ type }}</option>
+          </select>
+        </div>
+
+        <button (click)="ajouterMachine()">Ajouter</button>
+      </div>
+
+    </div>
   </div>
 </div>

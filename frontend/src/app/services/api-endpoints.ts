@@ -8,6 +8,11 @@ export const ApiEndpoints = {
     updateConsoGaz: (id: string) => `${BASE_URL}/energieonglet/${id}/consoGaz`,
     // tu ajoutes ici toutes les autres routes PATCH, GET, POST...
   },
+
+  EmissionFugitivesOnglet: {
+    getMachineById: (id: string) => `${BASE_URL}/energieonglet/${id}`,
+    addMachine: (id: string) => `${BASE_URL}/energieonglet/${id}/consoGaz`,
+  }
   // Tu pourras rajouter ici d'autres blocs pour d'autres entités si besoin
 
 DechetsOnglet: {

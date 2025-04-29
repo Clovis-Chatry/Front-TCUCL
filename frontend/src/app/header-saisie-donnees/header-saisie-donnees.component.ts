@@ -1,6 +1,6 @@
-import {Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import {Router} from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -10,18 +10,25 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./header-saisie-donnees.component.scss']
 })
 export class HeaderSaisieDonneesComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    this.currentYear = new Date().getFullYear();
+    this.years = Array.from({ length: this.currentYear - 2019 + 1 }, (_, i) => 2019 + i);
+    this.selectedYear = this.currentYear;
+    console.log("Années valides : ", this.years);
+  }
+
   @Input() PageTitle: string = '';
   @Input() LogoSrc: string = '';
+
   tabs = ['Energie', 'Emissions fugitives', 'Mobilité dom-trav', 'Autre mob FR', 'Mob internationale', 'Bâtiments',
     'Parkings', 'Auto', 'Numérique', 'Autre immob', 'Achats', 'Déchets'];
   startIndex = 0;
   visibleCount = 8;
 
-  activeTab: string | null = null;  // Variable pour suivre l'onglet actif
-  currentYear: number = new Date().getFullYear();
-  selectedYear: number = this.currentYear;
-  years: number[] = Array.from({ length: 7 }, (_, i) => 2025 - i);
+  activeTab: string | null = null;
+  currentYear: number;
+  selectedYear: number;
+  years: number[] = [];
 
   visibleTabs() {
     return this.tabs.slice(this.startIndex, this.startIndex + this.visibleCount);
@@ -50,13 +57,20 @@ export class HeaderSaisieDonneesComponent {
       return;
     }
 
-    const id = this.extractIdFromUrl();
+    // Calcule l'ID à partir de l'année sélectionnée
+    const year = Number(this.selectedYear);
+    const index = this.years.indexOf(year);
 
-    if (id) {
-      this.router.navigate([`/${urlPart}/${id}`]);
-    } else {
-      console.error('ID manquant pour la redirection');
+
+    if (index === -1) {
+      console.error('Année sélectionnée invalide:', this.selectedYear);
+      return;
     }
+
+    // Calcul de l'ID à partir de l'année sélectionnée
+    const id = index.toString();
+    console.log(`ID calculé: ${id}`);
+    this.router.navigate([`/${urlPart}/${id}`]);
   }
 
   navigateToDashboard() {
@@ -64,13 +78,7 @@ export class HeaderSaisieDonneesComponent {
   }
 
   getTabClass(tab: string) {
-    return this.activeTab === tab ? 'tab active' : 'tab'; // Ajouter la classe active au bouton sélectionné
-  }
-
-  private extractIdFromUrl(): string | null {
-    const urlSegments = this.router.url.split('/');
-    const id = urlSegments[urlSegments.length - 1];
-    return id || null;
+    return this.activeTab === tab ? 'tab active' : 'tab';
   }
 
   private tabToRoute: { [key: string]: string } = {
@@ -87,5 +95,4 @@ export class HeaderSaisieDonneesComponent {
     'Achats': 'achatsOnglet',
     'Déchets': 'dechetsOnglet'
   };
-
 }
