@@ -9,4 +9,10 @@ export const ApiEndpoints = {
     // tu ajoutes ici toutes les autres routes PATCH, GET, POST...
   },
   // Tu pourras rajouter ici d'autres blocs pour d'autres entités si besoin
+
+DechetsOnglet: {
+  getById: (id: string) => `${BASE_URL}/dechetsonglet/${id}`,
+  updateOrdureMenagere: (id: string) => `${BASE_URL}/dechetsonglet/${id}/orduresMenageres`
+  // tu pourras rajouter ici d'autres routes PATCH pour Cartons, Verre, etc.
+},
 };
