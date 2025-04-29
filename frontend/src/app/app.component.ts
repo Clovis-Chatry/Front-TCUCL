@@ -5,7 +5,6 @@ import {CommonModule} from '@angular/common';
 import {HeaderSaisieDonneesComponent} from './header-saisie-donnees/header-saisie-donnees.component';
 
 @Component({
-  standalone: true,
   selector: 'app-root',
   imports: [CommonModule, HeaderComponent, RouterModule, HeaderSaisieDonneesComponent],
   templateUrl: './app.component.html',
