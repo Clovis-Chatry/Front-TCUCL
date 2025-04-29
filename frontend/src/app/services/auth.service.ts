@@ -1,36 +1,50 @@
-import { Injectable } from '@angular/core';
+import {Injectable, signal} from '@angular/core';
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { tap, catchError, map } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
-  private readonly API_URL = 'http://localhost:8080/api/auth';
-  private readonly TOKEN_KEY = 'auth_token';
+  isAuthenticated = signal(false);
+  private baseUrl = 'http://localhost:8080/auth';
+  userInfo = signal<{ firstName: string; lastName: string; email: string } | null>(null);
 
-  constructor(private http: HttpClient) {}
+  constructor(private router: Router, private http: HttpClient) {}
 
-  login(credentials: { username: string; password: string; rememberMe: boolean }): Observable<any> {
-    return this.http.post(`${this.API_URL}/login`, credentials).pipe(
-      tap((response: any) => {
-        const storage = credentials.rememberMe ? localStorage : sessionStorage;
-        storage.setItem(this.TOKEN_KEY, response.token);
+  login(email: string, password: string): Observable<boolean> {
+    const loginData = { email: email, mdp: password };
+
+    return this.http.post<any>(`${this.baseUrl}/connexion`, loginData).pipe(
+      tap(response => {
+        localStorage.setItem('auth_token', response.jeton);
+        this.userInfo.set(response.user);
+        this.isAuthenticated.set(true);
+      }),
+      map(() => true),
+      catchError(error => {
+        console.error('Erreur login', error);
+        this.isAuthenticated.set(false);
+        return of(false);
       })
     );
   }
 
-  isLoggedIn(): boolean {
-    return !!(localStorage.getItem(this.TOKEN_KEY) || sessionStorage.getItem(this.TOKEN_KEY));
+  logout(): void {
+    this.isAuthenticated.set(false);
+    this.userInfo.set(null);
+    localStorage.removeItem('auth_token');
+    this.router.navigate(['/login']);
+  }
+
+
+  getUserInfo(): any {
+    return this.userInfo;
   }
 
   getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY) || sessionStorage.getItem(this.TOKEN_KEY);
+    return localStorage.getItem('auth_token');
   }
-
-  logout(): void {
-    localStorage.removeItem(this.TOKEN_KEY);
-    sessionStorage.removeItem(this.TOKEN_KEY);
-  }
-
 }

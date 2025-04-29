@@ -1,15 +1,16 @@
-<header [class.logged-in]="isLoggedIn">
+<header [class.logged-in]="isLoggedIn()">
   <div class="logo">
+
     <img ngSrc="{{LogoSrc}}" alt="logo" width="77" height="75"/>
     <div class="splitter"><br class="splitter"></div>
     <h1>{{ PageTitle }}</h1>
   </div>
 
-  @if (isLoggedIn) {
+  @if (isLoggedIn()) {
     <div class="account-info">
       <div class="info">
-        <div class="name">{{ this.name + " " + this.surname }}</div>
-        <div class="entity">undefined</div>
+        <div class="name">{{ nom() + " " + prenom() }}</div>
+        <div class="entity">{{ entite() }}</div>
       </div>
 
       <div class="dropdown-wrapper">
@@ -27,6 +28,5 @@
         </ul>
       </div>
     </div>
-
   }
 </header>

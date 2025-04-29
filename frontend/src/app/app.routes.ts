@@ -1,8 +1,9 @@
 import {provideRouter, Routes} from '@angular/router';
-import { AdminComponent } from './components/admin/admin.component';
 import {LoginPageComponent} from './components/login-page/login-page.component';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
-import {AuthGuard} from './guards/authguard';
+import {authGuard} from './guards/authguard';
+import { AdminComponent } from './components/admin/admin.component';
+
 import {EnergieSaisieDonneesPageComponent} from './saisie-donnees-page/energie/energie-saisie-donnees-page.component';
 
 export const routes: Routes = [
@@ -18,18 +19,19 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
   },
 
   {
     path: 'admin',
     component: AdminComponent,
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
    },
-      
+
   { path: 'energieOnglet/:id',
     component: EnergieSaisieDonneesPageComponent
   },
+
   {
     path: '**',
     redirectTo: 'login',
