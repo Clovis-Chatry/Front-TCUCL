@@ -3,6 +3,6 @@ export interface UserModel {
   nom: string;
   prenom: string;
   email: string;
-  estParams: boolean;
+  estAdmin: boolean;
   entiteNom: string;
 }
