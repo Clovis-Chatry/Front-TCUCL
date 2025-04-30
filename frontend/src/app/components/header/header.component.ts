@@ -42,7 +42,7 @@ export class HeaderComponent {
 
   goToProfile(): void {
     this.dropdownOpen = false;
-    this.router.navigate(['/admin']);
+    this.router.navigate(['/params']);
   }
 
   logout(): void {
@@ -59,7 +59,7 @@ export class HeaderComponent {
     }
   }
 
-  goToAdmin() {
-    this.router.navigate(['/admin']);
+  goToParams() {
+    this.router.navigate(['/params']);
   }
 }

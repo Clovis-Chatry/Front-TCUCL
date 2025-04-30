@@ -40,7 +40,6 @@ import {
   BatimentsSaisieDonneesPageComponent
 } from './components/saisie-donnees-page/batiments/bat-saisie-donnees-page.component';
 
-
 export const routes: Routes = [
   {
     path: '',
