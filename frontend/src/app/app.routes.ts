@@ -18,6 +18,12 @@ import {
 import {
   DechetsSaisieDonneesPageComponent
 } from './components/saisie-donnees-page/dechets/dechets-saisie-donnees-page.component';
+import {
+  AchatsSaisieDonneesPageComponent
+} from './components/saisie-donnees-page/achats/achats-saisie-donnees-page.component';
+import {
+  AutreImmobilisationPageComponent
+} from './components/saisie-donnees-page/autre-immob/immob-donnees-page.component';
 
 export const routes: Routes = [
   {
@@ -44,14 +50,14 @@ export const routes: Routes = [
   {
     path: 'energieOnglet/:id',
     component: EnergieSaisieDonneesPageComponent,
-    data: {showSaisieHeader: true},
-    canActivate: [authGuard]
+    data: { showSaisieHeader: true },
+    canActivate: [authGuard],
   },
   {
     path: 'emissionsFugitivesOnglet/:id',
     component: EmissFugiSaisieDonneesPageComponent,
-    data: {showSaisieHeader: true},
-    canActivate: [authGuard],
+    data: { showSaisieHeader: true },
+    canActivate: [authGuard]
   },
   {
     path: 'dechetsOnglet/:id',
@@ -70,6 +76,18 @@ export const routes: Routes = [
     component: AutreMobSaisieDonneesPageComponent,
     data: {showSaisieHeader: true},
     canActivate: [authGuard],
+  },
+  {
+    path: 'achatsOnglet/:id',
+    component: AchatsSaisieDonneesPageComponent,
+    data: { showSaisieHeader: true },
+    canActivate: [authGuard]
+  },
+  {
+    path: 'immobOnglet/:id',
+    component: AutreImmobilisationPageComponent,
+    data: { showSaisieHeader: true },
+    canActivate: [authGuard]
   },
   {
     path: '**',
