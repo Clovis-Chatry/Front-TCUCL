@@ -7,8 +7,8 @@ import { NgIf, NgOptimizedImage } from '@angular/common';
   selector: 'app-header',
   standalone: true,
   imports: [NgOptimizedImage, NgIf],
-  templateUrl: '././header.component.html',
-  styleUrls: ['././header.component.scss']
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
   @Input() PageTitle: string | undefined;

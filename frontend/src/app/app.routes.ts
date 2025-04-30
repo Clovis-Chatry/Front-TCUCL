@@ -42,7 +42,8 @@ export const routes: Routes = [
     data: { showSaisieHeader: true }
   },
   { path: 'dechetsOnglet/:id',
-    component: DechetsSaisieDonneesPageComponent
+    component: DechetsSaisieDonneesPageComponent,
+    data: { showSaisieHeader: true }
   },
 
   {
