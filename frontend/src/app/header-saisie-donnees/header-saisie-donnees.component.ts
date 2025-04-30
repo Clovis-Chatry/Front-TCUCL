@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 export class HeaderSaisieDonneesComponent {
   constructor(private router: Router) {
     this.currentYear = new Date().getFullYear();
-    this.years = Array.from({ length: this.currentYear - 2019 + 1 }, (_, i) => 2019 + i);
+    this.years = Array.from({ length: this.currentYear - 2018 }, (_, i) => this.currentYear - i);
     this.selectedYear = this.currentYear;
     console.log("Années valides : ", this.years);
   }
