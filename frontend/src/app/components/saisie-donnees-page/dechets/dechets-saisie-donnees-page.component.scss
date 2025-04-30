@@ -1,5 +1,4 @@
 .main-container {
-  background-color: #E6F0FF;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -18,7 +17,7 @@
   border-collapse: collapse;
 }
 
-.data-table th,
+.data-table th, 
 .data-table td {
   border: 1px solid #ccc;
   padding: 10px;
