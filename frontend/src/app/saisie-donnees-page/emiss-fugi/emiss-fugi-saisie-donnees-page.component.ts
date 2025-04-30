@@ -5,6 +5,8 @@ import {ActivatedRoute} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
 import {EmmissionsFugtivesService} from './emiss-fugi.service';
 import {FormsModule} from '@angular/forms';
+import {TypeFluide} from '../../models/typeFluide.model';
+import {TypeMachineModel} from '../../models/typeMachine.model';
 
 @Component({
   selector: 'app-saisie-donnees-page',
@@ -21,6 +23,8 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
   private route = inject(ActivatedRoute); // Récupération des paramètres de l'URL
   private authService = inject(AuthService);
   emmissionFugitiveOngletId: string = '';
+  noData: boolean = false;
+  hasError: boolean = false;
 
   machines: any[] = [];
   newMachine: any = {
@@ -33,8 +37,8 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
   };
   fuiteReelleConnue: boolean = true;
 
-  typesFluide: string[] = ['Eau', 'Air', 'Huile', 'Gaz']; // à adapter
-  typesMachine: string[] = ['Compresseur', 'Pompe', 'Circuit fermé', 'Générateur']; // à adapter
+  typesFluide: string[] = Object.values(TypeFluide);
+  typesMachine: string[] = Object.values(TypeMachineModel); // à adapter
 
   constructor(private emmissionsFugtivesService: EmmissionsFugtivesService) {
   }
@@ -56,8 +60,27 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
       'Authorization': `Bearer ${token}` // 🔥 Ajout du token dans l'en-tête
     };
 
-    this.emmissionsFugtivesService.getMachines(this.emmissionFugitiveOngletId).subscribe(data => {
-      this.machines = data;
+    const id = parseInt(this.emmissionFugitiveOngletId, 10);
+
+    if (isNaN(id) || id <= 0) {
+      console.warn("Impossible de récupérer les machines pour l'année précédente : ID invalide");
+      this.noData = true;
+      this.machines = [];
+      return;
+    }
+
+    const previousId = (id - 1).toString();
+
+    this.emmissionsFugtivesService.getMachines(previousId).subscribe({
+      next: (data) => {
+        this.machines = data;
+        this.noData = this.machines.length === 0;
+        this.hasError = false;
+      },
+        error: (err) => {
+        console.error('Erreur API', err);
+        this.hasError = true;
+      }
     });
   }
 
@@ -72,6 +95,12 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
     this.emmissionsFugtivesService.addMachine(this.emmissionFugitiveOngletId, machineToAdd).subscribe(() => {
       this.loadMachines();
       this.resetForm();
+    });
+  }
+
+  supprimerMachine(machine: any) {
+    this.emmissionsFugtivesService.deleteMachine(this.emmissionFugitiveOngletId, machine.id).subscribe(() => {
+      this.loadMachines();
     });
   }
 

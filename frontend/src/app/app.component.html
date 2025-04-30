@@ -10,11 +10,6 @@
   <!-- Contenu -->
   <router-outlet></router-outlet>
 
-  <!-- Composant header spécifique à la saisie des données, visible uniquement sur certaines pages -->
-  <ng-container *ngIf="isSaisiePage()">
-    <app-header-saisie-donnees></app-header-saisie-donnees>
-  </ng-container>
-
   <!-- Contenu principal (formulaires, tableaux, etc.) -->
   <router-outlet></router-outlet>
 </div>

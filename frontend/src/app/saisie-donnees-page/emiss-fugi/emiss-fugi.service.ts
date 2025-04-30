@@ -18,4 +18,8 @@ export class EmmissionsFugtivesService {
   addMachine(EmissionFugitivesOnglet: string, machine: any): Observable<any> {
     return this.http.post<any>(ApiEndpoints.EmissionFugitivesOnglet.addMachine(EmissionFugitivesOnglet), machine);
   }
+
+  deleteMachine(EmissionFugitivesOnglet: string, machine: any): Observable<any> {
+    return this.http.delete<any>(ApiEndpoints.EmissionFugitivesOnglet.deleteMachine(EmissionFugitivesOnglet, machine), machine);
+  }
 }
