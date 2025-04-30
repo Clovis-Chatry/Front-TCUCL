@@ -91,7 +91,7 @@ export class HeaderSaisieDonneesComponent {
     'Parkings': 'parkingsOnglet',
     'Auto': 'autoOnglet',
     'Numérique': 'numeriqueOnglet',
-    'Autre immob': 'autreImmobOnglet',
+    'Autre immob': 'immobOnglet',
     'Achats': 'achatsOnglet',
     'Déchets': 'dechetsOnglet'
   };
