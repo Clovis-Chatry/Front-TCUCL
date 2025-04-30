@@ -109,7 +109,7 @@ body {
 /* Conteneur des onglets */
 .tabs-container {
   display: flex;
-  overflow-x: auto;
+  overflow-x: hidden; /* Assure-toi qu'il n'y a pas de scroll visible ici */
   width: 100%;
   scroll-behavior: smooth;
 }
@@ -118,6 +118,7 @@ body {
   display: flex;
   gap: 0.56em;
   flex-wrap: nowrap;
+  min-width: 0;
 }
 
 /* Style des onglets */
@@ -131,6 +132,7 @@ body {
   font-size: 0.9em;
   height: 2.81em;
   min-width: 5.62em;
+  white-space: nowrap;
 }
 
 .tab:hover {
@@ -153,4 +155,7 @@ body {
 
 .nav-arrow:disabled {
   color: #ccc;
+  cursor: not-allowed; /* Ajoute un curseur désactivé */
+  opacity: 0.5; /* Optionnel, pour donner un effet de désactivation visuelle */
 }
+
