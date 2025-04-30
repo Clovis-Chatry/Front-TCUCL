@@ -63,7 +63,7 @@ export class EnergieSaisieDonneesPageComponent implements OnInit {
     );
   }
 
-  updateConsoGaz() {
+  updateConso() {
     console.log("update conso gaz", this.items.consoGaz);
     const id = this.route.snapshot.paramMap.get('id');
     const token = this.authService.getToken(); // Récupère le token
@@ -77,11 +77,22 @@ export class EnergieSaisieDonneesPageComponent implements OnInit {
       };
 
       this.http.patch<any>(
-        ApiEndpoints.EnergieOnglet.updateConsoGaz(id),
-        this.items.consoGaz,
+        ApiEndpoints.EnergieOnglet.updateConso(id),
+        {
+          consoGaz: this.items.consoGaz,
+          unitGaz: this.items.unitGaz,
+          consoFioul: this.items.consoFioul,
+          unitFioul: this.items.unitFioul,
+          consoBois: this.items.consoBois,
+          unitBois: this.items.unitBois,
+          consoReseauVille: this.items.consoReseauVille,
+          consoElecChauffage: this.items.consoElecChauffage,
+          consoElecSpecifique: this.items.consoElecSpecifique,
+          consoEau: this.items.consoEau
+        },
         {headers}
       ).subscribe(
-        () => console.log('ConsoGaz mise à jour'),
+        () => console.log('Conso mise à jour'),
         (error) => console.error('Erreur lors de la mise à jour de ConsoGaz', error)
       );
     } else {
