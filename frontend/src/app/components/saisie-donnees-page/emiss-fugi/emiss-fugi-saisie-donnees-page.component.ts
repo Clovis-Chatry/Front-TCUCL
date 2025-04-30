@@ -2,11 +2,11 @@ import {Component, inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
-import {AuthService} from '../../services/auth.service';
+import {AuthService} from '../../../services/auth.service';
 import {EmmissionsFugtivesService} from './emiss-fugi.service';
 import {FormsModule} from '@angular/forms';
-import {TypeFluide} from '../../models/typeFluide.model';
-import {TypeMachineModel} from '../../models/typeMachine.model';
+import {TypeFluide} from '../../../models/typeFluide.model';
+import {TypeMachineModel} from '../../../models/typeMachine.model';
 
 @Component({
   selector: 'app-saisie-donnees-page',

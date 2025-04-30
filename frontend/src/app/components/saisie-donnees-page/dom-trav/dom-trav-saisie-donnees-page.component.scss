@@ -1,0 +1,34 @@
+.main-container {
+  background-color: #E6F0FF;
+  min-height: 100vh; /* 100% de la hauteur de l'écran */
+  padding: 20px;
+}
+
+.data-entry-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start; /* Aligner à gauche */
+  margin-top: 1.5em; /* Espacement avec la barre de navigation */
+  padding-left: 10em; /* Décalage léger du bord gauche */
+}
+
+.data-table {
+  background-color: white;
+  margin-left: 3em;
+  width: 45%; /* Le tableau prend 50% de la page */
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 0.8em;
+  text-align: center;
+}
+
+th {
+  font-weight: bold;
+  background-color: #f0f0f0;
+}
+
+td {
+  border-bottom: 1px solid #ddd;
+}

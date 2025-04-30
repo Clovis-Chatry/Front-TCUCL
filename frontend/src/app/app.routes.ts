@@ -2,13 +2,22 @@ import {provideRouter, Routes} from '@angular/router';
 import {LoginPageComponent} from './components/login-page/login-page.component';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {authGuard} from './guards/authguard';
-import { AdminComponent } from './components/admin/admin.component';
-
-import {EnergieSaisieDonneesPageComponent} from './saisie-donnees-page/energie/energie-saisie-donnees-page.component';
+import {ParamsComponent} from './components/params/params.component';
+import {
+  DomTravSaisieDonneesPageComponent
+} from './components/saisie-donnees-page/dom-trav/dom-trav-saisie-donnees-page.component';
+import {
+  AutreMobSaisieDonneesPageComponent
+} from './components/saisie-donnees-page/autre-mob/autre-mob-saisie-donnees-page.component';
+import {
+  EnergieSaisieDonneesPageComponent
+} from './components/saisie-donnees-page/energie/energie-saisie-donnees-page.component';
 import {
   EmissFugiSaisieDonneesPageComponent
-} from './saisie-donnees-page/emiss-fugi/emiss-fugi-saisie-donnees-page.component';
-import {DechetsSaisieDonneesPageComponent} from './saisie-donnees-page/dechets/dechets-saisie-donnees-page.component';
+} from './components/saisie-donnees-page/emiss-fugi/emiss-fugi-saisie-donnees-page.component';
+import {
+  DechetsSaisieDonneesPageComponent
+} from './components/saisie-donnees-page/dechets/dechets-saisie-donnees-page.component';
 
 export const routes: Routes = [
   {
@@ -27,25 +36,41 @@ export const routes: Routes = [
   },
 
   {
-    path: 'admin',
-    component: AdminComponent,
-    canActivate: [authGuard],
-   },
+    path: 'params',
+    component: ParamsComponent,
+    canActivate: [authGuard]
+  },
 
-  { path: 'energieOnglet/:id',
+  {
+    path: 'energieOnglet/:id',
     component: EnergieSaisieDonneesPageComponent,
-    data: { showSaisieHeader: true }
+    data: {showSaisieHeader: true},
+    canActivate: [authGuard]
   },
   {
     path: 'emissionsFugitivesOnglet/:id',
     component: EmissFugiSaisieDonneesPageComponent,
-    data: { showSaisieHeader: true }
+    data: {showSaisieHeader: true},
+    canActivate: [authGuard],
   },
-  { path: 'dechetsOnglet/:id',
+  {
+    path: 'dechetsOnglet/:id',
     component: DechetsSaisieDonneesPageComponent,
-    data: { showSaisieHeader: true }
+    data: {showSaisieHeader: true},
+    canActivate: [authGuard],
   },
-
+  {
+    path: 'mobiliteDomTravOnglet/:id',
+    component: DomTravSaisieDonneesPageComponent,
+    data: {showSaisieHeader: true},
+    canActivate: [authGuard],
+  },
+  {
+    path: 'autreMobFrOnglet/:id',
+    component: AutreMobSaisieDonneesPageComponent,
+    data: {showSaisieHeader: true},
+    canActivate: [authGuard],
+  },
   {
     path: '**',
     redirectTo: 'login',

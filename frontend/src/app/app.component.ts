@@ -4,7 +4,7 @@ import {HeaderComponent} from './components/header/header.component';
 import {RouterOutlet} from '@angular/router';
 import {ActivatedRoute, NavigationEnd, Router, RouterModule} from '@angular/router';
 import {CommonModule} from '@angular/common';
-import {HeaderSaisieDonneesComponent} from './header-saisie-donnees/header-saisie-donnees.component';
+import {HeaderSaisieDonneesComponent} from './components/header-saisie-donnees/header-saisie-donnees.component';
 import {filter, map, mergeMap} from 'rxjs';
 
 @Component({
