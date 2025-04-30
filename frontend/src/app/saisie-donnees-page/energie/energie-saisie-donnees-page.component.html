@@ -11,9 +11,9 @@
       <tbody>
       <tr>
         <td>Gaz</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.consoGaz" (blur)="updateConsoGaz()"/></td>
+        <td><input type="number" class="value-input" [(ngModel)]="items.consoGaz" (blur)="updateConso()"/></td>
         <td>
-          <select class="unit-select" [(ngModel)]="items.unitGaz">
+          <select class="unit-select" [(ngModel)]="items.unitGaz" (blur)="updateConso()">
             <option value="Tonnes">Tonnes</option>
             <option value="MWh PCS">MWh PCS</option>
             <option value="m3">m3</option>
@@ -22,9 +22,9 @@
       </tr>
       <tr>
         <td>Fioul</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.consoFioul"/></td>
+        <td><input type="number" class="value-input" [(ngModel)]="items.consoFioul" (blur)="updateConso()"/></td>
         <td>
-          <select class="unit-select" [(ngModel)]="items.unitFioul">
+          <select class="unit-select" [(ngModel)]="items.unitFioul" (blur)="updateConso()">
             <option value="Tonnes">Tonnes</option>
             <option value="MWh PCS">MWh PCS</option>
             <option value="m3">m3</option>
@@ -33,9 +33,9 @@
       </tr>
       <tr>
         <td>Bois</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.consoBois"/></td>
+        <td><input type="number" class="value-input" [(ngModel)]="items.consoBois" (blur)="updateConso()"/></td>
         <td>
-          <select class="unit-select" [(ngModel)]="items.unitBois">
+          <select class="unit-select" [(ngModel)]="items.unitBois" (blur)="updateConso()">
             <option value="Tonnes">Tonnes</option>
             <option value="MWh PCS">MWh PCS</option>
           </select>
@@ -43,22 +43,22 @@
       </tr>
       <tr>
         <td>Réseau de chaleur urbain</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.consoReseauVille"/></td>
+        <td><input type="number" class="value-input" [(ngModel)]="items.consoReseauVille" (blur)="updateConso()"/></td>
         <td>MWh PCS</td>
       </tr>
       <tr>
         <td>Électricité pour le chauffage</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.consoElecChauffage"/></td>
+        <td><input type="number" class="value-input" [(ngModel)]="items.consoElecChauffage" (blur)="updateConso()"/></td>
         <td>MWh PCS</td>
       </tr>
       <tr>
         <td>Électricité spécifique</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.consoElecSpecifique"/></td>
+        <td><input type="number" class="value-input" [(ngModel)]="items.consoElecSpecifique" (blur)="updateConso()"/></td>
         <td>MWh PCS</td>
       </tr>
       <tr>
         <td>Eau</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.consoEau"/></td>
+        <td><input type="number" class="value-input" [(ngModel)]="items.consoEau" (blur)="updateConso()"/></td>
         <td>m³</td>
       </tr>
       </tbody>
