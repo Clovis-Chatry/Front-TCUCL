@@ -2,8 +2,8 @@ import {Component, inject, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router'; // Permet de récupérer l'ID de l'URL
-import {AuthService} from '../../services/auth.service';
-import {ApiEndpoints} from '../../services/api-endpoints';
+import {AuthService} from '../../../services/auth.service';
+import {ApiEndpoints} from '../../../services/api-endpoints';
 
 @Component({
   selector: 'app-saisie-donnees-page',

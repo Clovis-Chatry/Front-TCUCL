@@ -1,6 +1,6 @@
 @use '../../../styles.scss'; // adapte si besoin
 
-.admin-container {
+.params-container {
   background-color: #ccc; // utilise ta variable globale
   min-height: 100vh;
   padding: 2rem;
@@ -85,8 +85,8 @@ app-header {
   }
 }
 
-// 📐 Grille responsive pour l’administration
-.admin-grid {
+// 📐 Grille responsive pour l’paramsistration
+.params-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 2rem;

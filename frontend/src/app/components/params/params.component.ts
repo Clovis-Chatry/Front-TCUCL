@@ -6,44 +6,44 @@ interface User {
   firstName: string;
   lastName: string;
   email: string;
-  isAdmin: boolean;
+  isParams: boolean;
 }
 
 interface Entity {
   name: string;
   type: string;
-  admin: User;
+  params: User;
 }
 
 @Component({
-  selector: 'app-admin',
+  selector: 'app-params',
   standalone: true,
   imports: [
     CommonModule,
     FormsModule
   ],
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.scss']
+  templateUrl: './params.component.html',
+  styleUrls: ['./params.component.scss']
 })
-export class AdminComponent {
+export class ParamsComponent {
   user: User = {
     firstName: '',
     lastName: '',
     email: '',
-    isAdmin: false
+    isParams: false
   };
 
   entity: Entity = {
     name: '',
     type: '',
-    admin: { firstName: '', lastName: '', email: '', isAdmin: true }
+    params: { firstName: '', lastName: '', email: '', isParams: true }
   };
 
   newUser: User = {
     firstName: '',
     lastName: '',
     email: '',
-    isAdmin: false
+    isParams: false
   };
 
   newUserEntity: string = '';
@@ -66,7 +66,7 @@ export class AdminComponent {
     this.entity = {
       name: '',
       type: '',
-      admin: { firstName: '', lastName: '', email: '', isAdmin: true }
+      params: { firstName: '', lastName: '', email: '', isParams: true }
     };
   }
 
@@ -74,7 +74,7 @@ export class AdminComponent {
     if (this.newUserEntity) {
       this.users.push({ entity: this.newUserEntity, user: { ...this.newUser } });
       console.log('Utilisateur ajouté à', this.newUserEntity, ':', this.newUser);
-      this.newUser = { firstName: '', lastName: '', email: '', isAdmin: false };
+      this.newUser = { firstName: '', lastName: '', email: '', isParams: false };
     }
   }
 
