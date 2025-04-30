@@ -4,13 +4,14 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router'; // Permet de récupérer l'ID de l'URL
 import {AuthService} from '../../../services/auth.service';
 import {ApiEndpoints} from '../../../services/api-endpoints';
+import {JsonPipe} from '@angular/common';
 
 @Component({
   selector: 'app-saisie-donnees-page',
   standalone: true,
   templateUrl: './energie-saisie-donnees-page.component.html',
   styleUrls: ['./energie-saisie-donnees-page.component.scss'],
-  imports: [FormsModule, HttpClientModule]
+  imports: [FormsModule, HttpClientModule, JsonPipe]
 })
 export class EnergieSaisieDonneesPageComponent implements OnInit {
   private http = inject(HttpClient);
@@ -46,11 +47,11 @@ export class EnergieSaisieDonneesPageComponent implements OnInit {
       (data) => {
         this.items = {
           consoGaz: data.consoGaz,
-          uniteGaz: data.parametreEnergie.uniteGaz,
+          uniteGaz: data.uniteGaz,
           consoFioul: data.consoFioul,
-          uniteFioul: data.parametreEnergie.uniteFioul,
+          uniteFioul: data.uniteFioul,
           consoBois: data.consoBois,
-          uniteBois: data.parametreEnergie.uniteBois,
+          uniteBois: data.uniteBois,
           consoReseauVille: data.consoReseauVille,
           consoElecChauffage: data.consoElecChauffage,
           consoElecSpecifique: data.consoElecSpecifique,
