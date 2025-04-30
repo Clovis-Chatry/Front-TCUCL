@@ -13,7 +13,7 @@ export const appConfig: ApplicationConfig = {
     { path: 'header-saisie', component: HeaderSaisieDonneesComponent },
 
     { path: 'saisie-donnees/:id', component: EnergieSaisieDonneesPageComponent },
-  
+
     { path: '', redirectTo: '/login', pathMatch: 'full' }
   ])]
 };
