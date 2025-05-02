@@ -7,99 +7,101 @@
       </div>
 
       <!-- Message "pas de données" -->
-      <div *ngIf="!hasError && noData" class="no-data-message">
-        Aucune machine renseignée pour l'année n-1.
-      </div>
-      <div class="table-container"  *ngIf="!hasError && !noData">
-        <table class="machine-table">
-          <thead>
-          <tr>
-            <th>Description</th>
-            <th>Type de fluide</th>
-            <th>Quantité de fluide</th>
-            <th>Taux de fuite réel</th>
-            <th>Type de machine</th>
-            <th>Émission GES</th>
-            <th>Supprimer</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let machine of machines">
-            <td>
-              <input [(ngModel)]="machine.description"/>
-            </td>
-            <td>
-              <select [(ngModel)]="machine.typeFluide">
-                <option *ngFor="let type of typesFluide" [value]="type">{{ type }}</option>
-              </select>
-            </td>
-            <td>
-              <input type="number" [(ngModel)]="machine.quantiteFluide"/>
-            </td>
-            <td>
-              <input type="number" [(ngModel)]="machine.tauxFuite" [disabled]="!machine.tauxFuiteReelConnu"/>
-            </td>
-            <td>
-              <select [(ngModel)]="machine.typeMachine" [disabled]="machine.tauxFuiteReelConnu">
-                <option *ngFor="let type of typesMachine" [value]="type">{{ type }}</option>
-              </select>
-            </td>
-            <td>
-              <input type="number" [(ngModel)]="machine.emissionGES"/>
-            </td>
-            <td>
-              <button (click)="supprimerMachine(machine)" title="Supprimer">🗑️</button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+        <div *ngIf="!hasError && noData" class="no-data-message">
+          Aucune machine renseignée pour l'année n-1.
+        </div>
 
-
-      <hr>
+        <div class="table-container" *ngIf="!hasError && !noData">
+          <table class="machine-table">
+            <thead>
+            <tr>
+              <th>Description</th>
+              <th>Type de fluide</th>
+              <th>Quantité de fluide (kg)</th>
+              <th>Taux de fuite réel (%)</th>
+              <th>Type de machine</th>
+              <th>Émission GES</th>
+              <th>Supprimer</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let machine of machines">
+              <td>
+                <input [(ngModel)]="machine.descriptionMachine"/>
+              </td>
+              <td>
+                <select [(ngModel)]="machine.typeFluide">
+                  <option *ngFor="let entry of typeFluideLabelEntries" [value]="entry.value">
+                    {{ entry.label }}
+                  </option>
+                </select>
+              </td>
+              <td>
+                <input type="number" [(ngModel)]="machine.quantiteFluideKg"/>
+              </td>
+              <td>
+                <input type="number" [(ngModel)]="machine.tauxDeFuite" [disabled]="!machine.tauxDeFuiteConnu"/>
+              </td>
+              <td>
+                <select [(ngModel)]="machine.typeMachine">
+                  <option *ngFor="let entry of typeMachineLabelEntries" [value]="entry.value">
+                    {{ entry.label }}
+                  </option>
+                </select>
+              </td>
+              <td>
+                <button (click)="supprimerMachine(machine)" title="Supprimer">🗑️</button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <hr>
 
       <!-- Formulaire d'ajout -->
       <div class="form-container">
         <div class="form-group">
-          <label for="description">Description</label>
-          <input type="text" id="description" [(ngModel)]="newMachine.description" placeholder="Description de la machine" />
+          <label for="descriptionMachine">Description</label>
+          <input type="text" id="descriptionMachine" [(ngModel)]="newMachine.descriptionMachine" placeholder="Description de la machine" />
         </div>
 
         <div class="form-group">
           <label for="typeFluide">Type de fluide</label>
           <select id="typeFluide" [(ngModel)]="newMachine.typeFluide">
-            <option *ngFor="let type of typesFluide" [value]="type">{{ type }}</option>
+            <option *ngFor="let entry of typeFluideLabelEntries" [value]="entry.value">{{ entry.label }}</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label for="quantiteFluide">Quantité de fluide (L ou kg)</label>
-          <input type="number" id="quantiteFluide" [(ngModel)]="newMachine.quantiteFluide" />
+          <label for="quantiteFluideKg">Quantité de fluide (L ou kg)</label>
+          <input type="number" id="quantiteFluideKg" [(ngModel)]="newMachine.quantiteFluideKg" />
         </div>
 
         <div class="form-group">
-          <label for="tauxFuiteReelConnu">Taux de fuite réel connu ?</label>
+          <label for="tauxDeFuiteConnu">Taux de fuite réel connu ?</label>
           <div>
             <label>
-              <input type="radio" [(ngModel)]="newMachine.tauxFuiteReelConnu" [value]="true" />
+              <input type="radio" [(ngModel)]="newMachine.tauxDeFuiteConnu" [value]="true" />
               Oui
             </label>
             <label>
-              <input type="radio" [(ngModel)]="newMachine.tauxFuiteReelConnu" [value]="false" />
+              <input type="radio" [(ngModel)]="newMachine.tauxDeFuiteConnu" [value]="false" />
               Non
             </label>
           </div>
         </div>
 
-        <div class="form-group" *ngIf="newMachine.tauxFuiteReelConnu">
-          <label for="tauxFuite">Taux de fuite (%)</label>
-          <input type="number" id="tauxFuite" [(ngModel)]="newMachine.tauxFuite" placeholder="Taux de fuite (%)" />
+        <div class="form-group" *ngIf="newMachine.tauxDeFuiteConnu">
+          <label for="tauxDeFuite">Taux de fuite (%)</label>
+          <input type="number" id="tauxDeFuite" [(ngModel)]="newMachine.tauxDeFuite" placeholder="Taux de fuite (%)" />
         </div>
 
-        <div class="form-group" *ngIf="!newMachine.tauxFuiteReelConnu">
+        <div class="form-group" *ngIf="!newMachine.tauxDeFuiteConnu">
           <label for="typeMachine">Type de machine</label>
           <select id="typeMachine" [(ngModel)]="newMachine.typeMachine">
-            <option *ngFor="let type of typesMachine" [value]="type">{{ type }}</option>
+            <option *ngFor="let entry of typeMachineLabelEntries" [value]="entry.value">
+              {{ entry.label }}
+            </option>
           </select>
         </div>
 
