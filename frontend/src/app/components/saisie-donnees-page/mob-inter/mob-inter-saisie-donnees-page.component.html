@@ -1,0 +1,80 @@
+<div class="main-container">
+  <div class="left-panel">
+    <h2>Saisir une destination</h2>
+
+    <details>
+      <summary><strong>Saisir une destination</strong></summary>
+
+      <div class="form-column">
+        <label>Quel est le pays de destination ?
+          <select [(ngModel)]="destinationEnCours.pays">
+            <option *ngFor="let pays of listePays" [value]="pays">{{ pays }}</option>
+          </select>
+        </label>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Moyen</th>
+              <th>Pro</th>
+              <th>Stage étudiant</th>
+              <th>Semestre étudiant</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Avion</td>
+              <td><input type="number" [(ngModel)]="destinationEnCours.avion.pro" /></td>
+              <td><input type="number" [(ngModel)]="destinationEnCours.avion.stage" /></td>
+              <td><input type="number" [(ngModel)]="destinationEnCours.avion.semestre" /></td>
+            </tr>
+            <tr>
+              <td>Train</td>
+              <td><input type="number" [(ngModel)]="destinationEnCours.train.pro" /></td>
+              <td><input type="number" [(ngModel)]="destinationEnCours.train.stage" /></td>
+              <td><input type="number" [(ngModel)]="destinationEnCours.train.semestre" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <button type="button" (click)="ajouterDestination()">Ajouter ce pays</button>
+    </details>
+
+    <div *ngIf="destinations.length > 0" class="added-destinations">
+      <h3>Destinations enregistrées :</h3>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Pays</th>
+            <th>Moyen</th>
+            <th>Pro</th>
+            <th>Stage étudiant</th>
+            <th>Semestre étudiant</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let destination of destinations; let i = index">
+            <tr>
+              <td rowspan="2">{{ destination.pays }}</td>
+              <td><span class="icon">🚆</span></td>
+              <td><input type="number" [value]="destination.train.pro" readonly /></td>
+              <td><input type="number" [value]="destination.train.stage" readonly /></td>
+              <td><input type="number" [value]="destination.train.semestre" readonly /></td>
+              <td rowspan="2">
+                <button (click)="supprimerDestination(i)">🗑️</button>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="icon">✈️</span></td>
+              <td><input type="number" [value]="destination.avion.pro" readonly /></td>
+              <td><input type="number" [value]="destination.avion.stage" readonly /></td>
+              <td><input type="number" [value]="destination.avion.semestre" readonly /></td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

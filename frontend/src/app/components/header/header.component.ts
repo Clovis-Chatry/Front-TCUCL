@@ -1,50 +1,52 @@
-import {Component, HostListener, inject, Input} from '@angular/core';
-import {NgIf, NgOptimizedImage} from '@angular/common';
-import {AuthService} from '../../services/auth.service';
-import {Router} from '@angular/router';
+import { Component, HostListener, Input, inject, signal, effect } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { NgIf, NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [NgOptimizedImage, NgIf],
-  templateUrl: '././header.component.html',
-  styleUrl: '././header.component.scss'
-
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
   @Input() PageTitle: string | undefined;
   @Input() LogoSrc: string | undefined;
 
-  protected name: string | undefined;
-  protected surname: string | undefined;
-  private entity: number | undefined;
+  private router = inject(Router);
+  private authService = inject(AuthService);
 
-  private readonly authService = inject(AuthService);
+  nom = signal('');
+  prenom = signal('');
+  entite = signal('');
 
   dropdownOpen = false;
-  isLoggedIn = this.authService.isLoggedIn();
+  isLoggedIn = this.authService.isAuthenticated; // signal directement
 
-  constructor(private router: Router) {
-    const user = this.authService.getUser();
-    if (user) {
-      this.name = user.name;
-      this.surname = user.surname;
-      this.entity = user.entity_id;
-    }
+  constructor() {
+    effect(() => {
+      const user = this.authService.getUserInfo()();
+
+      if (user) {
+        this.nom.set(user.nom ?? '');
+        this.prenom.set(user.prenom ?? '');
+        this.entite.set(user.entiteNom ?? '');
+      }
+    });
   }
 
   toggleDropdown(): void {
-    console.log("connecté")
     this.dropdownOpen = !this.dropdownOpen;
   }
 
   goToProfile(): void {
     this.dropdownOpen = false;
-    this.router.navigate(['/admin']);
+    this.router.navigate(['/params']);
   }
 
   logout(): void {
-    this.authService.logout()
+    this.authService.logout();
     this.dropdownOpen = false;
     this.router.navigate(['/login']);
   }
@@ -57,7 +59,7 @@ export class HeaderComponent {
     }
   }
 
-  goToAdmin() {
-    this.router.navigate([`/admin`]);
+  goToParams() {
+    this.router.navigate(['/params']);
   }
 }

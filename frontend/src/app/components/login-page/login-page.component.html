@@ -2,21 +2,23 @@
   <div class="login-container">
     <div class="login-form">
       <h2>Login</h2>
-      <form (ngSubmit)="login()">
+      <form (ngSubmit)="onLogin()">
         <div class="form-group">
           <p>Email:</p>
-          <input type="email" id="email" name="email" [(ngModel)]="credentials.username" required>
+          <input type="email" id="email" name="email" [(ngModel)]="email" required>
         </div>
         <div class="form-group">
           <div class="pwd">
             <p>Password:</p>
             <a href="#" class="forgot-password">Forgot password?</a>
           </div>
-          <input type="password" id="password" name="password" [(ngModel)]="credentials.password" required>
+          <input type="password" id="password" name="password" [(ngModel)]="password" required>
         </div>
         <button type="submit">Login</button>
-        @if (errorMessage) {
-          <p>{{ errorMessage }}</p>
+        @if (loginError) {
+          <p class="error-message">
+            Incorrect email or password. Please try again.
+          </p>
         }
       </form>
     </div>

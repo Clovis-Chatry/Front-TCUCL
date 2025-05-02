@@ -1,0 +1,101 @@
+<div class="params-container">
+
+  <!-- Section: Paramètres personnels -->
+  <section class="card" data-title="Paramètres personnels">
+    <form>
+      <label>Prénom</label>
+      <input type="text" [(ngModel)]="user.firstName" name="firstName">
+
+      <label>Nom</label>
+      <input type="text" [(ngModel)]="user.lastName" name="lastName">
+
+      <label>Email</label>
+      <input type="email" [(ngModel)]="user.email" name="email">
+
+      <button type="button" (click)="updateInfo()">Changer ses informations</button>
+    </form>
+  </section>
+
+  <!-- Section: Réinitialisation mot de passe -->
+  <section class="card" data-title="Changer son mot de passe">
+    <button class="password-reset" (click)="sendPasswordReset()">Envoyer un mail de réinitialisation</button>
+  </section>
+
+  <!-- Grille des blocs params -->
+  <div class="params-grid">
+    <!-- Section: Créer une entité -->
+    <section class="card" data-title="Créer une entité">
+      <form>
+        <label>Nom</label>
+        <input type="text" [(ngModel)]="entity.name" name="entityName">
+
+        <label>Type</label>
+        <select [(ngModel)]="entity.type" name="entityType">
+          <option>Enseignement Supérieur</option>
+          <option>Collectivité</option>
+        </select>
+
+        <label>Prénom params</label>
+        <input type="text" placeholder="Prénom" [(ngModel)]="entity.params.firstName" name="paramsFirstName">
+
+        <label>Nom params</label>
+        <input type="text" placeholder="Nom" [(ngModel)]="entity.params.lastName" name="paramsLastName">
+
+        <label>Email params</label>
+        <input type="email" placeholder="Email" [(ngModel)]="entity.params.email" name="paramsEmail">
+
+        <button type="button" (click)="createEntity()">Créer l'entité</button>
+      </form>
+    </section>
+
+    <!-- Section: Ajouter un utilisateur -->
+    <section class="card" data-title="Ajouter un utilisateur à une entité">
+      <form>
+        <label>Sélectionner l'entité</label>
+        <select [(ngModel)]="newUserEntity" name="newUserEntity">
+          <option *ngFor="let e of entities">{{ e.name }}</option>
+        </select>
+
+        <label>Prénom</label>
+        <input placeholder="Prénom" [(ngModel)]="newUser.firstName" name="newUserFirstName">
+
+        <label>Nom</label>
+        <input placeholder="Nom" [(ngModel)]="newUser.lastName" name="newUserLastName">
+
+        <label>E-mail</label>
+        <input placeholder="E-mail" [(ngModel)]="newUser.email" name="newUserEmail">
+
+        <label>
+          <input type="checkbox" [(ngModel)]="newUser.isParams" name="newUserIsParams"> Params
+        </label>
+
+        <button type="button" (click)="addUser()">Ajouter l'utilisateur</button>
+      </form>
+    </section>
+
+    <!-- Section: Gestion des utilisateurs -->
+    <section class="card" data-title="Gestion des utilisateurs">
+      <label>Entité :</label>
+      <select [(ngModel)]="selectedEntity" name="selectedEntity">
+        <option *ngFor="let e of entities" [value]="e.name">{{ e.name }}</option>
+      </select>
+
+      <table class="user-table">
+        <thead>
+          <tr><th>NOM</th><th>Prénom</th><th>Params</th><th>Action</th></tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of filteredUsers()">
+            <td>{{ user.lastName }}</td>
+            <td>{{ user.firstName }}</td>
+            <td><input type="checkbox" [checked]="user.isParams" disabled></td>
+            <td>
+              <button title="Modifier">✏️</button>
+              <button title="Supprimer">🗑️</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+</div>

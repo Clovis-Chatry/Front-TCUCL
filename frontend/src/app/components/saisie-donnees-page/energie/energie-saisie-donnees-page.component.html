@@ -1,0 +1,68 @@
+<div class="main-container">
+  <div class="left-panel">
+    <table class="data-table">
+      <thead>
+      <tr>
+        <th>Consommation</th>
+        <th>Valeur</th>
+        <th>Unité</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>Gaz</td>
+        <td><input type="number" class="value-input" [(ngModel)]="items.consoGaz" (blur)="updateConso()"/></td>
+        <td>
+          <select class="unit-select" [(ngModel)]="items.uniteGaz" (blur)="updateConso()">
+            <option value="TONNE">Tonnes</option>
+            <option value="MWH_PCS">MWh PCS</option>
+            <option value="M3">m3</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Fioul</td>
+        <td><input type="number" class="value-input" [(ngModel)]="items.consoFioul" (blur)="updateConso()"/></td>
+        <td>
+          <select class="unit-select" [(ngModel)]="items.uniteFioul" (blur)="updateConso()">
+            <option value="TONNE">Tonnes</option>
+            <option value="MWH_PCS">MWh PCS</option>
+            <option value="M3">m3</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Bois</td>
+        <td><input type="number" class="value-input" [(ngModel)]="items.consoBois" (blur)="updateConso()"/></td>
+        <td>
+          <select class="unit-select" [(ngModel)]="items.uniteBois" (blur)="updateConso()">
+            <option value="TONNE">Tonnes</option>
+            <option value="MWH_PCS">MWh PCS</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Réseau de chaleur urbain</td>
+        <td><input type="number" class="value-input" [(ngModel)]="items.consoReseauVille" (blur)="updateConso()"/></td>
+        <td>MWh PCS</td>
+      </tr>
+      <tr>
+        <td>Électricité pour le chauffage</td>
+        <td><input type="number" class="value-input" [(ngModel)]="items.consoElecChauffage" (blur)="updateConso()"/></td>
+        <td>MWh PCS</td>
+      </tr>
+      <tr>
+        <td>Électricité spécifique</td>
+        <td><input type="number" class="value-input" [(ngModel)]="items.consoElecSpecifique" (blur)="updateConso()"/></td>
+        <td>MWh PCS</td>
+      </tr>
+      <tr>
+        <td>Eau</td>
+        <td><input type="number" class="value-input" [(ngModel)]="items.consoEau" (blur)="updateConso()"/></td>
+        <td>m³</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<pre>{{ items | json }}</pre>

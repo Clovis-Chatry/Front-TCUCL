@@ -1,0 +1,101 @@
+<div class="main-container">
+  <div class="left-panel">
+    <h2>Poste numérique</h2>
+
+    <p class="question-title">Disposez-vous de données sur le cloud ?</p>
+    <label><input type="radio" name="hasCloud" [(ngModel)]="donneesCloudDisponibles" [value]="true" /> Oui</label>
+    <label><input type="radio" name="hasCloud" [(ngModel)]="donneesCloudDisponibles" [value]="false" /> Non</label>
+
+    <div class="card" *ngIf="donneesCloudDisponibles">
+      <label for="cloudTraffic">Trafic cloud (Go)</label>
+      <input id="cloudTraffic" type="number" [(ngModel)]="traficCloud" />
+
+      <label for="tipUtilisateur">TIP utilisateur</label>
+      <input id="tipUtilisateur" type="number" [(ngModel)]="tipUtilisateur" />
+    </div>
+
+    <hr />
+
+    <details>
+      <summary><strong>Ajout d’un nouvel équipement numérique</strong></summary>
+
+      <div class="form-column">
+        <label>Type d'équipement</label>
+        <select [(ngModel)]="nouvelEquipement.type">
+          <option value="Ecran">Écran</option>
+          <option value="Ordinateur">Ordinateur</option>
+          <option value="Serveur">Serveur</option>
+          <option value="Routeur">Routeur</option>
+          <option value="Switch">Switch</option>
+        </select>
+
+        <label>Quantité</label>
+        <input type="number" [(ngModel)]="nouvelEquipement.quantite" />
+
+        <label>Durée d’amortissement (ans)</label>
+        <input type="number" [(ngModel)]="nouvelEquipement.amortissement" />
+
+        <label>Émissions de GES connues ?</label>
+        <select [(ngModel)]="nouvelEquipement.gesConnu">
+          <option [ngValue]="false" selected>Non</option>
+          <option [ngValue]="true">Oui</option>
+        </select>
+
+        <label *ngIf="nouvelEquipement.gesConnu">Émissions de GES réelles (tCO2e/an)</label>
+        <input *ngIf="nouvelEquipement.gesConnu" type="number" [(ngModel)]="nouvelEquipement.gesReel" />
+      </div>
+
+      <button type="button" (click)="ajouterEquipement()">Ajouter cet équipement</button>
+    </details>
+
+    <div *ngIf="equipementsAjoutes.length > 0">
+      <h3>Équipements numériques ajoutés</h3>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Quantité</th>
+            <th>Amortissement</th>
+            <th>GES Connus</th>
+            <th>GES Réels</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let equipement of equipementsAjoutes">
+            <td>{{ equipement.type }}</td>
+            <td>{{ equipement.quantite }}</td>
+            <td>{{ equipement.amortissement }}</td>
+            <td>{{ equipement.gesConnu ? 'Oui' : 'Non' }}</td>
+            <td>{{ equipement.gesReel ?? 'N/A' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="equipementsAnciens.length > 0">
+      <h3>Équipements enregistrés les années précédentes</h3>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Quantité</th>
+            <th>Amortissement</th>
+            <th>GES Connus</th>
+            <th>GES Réels</th>
+            <th>Année</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let equipement of equipementsAnciens">
+            <td>{{ equipement.type }}</td>
+            <td>{{ equipement.quantite }}</td>
+            <td>{{ equipement.amortissement }}</td>
+            <td>{{ equipement.gesConnu ? 'Oui' : 'Non' }}</td>
+            <td>{{ equipement.gesReel ?? 'N/A' }}</td>
+            <td>{{ equipement.anneeAjout }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

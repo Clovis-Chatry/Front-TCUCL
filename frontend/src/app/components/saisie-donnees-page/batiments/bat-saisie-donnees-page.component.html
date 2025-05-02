@@ -1,0 +1,143 @@
+<div class="main-container">
+  <!-- Section 1 : Parc immobilier -->
+  <h2>Parc immobilier</h2>
+  <details>
+    <summary><strong>Saisir un nouveau bâtiment</strong></summary>
+
+    <label>Nom / Adresse :
+      <input type="text" [(ngModel)]="nouveauBatiment.nom" />
+    </label>
+
+    <label>Date de construction :
+      <input type="date" [(ngModel)]="nouveauBatiment.dateConstruction" />
+    </label>
+
+    <label>Ce bâtiment a-t-il été construit il y a moins de 50 ans ?
+      <select [(ngModel)]="nouveauBatiment.moinsDe50ans">
+        <option [ngValue]="true">Oui</option>
+        <option [ngValue]="false">Non</option>
+      </select>
+    </label>
+
+    <div *ngIf="nouveauBatiment.moinsDe50ans === false">
+      <label>A-t-il subi une rénovation complète il y a moins de 50 ans ?
+        <select [(ngModel)]="nouveauBatiment.renoComplete">
+          <option [ngValue]="true">Oui</option>
+          <option [ngValue]="false">Non</option>
+        </select>
+      </label>
+
+      <label>Date de la dernière rénovation complète :
+        <input type="date" [(ngModel)]="nouveauBatiment.dateRenoComplete" />
+      </label>
+    </div>
+
+    <label>Avez-vous une ACV de ce bâtiment ?
+      <select [(ngModel)]="nouveauBatiment.acvConnu">
+        <option [ngValue]="true">Oui</option>
+        <option [ngValue]="false">Non</option>
+      </select>
+    </label>
+
+    <label *ngIf="nouveauBatiment.acvConnu">Émissions de GES réelles (tCO2e/an) :
+      <input type="number" [(ngModel)]="nouveauBatiment.gesReel" />
+    </label>
+
+    <label>Type de bâtiment :
+      <input type="text" [(ngModel)]="nouveauBatiment.type" />
+    </label>
+
+    <label>Surface (m²) :
+      <input type="number" [(ngModel)]="nouveauBatiment.surface" />
+    </label>
+
+    <label>Type de structure :
+      <input type="text" [(ngModel)]="nouveauBatiment.structure" />
+    </label>
+
+    <button (click)="ajouterBatiment()">Ajouter ce bâtiment</button>
+  </details>
+
+  <div *ngFor="let bat of batimentsAjoutes; let i = index">
+    <h3>{{ bat.nom }}</h3>
+    <p>Date construction : {{ bat.dateConstruction }}</p>
+    <p>Dernière rénovation : {{ bat.dateRenoComplete }}</p>
+    <p>ACV réalisé : {{ bat.acvConnu ? 'oui' : 'non' }}</p>
+    <p>Émissions GES : {{ bat.gesReel }} TCO2</p>
+    <p>Type / Surface / Structure : {{ bat.type }} / {{ bat.surface }} m² / {{ bat.structure }}</p>
+    <button (click)="supprimerBatiment(i)">Supprimer</button>
+  </div>
+
+  <hr />
+
+  <!-- Section 2 : Entretien et rénovations -->
+  <h2>Entretien et rénovations</h2>
+  <details>
+    <summary><strong>Saisir une rénovation ponctuelle</strong></summary>
+
+    <label>Nom du bâtiment :
+      <input type="text" [(ngModel)]="nouvelleReno.nomBatiment" />
+    </label>
+
+    <label>Type de travaux :
+      <input type="text" [(ngModel)]="nouvelleReno.typeTravaux" />
+    </label>
+
+    <label>Date des travaux :
+      <input type="date" [(ngModel)]="nouvelleReno.dateTravaux" />
+    </label>
+
+    <label>Type de bâtiment :
+      <input type="text" [(ngModel)]="nouvelleReno.typeBatiment" />
+    </label>
+
+    <label>Surface (m²) :
+      <input type="number" [(ngModel)]="nouvelleReno.surface" />
+    </label>
+
+    <label>Durée amortissement :
+      <input type="number" [(ngModel)]="nouvelleReno.dureeAmortissement" />
+    </label>
+
+    <button (click)="ajouterRenovation()">Ajouter cette rénovation</button>
+  </details>
+
+  <div *ngFor="let reno of renovationsCourantes; let i = index">
+    <h3>{{ reno.nomBatiment }}</h3>
+    <p>{{ reno.typeTravaux }} - {{ reno.dateTravaux }}</p>
+    <p>{{ reno.typeBatiment }} - {{ reno.surface }} m² - {{ reno.dureeAmortissement }} ans</p>
+    <button (click)="supprimerRenovation(i)">Supprimer</button>
+  </div>
+
+  <hr />
+
+  <!-- Section 3 : Mobilier -->
+  <h2>Mobilier</h2>
+  <details>
+    <summary><strong>Saisir du mobilier</strong></summary>
+
+    <label>Type de mobilier :
+      <input type="text" [(ngModel)]="nouveauMobilier.type" />
+    </label>
+
+    <label>Nombre :
+      <input type="number" [(ngModel)]="nouveauMobilier.nombre" />
+    </label>
+
+    <label>Poids :
+      <input type="number" [(ngModel)]="nouveauMobilier.poids" />
+    </label>
+
+    <label>Durée amortissement :
+      <input type="number" [(ngModel)]="nouveauMobilier.dureeAmortissement" />
+    </label>
+
+    <button (click)="ajouterMobilier()">Ajouter ce mobilier</button>
+  </details>
+
+  <div *ngFor="let mob of mobiliersAjoutes; let i = index">
+    <h3>{{ mob.type }}</h3>
+    <p>{{ mob.nombre }} x {{ mob.poids }} kg - {{ mob.dureeAmortissement }} ans</p>
+    <button (click)="supprimerMobilier(i)">Supprimer</button>
+  </div>
+</div>
