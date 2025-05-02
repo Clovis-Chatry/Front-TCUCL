@@ -88,7 +88,7 @@ export class HeaderSaisieDonneesComponent {
     'Autre mob FR': 'autreMobFrOnglet',
     'Mob internationale': 'mobiliteInternationaleOnglet',
     'Bâtiments': 'batimentsOnglet',
-    'Parkings': 'parkingsOnglet',
+    'Parkings': 'parkOnglet',
     'Auto': 'autoOnglet',
     'Numérique': 'numeriqueOnglet',
     'Autre immob': 'immobOnglet',
