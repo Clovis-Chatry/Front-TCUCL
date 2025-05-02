@@ -1,0 +1,51 @@
+<div class="main-container">
+  <div class="left-panel">
+    <h2>Poste automobile</h2>
+
+    <details>
+      <summary><strong>Saisir une nouvelle voiture</strong></summary>
+
+      <div class="form-column">
+        <label>Modèle / Immatriculation</label>
+        <input type="text" [(ngModel)]="items.nomVoiture" />
+
+        <label>Type de véhicule</label>
+        <select [(ngModel)]="items.typeVoiture">
+          <option value="Thermique">Thermique</option>
+          <option value="Hybride">Hybride</option>
+          <option value="Électrique">Électrique</option>
+        </select>
+
+        <label>Nombre de véhicules identiques</label>
+        <input type="number" [(ngModel)]="items.nombreIdentique" />
+
+        <label>Nombre de Km moyen / Voiture</label>
+        <input type="number" [(ngModel)]="items.kmParVoiture" />
+      </div>
+
+      <button type="button" (click)="ajouterVoiture()">Ajouter cette voiture</button>
+    </details>
+
+    <div *ngIf="items.voitures?.length > 0">
+      <h3>Voitures ajoutées</h3>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Modèle / Immatriculation</th>
+            <th>Type</th>
+            <th>Nb de véhicules identiques</th>
+            <th>Nb de Km moyen par voiture</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let voiture of items.voitures">
+            <td>{{ voiture.nom }}</td>
+            <td>{{ voiture.type }}</td>
+            <td>{{ voiture.quantite }}</td>
+            <td>{{ voiture.km }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

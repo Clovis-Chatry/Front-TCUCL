@@ -36,5 +36,25 @@ AchatsOnglet: {
 ImmobOnglet: {
   getById: (id: string) => `${BASE_URL}/immobOnglet/${id}`,
   update: (id: string) => `${BASE_URL}/immobOnglet/${id}`
+},
+NumeriqueOnglet: {
+  getById: (id: string) => `${BASE_URL}/numeriqueOnglet/${id}`,
+  update: (id: string) => `${BASE_URL}/numeriqueOnglet/${id}`
+},
+ParkOnglet: {
+  getById: (id: string) => `${BASE_URL}/parkOnglet/${id}`,
+  update: (id: string) => `${BASE_URL}/parkOnglet/${id}`
+},
+MobiliteInternationaleOnglet: {
+  getById: (id: string) => `${BASE_URL}/mobiliteInternationaleOnglet/${id}`,
+  update: (id: string) => `${BASE_URL}/mobiliteInternationaleOnglet/${id}`
+},
+BatimentsOnglet: {
+  getById: (id: string) => `${BASE_URL}/batimentsOnglet/${id}`,
+  update: (id: string) => `${BASE_URL}/batimentsOnglet/${id}`
+},
+AutoOnglet: {
+  getById: (id: string) => `${BASE_URL}/autoOnglet/${id}`,
+  update: (id: string) => `${BASE_URL}/autoOnglet/${id}`
 }
 };

@@ -24,6 +24,22 @@ import {
 import {
   AutreImmobilisationPageComponent
 } from './components/saisie-donnees-page/autre-immob/immob-donnees-page.component';
+import { 
+  NumeriqueSaisieDonneesPageComponent 
+} from './components/saisie-donnees-page/numerique/numerique-saisie-donnees-page.component';
+import { 
+  AutoSaisieDonneesPageComponent 
+} from './components/saisie-donnees-page/auto/auto-saisie-donnees-page.component';
+import { 
+  ParkSaisieDonneesPageComponent 
+} from './components/saisie-donnees-page/park/park-saisie-donnees-page.component';
+import {
+  MobiliteInternationaleSaisieDonneesPageComponent
+} from './components/saisie-donnees-page/mob-inter/mob-inter-saisie-donnees-page.component';
+import { 
+  BatimentsSaisieDonneesPageComponent
+} from './components/saisie-donnees-page/batiments/bat-saisie-donnees-page.component';
+
 
 export const routes: Routes = [
   {
@@ -89,6 +105,36 @@ export const routes: Routes = [
     data: { showSaisieHeader: true },
     canActivate: [authGuard]
   },
+  {
+    path: 'numeriqueOnglet/:id',
+    component: NumeriqueSaisieDonneesPageComponent,
+    data: { showSaisieHeader: true },
+    canActivate: [authGuard]
+  },
+  {
+    path: 'autoOnglet/:id',
+    component: AutoSaisieDonneesPageComponent,
+    data: { showSaisieHeader: true },
+    canActivate: [authGuard]
+  },
+  {
+    path: 'parkOnglet/:id',
+    component: ParkSaisieDonneesPageComponent,
+    data: { showSaisieHeader: true },
+    canActivate: [authGuard]
+  },
+  {
+    path: 'mobiliteInternationaleOnglet/:id',
+    data: { showSaisieHeader: true },
+    component: MobiliteInternationaleSaisieDonneesPageComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'batimentsOnglet/:id',
+    data: { showSaisieHeader: true },
+    component: BatimentsSaisieDonneesPageComponent,
+    canActivate: [authGuard] 
+  },  
   {
     path: '**',
     redirectTo: 'login',
