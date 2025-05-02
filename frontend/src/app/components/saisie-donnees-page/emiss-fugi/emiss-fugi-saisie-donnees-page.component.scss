@@ -1,5 +1,5 @@
 .table-container {
-  max-width: 1000px;
+  width: 100%;
   margin: 2rem auto;
   overflow-x: auto;
 }
@@ -15,6 +15,15 @@
   background-color: #E6F0FF;
   min-height: 100vh; /* 100% de la hauteur de l'écran */
   padding: 1em;
+}
+.machine-table input,
+.machine-table select {
+  min-width: 120px; /* ou plus selon besoin */
+  max-width: 200px;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .machine-table {

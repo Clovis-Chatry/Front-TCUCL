@@ -20,17 +20,16 @@
               <th>Quantité de fluide (kg)</th>
               <th>Taux de fuite réel (%)</th>
               <th>Type de machine</th>
-              <th>Émission GES</th>
               <th>Supprimer</th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let machine of machines">
               <td>
-                <input [(ngModel)]="machine.descriptionMachine"/>
+                <input [(ngModel)]="machine.descriptionMachine" [title]="machine.descriptionMachine"/>
               </td>
               <td>
-                <select [(ngModel)]="machine.typeFluide">
+                <select [(ngModel)]="machine.typeFluide" [title]="machine.typeFluide">
                   <option *ngFor="let entry of typeFluideLabelEntries" [value]="entry.value">
                     {{ entry.label }}
                   </option>
@@ -43,7 +42,7 @@
                 <input type="number" [(ngModel)]="machine.tauxDeFuite" [disabled]="!machine.tauxDeFuiteConnu"/>
               </td>
               <td>
-                <select [(ngModel)]="machine.typeMachine">
+                <select [(ngModel)]="machine.typeMachine" [title]="machine.typeMachine">
                   <option *ngFor="let entry of typeMachineLabelEntries" [value]="entry.value">
                     {{ entry.label }}
                   </option>
