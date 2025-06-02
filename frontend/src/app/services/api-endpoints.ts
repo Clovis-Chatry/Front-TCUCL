@@ -2,16 +2,13 @@ const BASE_URL = 'http://localhost:8080';
 
 export const ApiEndpoints = {
   EnergieOnglet: {
-    getById: (id: string) => `${BASE_URL}/energieonglet/58`,
-    updateConso: (id: string) => `${BASE_URL}/energieonglet/58`,
-    // autres méthodes PATCH (comme /consoGaz, /consoFioul, etc.)
-    patchConsoGaz: (id: string) => `${BASE_URL}/energieonglet/${id}/consoGaz`,
-    patchNote: (id: string) => `${BASE_URL}/energieonglet/${id}/note`,
+    getById: (id: string) => `${BASE_URL}/energieOnglet/58`,
+    updateConso: (id: string) => `${BASE_URL}/energieOnglet/58`,
   },
   EmissionFugitivesOnglet: {
-    getMachineById: (id: string) => `${BASE_URL}/emissionfugitivesonglet/${id}`,
-    addMachine: (id: string) => `${BASE_URL}/emissionfugitivesonglet/${id}/machine`,
-    deleteMachine: (id: string, idMachine: string) => `${BASE_URL}/emissionfugitivesonglet/${id}/machine/${idMachine}`,
+    getMachineById: (id: string) => `${BASE_URL}/emissionFugitiveOnglet/57`,
+    addMachine: (id: string) => `${BASE_URL}/emissionFugitiveOnglet/57/machine`,
+    deleteMachine: (id: string, idMachine: string) => `${BASE_URL}/emissionFugitiveOnglet/57/machine/${idMachine}`,
   },
   // Tu pourras rajouter ici d'autres blocs pour d'autres entités si besoin
 
