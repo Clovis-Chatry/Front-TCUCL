@@ -56,9 +56,8 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
   }
 
   loadMachines() {
-    const token = this.authService.getToken(); // 🔥 Récupération du token
+    const token = this.authService.getToken();
     if (!token) {
-      console.error("Token d'authentification manquant");
       return;
     }
 
@@ -69,25 +68,19 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
 
     this.emmissionsFugtivesService.getMachines("test", headers).subscribe({
       next: (data) => {
-        console.log("Réponse brute de l'API :", data);
-
         const rawMachines = data.machinesEmissionFugitive;
 
         if (!Array.isArray(rawMachines)) {
-          console.error("Les machines ne sont pas un tableau !");
           this.noData = true;
           return;
         }
         function normalizeEnumValue(value: string): string {
           const normalized = value?.toLowerCase().replace(/[_\-]/g, '');
-          console.log(`🔎 Normalisation de "${value}" -> "${normalized}"`);
           return <string>normalized;
         }
 
 
         this.machines = rawMachines.map((machine: any) => {
-          console.log(machine.typeFluide, machine.typeFluide.charCodeAt(4));
-          console.log('Machine brute reçue :', machine.typeFluide);
           const normalizedFluide = normalizeEnumValue(machine.typeFluide);
           const normalizedMachine = normalizeEnumValue(machine.typeMachine);
 
@@ -99,14 +92,6 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
             val => normalizeEnumValue(val) === normalizedMachine
           );
 
-          if (!fluideEnumValue) {
-            console.warn("⚠️ Fluide non reconnu :", machine.typeFluide);
-          }
-
-          if (!machineEnumValue) {
-            console.warn("⚠️ Machine non reconnue :", machine.typeMachine);
-          }
-
           return {
             ...machine,
             typeFluideLabel: TypeFluideLabels[fluideEnumValue as TypeFluide] ?? machine.typeFluide,
@@ -117,8 +102,6 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
 
         this.noData = this.machines.length === 0;
         this.hasError = false;
-
-        console.log("Machines avec label :", this.machines);
       },
       error: (err) => {
         console.error('Erreur API', err);
@@ -182,7 +165,6 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
         },
         error: (err) => {
           console.error("Erreur lors de la suppression", err);
-          // Optionnel : afficher une erreur à l'utilisateur
         }
       });
     } else {
