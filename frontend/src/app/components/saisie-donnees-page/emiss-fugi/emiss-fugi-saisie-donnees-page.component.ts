@@ -5,8 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { EmmissionsFugtivesService } from './emiss-fugi.service';
 import { FormsModule } from '@angular/forms';
-import { TypeFluide } from '../../../models/typeFluide.model';
-import { TypeMachine } from '../../../models/typeMachine';
+import { TypeFluide } from '../../../models/typeFluide.enum';
+import { TypeMachineEnum } from '../../../models/typeMachine.enum';
 import { TypeFluideLabels } from '../../../models/typeFluide-label';
 import { TypeMachineLabels} from '../../../models/type-machine-labels'
 
@@ -32,8 +32,8 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
     return { value: TypeFluide[key as keyof typeof TypeFluide], label: TypeFluideLabels[TypeFluide[key as keyof typeof TypeFluide]] };
   });
 
-  typeMachineLabelEntries = Object.keys(TypeMachine).map(key => {
-    return { value: TypeMachine[key as keyof typeof TypeMachine], label: TypeMachineLabels[TypeMachine[key as keyof typeof TypeMachine]] };
+  typeMachineLabelEntries = Object.keys(TypeMachineEnum).map(key => {
+    return { value: TypeMachineEnum[key as keyof typeof TypeMachineEnum], label: TypeMachineLabels[TypeMachineEnum[key as keyof typeof TypeMachineEnum]] };
   });
 
   machines: any[] = [];
@@ -78,15 +78,47 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
           this.noData = true;
           return;
         }
+        function normalizeEnumValue(value: string): string {
+          const normalized = value?.toLowerCase().replace(/[_\-]/g, '');
+          console.log(`🔎 Normalisation de "${value}" -> "${normalized}"`);
+          return <string>normalized;
+        }
 
-        this.machines = rawMachines.map((machine: any) => ({
-          ...machine,
-          typeFluideLabel: TypeFluideLabels[machine.typeFluide as keyof typeof TypeFluideLabels] ?? machine.typeFluide,
-          typeMachineLabel: TypeMachineLabels[machine.typeMachine as keyof typeof TypeMachineLabels] ?? machine.typeMachine,
-        }));
+
+        this.machines = rawMachines.map((machine: any) => {
+          console.log(machine.typeFluide, machine.typeFluide.charCodeAt(4));
+          console.log('Machine brute reçue :', machine.typeFluide);
+          const normalizedFluide = normalizeEnumValue(machine.typeFluide);
+          const normalizedMachine = normalizeEnumValue(machine.typeMachine);
+
+          const fluideEnumValue = Object.values(TypeFluide).find(
+            val => normalizeEnumValue(val) === normalizedFluide
+          );
+
+          const machineEnumValue = Object.values(TypeMachineEnum).find(
+            val => normalizeEnumValue(val) === normalizedMachine
+          );
+
+          if (!fluideEnumValue) {
+            console.warn("⚠️ Fluide non reconnu :", machine.typeFluide);
+          }
+
+          if (!machineEnumValue) {
+            console.warn("⚠️ Machine non reconnue :", machine.typeMachine);
+          }
+
+          return {
+            ...machine,
+            typeFluideLabel: TypeFluideLabels[fluideEnumValue as TypeFluide] ?? machine.typeFluide,
+            typeMachineLabel: TypeMachineLabels[machineEnumValue as TypeMachineEnum] ?? machine.typeMachine,
+          };
+        });
+
 
         this.noData = this.machines.length === 0;
         this.hasError = false;
+
+        console.log("Machines avec label :", this.machines);
       },
       error: (err) => {
         console.error('Erreur API', err);
@@ -95,7 +127,7 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
     });
   }
 
-    ajouterMachine() {
+  ajouterMachine() {
     const token = this.authService.getToken(); // Récupère le token
 
     // Avant d'ajouter la machine, il faut convertir le label en valeur de l'énumération
@@ -104,7 +136,7 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
     };
 
     const labelToValueMachine = (label: string) => {
-      return Object.keys(TypeMachine).find(key => TypeMachineLabels[TypeMachine[key as keyof typeof TypeMachine]] === label);
+      return Object.keys(TypeMachineEnum).find(key => TypeMachineLabels[TypeMachineEnum[key as keyof typeof TypeMachineEnum]] === label);
     };
 
     const machineToAdd = { ...this.newMachine };
@@ -116,6 +148,11 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
       machineToAdd.typeMachine = "NA"; // Cas où on ne veut pas de saisie
     } else {
       machineToAdd.typeMachine = labelToValueMachine(machineToAdd.typeMachine); // Cas normal
+    }
+
+    if (this.newMachine.descriptionMachine.length > 100) {
+      alert("La description ne doit pas dépasser 100 caractères.");
+      return;
     }
 
     const headers = {

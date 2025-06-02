@@ -1,4 +1,4 @@
-import { TypeFluide } from './typeFluide.model';
+import { TypeFluide } from './typeFluide.enum';
 
 export const TypeFluideLabels: Record<TypeFluide, string> = {
   [TypeFluide.CH4]: "CH4",
@@ -14,19 +14,19 @@ export const TypeFluideLabels: Record<TypeFluide, string> = {
   [TypeFluide.R427a]: "R427a",
   [TypeFluide.R507]: "R507",
   [TypeFluide.R507a]: "R507a",
-  [TypeFluide.HFC_125]: "HFC – 125",
-  [TypeFluide.HFC_134]: "HFC – 134",
-  [TypeFluide.HFC_134a]: "HFC – 134a",
-  [TypeFluide.HFC_143]: "HFC – 143",
-  [TypeFluide.HFC_143a]: "HFC – 143a",
-  [TypeFluide.HFC_152a]: "HFC – 152a",
-  [TypeFluide.HFC_227ea]: "HFC – 227ea",
-  [TypeFluide.HFC_23]: "HFC – 23",
-  [TypeFluide.HFC_236fa]: "HFC – 236fa",
-  [TypeFluide.HFC_245ca]: "HFC – 245ca",
-  [TypeFluide.HFC_32]: "HFC – 32",
-  [TypeFluide.HFC_41]: "HFC – 41",
-  [TypeFluide.HFC_43_10mee]: "HFC – 43 – 10mee",
+  [TypeFluide.HFC_125]: "HFC - 125",
+  [TypeFluide.HFC_134]: "HFC - 134",
+  [TypeFluide.HFC_134a]: "HFC - 134a",
+  [TypeFluide.HFC_143]: "HFC - 143",
+  [TypeFluide.HFC_143a]: "HFC - 143a",
+  [TypeFluide.HFC_152a]: "HFC - 152a",
+  [TypeFluide.HFC_227ea]: "HFC - 227ea",
+  [TypeFluide.HFC_23]: "HFC - 23",
+  [TypeFluide.HFC_236fa]: "HFC - 236fa",
+  [TypeFluide.HFC_245ca]: "HFC - 245ca",
+  [TypeFluide.HFC_32]: "HFC - 32",
+  [TypeFluide.HFC_41]: "HFC - 41",
+  [TypeFluide.HFC_43_10mee]: "HFC - 43 - 10mee",
   [TypeFluide.PERFLUOROBUTANE_R3110]: "Perfluorobutane = R3110",
   [TypeFluide.PERFLUOROMETHANE_R14]: "Perfluoromethane = R14",
   [TypeFluide.PERFLUOROPROPANE_R218]: "Perfluoropropane = R218",
@@ -65,4 +65,4 @@ export const TypeFluideLabels: Record<TypeFluide, string> = {
   [TypeFluide.HALON_1301]: "Halon 1301",
   [TypeFluide.HALON_2402]: "Halon 2402",
   [TypeFluide.DICHLOROMETHANE]: "Dichlorométhane",
-};
+}
