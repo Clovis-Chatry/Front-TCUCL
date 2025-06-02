@@ -22,7 +22,6 @@ export class DechetsSaisieDonneesPageComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
-      console.log('ID récupéré:', id);
       if (id) {
         this.loadData(id);
       }
@@ -64,7 +63,6 @@ export class DechetsSaisieDonneesPageComponent implements OnInit {
   }
 
   updateOrdureMenagere() {
-    console.log("update ordures ménagères", this.items.orduresMenageres);
     const id = this.route.snapshot.paramMap.get('id');
     const token = this.authService.getToken();
 
@@ -79,7 +77,6 @@ export class DechetsSaisieDonneesPageComponent implements OnInit {
         this.items.orduresMenageres,
         { headers }
       ).subscribe(
-        () => console.log('Ordures ménagères mises à jour'),
         (error) => console.error('Erreur lors de la mise à jour des ordures ménagères', error)
       );
     } else {

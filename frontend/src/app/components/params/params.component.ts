@@ -53,16 +53,13 @@ export class ParamsComponent {
   users: { entity: string; user: User }[] = [];
 
   updateInfo(): void {
-    console.log('Infos mises à jour :', this.user);
   }
 
   sendPasswordReset(): void {
-    console.log('Réinitialisation demandée pour :', this.user.email);
   }
 
   createEntity(): void {
     this.entities.push({ ...this.entity });
-    console.log('Nouvelle entité :', this.entity);
     this.entity = {
       name: '',
       type: '',
@@ -73,7 +70,6 @@ export class ParamsComponent {
   addUser(): void {
     if (this.newUserEntity) {
       this.users.push({ entity: this.newUserEntity, user: { ...this.newUser } });
-      console.log('Utilisateur ajouté à', this.newUserEntity, ':', this.newUser);
       this.newUser = { firstName: '', lastName: '', email: '', isParams: false };
     }
   }

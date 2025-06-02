@@ -4,37 +4,33 @@
       <thead>
       <tr>
         <th>Moyen de transport</th>
-        <th>Allers simples Étudiant</th>
-        <th>Distance AR Étudiant (km)</th>
-        <th>Allers simples Salarié</th>
-        <th>Distance AR Salarié (km)</th>
+        <th *ngFor="let group of travelerGroups">{{ group }}</th>
       </tr>
       </thead>
       <tbody>
-
-        @for (mode of moyens; track moyens) {
-          <tr>
-            <td>{{ mode.label }}</td>
-            <td>
-              <input type="number" class="value-input" min="0"
-                     [(ngModel)]="getEntry(mode.etudiantKey).trips"/>
-            </td>
-            <td>
-              <input type="number" class="value-input" min="0" step="0.1"
-                     [(ngModel)]="getEntry(mode.etudiantKey).distance"/>
-            </td>
-            <td>
-              <input type="number" class="value-input" min="0"
-                     [(ngModel)]="getEntry(mode.salarieKey).trips"/>
-            </td>
-            <td>
-              <input type="number" class="value-input" min="0" step="0.1"
-                     [(ngModel)]="getEntry(mode.salarieKey).distance"/>
-            </td>
-          </tr>
-        }
-
-
+      <tr *ngFor="let mode of transportModes">
+        <td><strong>{{ mode }}</strong></td>
+        <td *ngFor="let group of travelerGroups">
+          <div class="input-block">
+            <label>Distance (km)</label>
+            <input
+              type="number"
+              class="value-input"
+              [ngModel]="getValue(mode, group, 'distanceKm')"
+              (ngModelChange)="setValueTemp(mode, group, 'distanceKm', $event)"
+              (blur)="applyValue(mode, group, 'distanceKm')"
+            />
+            <label>Allers</label>
+            <input
+              type="number"
+              class="value-input"
+              [ngModel]="getValue(mode, group, 'oneWayTrips')"
+              (ngModelChange)="setValueTemp(mode, group, 'oneWayTrips', $event)"
+              (blur)="applyValue(mode, group, 'oneWayTrips')"
+            />
+          </div>
+        </td>
+      </tr>
       </tbody>
     </table>
   </div>

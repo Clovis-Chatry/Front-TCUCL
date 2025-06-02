@@ -14,14 +14,13 @@ export class HeaderSaisieDonneesComponent {
     this.currentYear = new Date().getFullYear();
     this.years = Array.from({ length: this.currentYear - 2018 }, (_, i) => this.currentYear - i);
     this.selectedYear = this.currentYear;
-    console.log("Années valides : ", this.years);
   }
 
   @Input() PageTitle: string = '';
   @Input() LogoSrc: string = '';
 
-  tabs = ['Energie', 'Emissions fugitives', 'Mobilité dom-trav', 'Autre mob FR', 'Mob internationale', 'Bâtiments',
-    'Parkings', 'Auto', 'Numérique', 'Autre immob', 'Achats', 'Déchets'];
+  tabs = ['Energie', 'Emissions fugitives', 'Mobilite dom-trav', 'Autre mob FR', 'Mob internationale', 'Bâtiments',
+    'Parkings', 'Auto', 'Numerique', 'Autre immob', 'Achats', 'Dechets'];
   startIndex = 0;
   visibleCount = 8;
 
@@ -48,7 +47,6 @@ export class HeaderSaisieDonneesComponent {
 
   navigateTo(tab: string) {
     this.activeTab = tab;
-    console.log(`Navigation vers ${tab}`);
 
     const urlPart = this.tabToRoute[tab];
 
@@ -57,19 +55,16 @@ export class HeaderSaisieDonneesComponent {
       return;
     }
 
-    // Calcule l'ID à partir de l'année sélectionnée
     const year = Number(this.selectedYear);
     const index = this.years.indexOf(year);
 
 
     if (index === -1) {
-      console.error('Année sélectionnée invalide:', this.selectedYear);
+      console.error('Année selectionnée invalide:', this.selectedYear);
       return;
     }
 
-    // Calcul de l'ID à partir de l'année sélectionnée
     const id = index.toString();
-    console.log(`ID calculé: ${id}`);
     this.router.navigate([`/${urlPart}/${id}`]);
   }
 
@@ -84,15 +79,15 @@ export class HeaderSaisieDonneesComponent {
   private tabToRoute: { [key: string]: string } = {
     'Energie': 'energieOnglet',
     'Emissions fugitives': 'emissionsFugitivesOnglet',
-    'Mobilité dom-trav': 'mobiliteDomTravOnglet',
+    'Mobilite dom-trav': 'mobiliteDomTravOnglet',
     'Autre mob FR': 'autreMobFrOnglet',
     'Mob internationale': 'mobiliteInternationaleOnglet',
-    'Bâtiments': 'batimentsOnglet',
+    'Batiments': 'batimentsOnglet',
     'Parkings': 'parkOnglet',
     'Auto': 'autoOnglet',
-    'Numérique': 'numeriqueOnglet',
+    'Numerique': 'numeriqueOnglet',
     'Autre immob': 'immobOnglet',
     'Achats': 'achatsOnglet',
-    'Déchets': 'dechetsOnglet'
+    'Dechets': 'dechetsOnglet'
   };
 }

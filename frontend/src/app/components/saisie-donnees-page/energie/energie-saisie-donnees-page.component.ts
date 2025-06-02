@@ -4,14 +4,13 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router'; // Permet de récupérer l'ID de l'URL
 import {AuthService} from '../../../services/auth.service';
 import {ApiEndpoints} from '../../../services/api-endpoints';
-import {JsonPipe} from '@angular/common';
 
 @Component({
   selector: 'app-saisie-donnees-page',
   standalone: true,
   templateUrl: './energie-saisie-donnees-page.component.html',
   styleUrls: ['./energie-saisie-donnees-page.component.scss'],
-  imports: [FormsModule, HttpClientModule, JsonPipe]
+  imports: [FormsModule, HttpClientModule]
 })
 export class EnergieSaisieDonneesPageComponent implements OnInit {
   private http = inject(HttpClient);
@@ -23,7 +22,6 @@ export class EnergieSaisieDonneesPageComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
-      console.log('ID récupéré:', id);
       if (id) {
         this.loadData(id);
       }
@@ -65,11 +63,8 @@ export class EnergieSaisieDonneesPageComponent implements OnInit {
   }
 
   updateConso() {
-    console.log("update conso gaz", this.items.consoGaz);
     const id = this.route.snapshot.paramMap.get('id');
     const token = this.authService.getToken(); // Récupère le token
-    console.log(id);
-    console.log(token)
 
     if (id && token) {
       const headers = {
@@ -93,7 +88,6 @@ export class EnergieSaisieDonneesPageComponent implements OnInit {
         },
         {headers}
       ).subscribe(
-        () => console.log('Conso mise à jour'),
         (error) => console.error('Erreur lors de la mise à jour de ConsoGaz', error)
       );
     } else {
