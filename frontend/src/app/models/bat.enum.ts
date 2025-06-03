@@ -1,0 +1,17 @@
+export enum EnumBatiment_TypeBatiment {
+  NA = 'NA',
+  EQUIPEMENT_SPORTIF = 'EQUIPEMENT_SPORTIF',
+  LOGEMENT_COLLECTIF = 'LOGEMENT_COLLECTIF',
+  RESTAURATION = 'RESTAURATION',
+  ENSEIGNEMENT = 'ENSEIGNEMENT',
+  HOPITAL = 'HOPITAL',
+  AUTRE = 'AUTRE',
+  BUREAUX = 'BUREAUX'
+}
+
+export enum EnumBatiment_TypeStructure {
+  NA = 'NA',
+  BETON = 'BETON',
+  BOIS = 'BOIS',
+  MIXTE = 'MIXTE'
+}
