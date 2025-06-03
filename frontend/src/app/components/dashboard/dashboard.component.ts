@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {Router} from '@angular/router';
 
@@ -10,11 +10,8 @@ import {Router} from '@angular/router';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent implements OnInit{
-  constructor(private router: Router) {}
-
-  ngOnInit() {
-    console.log("Connecté")
+export class DashboardComponent {
+  constructor(private router: Router) {
   }
 
   goToSaisieDonnees() {
