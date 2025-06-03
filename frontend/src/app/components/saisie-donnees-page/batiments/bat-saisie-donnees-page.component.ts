@@ -233,7 +233,8 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   ajouterMobilier(): void {
     const token = this.authService.getToken();
 
-    const mobilierAAjouter = { ...this.mobiliersAjoutes};
+    const mobilierAAjouter = { ...this.nouveauMobilier};
+    mobilierAAjouter.dateAjout = this.getDateAujourdhui();
     // mobilierAAjouter.dateAjout = this.getDateAujourdhui();
     const headers = {
       'Content-Type': 'application/json',
@@ -241,7 +242,7 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     };
     this.http.post(ApiEndpoints.BatimentsOnglet.ajouterMobilier(this.batimentOngletId), mobilierAAjouter, { headers }).subscribe(() => {
       this.loadData();
-      this.resterFormMobilier();
+      this.resetFormMobilier();
     })
   }
 
@@ -328,7 +329,7 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     };
   }
 
-  resterFormMobilier() {
+  resetFormMobilier() {
     this.nouveauMobilier = {
       dateAjout: '',
       mobilier: '',
