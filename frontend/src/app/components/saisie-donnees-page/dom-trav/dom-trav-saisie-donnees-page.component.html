@@ -2,43 +2,42 @@
   <div class="left-panel">
     <table class="data-table">
       <thead>
-        <tr>
-          <th>Moyen de transport</th>
-          <th>Étudiant (km)</th>
-          <th>Salarié (km)</th>
-        </tr>
+      <tr>
+        <th>Moyen de transport</th>
+        <th *ngFor="let group of travelerGroups">{{ group }}</th>
+      </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>À pied</td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.aPiedsEtudiant" (blur)="updateConso()"/></td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.aPiedsSalarie" (blur)="updateConso()"/></td>
-        </tr>
-        <tr>
-          <td>Bus</td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.busEtudiant" (blur)="updateConso()"/></td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.busSalarie" (blur)="updateConso()"/></td>
-        </tr>
-        <tr>
-          <td>Métro / Tram</td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.metroTramEtudiant" (blur)="updateConso()"/></td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.metroTramSalarie" (blur)="updateConso()"/></td>
-        </tr>
-        <tr>
-          <td>Moto</td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.motoEtudiant" (blur)="updateConso()"/></td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.motoSalarie" (blur)="updateConso()"/></td>
-        </tr>
-        <tr>
-          <td>Voiture thermique</td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.voitureThermiqueEtudiant" (blur)="updateConso()"/></td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.voitureThermiqueSalarie" (blur)="updateConso()"/></td>
-        </tr>
-        <tr>
-          <td>Voiture électrique</td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.voitureElecEtudiant" (blur)="updateConso()"/></td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.voitureElecSalarie" (blur)="updateConso()"/></td>
-        </tr>
+      <tr>
+        <td><strong>Nombre de jours de déplacement (an)</strong></td>
+        <td>
+          <input
+            type="number"
+            [(ngModel)]="nbJoursEtudiant"
+            (blur)="updateData()"
+          />
+        </td>
+        <td>
+          <input
+            type="number"
+            [(ngModel)]="nbJoursSalarie"
+            (blur)="updateData()"
+          />
+        </td>
+      </tr>
+
+      <tr *ngFor="let mode of transportModes">
+        <td>{{ mode }}</td>
+        <td *ngFor="let group of travelerGroups">
+          <input
+            type="number"
+            class="value-input"
+            [ngModel]="getValue(mode, group)"
+            (ngModelChange)="setValueTemp(mode, group, $event)"
+            (blur)="applyValue(mode, group)"
+          />
+        </td>
+      </tr>
       </tbody>
     </table>
   </div>

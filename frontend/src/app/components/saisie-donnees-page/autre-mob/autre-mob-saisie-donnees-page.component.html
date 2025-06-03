@@ -2,36 +2,35 @@
   <div class="left-panel">
     <table class="data-table">
       <thead>
-        <tr>
-          <th>Moyen de transport</th>
-          <th>Allers simples Étudiant</th>
-          <th>Distance AR Étudiant (km)</th>
-          <th>Allers simples Salarié</th>
-          <th>Distance AR Salarié (km)</th>
-        </tr>
+      <tr>
+        <th>Moyen de transport</th>
+        <th *ngFor="let group of travelerGroups">{{ group }}</th>
+      </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Train</td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.trainEtudiantAller" (blur)="updateConso()" /></td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.trainEtudiantDistance" (blur)="updateConso()" /></td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.trainSalarieAller" (blur)="updateConso()" /></td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.trainSalarieDistance" (blur)="updateConso()" /></td>
-        </tr>
-        <tr>
-          <td>Avion</td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.avionEtudiantAller" (blur)="updateConso()" /></td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.avionEtudiantDistance" (blur)="updateConso()" /></td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.avionSalarieAller" (blur)="updateConso()" /></td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.avionSalarieDistance" (blur)="updateConso()" /></td>
-        </tr>
-        <tr>
-          <td>Autre</td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.autreEtudiantAller" (blur)="updateConso()" /></td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.autreEtudiantDistance" (blur)="updateConso()" /></td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.autreSalarieAller" (blur)="updateConso()" /></td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.autreSalarieDistance" (blur)="updateConso()" /></td>
-        </tr>
+      <tr *ngFor="let mode of transportModes">
+        <td><strong>{{ mode }}</strong></td>
+        <td *ngFor="let group of travelerGroups">
+          <div class="input-block">
+            <label>Distance (km)</label>
+            <input
+              type="number"
+              class="value-input"
+              [ngModel]="getValue(mode, group, 'distanceKm')"
+              (ngModelChange)="setValueTemp(mode, group, 'distanceKm', $event)"
+              (blur)="applyValue(mode, group, 'distanceKm')"
+            />
+            <label>Allers</label>
+            <input
+              type="number"
+              class="value-input"
+              [ngModel]="getValue(mode, group, 'oneWayTrips')"
+              (ngModelChange)="setValueTemp(mode, group, 'oneWayTrips', $event)"
+              (blur)="applyValue(mode, group, 'oneWayTrips')"
+            />
+          </div>
+        </td>
+      </tr>
       </tbody>
     </table>
   </div>
