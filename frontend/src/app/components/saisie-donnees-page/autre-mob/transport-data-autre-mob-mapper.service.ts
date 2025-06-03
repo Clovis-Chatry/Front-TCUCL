@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TransportAutreMob } from '../../../models/transport-data.model';
-import { GROUPE_VOYAGEURS, MODE_TRANSPORT_AUTRE_MOB } from '../../../models/transport.enum';
+import { GROUPE_VOYAGEURS, MODE_TRANSPORT_AUTRE_MOB } from '../../../models/enums/transport.enum';
 
 @Injectable({ providedIn: 'root' })
 export class TransportAutreMobMapperService {

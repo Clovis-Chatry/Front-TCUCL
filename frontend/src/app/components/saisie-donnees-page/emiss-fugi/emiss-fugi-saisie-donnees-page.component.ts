@@ -1,12 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { EmmissionsFugtivesService } from './emiss-fugi.service';
 import { FormsModule } from '@angular/forms';
-import { TypeFluide } from '../../../models/typeFluide.enum';
-import { TypeMachineEnum } from '../../../models/typeMachine.enum';
+import { TypeFluide } from '../../../models/enums/typeFluide.enum';
+import { TypeMachineEnum } from '../../../models/enums/typeMachine.enum';
 import { TypeFluideLabels } from '../../../models/typeFluide-label';
 import { TypeMachineLabels} from '../../../models/type-machine-labels'
 
