@@ -16,7 +16,7 @@ import {
   EmissFugiSaisieDonneesPageComponent
 } from './components/saisie-donnees-page/emiss-fugi/emiss-fugi-saisie-donnees-page.component';
 import {
-  DechetsSaisieDonneesPageComponent
+  DechetSaisieDonneesPageComponent
 } from './components/saisie-donnees-page/dechets/dechets-saisie-donnees-page.component';
 import {
   AchatsSaisieDonneesPageComponent
@@ -24,19 +24,19 @@ import {
 import {
   AutreImmobilisationPageComponent
 } from './components/saisie-donnees-page/autre-immob/immob-donnees-page.component';
-import { 
-  NumeriqueSaisieDonneesPageComponent 
+import {
+  NumeriqueSaisieDonneesPageComponent
 } from './components/saisie-donnees-page/numerique/numerique-saisie-donnees-page.component';
-import { 
-  AutoSaisieDonneesPageComponent 
+import {
+  AutoSaisieDonneesPageComponent
 } from './components/saisie-donnees-page/auto/auto-saisie-donnees-page.component';
-import { 
-  ParkSaisieDonneesPageComponent 
+import {
+  ParkSaisieDonneesPageComponent
 } from './components/saisie-donnees-page/park/park-saisie-donnees-page.component';
 import {
   MobiliteInternationaleSaisieDonneesPageComponent
 } from './components/saisie-donnees-page/mob-inter/mob-inter-saisie-donnees-page.component';
-import { 
+import {
   BatimentsSaisieDonneesPageComponent
 } from './components/saisie-donnees-page/batiments/bat-saisie-donnees-page.component';
 
@@ -77,7 +77,7 @@ export const routes: Routes = [
   },
   {
     path: 'dechetsOnglet/:id',
-    component: DechetsSaisieDonneesPageComponent,
+    component: DechetSaisieDonneesPageComponent,
     data: {showSaisieHeader: true},
     canActivate: [authGuard],
   },
@@ -133,8 +133,8 @@ export const routes: Routes = [
     path: 'batimentsOnglet/:id',
     data: { showSaisieHeader: true },
     component: BatimentsSaisieDonneesPageComponent,
-    canActivate: [authGuard] 
-  },  
+    canActivate: [authGuard]
+  },
   {
     path: '**',
     redirectTo: 'login',

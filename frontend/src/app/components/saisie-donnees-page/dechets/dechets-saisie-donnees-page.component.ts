@@ -1,89 +1,66 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Component, OnInit, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { AuthService } from '../../../services/auth.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+import { TYPE_DECHET, TRAITEMENT_DECHET } from '../../../models/enums/dechet.enum';
+import { DechetData} from '../../../models/dechet-data-model';
+import { DechetDataMapperService } from './dechet-data-mapper.service';
 import { ApiEndpoints } from '../../../services/api-endpoints';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
-  selector: 'app-saisie-donnees-page',
+  selector: 'app-dechet-saisie-donnees-page',
   standalone: true,
   templateUrl: './dechets-saisie-donnees-page.component.html',
   styleUrls: ['./dechets-saisie-donnees-page.component.scss'],
-  imports: [FormsModule, HttpClientModule]
+  imports: [CommonModule, FormsModule],
 })
-export class DechetsSaisieDonneesPageComponent implements OnInit {
+export class DechetSaisieDonneesPageComponent implements OnInit {
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute);
-  private authService = inject(AuthService);
+  private auth = inject(AuthService);
+  private mapper = inject(DechetDataMapperService);
 
-  items: any = {}; // Contient les données du formulaire
+  items: DechetData[] = [];
 
-  ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      console.log('ID récupéré:', id);
-      if (id) {
-        this.loadData(id);
-      }
+  types = Object.values(TYPE_DECHET);
+  traitements = Object.values(TRAITEMENT_DECHET);
+
+  ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) this.loadData(id);
+  }
+
+  loadData(id: string): void {
+    const token = this.auth.getToken();
+    if (!token) return;
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    };
+
+    this.http.get<any>(ApiEndpoints.DechetsOnglet.getById(id), { headers }).subscribe({
+      next: data => this.items = this.mapper.parseData(data),
+      error: err => console.error('Erreur chargement déchets:', err)
     });
   }
 
-  loadData(id: string) {
-    const token = this.authService.getToken();
-
-    if (!token) {
-      console.error("Token d'authentification manquant");
-      return;
-    }
+  updateData(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    const token = this.auth.getToken();
+    if (!id || !token) return;
 
     const headers = {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`
     };
 
-    this.http.get<any>(ApiEndpoints.DechetsOnglet.getById(id), { headers }).subscribe(
-      (data) => {
-        this.items = {
-          orduresMenageres: data.orduresMenageres,
-          traitementOrduresMenageres: data.parametreDechets?.traitementOrduresMenageres || 'Stockage',
-          cartons: data.cartons,
-          traitementCartons: data.parametreDechets?.traitementCartons || 'Recyclage',
-          verre: data.verre,
-          traitementVerre: data.parametreDechets?.traitementVerre || 'Recyclage',
-          metaux: data.metaux,
-          traitementMetaux: data.parametreDechets?.traitementMetaux || 'Recyclage',
-          textile: data.textile,
-          traitementTextile: data.parametreDechets?.traitementTextile || 'Recyclage'
-        };
-      },
-      (error) => {
-        console.error("Erreur lors du chargement des données", error);
-      }
-    );
-  }
+    const payload = this.mapper.buildPayload(this.items);
 
-  updateOrdureMenagere() {
-    console.log("update ordures ménagères", this.items.orduresMenageres);
-    const id = this.route.snapshot.paramMap.get('id');
-    const token = this.authService.getToken();
-
-    if (id && token) {
-      const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      };
-
-      this.http.patch<any>(
-        ApiEndpoints.DechetsOnglet.updateOrdureMenagere(id),
-        this.items.orduresMenageres,
-        { headers }
-      ).subscribe(
-        () => console.log('Ordures ménagères mises à jour'),
-        (error) => console.error('Erreur lors de la mise à jour des ordures ménagères', error)
-      );
-    } else {
-      console.error('ID ou Token manquant');
-    }
+    this.http.patch(ApiEndpoints.DechetsOnglet.update(id), payload, { headers }).subscribe({
+      error: err => console.error('PATCH déchets échoué', err)
+    });
   }
 }
