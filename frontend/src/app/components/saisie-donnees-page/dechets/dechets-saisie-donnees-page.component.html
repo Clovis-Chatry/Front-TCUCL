@@ -1,70 +1,16 @@
-<div class="main-container">
-  <div class="left-panel">
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>Type de Déchet</th>
-          <th>Quantité (tonnes)</th>
-          <th>Type de traitement</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Ordures ménagères</td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.orduresMenageres" (blur)="updateConso()" /></td>
-          <td>
-            <select class="unit-select" [(ngModel)]="items.traitementOrduresMenageres" (blur)="updateConso()">
-              <option value="Stockage">Stockage</option>
-              <option value="Incinération">Incinération</option>
-              <option value="Recyclage">Recyclage</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td>Cartons</td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.cartons" (blur)="updateConso()" /></td>
-          <td>
-            <select class="unit-select" [(ngModel)]="items.traitementCartons" (blur)="updateConso()">
-              <option value="Stockage">Stockage</option>
-              <option value="Incinération">Incinération</option>
-              <option value="Recyclage">Recyclage</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-  <td>Verre</td>
-  <td><input type="number" class="value-input" [(ngModel)]="items.verre" (blur)="updateConso()" /></td>
-  <td>
-    <select class="unit-select" [(ngModel)]="items.traitementVerre" (blur)="updateConso()">
-      <option value="Stockage">Stockage</option>
-      <option value="Incinération">Incinération</option>
-      <option value="Recyclage">Recyclage</option>
+<div *ngFor="let item of items">
+  <h3>{{ item.type }}</h3>
+  <label>
+    Traitement :
+    <select [(ngModel)]="item.traitement">
+      <option [ngValue]="null">-- Sélectionner --</option>
+      <option *ngFor="let t of traitements" [ngValue]="t">{{ t }}</option>
     </select>
-  </td>
-</tr>
-        <tr>
-          <td>Textiles</td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.textile" (blur)="updateConso()" /></td>
-          <td>
-            <select class="unit-select" [(ngModel)]="items.traitementTextile" (blur)="updateConso()">
-              <option value="Stockage">Stockage</option>
-              <option value="Incinération">Incinération</option>
-              <option value="Recyclage">Recyclage</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td>Métaux</td>
-          <td><input type="number" class="value-input" [(ngModel)]="items.metaux" (blur)="updateConso()" /></td>
-          <td>
-            <select class="unit-select" [(ngModel)]="items.traitementMetaux" (blur)="updateConso()">
-              <option value="Stockage">Stockage</option>
-              <option value="Incinération">Incinération</option>
-              <option value="Recyclage">Recyclage</option>
-            </select>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  </label>
+  <label>
+    Quantité (tonnes) :
+    <input type="number" [(ngModel)]="item.quantiteTonne" min="0">
+  </label>
 </div>
+
+<button (click)="updateData()">Enregistrer</button>

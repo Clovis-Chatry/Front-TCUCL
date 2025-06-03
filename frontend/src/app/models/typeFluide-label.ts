@@ -1,4 +1,4 @@
-import { TypeFluide } from './typeFluide.enum';
+import { TypeFluide } from './enums/typeFluide.enum';
 
 export const TypeFluideLabels: Record<TypeFluide, string> = {
   [TypeFluide.CH4]: "CH4",

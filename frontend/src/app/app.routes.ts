@@ -16,7 +16,7 @@ import {
   EmissFugiSaisieDonneesPageComponent
 } from './components/saisie-donnees-page/emiss-fugi/emiss-fugi-saisie-donnees-page.component';
 import {
-  DechetsSaisieDonneesPageComponent
+  DechetSaisieDonneesPageComponent
 } from './components/saisie-donnees-page/dechets/dechets-saisie-donnees-page.component';
 import {
   AchatsSaisieDonneesPageComponent
@@ -76,7 +76,7 @@ export const routes: Routes = [
   },
   {
     path: 'dechetsOnglet/:id',
-    component: DechetsSaisieDonneesPageComponent,
+    component: DechetSaisieDonneesPageComponent,
     data: {showSaisieHeader: true},
     canActivate: [authGuard],
   },

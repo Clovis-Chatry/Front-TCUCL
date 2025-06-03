@@ -1,4 +1,4 @@
-import {GROUPE_VOYAGEURS, MODE_TRANSPORT_AUTRE_MOB, MODE_TRANSPORT_DOM_TRAV} from './transport.enum';
+import {GROUPE_VOYAGEURS, MODE_TRANSPORT_AUTRE_MOB, MODE_TRANSPORT_DOM_TRAV} from './enums/transport.enum';
 
 export interface TransportDomTrav {
   travelerGroup: GROUPE_VOYAGEURS;
