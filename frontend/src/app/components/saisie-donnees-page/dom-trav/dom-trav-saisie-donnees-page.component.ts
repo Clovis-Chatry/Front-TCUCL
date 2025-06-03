@@ -5,7 +5,7 @@ import {ActivatedRoute} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {ApiEndpoints} from '../../../services/api-endpoints';
 import {AuthService} from '../../../services/auth.service';
-import {GROUPE_VOYAGEURS, MODE_TRANSPORT_DOM_TRAV} from '../../../models/transport.enum';
+import {GROUPE_VOYAGEURS, MODE_TRANSPORT_DOM_TRAV} from '../../../models/enums/transport.enum';
 import {TransportDomTrav} from '../../../models/transport-data.model';
 import {TransportDataDomTravMapperService} from './transport-data-dom-trav-mapper.service';
 

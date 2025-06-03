@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
 import { ApiEndpoints } from '../../../services/api-endpoints';
-import { Pays } from '../../../models/pays.enum';
+import { Pays } from '../../../models/enums/pays.enum';
 
 @Component({
   selector: 'app-destination-page',

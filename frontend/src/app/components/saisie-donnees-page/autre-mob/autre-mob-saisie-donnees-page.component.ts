@@ -4,8 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { GROUPE_VOYAGEURS } from '../../../models/transport.enum';
-import { MODE_TRANSPORT_AUTRE_MOB } from '../../../models/transport.enum';
+import { GROUPE_VOYAGEURS } from '../../../models/enums/transport.enum';
+import { MODE_TRANSPORT_AUTRE_MOB } from '../../../models/enums/transport.enum';
 import { TransportAutreMob } from '../../../models/transport-data.model';
 
 import { ApiEndpoints } from '../../../services/api-endpoints';

@@ -1,4 +1,4 @@
-import {TypeMachineEnum} from './typeMachine.enum';
+import {TypeMachineEnum} from './enums/typeMachine.enum';
 
 export const TypeMachineLabels: Record<TypeMachineEnum, string> = {
   [TypeMachineEnum.ARMOIRE]: "Armoire",
