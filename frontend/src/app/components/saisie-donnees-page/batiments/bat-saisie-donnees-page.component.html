@@ -86,11 +86,15 @@
     <summary><strong>Saisir une rénovation ponctuelle</strong></summary>
 
     <label>Nom du bâtiment :
-      <input type="text" [(ngModel)]="nouvelleReno.nomBatiment" />
+      <input type="text" [(ngModel)]="nouvelleReno.nom_adresse" />
     </label>
 
     <label>Type de travaux :
-      <input type="text" [(ngModel)]="nouvelleReno.typeTravaux" />
+      <select [(ngModel)]="nouvelleReno.typeTravaux">
+        <option *ngFor="let travaux of travauxTypesLibelles" [ngValue]="travaux.value">
+          {{ travaux.label }}
+        </option>
+      </select>
     </label>
 
     <label>Date des travaux :
@@ -98,27 +102,36 @@
     </label>
 
     <label>Type de bâtiment :
-      <input type="text" [(ngModel)]="nouvelleReno.typeBatiment" />
+      <select [(ngModel)]="nouvelleReno.typeBatiment">
+        <option *ngFor="let type of batimentTypesLibelles" [ngValue]="type.value">
+          {{ type.label }}
+        </option>
+      </select>
     </label>
 
     <label>Surface (m²) :
-      <input type="number" [(ngModel)]="nouvelleReno.surface" />
+      <input type="number" [(ngModel)]="nouvelleReno.surfaceConcernee" />
     </label>
 
-    <label>Durée amortissement :
+    <label>Durée amortissement (année) :
       <input type="number" [(ngModel)]="nouvelleReno.dureeAmortissement" />
     </label>
 
-    <button (click)="ajouterRenovation()">Ajouter cette rénovation</button>
+    <button (click)="ajouterEntretien()">Ajouter cette rénovation</button>
   </details>
 
-  <div *ngFor="let reno of renovationsCourantes; let i = index">
-    <h3>{{ reno.nomBatiment }}</h3>
-    <p>{{ reno.typeTravaux }} - {{ reno.dateTravaux }}</p>
-    <p>{{ reno.typeBatiment }} - {{ reno.surface }} m² - {{ reno.dureeAmortissement }} ans</p>
-    <button (click)="supprimerRenovation(i)">Supprimer</button>
+  <div *ngIf="renovationsCourantes.length > 0">
+    <h3>Liste des entretiens et rénovations saisis</h3>
+    <tr *ngFor="let reno of renovationsCourantes; let i = index">
+      <h3>{{ reno.nom_ou_adresse }}</h3>
+      <p>Type de travaux : {{ getLibelleTypeTravaux(reno.typeTravaux) }}</p>
+      <p>Date des travaux : {{ reno.dateTravaux }}</p>
+      <p>Type de bâtiment : {{ getLibelleTypeBatiment(reno.typeBatiment) }}</p>
+      <p>Surface en m2 : {{ reno.surfaceConcernee }} </p>
+      <p>Durée amortissement en années: {{ reno.dureeAmortissement }} </p>
+      <button (click)="supprimerRenovation(i)">Supprimer</button>
+    </tr>
   </div>
-
   <hr />
 
   <!-- Section 3 : Mobilier -->
@@ -127,23 +140,39 @@
     <summary><strong>Saisir du mobilier</strong></summary>
 
     <label>Type de mobilier :
-      <input type="text" [(ngModel)]="nouveauMobilier.type" />
+      <select [(ngModel)]="nouveauMobilier.mobilier">
+        <option *ngFor="let type of mobilierTypesLibelles" [ngValue]="type.value">
+          {{ type.label }}
+        </option>
+      </select>
     </label>
 
     <label>Nombre :
-      <input type="number" [(ngModel)]="nouveauMobilier.nombre" />
+      <input type="number" [(ngModel)]="nouveauMobilier.quantite" />
     </label>
 
-    <label>Poids :
-      <input type="number" [(ngModel)]="nouveauMobilier.poids" />
+    <label>Poids (kg) :
+      <input type="number" [(ngModel)]="nouveauMobilier.poidsDuProduit" />
     </label>
 
-    <label>Durée amortissement :
+    <label>Durée amortissement (année) :
       <input type="number" [(ngModel)]="nouveauMobilier.dureeAmortissement" />
     </label>
 
     <button (click)="ajouterMobilier()">Ajouter ce mobilier</button>
   </details>
+
+  <div *ngIf="mobiliersAjoutes.length > 0">
+    <h3>Liste des entretiens et rénovations saisis</h3>
+    <tr *ngFor="let mobilier of mobiliersAjoutes; let i = index">
+      <h3>{{ getLibelleTypeMobilier(mobilier.mobilier) }}</h3>
+      <p>Quantité : {{ mobilier.quantite }}</p>
+      <p>Poids du mobilier en kg : {{mobilier.poidsDuProduit }}</p>
+      <p>Durée amortissement en années: {{ mobilier.dureeAmortissement }} </p>
+      <button (click)="supprimerRenovation(i)">Supprimer</button>
+    </tr>
+  </div>
+  <hr />
 
   <div *ngFor="let mob of mobiliersAjoutes; let i = index">
     <h3>{{ mob.type }}</h3>
