@@ -63,4 +63,8 @@ export class DechetSaisieDonneesPageComponent implements OnInit {
       error: err => console.error('PATCH déchets échoué', err)
     });
   }
+
+  updateConso(): void {
+    console.log('Mise à jour des champs de déchets :', this.items);
+  }
 }

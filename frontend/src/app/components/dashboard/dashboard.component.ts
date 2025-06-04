@@ -1,21 +1,41 @@
-import {Component} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {Router} from '@angular/router';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [
-    FormsModule
-  ],
+  standalone: true,
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  styleUrls: ['./dashboard.component.scss'],
+  imports: [CommonModule, FormsModule]
 })
 export class DashboardComponent {
-  constructor(private router: Router) {
+  currentYear: number = 2024;
+
+  onglets = [
+    { label: 'Energie', status: false, path: 'energieOnglet' },
+    { label: 'Emissions fugitives', status: true, path: 'emissionsFugitivesOnglet' },
+    { label: 'Mobilité dom-trav', status: true, path: 'mobiliteDomTravOnglet' },
+    { label: 'Autre mob fr', status: false, path: 'autreMobFrOnglet' },
+    { label: 'Mob internatio', status: false, path: 'mobiliteInternationaleOnglet' },
+    { label: 'Bâtiments', status: true, path: 'batimentsOnglet' },
+    { label: 'Parkings', status: true, path: 'parkingsOnglet' },
+    { label: 'Auto', status: true, path: 'autoOnglet' },
+    { label: 'Numérique', status: true, path: 'numeriqueOnglet' },
+    { label: 'Autres immob', status: false, path: 'immobOnglet' },
+    { label: 'Achats', status: false, path: 'achatsOnglet' },
+    { label: 'Déchets', status: true, path: 'dechetsOnglet' }
+  ];
+
+  constructor(private router: Router) {}
+
+  goToSaisie(path: string): void {
+    this.router.navigate([`/${path}/${this.currentYear}`]);
   }
 
-  goToSaisieDonnees() {
-    let id = 2;
-    this.router.navigate([`/energieOnglet/${id}`]);
+
+ goToEnergie() {
+    this.router.navigate([`/energieOnglet/2`]);
   }
-}
+};

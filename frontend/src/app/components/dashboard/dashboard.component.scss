@@ -1,0 +1,111 @@
+/* Conteneur principal */
+.dashboard-container {
+  background-color: #e6f0ff;
+  width: 50%;
+  margin: auto;
+  padding: 2em;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Bloc des deux boutons */
+.dashboard-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8em; /* ✅ augmenté : espace entre les boutons */
+  margin-bottom: 2em;
+  width: 100%;
+}
+
+
+.main-button {
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 30px;
+  padding: 0.6em 1.5em;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  transition: background-color 0.2s ease;
+}
+
+.main-button:hover {
+  background-color: #333;
+  color: white;
+}
+
+/* Sélecteur d’année */
+.year-selector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  margin-bottom: 1.5em;
+}
+
+.year-dropdown {
+  font-size: 1em;
+  padding: 0.3em;
+  border-radius: 6px;
+  border: 1px solid #999;
+}
+
+/* Sous-titre */
+.subtitle {
+  font-weight: 500;
+  margin-bottom: 1em;
+}
+
+/* Grille des statuts */
+.status-grid {
+  display: flex;
+  justify-content: center;
+  gap: 2em;
+  text-align: left;
+  width: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.row {
+  background: white;
+  border-radius: 10px;
+  padding: 0.4em 1em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 500;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Icônes */
+.icon {
+  width: 1.2em;
+  text-align: center;
+  margin-right: 0.5em;
+}
+
+.icon.red {
+  color: red;
+}
+
+.icon.green {
+  color: green;
+}
+
+.edit {
+  font-size: 0.9em;
+  color: #555;
+  cursor: pointer;
+}
