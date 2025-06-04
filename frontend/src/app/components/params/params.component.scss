@@ -1,133 +1,165 @@
-@use '../../../styles.scss'; // adapte si besoin
-
+/* Conteneur principal */
 .params-container {
-  background-color: #ccc; // utilise ta variable globale
-  min-height: 100vh;
-  padding: 2rem;
-  font-family: 'Segoe UI', sans-serif;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 2em;
+  padding: 1em;
 }
 
-app-header {
-  margin-bottom: 2rem;
+/* Bouton de retour */
+.top-bar {
+  margin-bottom: 1em;
 }
 
-// 🧱 Style général des blocs
+.back-button {
+  padding: 0.3em 0.8em;
+  font-size: 0.9em;
+  background-color: white;
+  color: #333;
+  border: 2px solid #333;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.back-button:hover {
+  background-color: #333;
+  color: white;
+}
+
+/* Bloc "carte" générique */
 .card {
-  background-color: #f2f2f2;
-  border-radius: 8px;
-  padding: 1.5rem;
-  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  padding: 1.2em;
   position: relative;
-  margin-top: 2.5rem;
-
-  &::before {
-    content: attr(data-title);
-    position: absolute;
-    top: -1.2rem;
-    left: 1rem;
-    background-color: #1C1C1C;
-    color: white;
-    padding: 0.3rem 1rem;
-    border-radius: 6px;
-    font-size: 0.95rem;
-    font-weight: 600;
-  }
-
-  h2, h4 {
-    display: none; // les titres sont gérés par le ::before
-  }
-
-  form {
-    display: flex;
-    flex-direction: column;
-
-    label {
-      font-weight: 600;
-      margin: 0.8rem 0 0.3rem;
-    }
-
-    input,
-    select {
-      padding: 0.5rem 0.7rem;
-      border: 1px solid #bbb;
-      border-radius: 6px;
-      font-size: 0.95rem;
-    }
-
-    input[type="checkbox"] {
-      width: auto;
-      margin-right: 0.4rem;
-    }
-
-    button {
-      margin-top: 1rem;
-      background-color: #3a3a3a;
-      color: white;
-      font-weight: 600;
-      border: none;
-      border-radius: 8px;
-      padding: 0.5rem 1rem;
-      width: fit-content;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-
-      &:hover {
-        background-color: #2a2a2a;
-      }
-    }
-  }
-
-  .password-reset {
-    margin-top: 1rem;
-  }
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
 }
 
-// 📐 Grille responsive pour l’paramsistration
+/* Titre flottant de section */
+.card::before {
+  content: attr(data-title);
+  position: absolute;
+  top: -0.9em;
+  left: 1em;
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  font-size: 0.85em;
+  padding: 0.2em 0.6em;
+  border-radius: 6px;
+}
+
+/* Limiter la largeur des deux premières sections */
+.card[data-title="Paramètres personnels"],
+.card[data-title="Changer son mot de passe"] {
+  max-width: 450px;
+}
+
+/* Section : Ajouter un utilisateur à une entité */
+.card[data-title="Ajouter un utilisateur à une entité"] form {
+  display: flex;
+  flex-direction: column;
+}
+
+.card[data-title="Ajouter un utilisateur à une entité"] label {
+  margin-top: 0.5em;
+  margin-bottom: 0.2em;
+}
+
+.card[data-title="Ajouter un utilisateur à une entité"] input,
+.card[data-title="Ajouter un utilisateur à une entité"] select {
+  width: 100%;
+}
+
+/* Grille responsive des sections inférieures */
 .params-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2em;
 }
 
-// 📊 Tableau des utilisateurs
+/* Inputs et selects */
+input[type="text"],
+input[type="email"],
+select {
+  display: block;
+  width: 100%;
+  padding: 0.4em;
+  margin-bottom: 0.8em;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 0.95em;
+}
+
+/* Boutons */
+button {
+  margin-top: 1em;
+  padding: 0.5em 1em;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  background-color: #333;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  width: auto;
+  display: inline-block;
+}
+
+button:hover {
+  background-color: #555;
+}
+
+/* Table utilisateurs */
 .user-table {
   width: 100%;
-  margin-top: 1rem;
   border-collapse: collapse;
-  font-size: 0.95rem;
+  margin-top: 1em;
+}
 
-  th, td {
-    text-align: left;
-    padding: 0.6rem;
-    border-bottom: 1px solid #ccc;
-  }
+.user-table th,
+.user-table td {
+  padding: 0.5em;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+}
 
-  th {
-    background-color: #eaeaea;
-    font-weight: 600;
-  }
+.user-table button {
+  margin-right: 0.5em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+}
 
-  tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
+/* Texte explicatif avant certains champs */
+.section-info {
+  font-size: 0.95em;
+  font-weight: 500;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
 
-  input[type="checkbox"] {
-    pointer-events: none;
-  }
+/* Ligne case à cocher alignée proprement */
+.checkbox-line {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 0.95em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  width: fit-content; /* ✅ réduit le conteneur à son contenu */
+}
 
-  button {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-    margin-right: 0.5rem;
-    color: #333;
+.checkbox-line input[type="checkbox"] {
+  margin: 0;         /* ✅ empêche tout décalage */
+  padding: 0;
+}
 
-    &:hover {
-      color: #000;
-    }
-  }
+.checkbox-line label {
+  margin: 0;
+  padding: 0;
+  white-space: nowrap; /* ✅ empêche le retour à la ligne */
 }
