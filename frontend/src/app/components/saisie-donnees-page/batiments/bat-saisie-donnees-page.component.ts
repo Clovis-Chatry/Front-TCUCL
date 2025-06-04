@@ -263,7 +263,6 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
         }
       });
     }
-    this.renovationsCourantes.splice(index, 1);
   }
 
   supprimerMobilier(index: number): void {
