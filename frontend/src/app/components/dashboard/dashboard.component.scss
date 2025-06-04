@@ -1,15 +1,26 @@
-/* Conteneur principal */
+/* Mise en page globale */
+.dashboard-page {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Partie gauche contenant le tableau de bord */
 .dashboard-container {
   background-color: #e6f0ff;
   width: 50%;
-  margin: auto;
   padding: 2em;
-  border-radius: 20px;
+  border-radius: 20px 0 0 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+/* Partie droite de la page */
+.dashboard-side {
+  background-color: #fce6d5;
+  width: 50%;
 }
 
 /* Bloc des deux boutons */
