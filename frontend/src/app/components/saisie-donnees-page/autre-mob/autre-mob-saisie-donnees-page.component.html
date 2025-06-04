@@ -2,39 +2,36 @@
   <div class="left-panel">
     <table class="data-table">
       <thead>
-      <tr>
-        <th>Moyen de transport</th>
-        <th>Allers simples Étudiant</th>
-        <th>Distance AR Étudiant (km)</th>
-        <th>Allers simples Salarié</th>
-        <th>Distance AR Salarié (km)</th>
-      </tr>
+        <tr>
+          <th>Moyen de transport</th>
+          <th>Allers simples Étudiant</th>
+          <th>Distance AR Étudiant (km)</th>
+          <th>Allers simples Salarié</th>
+          <th>Distance AR Salarié (km)</th>
+        </tr>
       </thead>
       <tbody>
-
-        @for (mode of moyens; track moyens) {
-          <tr>
-            <td>{{ mode.label }}</td>
-            <td>
-              <input type="number" class="value-input" min="0"
-                     [(ngModel)]="getEntry(mode.etudiantKey).trips"/>
-            </td>
-            <td>
-              <input type="number" class="value-input" min="0" step="0.1"
-                     [(ngModel)]="getEntry(mode.etudiantKey).distance"/>
-            </td>
-            <td>
-              <input type="number" class="value-input" min="0"
-                     [(ngModel)]="getEntry(mode.salarieKey).trips"/>
-            </td>
-            <td>
-              <input type="number" class="value-input" min="0" step="0.1"
-                     [(ngModel)]="getEntry(mode.salarieKey).distance"/>
-            </td>
-          </tr>
-        }
-
-
+        <tr>
+          <td>Train</td>
+          <td><input type="number" class="value-input" [(ngModel)]="items.trainEtudiantAller" (blur)="updateConso()" /></td>
+          <td><input type="number" class="value-input" [(ngModel)]="items.trainEtudiantDistance" (blur)="updateConso()" /></td>
+          <td><input type="number" class="value-input" [(ngModel)]="items.trainSalarieAller" (blur)="updateConso()" /></td>
+          <td><input type="number" class="value-input" [(ngModel)]="items.trainSalarieDistance" (blur)="updateConso()" /></td>
+        </tr>
+        <tr>
+          <td>Avion</td>
+          <td><input type="number" class="value-input" [(ngModel)]="items.avionEtudiantAller" (blur)="updateConso()" /></td>
+          <td><input type="number" class="value-input" [(ngModel)]="items.avionEtudiantDistance" (blur)="updateConso()" /></td>
+          <td><input type="number" class="value-input" [(ngModel)]="items.avionSalarieAller" (blur)="updateConso()" /></td>
+          <td><input type="number" class="value-input" [(ngModel)]="items.avionSalarieDistance" (blur)="updateConso()" /></td>
+        </tr>
+        <tr>
+          <td>Autre</td>
+          <td><input type="number" class="value-input" [(ngModel)]="items.autreEtudiantAller" (blur)="updateConso()" /></td>
+          <td><input type="number" class="value-input" [(ngModel)]="items.autreEtudiantDistance" (blur)="updateConso()" /></td>
+          <td><input type="number" class="value-input" [(ngModel)]="items.autreSalarieAller" (blur)="updateConso()" /></td>
+          <td><input type="number" class="value-input" [(ngModel)]="items.autreSalarieDistance" (blur)="updateConso()" /></td>
+        </tr>
       </tbody>
     </table>
   </div>

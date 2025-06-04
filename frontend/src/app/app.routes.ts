@@ -134,7 +134,7 @@ export const routes: Routes = [
     data: { showSaisieHeader: true },
     component: BatimentsSaisieDonneesPageComponent,
     canActivate: [authGuard] 
-  },  
+  },
   {
     path: '**',
     redirectTo: 'login',

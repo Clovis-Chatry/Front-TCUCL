@@ -1,3 +1,41 @@
-<button (click)="goToSaisieDonnees()">Saisir les données</button>
+<div class="dashboard-container">
+  <h2>Saisie des données</h2>
 
+  <div class="dashboard-buttons" >
+    <button class="main-button" (click)=goToEnergie()>
+      ✏️ Renseigner année courante
+    </button>
 
+    <div class="main-button year-selector-button">
+      ✏️ Modifier une autre année
+      <select [(ngModel)]="currentYear">
+        <option *ngFor="let y of [2024, 2023, 2022]">{{ y }}</option>
+      </select>
+    </div>
+  </div>
+
+  <p class="subtitle">
+    État d’avancement de la saisie des données de l’année courante
+  </p>
+
+  <div class="status-grid">
+    <div class="column">
+      <div class="row" *ngFor="let onglet of onglets.slice(0, 6)">
+        <span class="icon" [ngClass]="onglet.status ? 'green' : 'red'">
+          {{ onglet.status ? '✅' : '❌' }}
+        </span>
+        {{ onglet.label }}
+        <span class="edit" (click)="goToSaisie(onglet.path)">✏️</span>
+      </div>
+    </div>
+    <div class="column">
+      <div class="row" *ngFor="let onglet of onglets.slice(6)">
+        <span class="icon" [ngClass]="onglet.status ? 'green' : 'red'">
+          {{ onglet.status ? '✅' : '❌' }}
+        </span>
+        {{ onglet.label }}
+        <span class="edit" (click)="goToSaisie(onglet.path)">✏️</span>
+      </div>
+    </div>
+  </div>
+</div>

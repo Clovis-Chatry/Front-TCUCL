@@ -86,4 +86,8 @@ export class DechetsSaisieDonneesPageComponent implements OnInit {
       console.error('ID ou Token manquant');
     }
   }
+
+  updateConso(): void {
+    console.log('Mise à jour des champs de déchets :', this.items);
+  }
 }

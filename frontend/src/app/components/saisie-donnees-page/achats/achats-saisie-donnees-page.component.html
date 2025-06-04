@@ -40,7 +40,7 @@
     <label><input type="radio" name="hasBilanCarbone" [(ngModel)]="items.hasBilanCarbone" [value]="false" /> Non</label>
 
     <div *ngIf="items.hasBilanCarbone">
-      <label>Bilan carbone total :
+      <label>Bilan carbone total (en tonnes de CO2):
         <input type="number" [(ngModel)]="items.bilanCarboneTotal" />
       </label>
     </div>
