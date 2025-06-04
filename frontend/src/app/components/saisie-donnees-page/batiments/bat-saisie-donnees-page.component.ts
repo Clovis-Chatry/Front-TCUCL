@@ -296,7 +296,6 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     } else {
       this.renovationsCourantes.splice(index, 1);
     }
-    this.renovationsCourantes.splice(index, 1);
   }
 
   supprimerMobilier(index: number): void {
