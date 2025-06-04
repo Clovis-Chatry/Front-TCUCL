@@ -68,15 +68,36 @@
 
   <div *ngIf="batimentsAjoutes.length > 0">
     <h3>Liste des bâtiments saisis</h3>
-      <tr *ngFor="let bat of batimentsAjoutes; let i = index">
-        <h3>{{ bat.nom_ou_adresse }}</h3>
-        <p>Date construction : {{ bat.dateConstruction }}</p>
-        <p>Dernière rénovation : {{ bat.dateDerniereGrosseRenovation }}</p>
-        <p>ACV réalisé : {{ bat.acvBatimentRealisee ? 'oui' : 'non' }}</p>
-        <p>Émissions GES : {{ bat.emissionsGesReellesTCO2 }} TCO2</p>
-        <p>Type / Surface / Structure : {{ getLibelleTypeBatiment(bat.typeBatiment) }} / {{ bat.surfaceEnM2 }} m² / {{ getLibelleTypeStructure(bat.typeStructure) }}</p>
-        <button (click)="supprimerBatiment(i)">Supprimer</button>
-      </tr>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Nom / Adresse</th>
+          <th>Date construction</th>
+          <th>Dernière rénovation</th>
+          <th>ACV</th>
+          <th>Émissions GES</th>
+          <th>Type</th>
+          <th>Surface (m²)</th>
+          <th>Structure</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let bat of batimentsAjoutes; let i = index">
+          <td>{{ bat.nom_ou_adresse }}</td>
+          <td>{{ bat.dateConstruction }}</td>
+          <td>{{ bat.dateDerniereGrosseRenovation }}</td>
+          <td>{{ bat.acvBatimentRealisee ? 'oui' : 'non' }}</td>
+          <td>{{ bat.emissionsGesReellesTCO2 }}</td>
+          <td>{{ getLibelleTypeBatiment(bat.typeBatiment) }}</td>
+          <td>{{ bat.surfaceEnM2 }}</td>
+          <td>{{ getLibelleTypeStructure(bat.typeStructure) }}</td>
+          <td>
+            <button (click)="supprimerBatiment(i)">🗑️</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   <hr />
 
@@ -122,15 +143,32 @@
 
   <div *ngIf="renovationsCourantes.length > 0">
     <h3>Liste des entretiens et rénovations saisis</h3>
-    <tr *ngFor="let reno of renovationsCourantes; let i = index">
-      <h3>{{ reno.nom_ou_adresse }}</h3>
-      <p>Type de travaux : {{ getLibelleTypeTravaux(reno.typeTravaux) }}</p>
-      <p>Date des travaux : {{ reno.dateTravaux }}</p>
-      <p>Type de bâtiment : {{ getLibelleTypeBatiment(reno.typeBatiment) }}</p>
-      <p>Surface en m2 : {{ reno.surfaceConcernee }} </p>
-      <p>Durée amortissement en années: {{ reno.dureeAmortissement }} </p>
-      <button (click)="supprimerRenovation(i)">Supprimer</button>
-    </tr>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Nom / Adresse</th>
+          <th>Type de travaux</th>
+          <th>Date des travaux</th>
+          <th>Type de bâtiment</th>
+          <th>Surface (m²)</th>
+          <th>Durée amortissement</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reno of renovationsCourantes; let i = index">
+          <td>{{ reno.nom_ou_adresse }}</td>
+          <td>{{ getLibelleTypeTravaux(reno.typeTravaux) }}</td>
+          <td>{{ reno.dateTravaux }}</td>
+          <td>{{ getLibelleTypeBatiment(reno.typeBatiment) }}</td>
+          <td>{{ reno.surfaceConcernee }}</td>
+          <td>{{ reno.dureeAmortissement }}</td>
+          <td>
+            <button (click)="supprimerRenovation(i)">🗑️</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   <hr />
 
@@ -163,20 +201,29 @@
   </details>
 
   <div *ngIf="mobiliersAjoutes.length > 0">
-    <h3>Liste des entretiens et rénovations saisis</h3>
-    <tr *ngFor="let mobilier of mobiliersAjoutes; let i = index">
-      <h3>{{ getLibelleTypeMobilier(mobilier.mobilier) }}</h3>
-      <p>Quantité : {{ mobilier.quantite }}</p>
-      <p>Poids du mobilier en kg : {{mobilier.poidsDuProduit }}</p>
-      <p>Durée amortissement en années: {{ mobilier.dureeAmortissement }} </p>
-      <button (click)="supprimerRenovation(i)">Supprimer</button>
-    </tr>
+    <h3>Liste du mobilier saisi</h3>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Mobilier</th>
+          <th>Quantité</th>
+          <th>Poids (kg)</th>
+          <th>Durée amortissement</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let mobilier of mobiliersAjoutes; let i = index">
+          <td>{{ getLibelleTypeMobilier(mobilier.mobilier) }}</td>
+          <td>{{ mobilier.quantite }}</td>
+          <td>{{ mobilier.poidsDuProduit }}</td>
+          <td>{{ mobilier.dureeAmortissement }}</td>
+          <td>
+            <button (click)="supprimerMobilier(i)">🗑️</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   <hr />
-
-  <div *ngFor="let mob of mobiliersAjoutes; let i = index">
-    <h3>{{ mob.type }}</h3>
-    <p>{{ mob.nombre }} x {{ mob.poids }} kg - {{ mob.dureeAmortissement }} ans</p>
-    <button (click)="supprimerMobilier(i)">Supprimer</button>
-  </div>
 </div>
