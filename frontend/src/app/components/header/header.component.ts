@@ -20,6 +20,7 @@ export class HeaderComponent {
   nom = signal('');
   prenom = signal('');
   entite = signal('');
+  entiteId = signal('');
 
   dropdownOpen = false;
   isLoggedIn = this.authService.isAuthenticated; // signal directement
@@ -32,6 +33,7 @@ export class HeaderComponent {
         this.nom.set(user.nom ?? '');
         this.prenom.set(user.prenom ?? '');
         this.entite.set(user.entiteNom ?? '');
+        this.entiteId.set(user.entiteID ?? 0);
       }
     });
   }

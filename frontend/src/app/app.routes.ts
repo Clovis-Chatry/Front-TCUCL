@@ -40,7 +40,6 @@ import {
   BatimentsSaisieDonneesPageComponent
 } from './components/saisie-donnees-page/batiments/bat-saisie-donnees-page.component';
 
-
 export const routes: Routes = [
   {
     path: '',
@@ -70,19 +69,19 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
-    path: 'emissionsFugitivesOnglet/:id',
+    path: 'emissionFugitiveOnglet/:id',
     component: EmissFugiSaisieDonneesPageComponent,
     data: { showSaisieHeader: true },
     canActivate: [authGuard]
   },
   {
-    path: 'dechetsOnglet/:id',
+    path: 'dechetOnglet/:id',
     component: DechetSaisieDonneesPageComponent,
     data: {showSaisieHeader: true},
     canActivate: [authGuard],
   },
   {
-    path: 'mobiliteDomTravOnglet/:id',
+    path: 'mobiliteDomicileTravailOnglet/:id',
     component: DomTravSaisieDonneesPageComponent,
     data: {showSaisieHeader: true},
     canActivate: [authGuard],
@@ -94,13 +93,13 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
-    path: 'achatsOnglet/:id',
+    path: 'achatOnglet/:id',
     component: AchatsSaisieDonneesPageComponent,
     data: { showSaisieHeader: true },
     canActivate: [authGuard]
   },
   {
-    path: 'immobOnglet/:id',
+    path: 'autreImmobilisationOnglet/:id',
     component: AutreImmobilisationPageComponent,
     data: { showSaisieHeader: true },
     canActivate: [authGuard]
@@ -112,25 +111,25 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
-    path: 'autoOnglet/:id',
+    path: 'vehiculeOnglet/:id',
     component: AutoSaisieDonneesPageComponent,
     data: { showSaisieHeader: true },
     canActivate: [authGuard]
   },
   {
-    path: 'parkOnglet/:id',
+    path: 'parkingVoirieOnglet/:id',
     component: ParkSaisieDonneesPageComponent,
     data: { showSaisieHeader: true },
     canActivate: [authGuard]
   },
   {
-    path: 'mobiliteInternationaleOnglet/:id',
+    path: 'mobInternationalOnglet/:id',
     data: { showSaisieHeader: true },
     component: MobiliteInternationaleSaisieDonneesPageComponent,
     canActivate: [authGuard]
   },
   {
-    path: 'batimentsOnglet/:id',
+    path: 'batimentImmobilisationMobilierOnglet/:id',
     data: { showSaisieHeader: true },
     component: BatimentsSaisieDonneesPageComponent,
     canActivate: [authGuard]

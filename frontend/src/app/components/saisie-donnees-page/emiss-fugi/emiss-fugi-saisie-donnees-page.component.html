@@ -1,6 +1,5 @@
 <div class="main-container">
   <div class="left-panel">
-    <h2>Émissions fugitives</h2>
     <div class="container">
       <!-- Message d'erreur -->
       <div *ngIf="hasError" class="no-data-message">
@@ -32,8 +31,8 @@
                 </div>
               </td>
               <td>
-                <div class="text-ellipsis" [title]="machine.typeFluideLabel">
-                  {{ machine.typeFluideLabel }}
+                <div class="text-ellipsis" [title]="getLibelleTypeFluide(machine.typeFluide)">
+                  {{ getLibelleTypeFluide(machine.typeFluide) }}
                 </div>
               </td>
               <td>
