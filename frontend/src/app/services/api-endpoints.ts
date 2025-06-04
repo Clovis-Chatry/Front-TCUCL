@@ -1,6 +1,10 @@
 const BASE_URL = 'http://localhost:8080';
 
 export const ApiEndpoints = {
+  Onglets: {
+    getAllIds: (entiteId: number) => `${BASE_URL}/general/${entiteId}`
+  },
+
   EnergieOnglet: {
     getById: (id: string) => `${BASE_URL}/energieOnglet/${id}`,
     updateConso: (id: string) => `${BASE_URL}/energieOnglet/${id}`,
@@ -14,18 +18,18 @@ export const ApiEndpoints = {
   },
 
   DomTravOnglet: {
-    getById: (id: string) => `${BASE_URL}/mobiliteDomicileTravailOnglet/23`,
-    update: (id: string) => `${BASE_URL}/mobiliteDomicileTravailOnglet/23`,
+    getById: (id: string) => `${BASE_URL}/mobiliteDomicileTravailOnglet/${id}`,
+    update: (id: string) => `${BASE_URL}/mobiliteDomicileTravailOnglet/${id}`,
   },
 
   AutreMobFrOnglet: {
-    getById: (id: string) => `${BASE_URL}/autreMobFrOnglet/16`,
-    update: (id: string) => `${BASE_URL}/autreMobFrOnglet/16`,
+    getById: (id: string) => `${BASE_URL}/autreMobFrOnglet/${id}`,
+    update: (id: string) => `${BASE_URL}/autreMobFrOnglet/${id}`,
   },
 
   DechetsOnglet: {
-    getById: (id: string) => `${BASE_URL}/dechetOnglet/5`,
-    update: (id: string) => `${BASE_URL}/dechetOnglet/5`,
+    getById: (id: string) => `${BASE_URL}/dechetOnglet/${id}`,
+    update: (id: string) => `${BASE_URL}/dechetOnglet/${id}`,
   },
 
   AchatsOnglet: {
@@ -49,15 +53,16 @@ MobiliteInternationaleOnglet: {
   update: (id: string) => `${BASE_URL}/mobiliteInternationaleOnglet/${id}`
 },
 BatimentsOnglet: {
-  getBatimentImmobilisationMobilier: (id: string) => `${BASE_URL}/batimentImmobilisationMobilierOnglet/55`,
-  ajouterBatiment: (id: string) => `${BASE_URL}/batimentImmobilisationMobilierOnglet/55/batimentExistantOuNeufConstruit`,
-  supprimerBatiment: (id: string) => `${BASE_URL}/batimentImmobilisationMobilierOnglet/55/batimentExistantOuNeufConstruit/${id}`,
+  getBatimentImmobilisationMobilier: (id: string) =>
+    `${BASE_URL}/batimentImmobilisationMobilierOnglet/${id}`,
+  ajouterBatiment: (id: string) => `${BASE_URL}/batimentImmobilisationMobilierOnglet/${id}/batimentExistantOuNeufConstruit`,
+  supprimerBatiment: (tabId: string, batimentId: string) => `${BASE_URL}/batimentImmobilisationMobilierOnglet/${tabId}/batimentExistantOuNeufConstruit/${batimentId}`,
 
-  ajouterEntretien: (id: string) => `${BASE_URL}/batimentImmobilisationMobilierOnglet/55/entretienCourant`,
-  supprimerEntretien: (id: string) => `${BASE_URL}/batimentImmobilisationMobilierOnglet/55/entretienCourant/${id}`,
+  ajouterEntretien: (id: string) => `${BASE_URL}/batimentImmobilisationMobilierOnglet/${id}/entretienCourant`,
+  supprimerEntretien: (tabId: string, entretienId: string) => `${BASE_URL}/batimentImmobilisationMobilierOnglet/${tabId}/entretienCourant/${entretienId}`,
 
-  ajouterMobilier: (id: string) => `${BASE_URL}/batimentImmobilisationMobilierOnglet/55/mobilierElectromenager`,
-  supprimerMobilier: (id: string) => `${BASE_URL}/batimentImmobilisationMobilierOnglet/55/mobilierElectromenager/${id}`,
+  ajouterMobilier: (id: string) => `${BASE_URL}/batimentImmobilisationMobilierOnglet/${id}/mobilierElectromenager`,
+  supprimerMobilier: (tabId: string, mobilierId: string) => `${BASE_URL}/batimentImmobilisationMobilierOnglet/${tabId}/mobilierElectromenager/${mobilierId}`,
 },
 AutoOnglet: {
   getById: (id: string) => `${BASE_URL}/autoOnglet/${id}`,
