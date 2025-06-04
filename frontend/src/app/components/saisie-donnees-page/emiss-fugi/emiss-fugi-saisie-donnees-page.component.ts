@@ -1,13 +1,13 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
-import { AuthService } from '../../../services/auth.service';
-import { EmmissionsFugtivesService } from './emiss-fugi.service';
-import { FormsModule } from '@angular/forms';
-import { TypeFluide } from '../../../models/enums/typeFluide.enum';
-import { TypeMachineEnum } from '../../../models/enums/typeMachine.enum';
-import { TypeFluideLabels } from '../../../models/typeFluide-label';
-import { TypeMachineLabels} from '../../../models/type-machine-labels'
+import {Component, inject, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {ActivatedRoute} from '@angular/router';
+import {AuthService} from '../../../services/auth.service';
+import {EmmissionsFugtivesService} from './emiss-fugi.service';
+import {FormsModule} from '@angular/forms';
+import {TypeFluide} from '../../../models/enums/typeFluide.enum';
+import {TypeMachineEnum} from '../../../models/enums/typeMachine.enum';
+import {TypeFluideLabels} from '../../../models/typeFluide-label';
+import {TypeMachineLabels} from '../../../models/type-machine-labels'
 
 @Component({
   selector: 'app-saisie-donnees-page',
@@ -142,7 +142,6 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
       'Authorization': `Bearer ${token}` // Ajoute le token d'authentification
     };
 
-    console.log(machineToAdd);
     this.emmissionsFugtivesService.addMachine(this.emmissionFugitiveOngletId, machineToAdd, headers).subscribe(() => {
       this.loadMachines();
       this.resetForm();

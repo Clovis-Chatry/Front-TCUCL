@@ -5,7 +5,7 @@
     <summary><strong>Saisir un nouveau bâtiment</strong></summary>
 
     <label>Nom / Adresse :
-      <input type="text" [(ngModel)]="nouveauBatiment.nom" />
+      <input type="text" [(ngModel)]="nouveauBatiment.nom_ou_adresse" />
     </label>
 
     <label>Date de construction :
@@ -28,46 +28,56 @@
       </label>
 
       <label>Date de la dernière rénovation complète :
-        <input type="date" [(ngModel)]="nouveauBatiment.dateRenoComplete" />
+        <input type="date" [(ngModel)]="nouveauBatiment.dateDerniereGrosseRenovation" />
       </label>
     </div>
 
     <label>Avez-vous une ACV de ce bâtiment ?
-      <select [(ngModel)]="nouveauBatiment.acvConnu">
+      <select [(ngModel)]="nouveauBatiment.acvBatimentRealisee">
         <option [ngValue]="true">Oui</option>
         <option [ngValue]="false">Non</option>
       </select>
     </label>
 
-    <label *ngIf="nouveauBatiment.acvConnu">Émissions de GES réelles (tCO2e/an) :
-      <input type="number" [(ngModel)]="nouveauBatiment.gesReel" />
+    <label *ngIf="nouveauBatiment.acvBatimentRealisee">Émissions de GES réelles (tCO2e/an) :
+      <input type="number" [(ngModel)]="nouveauBatiment.emissionsGesReellesTCO2" />
     </label>
 
     <label>Type de bâtiment :
-      <input type="text" [(ngModel)]="nouveauBatiment.type" />
+      <select [(ngModel)]="nouveauBatiment.typeBatiment">
+        <option *ngFor="let type of batimentTypesLibelles" [ngValue]="type.value">
+          {{ type.label }}
+        </option>
+      </select>
     </label>
 
     <label>Surface (m²) :
-      <input type="number" [(ngModel)]="nouveauBatiment.surface" />
+      <input type="number" [(ngModel)]="nouveauBatiment.surfaceEnM2" />
     </label>
 
     <label>Type de structure :
-      <input type="text" [(ngModel)]="nouveauBatiment.structure" />
+      <select [(ngModel)]="nouveauBatiment.typeStructure">
+        <option *ngFor="let structure of structureTypesLibelles" [ngValue]="structure.value">
+          {{ structure.label }}
+        </option>
+      </select>
     </label>
 
     <button (click)="ajouterBatiment()">Ajouter ce bâtiment</button>
   </details>
 
-  <div *ngFor="let bat of batimentsAjoutes; let i = index">
-    <h3>{{ bat.nom }}</h3>
-    <p>Date construction : {{ bat.dateConstruction }}</p>
-    <p>Dernière rénovation : {{ bat.dateRenoComplete }}</p>
-    <p>ACV réalisé : {{ bat.acvConnu ? 'oui' : 'non' }}</p>
-    <p>Émissions GES : {{ bat.gesReel }} TCO2</p>
-    <p>Type / Surface / Structure : {{ bat.type }} / {{ bat.surface }} m² / {{ bat.structure }}</p>
-    <button (click)="supprimerBatiment(i)">Supprimer</button>
+  <div *ngIf="batimentsAjoutes.length > 0">
+    <h3>Liste des bâtiments saisis</h3>
+      <tr *ngFor="let bat of batimentsAjoutes; let i = index">
+        <h3>{{ bat.nom_ou_adresse }}</h3>
+        <p>Date construction : {{ bat.dateConstruction }}</p>
+        <p>Dernière rénovation : {{ bat.dateDerniereGrosseRenovation }}</p>
+        <p>ACV réalisé : {{ bat.acvBatimentRealisee ? 'oui' : 'non' }}</p>
+        <p>Émissions GES : {{ bat.emissionsGesReellesTCO2 }} TCO2</p>
+        <p>Type / Surface / Structure : {{ getLibelleTypeBatiment(bat.typeBatiment) }} / {{ bat.surfaceEnM2 }} m² / {{ getLibelleTypeStructure(bat.typeStructure) }}</p>
+        <button (click)="supprimerBatiment(i)">Supprimer</button>
+      </tr>
   </div>
-
   <hr />
 
   <!-- Section 2 : Entretien et rénovations -->
@@ -76,11 +86,15 @@
     <summary><strong>Saisir une rénovation ponctuelle</strong></summary>
 
     <label>Nom du bâtiment :
-      <input type="text" [(ngModel)]="nouvelleReno.nomBatiment" />
+      <input type="text" [(ngModel)]="nouvelleReno.nom_adresse" />
     </label>
 
     <label>Type de travaux :
-      <input type="text" [(ngModel)]="nouvelleReno.typeTravaux" />
+      <select [(ngModel)]="nouvelleReno.typeTravaux">
+        <option *ngFor="let travaux of travauxTypesLibelles" [ngValue]="travaux.value">
+          {{ travaux.label }}
+        </option>
+      </select>
     </label>
 
     <label>Date des travaux :
@@ -88,27 +102,36 @@
     </label>
 
     <label>Type de bâtiment :
-      <input type="text" [(ngModel)]="nouvelleReno.typeBatiment" />
+      <select [(ngModel)]="nouvelleReno.typeBatiment">
+        <option *ngFor="let type of batimentTypesLibelles" [ngValue]="type.value">
+          {{ type.label }}
+        </option>
+      </select>
     </label>
 
     <label>Surface (m²) :
-      <input type="number" [(ngModel)]="nouvelleReno.surface" />
+      <input type="number" [(ngModel)]="nouvelleReno.surfaceConcernee" />
     </label>
 
-    <label>Durée amortissement (années):
+    <label>Durée amortissement (année) :
       <input type="number" [(ngModel)]="nouvelleReno.dureeAmortissement" />
     </label>
 
-    <button (click)="ajouterRenovation()">Ajouter cette rénovation</button>
+    <button (click)="ajouterEntretien()">Ajouter cette rénovation</button>
   </details>
 
-  <div *ngFor="let reno of renovationsCourantes; let i = index">
-    <h3>{{ reno.nomBatiment }}</h3>
-    <p>{{ reno.typeTravaux }} - {{ reno.dateTravaux }}</p>
-    <p>{{ reno.typeBatiment }} - {{ reno.surface }} m² - {{ reno.dureeAmortissement }} ans</p>
-    <button (click)="supprimerRenovation(i)">Supprimer</button>
+  <div *ngIf="renovationsCourantes.length > 0">
+    <h3>Liste des entretiens et rénovations saisis</h3>
+    <tr *ngFor="let reno of renovationsCourantes; let i = index">
+      <h3>{{ reno.nom_ou_adresse }}</h3>
+      <p>Type de travaux : {{ getLibelleTypeTravaux(reno.typeTravaux) }}</p>
+      <p>Date des travaux : {{ reno.dateTravaux }}</p>
+      <p>Type de bâtiment : {{ getLibelleTypeBatiment(reno.typeBatiment) }}</p>
+      <p>Surface en m2 : {{ reno.surfaceConcernee }} </p>
+      <p>Durée amortissement en années: {{ reno.dureeAmortissement }} </p>
+      <button (click)="supprimerRenovation(i)">Supprimer</button>
+    </tr>
   </div>
-
   <hr />
 
   <!-- Section 3 : Mobilier -->
@@ -117,23 +140,39 @@
     <summary><strong>Saisir du mobilier</strong></summary>
 
     <label>Type de mobilier :
-      <input type="text" [(ngModel)]="nouveauMobilier.type" />
+      <select [(ngModel)]="nouveauMobilier.mobilier">
+        <option *ngFor="let type of mobilierTypesLibelles" [ngValue]="type.value">
+          {{ type.label }}
+        </option>
+      </select>
     </label>
 
     <label>Nombre :
-      <input type="number" [(ngModel)]="nouveauMobilier.nombre" />
+      <input type="number" [(ngModel)]="nouveauMobilier.quantite" />
     </label>
 
-    <label>Poids (tonnes):
-      <input type="number" [(ngModel)]="nouveauMobilier.poids" />
+    <label>Poids (kg) :
+      <input type="number" [(ngModel)]="nouveauMobilier.poidsDuProduit" />
     </label>
 
-    <label>Durée amortissement (années):
+    <label>Durée amortissement (année) :
       <input type="number" [(ngModel)]="nouveauMobilier.dureeAmortissement" />
     </label>
 
     <button (click)="ajouterMobilier()">Ajouter ce mobilier</button>
   </details>
+
+  <div *ngIf="mobiliersAjoutes.length > 0">
+    <h3>Liste des entretiens et rénovations saisis</h3>
+    <tr *ngFor="let mobilier of mobiliersAjoutes; let i = index">
+      <h3>{{ getLibelleTypeMobilier(mobilier.mobilier) }}</h3>
+      <p>Quantité : {{ mobilier.quantite }}</p>
+      <p>Poids du mobilier en kg : {{mobilier.poidsDuProduit }}</p>
+      <p>Durée amortissement en années: {{ mobilier.dureeAmortissement }} </p>
+      <button (click)="supprimerRenovation(i)">Supprimer</button>
+    </tr>
+  </div>
+  <hr />
 
   <div *ngFor="let mob of mobiliersAjoutes; let i = index">
     <h3>{{ mob.type }}</h3>
