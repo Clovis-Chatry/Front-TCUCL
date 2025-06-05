@@ -3,18 +3,20 @@
     <h2>Poste numérique</h2>
 
     <p class="question-title">Disposez-vous de données sur le cloud ?</p>
-    <label><input type="radio" name="hasCloud" [(ngModel)]="donneesCloudDisponibles" [value]="true" (change)="updateData()" /> Oui</label>
-    <label><input type="radio" name="hasCloud" [(ngModel)]="donneesCloudDisponibles" [value]="false" (change)="updateData()" /> Non</label>
+    <label><input type="radio" name="hasCloud" [(ngModel)]="donneesCloudDisponibles" [value]="true"
+                  (change)="updateData()"/> Oui</label>
+    <label><input type="radio" name="hasCloud" [(ngModel)]="donneesCloudDisponibles" [value]="false"
+                  (change)="updateData()"/> Non</label>
 
     <div class="card" *ngIf="donneesCloudDisponibles">
       <label for="cloudTraffic">Trafic cloud (Go)</label>
-      <input id="cloudTraffic" type="number" [(ngModel)]="traficCloud" (blur)="updateData()" />
+      <input id="cloudTraffic" type="number" [(ngModel)]="traficCloud" (blur)="updateData()"/>
 
       <label for="tipUtilisateur">TIP utilisateur</label>
-      <input id="tipUtilisateur" type="number" [(ngModel)]="tipUtilisateur" (blur)="updateData()" />
+      <input id="tipUtilisateur" type="number" [(ngModel)]="tipUtilisateur" (blur)="updateData()"/>
     </div>
 
-    <hr />
+    <hr/>
 
     <details>
       <summary><strong>Ajout d’un nouvel équipement numérique</strong></summary>
@@ -28,10 +30,10 @@
         </select>
 
         <label>Quantité</label>
-        <input type="number" [(ngModel)]="nouvelEquipement.nombre" />
+        <input type="number" [(ngModel)]="nouvelEquipement.nombre"/>
 
         <label>Durée d’amortissement (années)</label>
-        <input type="number" [(ngModel)]="nouvelEquipement.dureeAmortissement" />
+        <input type="number" [(ngModel)]="nouvelEquipement.dureeAmortissement"/>
 
         <label>Émissions de GES connues ?</label>
         <select [(ngModel)]="nouvelEquipement.emissionsGesPrecisesConnues">
@@ -40,7 +42,8 @@
         </select>
 
         <label *ngIf="nouvelEquipement.emissionsGesPrecisesConnues">Émissions de GES réelles (kgCO2/équipement)</label>
-        <input *ngIf="nouvelEquipement.emissionsGesPrecisesConnues" type="number" [(ngModel)]="nouvelEquipement.emissionsReellesParProduitKgCO2e" />
+        <input *ngIf="nouvelEquipement.emissionsGesPrecisesConnues" type="number"
+               [(ngModel)]="nouvelEquipement.emissionsReellesParProduitKgCO2e"/>
       </div>
 
       <button type="button" (click)="ajouterEquipement()">Ajouter cet équipement</button>
@@ -50,22 +53,22 @@
       <h3>Équipements numériques ajoutés</h3>
       <table class="data-table">
         <thead>
-          <tr>
-            <th>Type</th>
-            <th>Quantité</th>
-            <th>Amortissement</th>
-            <th>GES Connus</th>
-            <th>GES Réels</th>
-          </tr>
+        <tr>
+          <th>Type</th>
+          <th>Quantité</th>
+          <th>Amortissement</th>
+          <th>GES Connus</th>
+          <th>GES Réels</th>
+        </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let equipement of equipementsAjoutes">
-            <td>{{ numeriqueEquipmentLabels[equipement.equipement as NUMERIQUE_EQUIPEMENT] }}</td>
-            <td>{{ equipement.nombre }}</td>
-            <td>{{ equipement.dureeAmortissement }}</td>
-            <td>{{ equipement.emissionsGesPrecisesConnues ? 'Oui' : 'Non' }}</td>
-            <td>{{ equipement.emissionsReellesParProduitKgCO2e ?? 'N/A' }}</td>
-          </tr>
+        <tr *ngFor="let equipement of equipementsAjoutes">
+          <td>{{ numeriqueEquipmentLabels[equipement.equipement] }}</td>
+          <td>{{ equipement.nombre }}</td>
+          <td>{{ equipement.dureeAmortissement }}</td>
+          <td>{{ equipement.emissionsGesPrecisesConnues ? 'Oui' : 'Non' }}</td>
+          <td>{{ equipement.emissionsReellesParProduitKgCO2e ?? 'N/A' }}</td>
+        </tr>
         </tbody>
       </table>
     </div>
@@ -74,24 +77,24 @@
       <h3>Équipements enregistrés les années précédentes</h3>
       <table class="data-table">
         <thead>
-          <tr>
-            <th>Type</th>
-            <th>Quantité</th>
-            <th>Amortissement</th>
-            <th>GES Connus</th>
-            <th>GES Réels</th>
-            <th>Année</th>
-          </tr>
+        <tr>
+          <th>Type</th>
+          <th>Quantité</th>
+          <th>Amortissement</th>
+          <th>GES Connus</th>
+          <th>GES Réels</th>
+          <th>Année</th>
+        </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let equipement of equipementsAnciens">
-            <td>{{ numeriqueEquipmentLabels[equipement.equipement as NUMERIQUE_EQUIPEMENT] }}</td>
-            <td>{{ equipement.nombre }}</td>
-            <td>{{ equipement.dureeAmortissement }}</td>
-            <td>{{ equipement.emissionsGesPrecisesConnues ? 'Oui' : 'Non' }}</td>
-            <td>{{ equipement.emissionsReellesParProduitKgCO2e ?? 'N/A' }}</td>
-            <td>{{ equipement.anneeAjout }}</td>
-          </tr>
+        <tr *ngFor="let equipement of equipementsAnciens">
+          <td>{{ numeriqueEquipmentLabels[equipement.equipement] }}</td>
+          <td>{{ equipement.nombre }}</td>
+          <td>{{ equipement.dureeAmortissement }}</td>
+          <td>{{ equipement.emissionsGesPrecisesConnues ? 'Oui' : 'Non' }}</td>
+          <td>{{ equipement.emissionsReellesParProduitKgCO2e ?? 'N/A' }}</td>
+          <td>{{ equipement.anneeAjout }}</td>
+        </tr>
         </tbody>
       </table>
     </div>
