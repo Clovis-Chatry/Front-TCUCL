@@ -4,7 +4,6 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {AuthService} from '../../../services/auth.service';
-import {BatimentsService} from './bat.service';
 import {ApiEndpoints} from '../../../services/api-endpoints';
 import {
   EnumBatiment_TypeBatiment,
@@ -28,8 +27,6 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   batimentTypes = Object.values(EnumBatiment_TypeBatiment);
   structureTypes = Object.values(EnumBatiment_TypeStructure);
   travauxTypes = Object.values(EnumBatiment_TypeTravaux);
-
-  constructor(private batimentsService: BatimentsService) { }
 
   batimentTypesLibelles = [
     { value: EnumBatiment_TypeBatiment.NA, label: 'Non renseigné' },
@@ -114,6 +111,15 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     return item ? item.label : mobilier;
   }
 
+  getAuthHeaders(): { [key: string]: string } {
+    const token = this.authService.getToken();
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    };
+  }
+
+
 
   batiments: any[]= [];
   // Parc immobilier (section 1)
@@ -168,23 +174,13 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
+      this.batimentOngletId = params.get('id') || '';
       this.loadData();
     });
   }
 
   loadData(): void {
-    const token = this.authService.getToken();
-
-    if (!token) {
-      console.error("Token d'authentification manquant");
-      return;
-    }
-
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    };
-
+    const headers = this.getAuthHeaders();
     this.http.get<any>(
       ApiEndpoints.BatimentsOnglet.getBatimentImmobilisationMobilier(this.batimentOngletId),
       { headers }
@@ -202,13 +198,8 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   }
 
   ajouterBatiment(): void {
-    const token = this.authService.getToken();
-
+    const headers = this.getAuthHeaders();
     const batimentAAjouter = { ...this.nouveauBatiment}
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}` // Ajoute le token d'authentification
-    };
     this.http.post(ApiEndpoints.BatimentsOnglet.ajouterBatiment(this.batimentOngletId), batimentAAjouter, { headers }).subscribe(() => {
       this.loadData();
       this.resetFormBatiment();
@@ -216,14 +207,9 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   }
 
   ajouterEntretien(): void {
-    const token = this.authService.getToken();
-
     const entretienAAjouter = { ...this.nouvelleReno};
     entretienAAjouter.dateAjout = this.getDateAujourdhui();
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}` // Ajoute le token d'authentification
-    };
+    const headers = this.getAuthHeaders();
     this.http.post(ApiEndpoints.BatimentsOnglet.ajouterEntretien(this.batimentOngletId), entretienAAjouter, { headers }).subscribe(() => {
       this.loadData();
       this.resetFormRenovcation();
@@ -231,15 +217,10 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   }
 
   ajouterMobilier(): void {
-    const token = this.authService.getToken();
-
     const mobilierAAjouter = { ...this.nouveauMobilier};
     mobilierAAjouter.dateAjout = this.getDateAujourdhui();
     // mobilierAAjouter.dateAjout = this.getDateAujourdhui();
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}` // Ajoute le token d'authentification
-    };
+    const headers = this.getAuthHeaders();
     this.http.post(ApiEndpoints.BatimentsOnglet.ajouterMobilier(this.batimentOngletId), mobilierAAjouter, { headers }).subscribe(() => {
       this.loadData();
       this.resetFormMobilier();
@@ -247,17 +228,11 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   }
 
   supprimerBatiment(index: number): void {
-    const token = this.authService.getToken();
-
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    };
-
+    const headers = this.getAuthHeaders();
     const batiment = this.batimentsAjoutes[index];
 
     if (batiment && batiment.id) {
-      this.http.delete(ApiEndpoints.BatimentsOnglet.supprimerBatiment(batiment.id), { headers }).subscribe({
+      this.http.delete(ApiEndpoints.BatimentsOnglet.supprimerBatiment(this.batimentOngletId, batiment.id), { headers }).subscribe({
         next: () => {
           this.batimentsAjoutes.splice(index, 1);
           this.loadData();
@@ -274,17 +249,11 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
 
 
   supprimerRenovation(index: number): void {
-    const token = this.authService.getToken();
-
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    };
-
+    const headers = this.getAuthHeaders();
     const renovation = this.renovationsCourantes[index];
 
     if (renovation && renovation.id) {
-      this.http.delete(ApiEndpoints.BatimentsOnglet.supprimerEntretien(renovation.id), { headers }).subscribe({
+      this.http.delete(ApiEndpoints.BatimentsOnglet.supprimerEntretien(this.batimentOngletId, renovation.id), { headers }).subscribe({
         next: () => {
           this.renovationsCourantes.splice(index, 1);
           this.loadData();
@@ -293,13 +262,25 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
           console.error("Erreur lors de la suppression", err);
         }
       });
-    } else {
-      this.renovationsCourantes.splice(index, 1);
     }
     this.renovationsCourantes.splice(index, 1);
   }
 
   supprimerMobilier(index: number): void {
+    const headers = this.getAuthHeaders();
+    const mobilier = this.mobiliersAjoutes[index];
+
+    if (mobilier && mobilier.id) {
+      this.http.delete(ApiEndpoints.BatimentsOnglet.supprimerMobilier(this.batimentOngletId, mobilier.id), { headers }).subscribe({
+        next: () => {
+          this.mobiliersAjoutes.splice(index, 1);
+          this.loadData();
+        },
+        error: (err) => {
+          console.error("Erreur lors de la suppression", err);
+        }
+      });
+    }
     this.mobiliersAjoutes.splice(index, 1);
   }
 

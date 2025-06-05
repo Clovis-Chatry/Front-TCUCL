@@ -1,7 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { OngletService } from './onglet.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-header-saisie-donnees',
@@ -9,15 +11,25 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './header-saisie-donnees.component.html',
   styleUrls: ['./header-saisie-donnees.component.scss']
 })
-export class HeaderSaisieDonneesComponent {
-  constructor(private router: Router) {
+export class HeaderSaisieDonneesComponent implements OnInit {
+  constructor(private router: Router, private ongletService: OngletService, private auth: AuthService) {
     this.currentYear = new Date().getFullYear();
     this.years = Array.from({ length: this.currentYear - 2018 }, (_, i) => this.currentYear - i);
     this.selectedYear = this.currentYear;
+    const user = this.auth.getUserInfo()();
+    if (user?.entiteId) {
+      this.entiteId = user.entiteId;
+    } else {
+      console.error('Impossible de récupérer l’entiteId de l’utilisateur.');
+    }
   }
 
   @Input() PageTitle: string = '';
   @Input() LogoSrc: string = '';
+  @Input() entiteId!: number; // tu dois fournir ça dans le parent
+
+  ongletIdMap: { [key: string]: number } = {};
+
 
   tabs = ['Energie', 'Emissions fugitives', 'Mobilite dom-trav', 'Autre mob FR', 'Mob internationale', 'Batiments',
     'Parkings', 'Auto', 'Numerique', 'Autre immob', 'Achats', 'Dechets'];
@@ -28,6 +40,21 @@ export class HeaderSaisieDonneesComponent {
   currentYear: number;
   selectedYear: number;
   years: number[] = [];
+
+  ngOnInit(): void {
+    this.loadOngletIds();
+  }
+
+  loadOngletIds(): void {
+    this.ongletService.getOngletIds(this.entiteId, this.selectedYear)?.subscribe({
+      next: (result) => {
+        this.ongletIdMap = result;
+      },
+      error: (err) => {
+        console.error('Erreur récupération onglet IDs:', err);
+      }
+    });
+  }
 
   visibleTabs() {
     return this.tabs.slice(this.startIndex, this.startIndex + this.visibleCount);
@@ -45,27 +72,31 @@ export class HeaderSaisieDonneesComponent {
     }
   }
 
+  goToOnglet(ongletKey: string): void {
+    const ongletId = this.ongletIdMap[ongletKey];
+    if (ongletId) {
+      this.router.navigate([`/${ongletKey}`, ongletId]);
+    } else {
+      console.error(`ID introuvable pour l'onglet ${ongletKey}`);
+    }
+  }
+
   navigateTo(tab: string) {
     this.activeTab = tab;
 
     const urlPart = this.tabToRoute[tab];
-
     if (!urlPart) {
       console.error('Tab non reconnu:', tab);
       return;
     }
 
-    const year = Number(this.selectedYear);
-    const index = this.years.indexOf(year);
-
-
-    if (index === -1) {
-      console.error('Année selectionnée invalide:', this.selectedYear);
+    const ongletId = this.ongletIdMap[urlPart];
+    if (!ongletId) {
+      console.error('ID introuvable pour l\'onglet', urlPart);
       return;
     }
 
-    const id = index.toString();
-    this.router.navigate([`/${urlPart}/${id}`]);
+    this.router.navigate([`/${urlPart}/${ongletId}`]);
   }
 
   navigateToDashboard() {
@@ -78,16 +109,16 @@ export class HeaderSaisieDonneesComponent {
 
   private tabToRoute: { [key: string]: string } = {
     'Energie': 'energieOnglet',
-    'Emissions fugitives': 'emissionsFugitivesOnglet',
-    'Mobilite dom-trav': 'mobiliteDomTravOnglet',
+    'Emissions fugitives': 'emissionFugitiveOnglet',
+    'Mobilite dom-trav': 'mobiliteDomicileTravailOnglet',
     'Autre mob FR': 'autreMobFrOnglet',
-    'Mob internationale': 'mobiliteInternationaleOnglet',
-    'Batiments': 'batimentsOnglet',
-    'Parkings': 'parkOnglet',
-    'Auto': 'autoOnglet',
+    'Mob internationale': 'mobInternationalOnglet',
+    'Batiments': 'batimentImmobilisationMobilierOnglet',
+    'Parkings': 'parkingVoirieOnglet',
+    'Auto': 'vehiculeOnglet',
     'Numerique': 'numeriqueOnglet',
-    'Autre immob': 'immobOnglet',
-    'Achats': 'achatsOnglet',
-    'Dechets': 'dechetsOnglet'
+    'Autre immob': 'autreImmobilisationOnglet',
+    'Achats': 'achatOnglet',
+    'Dechets': 'dechetOnglet'
   };
 }
