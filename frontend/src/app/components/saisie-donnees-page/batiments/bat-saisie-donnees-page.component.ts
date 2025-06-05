@@ -6,6 +6,9 @@ import {CommonModule} from '@angular/common';
 import {AuthService} from '../../../services/auth.service';
 import {ApiEndpoints} from '../../../services/api-endpoints';
 import { SaveFooterComponent } from '../../save-footer/save-footer.component';
+import { BatimentOngletMapperService } from './batiment-onglet-mapper.service';
+import { BatimentOngletModel, BatimentExistantOuNeufConstruit, EntretienCourant, MobilierElectromenager } from '../../../models/batiment.model';
+import { OngletStatusService } from '../../../services/onglet-status.service';
 import {
   EnumBatiment_TypeBatiment,
   EnumBatiment_TypeStructure,
@@ -24,6 +27,8 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
+  private mapper = inject(BatimentOngletMapperService);
+  private statusService = inject(OngletStatusService);
   batimentOngletId: string = '';
   batimentTypes = Object.values(EnumBatiment_TypeBatiment);
   structureTypes = Object.values(EnumBatiment_TypeStructure);
@@ -91,6 +96,8 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     { value: EnumBatiment_TypeMobilier.AUTRE_MOBILIER_EN_TONNES, label: 'Autre mobilier en tonnes' }
   ];
 
+  batimentOnglet: BatimentOngletModel = { batiments: [], entretiens: [], mobiliers: [] };
+
 
   getLibelleTypeBatiment(type: string): string {
     const item = this.batimentTypesLibelles.find(t => t.value === type);
@@ -138,7 +145,6 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     acompleter: ''
   };
 
-  batimentsAjoutes: any[] = [];
 
   // Entretien / rénovations (section 2)
   nouvelleReno: any = {
@@ -151,7 +157,6 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     dureeAmortissement: null
   };
 
-  renovationsCourantes: any[] = [];
 
   // Mobilier (section 3)
   nouveauMobilier: any = {
@@ -162,7 +167,6 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     dureeAmortissement: ''
   };
 
-  mobiliersAjoutes: any[] = [];
 
   getDateAujourdhui(): string {
     const aujourdHui = new Date();
@@ -174,6 +178,10 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.batimentOnglet.estTermine = this.statusService.getStatus('batimentsOnglet');
+    this.statusService.statuses$.subscribe(s => {
+      this.batimentOnglet.estTermine = s['batimentsOnglet'] ?? false;
+    });
     this.route.paramMap.subscribe(params => {
       this.batimentOngletId = params.get('id') || '';
       this.loadData();
@@ -187,10 +195,8 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
       { headers }
     ).subscribe({
       next: (data) => {
-        console.log("Réponse API :", data);
-        this.batimentsAjoutes = data.batimentsExistantOuNeufConstruits || [];
-        this.renovationsCourantes = data.entretiensCourants || [];
-        this.mobiliersAjoutes = data.mobiliers || [];
+        const model = this.mapper.fromDto(data);
+        this.batimentOnglet = model;
       },
       error: (error) => {
         console.error('Erreur lors de la récupération des données :', error);
@@ -230,12 +236,12 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
 
   supprimerBatiment(index: number): void {
     const headers = this.getAuthHeaders();
-    const batiment = this.batimentsAjoutes[index];
+    const batiment = this.batimentOnglet.batiments[index];
 
     if (batiment && batiment.id) {
       this.http.delete(ApiEndpoints.BatimentsOnglet.supprimerBatiment(this.batimentOngletId, batiment.id), { headers }).subscribe({
         next: () => {
-          this.batimentsAjoutes.splice(index, 1);
+          this.batimentOnglet.batiments.splice(index, 1);
           this.loadData();
         },
         error: (err) => {
@@ -244,19 +250,19 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
       });
     } else {
       // Si le bâtiment n'existe pas encore en base (non persisté), on le supprime juste localement
-      this.batimentsAjoutes.splice(index, 1);
-    }
+      this.batimentOnglet.batiments.splice(index, 1);
+  }
   }
 
 
   supprimerRenovation(index: number): void {
     const headers = this.getAuthHeaders();
-    const renovation = this.renovationsCourantes[index];
+    const renovation = this.batimentOnglet.entretiens[index];
 
     if (renovation && renovation.id) {
       this.http.delete(ApiEndpoints.BatimentsOnglet.supprimerEntretien(this.batimentOngletId, renovation.id), { headers }).subscribe({
         next: () => {
-          this.renovationsCourantes.splice(index, 1);
+          this.batimentOnglet.entretiens.splice(index, 1);
           this.loadData();
         },
         error: (err) => {
@@ -268,12 +274,12 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
 
   supprimerMobilier(index: number): void {
     const headers = this.getAuthHeaders();
-    const mobilier = this.mobiliersAjoutes[index];
+    const mobilier = this.batimentOnglet.mobiliers[index];
 
     if (mobilier && mobilier.id) {
       this.http.delete(ApiEndpoints.BatimentsOnglet.supprimerMobilier(this.batimentOngletId, mobilier.id), { headers }).subscribe({
         next: () => {
-          this.mobiliersAjoutes.splice(index, 1);
+          this.batimentOnglet.mobiliers.splice(index, 1);
           this.loadData();
         },
         error: (err) => {
@@ -281,7 +287,21 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
         }
       });
     }
-    this.mobiliersAjoutes.splice(index, 1);
+    this.batimentOnglet.mobiliers.splice(index, 1);
+  }
+
+  onEstTermineChange(value: boolean): void {
+    this.batimentOnglet.estTermine = value;
+    this.updateData();
+  }
+
+  updateData(): void {
+    if (!this.batimentOngletId) return;
+    const headers = this.getAuthHeaders();
+    const payload = this.mapper.toDto(this.batimentOnglet);
+    this.http.patch(ApiEndpoints.BatimentsOnglet.update(this.batimentOngletId), payload, { headers }).subscribe({
+      error: err => console.error('Erreur mise à jour batiments', err)
+    });
   }
 
   resetFormBatiment() {

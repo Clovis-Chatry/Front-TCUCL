@@ -6,38 +6,28 @@
       <thead>
         <tr><th>Élément</th><th>Unité</th><th>Quantité</th></tr>
       </thead>
-      <tbody>
-        <tr><td>Papier (ramettes)</td><td><input type="number" [(ngModel)]="items.papierCons" /></td><td>Tonnes</td></tr>
-        <tr><td>Livres</td><td><input type="number" [(ngModel)]="items.livresCons" /></td><td>Tonnes</td></tr>
-        <tr><td>Carton neuf</td><td><input type="number" [(ngModel)]="items.cartonNeufCons" /></td><td>Tonnes</td></tr>
-        <tr><td>Carton recycle</td><td><input type="number" [(ngModel)]="items.cartonRecycleCons" /></td><td>Tonnes</td></tr>
-        <tr><td>Petites fournitures</td><td><input type="number" [(ngModel)]="items.fournituresCons" /></td><td>€</td></tr>
-        <tr><td>Impressions jet d'encre</td><td><input type="number" [(ngModel)]="items.jetEncreConsTonnes" /></td><td>Tonnes</td></tr>
-        <tr><td>Impressions jet d'encre</td><td><input type="number" [(ngModel)]="items.jetEncreConsRamettes" /></td><td>Nb de ramettes</td></tr>
-        <tr><td>Impressions toner</td><td><input type="number" [(ngModel)]="items.tonerConsTonnes" /></td><td>Tonnes</td></tr>
-        <tr><td>Impressions toner</td><td><input type="number" [(ngModel)]="items.tonerConsRamettes" /></td><td>Nb de ramettes</td></tr>
-        <tr><td>Produits pharmaceutiques</td><td><input type="number" [(ngModel)]="items.pharmaCons" /></td><td>€</td></tr>
-      </tbody>
-    </table>
+        <tbody>
+          <tr *ngFor="let field of consommablesFields">
+            <td>{{ field.label }}</td>
+            <td><input type="number" [(ngModel)]="items[field.key]" (blur)="updateAchat()" /></td>
+            <td>{{ field.unit }}</td>
+          </tr>
+        </tbody>
+      </table>
 
     <h2>Poste textile</h2>
     <table class="data-table">
       <thead>
         <tr><th>Élément</th><th>Unité</th><th>Quantité</th></tr>
       </thead>
-      <tbody>
-        <tr><td>Papier (ramettes)</td><td><input type="number" [(ngModel)]="items.papierTextile" /></td><td>Tonnes</td></tr>
-        <tr><td>Livres</td><td><input type="number" [(ngModel)]="items.livresTextile" /></td><td>Tonnes</td></tr>
-        <tr><td>Carton neuf</td><td><input type="number" [(ngModel)]="items.cartonNeufTextile" /></td><td>Tonnes</td></tr>
-        <tr><td>Carton recycle</td><td><input type="number" [(ngModel)]="items.cartonRecycleTextile" /></td><td>Tonnes</td></tr>
-        <tr><td>Petites fournitures</td><td><input type="number" [(ngModel)]="items.fournituresTextile" /></td><td>€</td></tr>
-        <tr><td>Impressions jet d'encre</td><td><input type="number" [(ngModel)]="items.jetEncreTextileTonnes" /></td><td>Tonnes</td></tr>
-        <tr><td>Impressions jet d'encre</td><td><input type="number" [(ngModel)]="items.jetEncreTextileRamettes" /></td><td>Nb de ramettes</td></tr>
-        <tr><td>Impressions toner</td><td><input type="number" [(ngModel)]="items.tonerTextileTonnes" /></td><td>Tonnes</td></tr>
-        <tr><td>Impressions toner</td><td><input type="number" [(ngModel)]="items.tonerTextileRamettes" /></td><td>Nb de ramettes</td></tr>
-        <tr><td>Produits pharmaceutiques</td><td><input type="number" [(ngModel)]="items.pharmaTextile" /></td><td>€</td></tr>
-      </tbody>
-    </table>
+        <tbody>
+          <tr *ngFor="let field of textileFields">
+            <td>{{ field.label }}</td>
+            <td><input type="number" [(ngModel)]="items[field.key]" (blur)="updateAchat()" /></td>
+            <td>{{ field.unit }}</td>
+          </tr>
+        </tbody>
+      </table>
 
     <h2>Poste restauration</h2>
     <p>Avez-vous déjà calculé le bilan carbone du poste restauration ?</p>
@@ -60,26 +50,14 @@
           <thead>
             <tr><th>Aliment</th><th>Poids en tonne</th><th>Émissions GES (TCO2e/an)</th></tr>
           </thead>
-          <tbody>
-            <tr><td>Boeuf/agneau/mouton</td><td><input type="number" [(ngModel)]="items.boeufAgneauMouton" /></td><td class="readonly-cell"></td></tr>
-            <tr><td>Poulet</td><td><input type="number" [(ngModel)]="items.poulet" /></td><td class="readonly-cell"></td></tr>
-            <tr><td>Café</td><td><input type="number" [(ngModel)]="items.cafe" /></td><td class="readonly-cell"></td></tr>
-            <tr><td>Chocolat</td><td><input type="number" [(ngModel)]="items.chocolat" /></td><td class="readonly-cell"></td></tr>
-            <tr><td>Beurre</td><td><input type="number" [(ngModel)]="items.beurre" /></td><td class="readonly-cell"></td></tr>
-            <tr><td>Viandes – moyenne</td><td><input type="number" [(ngModel)]="items.viandesMoyenne" /></td><td class="readonly-cell"></td></tr>
-            <tr><td>Produits sucrés – moyenne</td><td><input type="number" [(ngModel)]="items.sucresMoyenne" /></td><td class="readonly-cell"></td></tr>
-            <tr><td>Poissons – moyenne</td><td><input type="number" [(ngModel)]="items.poissonsMoyenne" /></td><td class="readonly-cell"></td></tr>
-            <tr><td>Fromages – moyenne</td><td><input type="number" [(ngModel)]="items.fromagesMoyenne" /></td><td class="readonly-cell"></td></tr>
-            <tr><td>Oléagineux – moyenne</td><td><input type="number" [(ngModel)]="items.oleagineuxMoyenne" /></td><td class="readonly-cell"></td></tr>
-            <tr><td>Matières grasses – moyenne</td><td><input type="number" [(ngModel)]="items.matieresGrassesMoyenne" /></td><td class="readonly-cell"></td></tr>
-            <tr><td>Boissons – moyenne</td><td><input type="number" [(ngModel)]="items.boissonsMoyenne" /></td><td class="readonly-cell"></td></tr>
-            <tr><td>Œufs</td><td><input type="number" [(ngModel)]="items.oeufs" /></td><td class="readonly-cell"></td></tr>
-            <tr><td>Céréales – moyenne</td><td><input type="number" [(ngModel)]="items.cerealesMoyenne" /></td><td class="readonly-cell"></td></tr>
-            <tr><td>Légumes – moyenne</td><td><input type="number" [(ngModel)]="items.legumesMoyenne" /></td><td class="readonly-cell"></td></tr>
-            <tr><td>Fruits – moyenne</td><td><input type="number" [(ngModel)]="items.fruitsMoyenne" /></td><td class="readonly-cell"></td></tr>
-            <tr><td>Légumineuse – moyenne</td><td><input type="number" [(ngModel)]="items.legumineuseMoyenne" /></td><td class="readonly-cell"></td></tr>
-          </tbody>
-        </table>
+            <tbody>
+              <tr *ngFor="let field of alimentsFields">
+                <td>{{ field.label }}</td>
+                <td><input type="number" [(ngModel)]="items[field.key]" (blur)="updateAchat()" /></td>
+                <td class="readonly-cell"></td>
+              </tr>
+            </tbody>
+          </table>
       </div>
 
       <div *ngIf="items.connaitQuantiteAliments === false">
@@ -93,14 +71,11 @@
               <tr><th>Type de repas</th><th>Nombre de repas</th><th>Émissions GES (TCO2e/an)</th></tr>
             </thead>
             <tbody>
-              <tr><td>Nombre de repas servis – dominante animale boeuf</td><td><input type="number" [(ngModel)]="items.repasAnimalBoeuf" /></td><td class="readonly-cell"></td></tr>
-              <tr><td>Nombre de repas servis – dominante animale poulet</td><td><input type="number" [(ngModel)]="items.repasAnimalPoulet" /></td><td class="readonly-cell"></td></tr>
-              <tr><td>Nombre de repas servis – dominante végétale boeuf</td><td><input type="number" [(ngModel)]="items.repasVegetaleBoeuf" /></td><td class="readonly-cell"></td></tr>
-              <tr><td>Nombre de repas servis – dominante végétale poulet</td><td><input type="number" [(ngModel)]="items.repasVegetalePoulet" /></td><td class="readonly-cell"></td></tr>
-              <tr><td>Nombre de repas servis – dominante classique boeuf</td><td><input type="number" [(ngModel)]="items.repasClassiqueBoeuf" /></td><td class="readonly-cell"></td></tr>
-              <tr><td>Nombre de repas servis – dominante classique poulet</td><td><input type="number" [(ngModel)]="items.repasClassiquePoulet" /></td><td class="readonly-cell"></td></tr>
-              <tr><td>Nombre de repas servis – repas moyen</td><td><input type="number" [(ngModel)]="items.repasMoyen" /></td><td class="readonly-cell"></td></tr>
-              <tr><td>Nombre de repas servis – repas végétarien</td><td><input type="number" [(ngModel)]="items.repasVegetarien" /></td><td class="readonly-cell"></td></tr>
+              <tr *ngFor="let field of repasFields">
+                <td>{{ field.label }}</td>
+                <td><input type="number" [(ngModel)]="items[field.key]" (blur)="updateAchat()" /></td>
+                <td class="readonly-cell"></td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -108,4 +83,4 @@
     </div>
   </div>
 </div>
-<app-save-footer></app-save-footer>
+<app-save-footer [path]="'achatsOnglet'" (estTermineChange)="onEstTermineChange($event)"></app-save-footer>
