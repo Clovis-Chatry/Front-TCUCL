@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, ElementRef, ViewChild, ViewChildren, QueryList, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { OngletService } from './onglet.service';
 import { CommonModule } from '@angular/common';
@@ -11,7 +11,7 @@ import {AuthService} from '../../services/auth.service';
   templateUrl: './header-saisie-donnees.component.html',
   styleUrls: ['./header-saisie-donnees.component.scss']
 })
-export class HeaderSaisieDonneesComponent implements OnInit {
+export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
   constructor(private router: Router, private ongletService: OngletService, private auth: AuthService) {
     this.currentYear = new Date().getFullYear();
     this.years = Array.from({ length: this.currentYear - 2018 }, (_, i) => this.currentYear - i);
@@ -41,8 +41,36 @@ export class HeaderSaisieDonneesComponent implements OnInit {
   selectedYear: number;
   years: number[] = [];
 
+  @ViewChild('tabsContainer') tabsContainer!: ElementRef<HTMLDivElement>;
+  @ViewChild('tabs') tabsRef!: ElementRef<HTMLDivElement>;
+  @ViewChildren('tabBtn') tabButtons!: QueryList<ElementRef<HTMLButtonElement>>;
+
   ngOnInit(): void {
     this.loadOngletIds();
+  }
+
+  ngAfterViewInit(): void {
+    this.updateVisibleCount();
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.updateVisibleCount();
+  }
+
+  updateVisibleCount() {
+    if (!this.tabsContainer || this.tabButtons.length === 0) return;
+
+    const containerWidth = this.tabsContainer.nativeElement.offsetWidth;
+    const tabWidth = this.tabButtons.first.nativeElement.offsetWidth;
+    const gap = parseFloat(getComputedStyle(this.tabsRef.nativeElement).gap || '0');
+
+    const count = Math.floor((containerWidth + gap) / (tabWidth + gap));
+    this.visibleCount = Math.max(1, Math.min(this.tabs.length, count));
+
+    if (this.startIndex + this.visibleCount > this.tabs.length) {
+      this.startIndex = Math.max(0, this.tabs.length - this.visibleCount);
+    }
   }
 
   loadOngletIds(): void {

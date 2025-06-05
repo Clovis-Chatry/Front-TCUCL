@@ -130,7 +130,10 @@ body {
   font-size: 0.9em;
   height: 2.81em;
   min-width: 5.62em;
+  max-width: 8.5em;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .tab:hover {
