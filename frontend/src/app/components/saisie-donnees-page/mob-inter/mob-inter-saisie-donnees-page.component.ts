@@ -11,7 +11,7 @@ import { Pays } from '../../../models/enums/pays.enum';
   selector: 'app-destination-page',
   standalone: true,
   templateUrl: './mob-inter-saisie-donnees-page.component.html',
-  styleUrls: ['./mob-inter-saisie-donnees-page.component.html'],
+  styleUrls: ['./mob-inter-saisie-donnees-page.component.scss'],
   imports: [FormsModule, HttpClientModule, CommonModule]
 })
 export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit {
