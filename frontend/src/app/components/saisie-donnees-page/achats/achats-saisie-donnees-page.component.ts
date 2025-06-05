@@ -53,6 +53,13 @@ export class AchatsSaisieDonneesPageComponent implements OnInit {
           jetEncreCons: data.feuillesJetEncreCons,
           tonerCons: data.feuillesTonerCons,
           pharmaCons: data.pharmaCons,
+          servicesCons: data.servicesCons,
+          serviceEnseignementCons: data.serviceEnseignementCons,
+          serviceProduitsInformatiqueCons: data.serviceProduitsInformatiqueCons,
+          serviceReparationsMachinesCons: data.serviceReparationsMachinesCons,
+          serviceTransportCons: data.serviceTransportCons,
+          serviceHebergementRestaurationCons: data.serviceHebergementRestaurationCons,
+          serviceTelecomCons: data.serviceTelecomCons,
 
           // Textile
           papierTextile: data.papierTextile,
