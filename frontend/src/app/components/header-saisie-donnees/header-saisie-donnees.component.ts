@@ -34,7 +34,7 @@ export class HeaderSaisieDonneesComponent implements OnInit {
   tabs = ['Energie', 'Emissions fugitives', 'Mobilite dom-trav', 'Autre mob FR', 'Mob internationale', 'Batiments',
     'Parkings', 'Auto', 'Numerique', 'Autre immob', 'Achats', 'Dechets'];
   startIndex = 0;
-  visibleCount = 8;
+  visibleCount = 12;
 
   activeTab: string | null = null;
   currentYear: number;

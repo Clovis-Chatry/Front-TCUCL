@@ -8,7 +8,6 @@ body {
 
 /* Conteneur global */
 .header-container {
-  padding: 0 2em;
   background-color: #E6F0FF; /* Bleu pastel */
   box-sizing: border-box;
   display: flex;
@@ -93,8 +92,7 @@ body {
   border-radius: 0.62em;
   padding: 0.62em;
   box-shadow: 0 0.12em 0.3em rgba(0, 0, 0, 0.1);
-  width: 90%;
-  max-width: 75em;
+  width: 95%;
   margin-bottom: 1.12em;
 }
 
