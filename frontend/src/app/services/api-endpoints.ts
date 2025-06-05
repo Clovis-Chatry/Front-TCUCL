@@ -34,6 +34,7 @@ export const ApiEndpoints = {
 
   AchatsOnglet: {
     getById: (id: string) => `${BASE_URL}/achatOnglet/${id}`,
+    update: (id: string) => `${BASE_URL}/achatOnglet/${id}`,
   },
 
 ImmobOnglet: {
