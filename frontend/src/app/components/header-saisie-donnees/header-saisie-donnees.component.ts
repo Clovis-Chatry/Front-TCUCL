@@ -4,10 +4,11 @@ import { OngletService } from './onglet.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
+import { NoNegativeDirective } from '../../directives/no-negative.directive';
 
 @Component({
   selector: 'app-header-saisie-donnees',
-  imports: [CommonModule, FormsModule],
+  imports: [NoNegativeDirective, CommonModule, FormsModule],
   templateUrl: './header-saisie-donnees.component.html',
   styleUrls: ['./header-saisie-donnees.component.scss']
 })

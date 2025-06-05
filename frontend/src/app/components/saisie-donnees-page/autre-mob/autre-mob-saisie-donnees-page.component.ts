@@ -11,13 +11,14 @@ import { TransportAutreMob } from '../../../models/transport-data.model';
 import { ApiEndpoints } from '../../../services/api-endpoints';
 import { AuthService } from '../../../services/auth.service';
 import { TransportAutreMobMapperService} from './transport-data-autre-mob-mapper.service';
+import { NoNegativeDirective } from '../../../directives/no-negative.directive';
 
 @Component({
   selector: 'app-autre-mob-saisie-donnees-page',
   standalone: true,
   templateUrl: './autre-mob-saisie-donnees-page.component.html',
   styleUrls: ['./autre-mob-saisie-donnees-page.component.scss'],
-  imports: [CommonModule, FormsModule],
+  imports: [NoNegativeDirective, CommonModule, FormsModule],
 })
 export class AutreMobSaisieDonneesPageComponent implements OnInit {
   private http = inject(HttpClient);

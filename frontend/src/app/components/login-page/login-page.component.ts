@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import {AuthService} from '../../services/auth.service';
 import {FormsModule} from '@angular/forms';
+import { NoNegativeDirective } from '../../directives/no-negative.directive';
 
 @Component({
   selector: 'app-login-page',
-  imports: [
+  imports: [NoNegativeDirective, 
     FormsModule
   ],
   templateUrl: './login-page.component.html' ,

@@ -2,13 +2,14 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NoNegativeDirective } from '../../directives/no-negative.directive';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  imports: [CommonModule, FormsModule]
+  imports: [NoNegativeDirective, CommonModule, FormsModule]
 })
 export class DashboardComponent {
   currentYear: number = 2024;

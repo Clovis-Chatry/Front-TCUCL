@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
 import { ApiEndpoints } from '../../../services/api-endpoints';
+import { NoNegativeDirective } from '../../../directives/no-negative.directive';
 
 interface Parking {
   nom: string;
@@ -18,7 +19,7 @@ interface Parking {
   standalone: true,
   templateUrl: './park-saisie-donnees-page.component.html',
   styleUrls: ['./park-saisie-donnees-page.component.scss'],
-  imports: [FormsModule, HttpClientModule, CommonModule]
+  imports: [NoNegativeDirective, FormsModule, HttpClientModule, CommonModule]
 })
 export class ParkSaisieDonneesPageComponent implements OnInit {
   private http = inject(HttpClient);

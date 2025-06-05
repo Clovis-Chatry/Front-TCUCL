@@ -6,13 +6,14 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
 import { ApiEndpoints } from '../../../services/api-endpoints';
 import { Pays } from '../../../models/enums/pays.enum';
+import { NoNegativeDirective } from '../../../directives/no-negative.directive';
 
 @Component({
   selector: 'app-destination-page',
   standalone: true,
   templateUrl: './mob-inter-saisie-donnees-page.component.html',
   styleUrls: ['./mob-inter-saisie-donnees-page.component.html'],
-  imports: [FormsModule, HttpClientModule, CommonModule]
+  imports: [NoNegativeDirective, FormsModule, HttpClientModule, CommonModule]
 })
 export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit {
   private http = inject(HttpClient);

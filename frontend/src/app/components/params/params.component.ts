@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NoNegativeDirective } from '../../directives/no-negative.directive';
 
 interface User {
   firstName: string;
@@ -21,7 +22,7 @@ interface Entity {
 @Component({
   selector: 'app-params',
   standalone: true,
-  imports: [
+  imports: [NoNegativeDirective, 
     CommonModule,
     FormsModule
   ],

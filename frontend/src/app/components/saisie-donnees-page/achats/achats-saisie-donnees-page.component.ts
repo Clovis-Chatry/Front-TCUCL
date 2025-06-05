@@ -5,13 +5,14 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { ApiEndpoints } from '../../../services/api-endpoints';
 import { CommonModule } from '@angular/common';
+import { NoNegativeDirective } from '../../../directives/no-negative.directive';
 
 @Component({
   selector: 'app-achats-saisie-donnees-page',
   standalone: true,
   templateUrl: './achats-saisie-donnees-page.component.html',
   styleUrls: ['./achats-saisie-donnees-page.component.scss'],
-  imports: [CommonModule, FormsModule, HttpClientModule]
+  imports: [NoNegativeDirective, CommonModule, FormsModule, HttpClientModule]
 })
 export class AchatsSaisieDonneesPageComponent implements OnInit {
   private http = inject(HttpClient);

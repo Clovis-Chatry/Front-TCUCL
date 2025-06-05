@@ -4,13 +4,14 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router'; // Permet de récupérer l'ID de l'URL
 import {AuthService} from '../../../services/auth.service';
 import {ApiEndpoints} from '../../../services/api-endpoints';
+import { NoNegativeDirective } from '../../../directives/no-negative.directive';
 
 @Component({
   selector: 'app-saisie-donnees-page',
   standalone: true,
   templateUrl: './energie-saisie-donnees-page.component.html',
   styleUrls: ['./energie-saisie-donnees-page.component.scss'],
-  imports: [FormsModule, HttpClientModule]
+  imports: [NoNegativeDirective, FormsModule, HttpClientModule]
 })
 export class EnergieSaisieDonneesPageComponent implements OnInit {
   private http = inject(HttpClient);

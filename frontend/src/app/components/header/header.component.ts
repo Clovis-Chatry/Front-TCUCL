@@ -2,11 +2,12 @@ import { Component, HostListener, Input, inject, signal, effect } from '@angular
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { NgIf, NgOptimizedImage } from '@angular/common';
+import { NoNegativeDirective } from '../../directives/no-negative.directive';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [NgOptimizedImage, NgIf],
+  imports: [NoNegativeDirective, NgOptimizedImage, NgIf],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })

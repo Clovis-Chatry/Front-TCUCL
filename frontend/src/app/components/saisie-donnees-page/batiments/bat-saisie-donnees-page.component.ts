@@ -5,6 +5,7 @@ import {ActivatedRoute} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {AuthService} from '../../../services/auth.service';
 import {ApiEndpoints} from '../../../services/api-endpoints';
+import { NoNegativeDirective } from '../../../directives/no-negative.directive';
 import {
   EnumBatiment_TypeBatiment,
   EnumBatiment_TypeStructure,
@@ -17,7 +18,7 @@ import {
   standalone: true,
   templateUrl: './bat-saisie-donnees-page.component.html',
   styleUrls: ['./bat-saisie-donnees-page.component.scss'],
-  imports: [FormsModule, HttpClientModule, CommonModule]
+  imports: [NoNegativeDirective, FormsModule, HttpClientModule, CommonModule]
 })
 export class BatimentsSaisieDonneesPageComponent implements OnInit {
   private http = inject(HttpClient);

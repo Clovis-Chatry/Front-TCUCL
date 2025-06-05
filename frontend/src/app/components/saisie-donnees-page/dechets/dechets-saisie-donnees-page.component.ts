@@ -9,13 +9,14 @@ import { DechetData} from '../../../models/dechet-data-model';
 import { DechetDataMapperService } from './dechet-data-mapper.service';
 import { ApiEndpoints } from '../../../services/api-endpoints';
 import { AuthService } from '../../../services/auth.service';
+import { NoNegativeDirective } from '../../../directives/no-negative.directive';
 
 @Component({
   selector: 'app-dechet-saisie-donnees-page',
   standalone: true,
   templateUrl: './dechets-saisie-donnees-page.component.html',
   styleUrls: ['./dechets-saisie-donnees-page.component.scss'],
-  imports: [CommonModule, FormsModule],
+  imports: [NoNegativeDirective, CommonModule, FormsModule],
 })
 export class DechetSaisieDonneesPageComponent implements OnInit {
   private http = inject(HttpClient);

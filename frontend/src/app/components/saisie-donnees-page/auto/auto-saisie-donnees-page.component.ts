@@ -5,13 +5,14 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
 import { ApiEndpoints } from '../../../services/api-endpoints';
+import { NoNegativeDirective } from '../../../directives/no-negative.directive';
 
 @Component({
   selector: 'app-auto-saisie-donnees-page',
   standalone: true,
   templateUrl: './auto-saisie-donnees-page.component.html',
   styleUrls: ['./auto-saisie-donnees-page.component.scss'],
-  imports: [FormsModule, HttpClientModule, CommonModule]
+  imports: [NoNegativeDirective, FormsModule, HttpClientModule, CommonModule]
 })
 export class AutoSaisieDonneesPageComponent implements OnInit {
   private http = inject(HttpClient);

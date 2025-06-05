@@ -7,6 +7,7 @@ import {FormsModule} from '@angular/forms';
 import {TypeFluide} from '../../../models/enums/typeFluide.enum';
 import {TypeMachineEnum} from '../../../models/enums/typeMachine.enum';
 import {TypeFluideLabels} from '../../../models/typeFluide-label';
+import { NoNegativeDirective } from '../../../directives/no-negative.directive';
 import {TypeMachineLabels} from '../../../models/type-machine-labels'
 
 @Component({
@@ -14,7 +15,7 @@ import {TypeMachineLabels} from '../../../models/type-machine-labels'
   standalone: true,
   templateUrl: './emiss-fugi-saisie-donnees-page.component.html',
   styleUrls: ['./emiss-fugi-saisie-donnees-page.component.scss'],
-  imports: [
+  imports: [NoNegativeDirective, 
     FormsModule,
     CommonModule
   ]
