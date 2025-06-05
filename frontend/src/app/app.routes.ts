@@ -27,18 +27,15 @@ import {
 import {
   NumeriqueSaisieDonneesPageComponent
 } from './components/saisie-donnees-page/numerique/numerique-saisie-donnees-page.component';
-import {
-  AutoSaisieDonneesPageComponent
-} from './components/saisie-donnees-page/auto/auto-saisie-donnees-page.component';
-import {
-  ParkSaisieDonneesPageComponent
-} from './components/saisie-donnees-page/park/park-saisie-donnees-page.component';
+import {AutoSaisieDonneesPageComponent} from './components/saisie-donnees-page/auto/auto-saisie-donnees-page.component';
+import {ParkSaisieDonneesPageComponent} from './components/saisie-donnees-page/park/park-saisie-donnees-page.component';
 import {
   MobiliteInternationaleSaisieDonneesPageComponent
 } from './components/saisie-donnees-page/mob-inter/mob-inter-saisie-donnees-page.component';
 import {
   BatimentsSaisieDonneesPageComponent
 } from './components/saisie-donnees-page/batiments/bat-saisie-donnees-page.component';
+import {TrajectoireComponent} from './components/affichage-graphiques/suivi/trajectoire-page.component';
 
 export const routes: Routes = [
   {
@@ -132,6 +129,11 @@ export const routes: Routes = [
     path: 'batimentImmobilisationMobilierOnglet/:id',
     data: { showSaisieHeader: true },
     component: BatimentsSaisieDonneesPageComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'trajectoire',
+    component: TrajectoireComponent,
     canActivate: [authGuard]
   },
   {
