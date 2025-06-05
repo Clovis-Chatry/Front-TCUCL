@@ -1,7 +1,7 @@
 export enum NUMERIQUE_EQUIPEMENT {
-  ECRAN = 'Ecran',
-  ORDINATEUR = 'Ordinateur',
-  SERVEUR = 'Serveur',
-  ROUTEUR = 'Routeur',
-  SWITCH = 'Switch'
+  ECRAN = 'ECRAN',
+  ORDINATEUR = 'ORDINATEUR',
+  SERVEUR = 'SERVEUR',
+  ROUTEUR = 'ROUTEUR',
+  SWITCH = 'SWITCH'
 }

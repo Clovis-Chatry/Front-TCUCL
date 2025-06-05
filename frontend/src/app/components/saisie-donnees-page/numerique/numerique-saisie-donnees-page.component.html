@@ -22,11 +22,9 @@
       <div class="form-column">
         <label>Type d'équipement</label>
         <select [(ngModel)]="nouvelEquipement.equipement">
-          <option value="Ecran">Écran</option>
-          <option value="Ordinateur">Ordinateur</option>
-          <option value="Serveur">Serveur</option>
-          <option value="Routeur">Routeur</option>
-          <option value="Switch">Switch</option>
+          <option *ngFor="let entry of equipementOptions" [ngValue]="entry.value">
+            {{ entry.label }}
+          </option>
         </select>
 
         <label>Quantité</label>
@@ -62,7 +60,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let equipement of equipementsAjoutes">
-            <td>{{ equipement.equipement }}</td>
+            <td>{{ numeriqueEquipmentLabels[equipement.equipement as string] }}</td>
             <td>{{ equipement.nombre }}</td>
             <td>{{ equipement.dureeAmortissement }}</td>
             <td>{{ equipement.emissionsGesPrecisesConnues ? 'Oui' : 'Non' }}</td>
@@ -87,7 +85,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let equipement of equipementsAnciens">
-            <td>{{ equipement.equipement }}</td>
+            <td>{{ numeriqueEquipmentLabels[equipement.equipement as string] }}</td>
             <td>{{ equipement.nombre }}</td>
             <td>{{ equipement.dureeAmortissement }}</td>
             <td>{{ equipement.emissionsGesPrecisesConnues ? 'Oui' : 'Non' }}</td>
