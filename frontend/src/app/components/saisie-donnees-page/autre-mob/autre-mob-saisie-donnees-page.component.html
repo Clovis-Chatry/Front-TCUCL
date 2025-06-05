@@ -4,16 +4,21 @@
     <table class="data-table">
       <thead>
       <tr>
-        <th>Moyen de transport</th>
-        <th *ngFor="let group of travelerGroups">{{ group }}</th>
+        <th rowspan="2">Moyen de transport</th>
+        <th colspan="2" *ngFor="let group of travelerGroups">{{ group }}</th>
+      </tr>
+      <tr>
+        <ng-container *ngFor="let group of travelerGroups">
+          <th>Distance parcourue (km)</th>
+          <th>Nombre d'allers</th>
+        </ng-container>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let mode of transportModes">
         <td><strong>{{ mode }}</strong></td>
-        <td *ngFor="let group of travelerGroups">
-          <div class="input-block">
-            <label>Distance (km)</label>
+        <ng-container *ngFor="let group of travelerGroups">
+          <td>
             <input
               type="number"
               class="value-input"
@@ -21,7 +26,8 @@
               (ngModelChange)="setValueTemp(mode, group, 'distanceKm', $event)"
               (blur)="applyValue(mode, group, 'distanceKm')"
             />
-            <label>Allers</label>
+          </td>
+          <td>
             <input
               type="number"
               class="value-input"
@@ -29,8 +35,8 @@
               (ngModelChange)="setValueTemp(mode, group, 'oneWayTrips', $event)"
               (blur)="applyValue(mode, group, 'oneWayTrips')"
             />
-          </div>
-        </td>
+          </td>
+        </ng-container>
       </tr>
       </tbody>
     </table>
