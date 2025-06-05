@@ -10,6 +10,7 @@ import { OngletStatusService } from '../../../services/onglet-status.service';
 import { NumeriqueOngletMapperService } from './numerique-onglet-mapper.service';
 import { EquipementNumerique, NumeriqueOnglet } from '../../../models/numerique.model';
 import { NUMERIQUE_EQUIPEMENT } from '../../../models/enums/numerique.enum';
+import { NumeriqueEquipmentLabels } from '../../../models/numerique-equipment-labels';
 
 @Component({
   selector: 'app-numerique-saisie-donnees-page',
@@ -36,6 +37,13 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
     emissionsGesPrecisesConnues: false,
     emissionsReellesParProduitKgCO2e: null
   };
+
+  equipementOptions = Object.keys(NUMERIQUE_EQUIPEMENT).map(key => {
+    const value = NUMERIQUE_EQUIPEMENT[key as keyof typeof NUMERIQUE_EQUIPEMENT];
+    return { value, label: NumeriqueEquipmentLabels[value] };
+  });
+
+  numeriqueEquipmentLabels = NumeriqueEquipmentLabels;
 
   equipementsAjoutes: EquipementNumerique[] = [];
   equipementsAnciens: EquipementNumerique[] = [];

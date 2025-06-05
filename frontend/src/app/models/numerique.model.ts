@@ -16,5 +16,6 @@ export interface NumeriqueOnglet {
   cloudDataDisponible: boolean | null;
   traficCloud: number | null;
   tipUtilisateur: number | null;
+  partTraficFranceEtranger?: number | null;
   equipements: EquipementNumerique[];
 }
