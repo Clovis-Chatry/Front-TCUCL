@@ -44,6 +44,7 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
   });
 
   numeriqueEquipmentLabels = NumeriqueEquipmentLabels;
+  NUMERIQUE_EQUIPEMENT = NUMERIQUE_EQUIPEMENT;
 
   equipementsAjoutes: EquipementNumerique[] = [];
   equipementsAnciens: EquipementNumerique[] = [];

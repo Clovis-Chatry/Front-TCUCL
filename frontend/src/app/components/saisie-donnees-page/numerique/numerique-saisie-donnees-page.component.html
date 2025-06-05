@@ -60,7 +60,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let equipement of equipementsAjoutes">
-            <td>{{ numeriqueEquipmentLabels[equipement.equipement as string] }}</td>
+            <td>{{ numeriqueEquipmentLabels[equipement.equipement as NUMERIQUE_EQUIPEMENT] }}</td>
             <td>{{ equipement.nombre }}</td>
             <td>{{ equipement.dureeAmortissement }}</td>
             <td>{{ equipement.emissionsGesPrecisesConnues ? 'Oui' : 'Non' }}</td>
@@ -85,7 +85,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let equipement of equipementsAnciens">
-            <td>{{ numeriqueEquipmentLabels[equipement.equipement as string] }}</td>
+            <td>{{ numeriqueEquipmentLabels[equipement.equipement as NUMERIQUE_EQUIPEMENT] }}</td>
             <td>{{ equipement.nombre }}</td>
             <td>{{ equipement.dureeAmortissement }}</td>
             <td>{{ equipement.emissionsGesPrecisesConnues ? 'Oui' : 'Non' }}</td>
