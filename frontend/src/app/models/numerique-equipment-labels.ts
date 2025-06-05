@@ -1,9 +1,12 @@
 import { NUMERIQUE_EQUIPEMENT } from './enums/numerique.enum';
 
-export const NumeriqueEquipmentLabels: Record<NUMERIQUE_EQUIPEMENT, string> = {
-  [NUMERIQUE_EQUIPEMENT.ECRAN]: 'Écran',
-  [NUMERIQUE_EQUIPEMENT.ORDINATEUR]: 'Ordinateur',
-  [NUMERIQUE_EQUIPEMENT.SERVEUR]: 'Serveur',
-  [NUMERIQUE_EQUIPEMENT.ROUTEUR]: 'Routeur',
-  [NUMERIQUE_EQUIPEMENT.SWITCH]: 'Switch',
+export const numeriqueEquipmentLabels: Record<NUMERIQUE_EQUIPEMENT, string> = {
+  [NUMERIQUE_EQUIPEMENT.OrdinateurPortable]: 'Ordinateur portable',
+  [NUMERIQUE_EQUIPEMENT.OrdinateurFixe]: 'Ordinateur fixe',
+  [NUMERIQUE_EQUIPEMENT.Smartphone]: 'Smartphone',
+  [NUMERIQUE_EQUIPEMENT.Tablette]: 'Tablette',
+  [NUMERIQUE_EQUIPEMENT.Ecran]: 'Écran',
+  [NUMERIQUE_EQUIPEMENT.Serveur]: 'Serveur',
+  [NUMERIQUE_EQUIPEMENT.Routeur]: 'Routeur',
+  [NUMERIQUE_EQUIPEMENT.Imprimante]: 'Imprimante'
 };
