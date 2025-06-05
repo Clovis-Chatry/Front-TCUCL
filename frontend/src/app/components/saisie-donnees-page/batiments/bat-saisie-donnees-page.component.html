@@ -157,7 +157,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let reno of renovationsCourantes; let i = index">
-          <td>{{ reno.nom_ou_adresse }}</td>
+          <td>{{ reno.nom_adresse }}</td>
           <td>{{ getLibelleTypeTravaux(reno.typeTravaux) }}</td>
           <td>{{ reno.dateTravaux }}</td>
           <td>{{ getLibelleTypeBatiment(reno.typeBatiment) }}</td>
@@ -227,4 +227,4 @@
   </div>
   <hr />
 </div>
-<app-save-footer></app-save-footer>
+<app-save-footer [path]="'batimentsOnglet'"></app-save-footer>

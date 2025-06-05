@@ -1,17 +1,41 @@
-<h2>Déchets</h2>
-<div *ngFor="let item of items">
-  <h3>{{ item.type }}</h3>
-  <label>
-    Traitement :
-    <select [(ngModel)]="item.traitement">
-      <option [ngValue]="null">-- Sélectionner --</option>
-      <option *ngFor="let t of traitements" [ngValue]="t">{{ t }}</option>
-    </select>
-  </label>
-  <label>
-    Quantité (tonnes) :
-    <input type="number" [(ngModel)]="item.quantiteTonne" min="0">
-  </label>
+<div class="main-container">
+  <div class="left-panel">
+    <h2>Déchets</h2>
+    <table class="data-table">
+      <thead>
+      <tr>
+        <th>Type</th>
+        <th>Quantité (tonnes)</th>
+        <th>Traitement</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of items">
+        <td>{{ item.type }}</td>
+        <td>
+          <input
+            type="number"
+            class="value-input"
+            [(ngModel)]="item.quantiteTonne"
+            min="0"
+            (blur)="updateData()"
+          />
+        </td>
+        <td>
+          <select
+            class="unit-select"
+            [(ngModel)]="item.traitement"
+            (change)="updateData()"
+          >
+            <option [ngValue]="null">-- Sélectionner --</option>
+            <option *ngFor="let t of traitements" [ngValue]="t">{{ t }}</option>
+          </select>
+        </td>
+
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
-<app-save-footer></app-save-footer>
+<app-save-footer [path]="'dechetsOnglet'"></app-save-footer>

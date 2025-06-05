@@ -7,26 +7,26 @@
 
       <div class="form-column">
         <label>Modèle / Immatriculation</label>
-        <input type="text" [(ngModel)]="items.nomVoiture" />
+        <input type="text" [(ngModel)]="nouveauVehicule.modeleOuImmatriculation" />
 
         <label>Type de véhicule</label>
-        <select [(ngModel)]="items.typeVoiture">
-          <option value="Thermique">Thermique</option>
-          <option value="Hybride">Hybride</option>
-          <option value="Électrique">Électrique</option>
+        <select [(ngModel)]="nouveauVehicule.typeVehicule">
+          <option *ngFor="let type of vehiculeTypesLibelles" [ngValue]="type.value">
+            {{ type.label }}
+          </option>
         </select>
 
         <label>Nombre de véhicules identiques</label>
-        <input type="number" [(ngModel)]="items.nombreIdentique" />
+        <input type="number" [(ngModel)]="nouveauVehicule.nombreVehiculesIdentiques" />
 
         <label>Nombre de Km moyen / Voiture</label>
-        <input type="number" [(ngModel)]="items.kmParVoiture" />
+        <input type="number" [(ngModel)]="nouveauVehicule.nombreKilometresParVoitureMoyen" />
       </div>
 
-      <button type="button" (click)="ajouterVoiture()">Ajouter cette voiture</button>
+      <button type="button" (click)="ajouterVehicule()">Ajouter ce véhicule</button>
     </details>
 
-    <div *ngIf="items.voitures?.length > 0">
+    <div *ngIf="vehiculeOnglet.vehicules.length > 0">
       <h3>Voitures ajoutées</h3>
       <table class="data-table">
         <thead>
@@ -35,18 +35,20 @@
             <th>Type</th>
             <th>Nb de véhicules identiques</th>
             <th>Nb de Km moyen par voiture</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let voiture of items.voitures">
-            <td>{{ voiture.nom }}</td>
-            <td>{{ voiture.type }}</td>
-            <td>{{ voiture.quantite }}</td>
-            <td>{{ voiture.km }}</td>
+          <tr *ngFor="let v of vehiculeOnglet.vehicules; let i = index">
+            <td>{{ v.modeleOuImmatriculation }}</td>
+            <td>{{ getLibelleTypeVehicule(v.typeVehicule) }}</td>
+            <td>{{ v.nombreVehiculesIdentiques }}</td>
+            <td>{{ v.nombreKilometresParVoitureMoyen }}</td>
+            <td><button type="button" (click)="supprimerVehicule(i)">Supprimer</button></td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
 </div>
-<app-save-footer></app-save-footer>
+<app-save-footer [path]="'autoOnglet'" (estTermineChange)="onEstTermineChange($event)"></app-save-footer>
