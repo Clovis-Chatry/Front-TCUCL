@@ -1,11 +1,9 @@
 import {Component} from '@angular/core';
 import {HeaderComponent} from './components/header/header.component';
 
-import {RouterOutlet} from '@angular/router';
-import {ActivatedRoute, NavigationEnd, Router, RouterModule} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router, RouterModule, RouterOutlet} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {HeaderSaisieDonneesComponent} from './components/header-saisie-donnees/header-saisie-donnees.component';
-import {SaveFooterComponent} from './components/save-footer/save-footer.component';
 import {filter, map, mergeMap} from 'rxjs';
 
 @Component({
@@ -17,7 +15,6 @@ import {filter, map, mergeMap} from 'rxjs';
     HeaderComponent,
     RouterModule,
     HeaderSaisieDonneesComponent,
-    SaveFooterComponent,
   ],
 
   templateUrl: './app.component.html',

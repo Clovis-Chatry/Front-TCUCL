@@ -35,7 +35,7 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
 
   ongletIdMap: { [key: string]: number } = {};
 
-  tabs = ['Energie', 'Emissions fugitives', 'Mobilite dom-trav', 'Autre mob FR', 'Mob internationale', 'Batiments',
+  tabs = ['Energie', 'Emissions fugitives', 'Mobilite dom-trav', 'Autre mobilite en France', 'Mob internationale', 'Batiments',
     'Parkings', 'Auto', 'Numerique', 'Autre immob', 'Achats', 'Dechets'];
   startIndex = 0;
   visibleCount = 12;
@@ -143,7 +143,7 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
     'Energie': 'energieOnglet',
     'Emissions fugitives': 'emissionFugitiveOnglet',
     'Mobilite dom-trav': 'mobiliteDomicileTravailOnglet',
-    'Autre mob FR': 'autreMobFrOnglet',
+    'Autre mobilite en France': 'autreMobFrOnglet',
     'Mob internationale': 'mobInternationalOnglet',
     'Batiments': 'batimentImmobilisationMobilierOnglet',
     'Parkings': 'parkingVoirieOnglet',
