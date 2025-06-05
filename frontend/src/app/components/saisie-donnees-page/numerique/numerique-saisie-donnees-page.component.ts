@@ -31,7 +31,7 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
   tipUtilisateur: number | null = null;
 
   nouvelEquipement: EquipementNumerique = {
-    equipement: NUMERIQUE_EQUIPEMENT.Ecran,
+    equipement: NUMERIQUE_EQUIPEMENT.ECRAN,
     nombre: null,
     dureeAmortissement: null,
     emissionsGesPrecisesConnues: false,
@@ -99,7 +99,7 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
     ) {
       this.equipementsAjoutes.push({ ...this.nouvelEquipement });
       this.nouvelEquipement = {
-        equipement: NUMERIQUE_EQUIPEMENT.Ecran,
+        equipement: NUMERIQUE_EQUIPEMENT.ECRAN,
         nombre: null,
         dureeAmortissement: null,
         emissionsGesPrecisesConnues: true,
