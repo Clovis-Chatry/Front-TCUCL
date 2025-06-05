@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { ApiEndpoints } from '../../../services/api-endpoints';
 import { CommonModule } from '@angular/common';
+import { SaveFooterComponent } from '../../save-footer/save-footer.component';
 
 interface EquipementNumerique {
   type: string;
@@ -20,7 +21,7 @@ interface EquipementNumerique {
   standalone: true,
   templateUrl: './numerique-saisie-donnees-page.component.html',
   styleUrls: ['./numerique-saisie-donnees-page.component.scss'],
-  imports: [FormsModule, HttpClientModule,CommonModule]
+  imports: [FormsModule, HttpClientModule, CommonModule, SaveFooterComponent]
 })
 export class NumeriqueSaisieDonneesPageComponent implements OnInit {
   private http = inject(HttpClient);

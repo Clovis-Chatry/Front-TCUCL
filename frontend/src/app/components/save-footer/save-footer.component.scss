@@ -6,8 +6,19 @@
 }
 
 .save-button {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
+  text-align: center;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.56em 1.12em;
+  font-size: 0.9em;
+  cursor: pointer;
+  border-radius: 0.3em;
+  transition: background-color 0.3s;
+}
+
+.save-button:hover {
+  background-color: #0056b3;
 }
 
 .loader {

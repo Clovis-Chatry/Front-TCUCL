@@ -8,13 +8,14 @@ import {AuthService} from '../../../services/auth.service';
 import {GROUPE_VOYAGEURS, MODE_TRANSPORT_DOM_TRAV} from '../../../models/enums/transport.enum';
 import {TransportDomTrav} from '../../../models/transport-data.model';
 import {TransportDataDomTravMapperService} from './transport-data-dom-trav-mapper.service';
+import { SaveFooterComponent } from '../../save-footer/save-footer.component';
 
 @Component({
   selector: 'app-dom-trav-saisie-donnees-page',
   standalone: true,
   templateUrl: './dom-trav-saisie-donnees-page.component.html',
   styleUrls: ['./dom-trav-saisie-donnees-page.component.scss'],
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, SaveFooterComponent],
 })
 export class DomTravSaisieDonneesPageComponent implements OnInit {
   private http = inject(HttpClient);
