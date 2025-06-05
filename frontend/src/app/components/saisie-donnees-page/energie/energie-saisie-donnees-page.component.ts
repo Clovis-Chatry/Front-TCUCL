@@ -88,9 +88,10 @@ export class EnergieSaisieDonneesPageComponent implements OnInit {
           consoEau: this.items.consoEau
         },
         {headers}
-      ).subscribe(
-        (error) => console.error('Erreur lors de la mise à jour de ConsoGaz', error)
-      );
+      ).subscribe({
+        next: () => {},
+        error: err => console.error('Erreur lors de la mise à jour de ConsoGaz', err)
+      });
     } else {
       console.error('ID ou Token manquant');
     }
