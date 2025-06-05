@@ -26,6 +26,68 @@ export class AchatsSaisieDonneesPageComponent implements OnInit {
   items: any = {};
   estTermine = false;
 
+  consommablesFields = [
+    { label: 'Papier (ramettes)', unit: 'Tonnes', key: 'papierCons' },
+    { label: 'Livres', unit: 'Tonnes', key: 'livresCons' },
+    { label: 'Carton neuf', unit: 'Tonnes', key: 'cartonNeufCons' },
+    { label: 'Carton recycle', unit: 'Tonnes', key: 'cartonRecycleCons' },
+    { label: 'Petites fournitures', unit: 'EUR', key: 'fournituresCons' },
+    { label: "Impressions jet d'encre", unit: 'Nb', key: 'jetEncreCons' },
+    { label: 'Impressions toner', unit: 'Nb', key: 'tonerCons' },
+    { label: 'Produits pharmaceutiques', unit: 'EUR', key: 'pharmaCons' },
+    { label: 'Services (imprimerie, publicité, architecture et ingénierie, maintenance multi-technique des bâtiments)', unit: 'EUR', key: 'servicesCons' },
+    { label: 'Service/Enseignement', unit: 'EUR', key: 'serviceEnseignementCons' },
+    { label: 'Service/Produits informatiques, électroniques et optiques', unit: 'EUR', key: 'serviceProduitsInformatiqueCons' },
+    { label: "Service/Réparation et installation de machines et d'équipements", unit: 'EUR', key: 'serviceReparationsMachinesCons' },
+    { label: 'Service/Transport terrestre', unit: 'EUR', key: 'serviceTransportCons' },
+    { label: 'Service/"hébergement et restauration"', unit: 'EUR', key: 'serviceHebergementRestaurationCons' },
+    { label: 'Service de télécommunications', unit: 'EUR', key: 'serviceTelecomCons' }
+  ];
+
+  textileFields = [
+    { label: 'Chemise', unit: 'Nb', key: 'chemise' },
+    { label: 'Polaire', unit: 'Nb', key: 'polaire' },
+    { label: 'Pull acrylique', unit: 'Nb', key: 'pullAcrylique' },
+    { label: 'Pull coton', unit: 'Nb', key: 'pullCoton' },
+    { label: 'T-shirt polyester', unit: 'Nb', key: 'tshirtPolyester' },
+    { label: 'Jean', unit: 'Nb', key: 'jean' },
+    { label: 'Sweat', unit: 'Nb', key: 'sweat' },
+    { label: 'Veste/Anorak', unit: 'Nb', key: 'veste' },
+    { label: 'Manteau', unit: 'Nb', key: 'manteau' },
+    { label: 'Chaussure', unit: 'Nb', key: 'chaussure' }
+  ];
+
+  alimentsFields = [
+    { label: 'Boeuf/agneau/mouton', key: 'boeufAgneauMouton' },
+    { label: 'Poulet', key: 'poulet' },
+    { label: 'Café', key: 'cafe' },
+    { label: 'Chocolat', key: 'chocolat' },
+    { label: 'Beurre', key: 'beurre' },
+    { label: 'Viandes – moyenne', key: 'viandesMoyenne' },
+    { label: 'Produits sucrés – moyenne', key: 'produitsSucresMoyenne' },
+    { label: 'Poissons – moyenne', key: 'poissonsMoyenne' },
+    { label: 'Fromages – moyenne', key: 'fromagesMoyenne' },
+    { label: 'Oléagineux – moyenne', key: 'oleagineuxMoyenne' },
+    { label: 'Matières grasses – moyenne', key: 'matieresGrassesMoyenne' },
+    { label: 'Boissons – moyenne', key: 'boissonsMoyenne' },
+    { label: 'Œufs', key: 'oeufs' },
+    { label: 'Céréales – moyenne', key: 'cerealesMoyenne' },
+    { label: 'Légumes – moyenne', key: 'legumesMoyenne' },
+    { label: 'Fruits – moyenne', key: 'fruitsMoyenne' },
+    { label: 'Légumineuse – moyenne', key: 'legumineuseMoyenne' }
+  ];
+
+  repasFields = [
+    { label: 'Nombre de repas servis – dominante animale boeuf', key: 'nombreRepasServisDominanteAnimaleBoeuf' },
+    { label: 'Nombre de repas servis – dominante animale poulet', key: 'nombreRepasServisDominanteAnimalePoulet' },
+    { label: 'Nombre de repas servis – dominante végétale boeuf', key: 'nombreRepasServisDominanteVegetaleBoeuf' },
+    { label: 'Nombre de repas servis – dominante végétale poulet', key: 'nombreRepasServisDominanteVegetalePoulet' },
+    { label: 'Nombre de repas servis – dominante classique boeuf', key: 'nombreRepasServisDominanteClassiqueBoeuf' },
+    { label: 'Nombre de repas servis – dominante classique poulet', key: 'nombreRepasServisDominanteClassiquePoulet' },
+    { label: 'Nombre de repas servis – repas moyen', key: 'nombreRepasServisRepasMoyen' },
+    { label: 'Nombre de repas servis – repas végétarien', key: 'nombreRepasServisRepasVegetarien' }
+  ];
+
   onEstTermineChange(value: boolean): void {
     this.estTermine = value;
     this.updateAchat();
