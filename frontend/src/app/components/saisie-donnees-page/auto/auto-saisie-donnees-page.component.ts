@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { SaveFooterComponent } from '../../save-footer/save-footer.component';
 import { AuthService } from '../../../services/auth.service';
 import { ApiEndpoints } from '../../../services/api-endpoints';
 
@@ -11,7 +12,7 @@ import { ApiEndpoints } from '../../../services/api-endpoints';
   standalone: true,
   templateUrl: './auto-saisie-donnees-page.component.html',
   styleUrls: ['./auto-saisie-donnees-page.component.scss'],
-  imports: [FormsModule, HttpClientModule, CommonModule]
+  imports: [FormsModule, HttpClientModule, CommonModule, SaveFooterComponent]
 })
 export class AutoSaisieDonneesPageComponent implements OnInit {
   private http = inject(HttpClient);
