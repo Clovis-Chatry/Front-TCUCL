@@ -163,3 +163,11 @@ button:hover {
   padding: 0;
   white-space: nowrap; /* ✅ empêche le retour à la ligne */
 }
+
+.btn-update:disabled {
+  background-color: #ccc;  /* gris clair */
+  color: #666;             /* texte gris foncé */
+  cursor: not-allowed;     /* curseur interdit */
+  opacity: 0.6;            /* un peu transparent */
+  border: 1px solid #999;  /* bordure grisée */
+}
