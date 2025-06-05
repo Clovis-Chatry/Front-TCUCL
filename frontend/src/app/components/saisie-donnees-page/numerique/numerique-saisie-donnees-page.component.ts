@@ -6,6 +6,7 @@ import { AuthService } from '../../../services/auth.service';
 import { ApiEndpoints } from '../../../services/api-endpoints';
 import { CommonModule } from '@angular/common';
 import { SaveFooterComponent } from '../../save-footer/save-footer.component';
+import { OngletStatusService } from '../../../services/onglet-status.service';
 
 interface EquipementNumerique {
   type: string;
@@ -27,6 +28,7 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
+  private statusService = inject(OngletStatusService);
 
   donneesCloudDisponibles: boolean | null = null;
   traficCloud: number | null = null;
@@ -42,8 +44,18 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
 
   equipementsAjoutes: EquipementNumerique[] = [];
   equipementsAnciens: EquipementNumerique[] = [];
+  estTermine = false;
+
+  onEstTermineChange(value: boolean): void {
+    this.estTermine = value;
+    this.updateData();
+  }
 
   ngOnInit(): void {
+    this.estTermine = this.statusService.getStatus('numeriqueOnglet');
+    this.statusService.statuses$.subscribe(statuses => {
+      this.estTermine = statuses['numeriqueOnglet'] ?? false;
+    });
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.loadData(id);
@@ -90,6 +102,35 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
         gesConnu: true,
         gesReel: null
       };
+      this.updateData();
     }
+  }
+
+  updateData(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    const token = this.authService.getToken();
+    if (!id || !token) {
+      console.error('ID ou token manquant');
+      return;
+    }
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    };
+
+    const payload = {
+      cloudData: {
+        disponible: this.donneesCloudDisponibles,
+        trafic: this.traficCloud,
+        tip: this.tipUtilisateur
+      },
+      equipements: this.equipementsAjoutes,
+      estTermine: this.estTermine
+    };
+
+    this.http.patch(ApiEndpoints.NumeriqueOnglet.update(id), payload, { headers }).subscribe({
+      error: err => console.error('Erreur lors de la mise \xC3\xA0 jour des donn\xC3\xA9es num\xC3\xA9riques', err)
+    });
   }
 }

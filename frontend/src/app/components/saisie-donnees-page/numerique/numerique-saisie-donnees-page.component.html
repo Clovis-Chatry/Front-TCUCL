@@ -3,15 +3,15 @@
     <h2>Poste numérique</h2>
 
     <p class="question-title">Disposez-vous de données sur le cloud ?</p>
-    <label><input type="radio" name="hasCloud" [(ngModel)]="donneesCloudDisponibles" [value]="true" /> Oui</label>
-    <label><input type="radio" name="hasCloud" [(ngModel)]="donneesCloudDisponibles" [value]="false" /> Non</label>
+    <label><input type="radio" name="hasCloud" [(ngModel)]="donneesCloudDisponibles" [value]="true" (change)="updateData()" /> Oui</label>
+    <label><input type="radio" name="hasCloud" [(ngModel)]="donneesCloudDisponibles" [value]="false" (change)="updateData()" /> Non</label>
 
     <div class="card" *ngIf="donneesCloudDisponibles">
       <label for="cloudTraffic">Trafic cloud (Go)</label>
-      <input id="cloudTraffic" type="number" [(ngModel)]="traficCloud" />
+      <input id="cloudTraffic" type="number" [(ngModel)]="traficCloud" (blur)="updateData()" />
 
       <label for="tipUtilisateur">TIP utilisateur</label>
-      <input id="tipUtilisateur" type="number" [(ngModel)]="tipUtilisateur" />
+      <input id="tipUtilisateur" type="number" [(ngModel)]="tipUtilisateur" (blur)="updateData()" />
     </div>
 
     <hr />
@@ -99,4 +99,4 @@
     </div>
   </div>
 </div>
-<app-save-footer [path]="'numeriqueOnglet'"></app-save-footer>
+<app-save-footer [path]="'numeriqueOnglet'" (estTermineChange)="onEstTermineChange($event)"></app-save-footer>
