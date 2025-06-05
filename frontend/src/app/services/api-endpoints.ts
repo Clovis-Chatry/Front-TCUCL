@@ -2,8 +2,8 @@ const BASE_URL = 'http://localhost:8080';
 
 export const ApiEndpoints = {
   EnergieOnglet: {
-    getById: (id: string) => `${BASE_URL}/energieonglet/58`,
-    updateConso: (id: string) => `${BASE_URL}/energieonglet/58`,
+    getById: (id: string) => `${BASE_URL}/energieonglet/${id}`,
+    updateConso: (id: string) => `${BASE_URL}/energieonglet/${id}`,
     // autres méthodes PATCH (comme /consoGaz, /consoFioul, etc.)
     patchConsoGaz: (id: string) => `${BASE_URL}/energieonglet/${id}/consoGaz`,
     patchNote: (id: string) => `${BASE_URL}/energieonglet/${id}/note`,
