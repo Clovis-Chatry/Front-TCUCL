@@ -19,8 +19,10 @@
     <!-- Changer d'année + Sélecteur -->
     <div class="year-change-container">
       <span class="year-change-label">Editer l'année :</span>
-      <select class="year-select" [(ngModel)]="selectedYear">
-        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+      <select class="year-select" [(ngModel)]="selectedYear" (ngModelChange)="onYearChange($event)">
+        <option *ngFor="let year of years" [value]="year.value">
+          {{ year.label }}
+        </option>
       </select>
     </div>
   </div>
