@@ -107,6 +107,10 @@ export class HeaderSaisieDonneesComponent implements OnInit {
     return this.activeTab === tab ? 'tab active' : 'tab';
   }
 
+  goToTrajectoire() {
+    this.router.navigate([`/trajectoire`]);
+  }
+
   private tabToRoute: { [key: string]: string } = {
     'Energie': 'energieOnglet',
     'Emissions fugitives': 'emissionFugitiveOnglet',
