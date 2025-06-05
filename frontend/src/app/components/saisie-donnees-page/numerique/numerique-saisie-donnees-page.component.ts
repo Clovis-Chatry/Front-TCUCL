@@ -7,15 +7,9 @@ import { ApiEndpoints } from '../../../services/api-endpoints';
 import { CommonModule } from '@angular/common';
 import { SaveFooterComponent } from '../../save-footer/save-footer.component';
 import { OngletStatusService } from '../../../services/onglet-status.service';
-
-interface EquipementNumerique {
-  type: string;
-  quantite: number | null;
-  amortissement: number | null;
-  gesConnu: boolean;
-  gesReel: number | null;
-  anneeAjout?: number;
-}
+import { NumeriqueOngletMapperService } from './numerique-onglet-mapper.service';
+import { EquipementNumerique, NumeriqueOnglet } from '../../../models/numerique.model';
+import { NUMERIQUE_EQUIPEMENT } from '../../../models/enums/numerique.enum';
 
 @Component({
   selector: 'app-numerique-saisie-donnees-page',
@@ -29,17 +23,18 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
   private statusService = inject(OngletStatusService);
+  private mapper = inject(NumeriqueOngletMapperService);
 
   donneesCloudDisponibles: boolean | null = null;
   traficCloud: number | null = null;
   tipUtilisateur: number | null = null;
 
   nouvelEquipement: EquipementNumerique = {
-    type: 'Ecran',
-    quantite: null,
-    amortissement: null,
-    gesConnu: false,
-    gesReel: null
+    equipement: NUMERIQUE_EQUIPEMENT.ECRAN,
+    nombre: null,
+    dureeAmortissement: null,
+    emissionsGesPrecisesConnues: false,
+    emissionsReellesParProduitKgCO2e: null
   };
 
   equipementsAjoutes: EquipementNumerique[] = [];
@@ -75,32 +70,31 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
       'Authorization': `Bearer ${token}`
     };
 
-    this.http.get<any>(ApiEndpoints.NumeriqueOnglet.getById(id), { headers }).subscribe(
-      (data) => {
-        this.donneesCloudDisponibles = data.cloudData?.disponible ?? null;
-        this.traficCloud = data.cloudData?.trafic ?? null;
-        this.tipUtilisateur = data.cloudData?.tip ?? null;
-        this.equipementsAnciens = data.equipements || [];
+    this.http.get<any>(ApiEndpoints.NumeriqueOnglet.getById(id), { headers }).subscribe({
+      next: data => {
+        const model = this.mapper.fromDto(data);
+        this.donneesCloudDisponibles = model.cloudDataDisponible;
+        this.traficCloud = model.traficCloud;
+        this.tipUtilisateur = model.tipUtilisateur;
+        this.equipementsAnciens = model.equipements;
       },
-      (error) => {
-        console.error("Erreur lors du chargement des données numériques", error);
-      }
-    );
+      error: err => console.error("Erreur lors du chargement des données numériques", err)
+    });
   }
 
   ajouterEquipement(): void {
     if (
-      this.nouvelEquipement.quantite !== null &&
-      this.nouvelEquipement.amortissement !== null &&
-      (!this.nouvelEquipement.gesConnu || this.nouvelEquipement.gesReel !== null)
+      this.nouvelEquipement.nombre !== null &&
+      this.nouvelEquipement.dureeAmortissement !== null &&
+      (!this.nouvelEquipement.emissionsGesPrecisesConnues || this.nouvelEquipement.emissionsReellesParProduitKgCO2e !== null)
     ) {
       this.equipementsAjoutes.push({ ...this.nouvelEquipement });
       this.nouvelEquipement = {
-        type: 'Ecran',
-        quantite: null,
-        amortissement: null,
-        gesConnu: true,
-        gesReel: null
+        equipement: NUMERIQUE_EQUIPEMENT.ECRAN,
+        nombre: null,
+        dureeAmortissement: null,
+        emissionsGesPrecisesConnues: true,
+        emissionsReellesParProduitKgCO2e: null
       };
       this.updateData();
     }
@@ -119,15 +113,15 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
       'Authorization': `Bearer ${token}`
     };
 
-    const payload = {
-      cloudData: {
-        disponible: this.donneesCloudDisponibles,
-        trafic: this.traficCloud,
-        tip: this.tipUtilisateur
-      },
-      equipements: this.equipementsAjoutes,
-      estTermine: this.estTermine
+    const model: NumeriqueOnglet = {
+      estTermine: this.estTermine,
+      cloudDataDisponible: this.donneesCloudDisponibles,
+      traficCloud: this.traficCloud,
+      tipUtilisateur: this.tipUtilisateur,
+      equipements: this.equipementsAjoutes
     };
+
+    const payload = this.mapper.toDto(model);
 
     this.http.patch(ApiEndpoints.NumeriqueOnglet.update(id), payload, { headers }).subscribe({
       error: err => console.error('Erreur lors de la mise \xC3\xA0 jour des donn\xC3\xA9es num\xC3\xA9riques', err)
