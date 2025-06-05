@@ -1,12 +1,16 @@
-import { Component, Input, OnInit, AfterViewInit, ElementRef, ViewChild, ViewChildren, QueryList, HostListener } from '@angular/core';
-import { Router } from '@angular/router';
-import { OngletService } from './onglet.service';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {
+  Component, Input, OnInit, AfterViewInit, ElementRef,
+  ViewChild, ViewChildren, QueryList, HostListener
+} from '@angular/core';
+import {Router} from '@angular/router';
+import {OngletService} from './onglet.service';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-header-saisie-donnees',
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './header-saisie-donnees.component.html',
   styleUrls: ['./header-saisie-donnees.component.scss']
@@ -14,8 +18,9 @@ import {AuthService} from '../../services/auth.service';
 export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
   constructor(private router: Router, private ongletService: OngletService, private auth: AuthService) {
     this.currentYear = new Date().getFullYear();
-    this.years = Array.from({ length: this.currentYear - 2018 }, (_, i) => this.currentYear - i);
+    this.years = Array.from({length: this.currentYear - 2018}, (_, i) => this.currentYear - i);
     this.selectedYear = this.currentYear;
+
     const user = this.auth.getUserInfo()();
     if (user?.entiteId) {
       this.entiteId = user.entiteId;
@@ -26,10 +31,9 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
 
   @Input() PageTitle: string = '';
   @Input() LogoSrc: string = '';
-  @Input() entiteId!: number; // tu dois fournir ça dans le parent
+  @Input() entiteId!: number;
 
   ongletIdMap: { [key: string]: number } = {};
-
 
   tabs = ['Energie', 'Emissions fugitives', 'Mobilite dom-trav', 'Autre mob FR', 'Mob internationale', 'Batiments',
     'Parkings', 'Auto', 'Numerique', 'Autre immob', 'Achats', 'Dechets'];
@@ -42,7 +46,7 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
   years: number[] = [];
 
   @ViewChild('tabsContainer') tabsContainer!: ElementRef<HTMLDivElement>;
-  @ViewChild('tabs') tabsRef!: ElementRef<HTMLDivElement>;
+  @ViewChild('tabsElement') tabsRef!: ElementRef<HTMLDivElement>; // nom changé
   @ViewChildren('tabBtn') tabButtons!: QueryList<ElementRef<HTMLButtonElement>>;
 
   ngOnInit(): void {

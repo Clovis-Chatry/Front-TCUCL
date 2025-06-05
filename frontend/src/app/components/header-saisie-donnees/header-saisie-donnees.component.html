@@ -4,7 +4,7 @@
     <button class="button home-button" (click)="navigateToDashboard()">Accueil</button>
 
     <!-- Texte Année -->
-    <span class="year-label">Année : {{ currentYear-1 }} - {{currentYear}}</span>
+    <span class="year-label">Année : {{ currentYear - 1 }} - {{ currentYear }}</span>
 
     <!-- Bouton Sauvegarder -->
     <button class="button primary-button">Sauvegarder</button>
@@ -36,7 +36,7 @@
 
       <!-- Conteneur des onglets -->
       <div class="tabs-container" #tabsContainer>
-        <div class="tabs" #tabs>
+        <div class="tabs" #tabsElement>
           <button *ngFor="let tab of visibleTabs()"
                   #tabBtn
                   [ngClass]="getTabClass(tab)"
