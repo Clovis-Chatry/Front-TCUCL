@@ -22,8 +22,8 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
 
   destinationEnCours = {
     pays: '',
-    avion: { pro: null, stage: null, semestre: null },
-    train: { pro: null, stage: null, semestre: null }
+    avion: { pro: null, stage: null, semestre: null, autre: null },
+    train: { pro: null, stage: null, semestre: null, autre: null }
   };
 
   destinations: any[] = [];
@@ -73,8 +73,8 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
 
     this.destinationEnCours = {
       pays: '',
-      avion: { pro: null, stage: null, semestre: null },
-      train: { pro: null, stage: null, semestre: null }
+      avion: { pro: null, stage: null, semestre: null, autre: null },
+      train: { pro: null, stage: null, semestre: null, autre: null }
     };
   }
 

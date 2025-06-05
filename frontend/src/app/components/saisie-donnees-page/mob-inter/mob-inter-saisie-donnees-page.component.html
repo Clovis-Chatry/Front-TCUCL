@@ -22,6 +22,7 @@
               <th>Pro</th>
               <th>Stage étudiant</th>
               <th>Semestre étudiant</th>
+              <th>Autre</th>
             </tr>
           </thead>
           <tbody>
@@ -30,12 +31,14 @@
               <td><input type="number" [(ngModel)]="destinationEnCours.avion.pro" /></td>
               <td><input type="number" [(ngModel)]="destinationEnCours.avion.stage" /></td>
               <td><input type="number" [(ngModel)]="destinationEnCours.avion.semestre" /></td>
+              <td><input type="number" [(ngModel)]="destinationEnCours.avion.autre" /></td>
             </tr>
             <tr>
               <td>Train / Bus</td>
               <td><input type="number" [(ngModel)]="destinationEnCours.train.pro" /></td>
               <td><input type="number" [(ngModel)]="destinationEnCours.train.stage" /></td>
               <td><input type="number" [(ngModel)]="destinationEnCours.train.semestre" /></td>
+              <td><input type="number" [(ngModel)]="destinationEnCours.train.autre" /></td>
             </tr>
           </tbody>
         </table>
