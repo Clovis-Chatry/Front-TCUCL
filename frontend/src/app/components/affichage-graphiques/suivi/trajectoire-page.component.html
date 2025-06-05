@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Suivi des indicateurs</title>
+  <link rel="stylesheet" href="trajectoire-page.component.scss" />
+</head>
+<body>
+<div class="container">
+  <header>
+    <button class="button home-button" (click)="navigateToDashboard()">Accueil</button>
+  </header>
+
+  <nav class="tabs">
+    <div class="tabs-container">
+      <button class="tab-button">Récap</button>
+      <button class="tab-button active">Suivi</button>
+    </div>
+  </nav>
+
+  <main>
+    <h2 class="table-title">SUIVI DES INDICATEURS</h2>
+    <table class="indicator-table">
+      <thead>
+      <tr>
+        <th></th>
+        <th>2019</th>
+        <th>2022</th>
+        <th>Évolution</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="section"><td colspan="4">ÉNERGIE ET BÂTIMENTS</td></tr>
+      <tr>
+        <td>Consommation d’énergie</td><td>3600</td><td>0</td><td class="green">-100%</td>
+      </tr>
+      <tr>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;dont chauffage</td><td>1500</td><td>0</td><td class="green">-100%</td>
+      </tr>
+      <tr>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;dont électricité</td><td>2100</td><td>0</td><td class="green">-100%</td>
+      </tr>
+      <tr>
+        <td>Intensité carbone de l’énergie</td><td>177.02</td><td>#DIV/0!</td><td>#DIV/0!</td>
+      </tr>
+
+      <tr class="section"><td colspan="4">DÉPLACEMENTS DOMICILE TRAVAIL</td></tr>
+      <tr>
+        <td>Distance totale réalisée salarié</td><td>2 694 930</td><td>-</td><td class="green">-100%</td>
+      </tr>
+      <tr>
+        <td>Part modale voiture</td><td>#DIV/0!</td><td>#DIV/0!</td><td>#DIV/0!</td>
+      </tr>
+
+      <!-- Tu peux continuer avec les autres lignes en suivant le même modèle -->
+      </tbody>
+    </table>
+  </main>
+</div>
+</body>
+</html>
+
