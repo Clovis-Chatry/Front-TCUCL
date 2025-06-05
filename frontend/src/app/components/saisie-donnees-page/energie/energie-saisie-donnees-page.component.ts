@@ -23,6 +23,11 @@ export class EnergieSaisieDonneesPageComponent implements OnInit {
   items: any = {}; // Objet qui contiendra les données récupérées
   estTermine = false;
 
+  onEstTermineChange(value: boolean): void {
+    this.estTermine = value;
+    this.updateConso();
+  }
+
   ngOnInit() {
     this.estTermine = this.statusService.getStatus('energieOnglet');
     this.statusService.statuses$.subscribe(statuses => {

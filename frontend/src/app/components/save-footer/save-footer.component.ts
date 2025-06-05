@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OngletStatusService } from '../../services/onglet-status.service';
 
@@ -11,6 +11,7 @@ import { OngletStatusService } from '../../services/onglet-status.service';
 })
 export class SaveFooterComponent implements OnInit {
   @Input() path = '';
+  @Output() estTermineChange = new EventEmitter<boolean>();
   loading = false;
   estTermine = false;
 
@@ -34,5 +35,6 @@ export class SaveFooterComponent implements OnInit {
     if (this.path) {
       this.statusService.setStatus(this.path, this.estTermine);
     }
+    this.estTermineChange.emit(this.estTermine);
   }
 }
