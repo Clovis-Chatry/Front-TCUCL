@@ -63,7 +63,7 @@
         </form>
       </section>
     </div>
-    <!-- Section: Ajouter un utilisateur -->
+    <!-- Section: Ajouter un utilisateur Super Admin-->
     <div *ngIf="isSuperAdmin()">
       <section class="card" data-title="Ajouter un utilisateur à une entité">
         <form>
@@ -87,18 +87,77 @@
           </div>
 
         </form>
-        <button type="button" (click)="addUser()">Ajouter l'utilisateur</button>
+        <button type="button"
+                (click)="createEntity()"
+                [disabled]="!entity.name || !entity.type || !entity.admin.firstName || !entity.admin.lastName || !entity.admin.email || !isEmailValid(entity.admin.email)"
+                class="btn-update">
+          Créer l'entité
+        </button>
       </section>
     </div>
 
-    <!-- Section: Gestion des utilisateurs -->
-    <div *ngIf="isAdmin() || isSuperAdmin()">
+    <!-- Section: Ajouter un utilisateur Admin-->
+    <div *ngIf="isAdmin()">
+      <section class="card" data-title="Ajouter un utilisateur">
+        <form>
+          <label>Prénom</label>
+          <input type="text" placeholder="Prénom" [(ngModel)]="entity.admin.firstName" name="adminFirstName">
+
+          <label>Nom</label>
+          <input type="text" placeholder="Nom" [(ngModel)]="entity.admin.lastName" name="adminLastName">
+
+          <label>Email</label>
+          <input type="email" placeholder="Email" [(ngModel)]="entity.admin.email" name="adminEmail">
+
+          <div class="checkbox-line">
+            <input type="checkbox" id="adminCheckbox" [(ngModel)]="entity.admin.isAdmin" name="adminIsAdmin">
+            <label for="adminCheckbox">Utilisateur avec rôle "Admin"</label>
+          </div>
+
+        </form>
+        <button type="button"
+                (click)="createEntity()"
+                [disabled]="!entity.admin.firstName || !entity.admin.lastName || !entity.admin.email || !isEmailValid(entity.admin.email)"
+                class="btn-update">
+          Créer l'entité
+        </button>
+      </section>
+    </div>
+
+    <!-- Section: Gestion des utilisateurs Super Admin-->
+    <div *ngIf="isSuperAdmin()">
       <section class="card" data-title="Gestion des utilisateurs">
         <label>Entité :</label>
         <select [(ngModel)]="selectedEntity" name="selectedEntity">
           <option *ngFor="let e of entities" [value]="e.name">{{ e.name }}</option>
         </select>
 
+        <table class="user-table">
+          <thead>
+          <tr>
+            <th>NOM</th>
+            <th>Prénom</th>
+            <th>admin</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let user of filteredUsers()">
+            <td>{{ user.lastName }}</td>
+            <td>{{ user.firstName }}</td>
+            <td><input type="checkbox" [checked]="user.isAdmin" disabled></td>
+            <td>
+              <button title="Modifier">✏️</button>
+              <button title="Supprimer">🗑️</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+    <!-- Section: Gestion des utilisateurs Admin-->
+    <div *ngIf="isAdmin()">
+      <section class="card" data-title="Gestion des utilisateurs">
         <table class="user-table">
           <thead>
           <tr>

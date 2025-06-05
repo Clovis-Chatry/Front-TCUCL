@@ -75,14 +75,13 @@ export class ParamsComponent {
   updateInfo(): void {
     const userId = this.userService.rawUser().id;
     const headers = this.getAuthHeaders();
-    console.log(headers)
     this.paramService.updateUserInfos(userId, {
       prenom: this.user.firstName,
       nom: this.user.lastName,
       email: this.user.email
     }, headers).subscribe({
-      next: () => alert('Informations mises à jour avec succès.'),
-      error: err => console.error('Erreur lors de la mise à jour :', err)
+      next: () => alert("Mise à jour effectuée."),
+      error: (err) => console.error('Erreur lors de la mise à jour :', err)
     });
   }
 
@@ -91,15 +90,38 @@ export class ParamsComponent {
   }
 
   createEntity(): void {
-    this.entities.push({ ...this.entity });
-    console.log('Nouvelle entité :', this.entity);
-
-    this.entity = {
-      name: '',
-      type: '',
-      params: { firstName: '', lastName: '', email: '', isParams: true },
-      admin: { firstName: '', lastName: '', email: '', isParams: false, isAdmin: false }
+    // Préparation de l'objet selon le format attendu par le backend
+    const body = {
+      nom: this.entity.name,
+      type: this.entity.type,
+      nomUtilisateur: this.entity.admin.lastName,
+      prenomUtilisateur: this.entity.admin.firstName,
+      emailUtilisateur: this.entity.admin.email
     };
+
+    // Récupération des headers avec token JWT
+    const headers = this.getAuthHeaders();
+
+    // Envoi via paramService (tu dois avoir une méthode dans paramService qui fait le POST)
+    this.paramService.creerEntite(body, headers).subscribe({
+      next: (res) => {
+        alert('Entité créée avec succès !');
+        // Ajout local si tu souhaites l'afficher tout de suite dans ta liste d'entités
+        this.entities.push({ ...this.entity });
+
+        // Réinitialiser le formulaire
+        this.entity = {
+          name: '',
+          type: '',
+          params: { firstName: '', lastName: '', email: '', isParams: true },
+          admin: { firstName: '', lastName: '', email: '', isParams: false, isAdmin: false }
+        };
+      },
+      error: (err) => {
+        console.error('Erreur création entité', err);
+        alert('Erreur lors de la création de l\'entité');
+      }
+    });
   }
 
   addUser(): void {

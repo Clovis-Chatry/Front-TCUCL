@@ -10,4 +10,9 @@ export class ParamService {
   updateUserInfos(utilisateurId: number, payload: { prenom: string; nom: string; email: string }, headers: any): Observable<any> {
     return this.http.patch(ApiEndpoints.Utilisateur.modifierSesInfos(utilisateurId), payload, {headers});
   }
+
+  creerEntite(body: any, headers: { [key: string]: string }) {
+    return this.http.post(ApiEndpoints.Utilisateur.creerEntite(), body, { headers });
+
+  }
 }
