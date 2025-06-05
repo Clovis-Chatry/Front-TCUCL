@@ -41,7 +41,7 @@
           <option [ngValue]="true">Oui</option>
         </select>
 
-        <label *ngIf="nouvelEquipement.gesConnu">Émissions de GES réelles (tCO2e/an)</label>
+        <label *ngIf="nouvelEquipement.gesConnu">Émissions de GES réelles (kgCO2/équipement)</label>
         <input *ngIf="nouvelEquipement.gesConnu" type="number" [(ngModel)]="nouvelEquipement.gesReel" />
       </div>
 

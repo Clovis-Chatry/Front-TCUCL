@@ -13,14 +13,15 @@
       <tr *ngFor="let item of items">
         <td>{{ item.type }}</td>
         <td>
+          <input type="number" class="value-input" [(ngModel)]="item.quantiteTonne" min="0">
+        </td>
+        <td>
           <select class="unit-select" [(ngModel)]="item.traitement">
             <option [ngValue]="null">-- Sélectionner --</option>
             <option *ngFor="let t of traitements" [ngValue]="t">{{ t }}</option>
           </select>
         </td>
-        <td>
-          <input type="number" class="value-input" [(ngModel)]="item.quantiteTonne" min="0">
-        </td>
+
       </tr>
       </tbody>
     </table>
