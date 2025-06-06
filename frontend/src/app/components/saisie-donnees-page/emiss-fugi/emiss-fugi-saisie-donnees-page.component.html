@@ -1,6 +1,13 @@
 <div class="main-container">
   <div class="left-panel">
     <h2>Émissions fugitives</h2>
+    <span class="help-icon" title="Lorem ipsum">
+        <svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="black"></circle>
+          <rect x="11" y="10" width="2" height="6" fill="white"></rect>
+          <circle cx="12" cy="8" r="1" fill="white"></circle>
+        </svg>
+      </span>
     <div class="container">
       <!-- Message d'erreur -->
       <div *ngIf="hasError" class="no-data-message">
@@ -8,63 +15,64 @@
       </div>
 
       <!-- Message "pas de données" -->
-        <div *ngIf="!hasError && noData" class="no-data-message">
-          Aucune machine renseignée pour l'année n-1.
-        </div>
+      <div *ngIf="!hasError && noData" class="no-data-message">
+        Aucune machine renseignée pour l'année n-1.
+      </div>
 
-        <div class="table-container" *ngIf="!hasError && !noData">
-          <table class="machine-table">
-            <thead>
-            <tr>
-              <th>Description</th>
-              <th>Type de fluide</th>
-              <th>Quantité de fluide (kg)</th>
-              <th>Taux de fuite réel (%)</th>
-              <th>Type de machine</th>
-              <th>Supprimer</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let machine of machines">
-              <td>
-                <div class="text-ellipsis" [title]="machine.descriptionMachine">
-                  {{ machine.descriptionMachine }}
-                </div>
-              </td>
-              <td>
-                <div class="text-ellipsis" [title]="getLibelleTypeFluide(machine.typeFluide)">
-                  {{ getLibelleTypeFluide(machine.typeFluide) }}
-                </div>
-              </td>
-              <td>
-                <div class="text-ellipsis" [title]="machine.quantiteFluideKg">
-                  {{ machine.quantiteFluideKg }}
-                </div>
-              </td>
-              <td>
-                <div class="text-ellipsis" [title]="machine.tauxDeFuiteConnu ? machine.tauxDeFuite : 'Inconnu'">
-                  {{ machine.tauxDeFuiteConnu ? machine.tauxDeFuite : 'Inconnu' }}
-                </div>
-              </td>
-              <td>
-                <div class="text-ellipsis" [title]="machine.typeMachineLabel">
-                  {{ machine.typeMachineLabel }}
-                </div>
-              </td>
-              <td>
-                <button (click)="supprimerMachine(machine)" title="Supprimer">🗑️</button>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-        <hr>
+      <div class="table-container" *ngIf="!hasError && !noData">
+        <table class="machine-table">
+          <thead>
+          <tr>
+            <th>Description</th>
+            <th>Type de fluide</th>
+            <th>Quantité de fluide (kg)</th>
+            <th>Taux de fuite réel (%)</th>
+            <th>Type de machine</th>
+            <th>Supprimer</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let machine of machines">
+            <td>
+              <div class="text-ellipsis" [title]="machine.descriptionMachine">
+                {{ machine.descriptionMachine }}
+              </div>
+            </td>
+            <td>
+              <div class="text-ellipsis" [title]="getLibelleTypeFluide(machine.typeFluide)">
+                {{ getLibelleTypeFluide(machine.typeFluide) }}
+              </div>
+            </td>
+            <td>
+              <div class="text-ellipsis" [title]="machine.quantiteFluideKg">
+                {{ machine.quantiteFluideKg }}
+              </div>
+            </td>
+            <td>
+              <div class="text-ellipsis" [title]="machine.tauxDeFuiteConnu ? machine.tauxDeFuite : 'Inconnu'">
+                {{ machine.tauxDeFuiteConnu ? machine.tauxDeFuite : 'Inconnu' }}
+              </div>
+            </td>
+            <td>
+              <div class="text-ellipsis" [title]="machine.typeMachineLabel">
+                {{ machine.typeMachineLabel }}
+              </div>
+            </td>
+            <td>
+              <button (click)="supprimerMachine(machine)" title="Supprimer">🗑️</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <hr>
 
       <!-- Formulaire d'ajout -->
       <div class="form-container">
         <div class="form-group">
           <label for="descriptionMachine">Description</label>
-          <input type="text" id="descriptionMachine" maxlength="100" [(ngModel)]="newMachine.descriptionMachine" placeholder="Description de la machine" />
+          <input type="text" id="descriptionMachine" maxlength="100" [(ngModel)]="newMachine.descriptionMachine"
+                 placeholder="Description de la machine"/>
         </div>
 
         <div class="form-group">
@@ -76,18 +84,18 @@
 
         <div class="form-group">
           <label for="quantiteFluideKg">Quantité de fluide (L ou kg)</label>
-          <input type="number" id="quantiteFluideKg" [(ngModel)]="newMachine.quantiteFluideKg" />
+          <input type="number" id="quantiteFluideKg" [(ngModel)]="newMachine.quantiteFluideKg"/>
         </div>
 
         <div class="form-group">
           <label for="tauxDeFuiteConnu">Taux de fuite réel connu ?</label>
           <div>
             <label>
-              <input type="radio" [(ngModel)]="newMachine.tauxDeFuiteConnu" [value]="true" />
+              <input type="radio" [(ngModel)]="newMachine.tauxDeFuiteConnu" [value]="true"/>
               Oui
             </label>
             <label>
-              <input type="radio" [(ngModel)]="newMachine.tauxDeFuiteConnu" [value]="false" />
+              <input type="radio" [(ngModel)]="newMachine.tauxDeFuiteConnu" [value]="false"/>
               Non
             </label>
           </div>
@@ -95,7 +103,7 @@
 
         <div class="form-group" *ngIf="newMachine.tauxDeFuiteConnu">
           <label for="tauxDeFuite">Taux de fuite (%)</label>
-          <input type="number" id="tauxDeFuite" [(ngModel)]="newMachine.tauxDeFuite" placeholder="Taux de fuite (%)" />
+          <input type="number" id="tauxDeFuite" [(ngModel)]="newMachine.tauxDeFuite" placeholder="Taux de fuite (%)"/>
         </div>
 
         <div class="form-group" *ngIf="!newMachine.tauxDeFuiteConnu">
