@@ -116,7 +116,7 @@
 
         </form>
         <button type="button"
-                (click)="createEntity()"
+                (click)="addUser()"
                 [disabled]="!entity.admin.firstName || !entity.admin.lastName || !entity.admin.email || !isEmailValid(entity.admin.email)"
                 class="btn-update">
           Créer l'entité
