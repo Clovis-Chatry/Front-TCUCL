@@ -7,15 +7,6 @@
       ✏️ Renseigner année courante
     </button>
 
-    <button class="main-button year-selector-button" (click)=goToEnergieAvecAnnee()>
-      ✏️ Modifier une autre année
-      <select class="year-select" [(ngModel)]="selectedYear" (ngModelChange)="onYearChange($event)">
-        <option *ngFor="let year of years" [value]="year.value">
-          {{ year.label }}
-        </option>
-      </select>
-    </button>
-
     <div class="main-button year-selector-button">
       <div class="year-button-text" (click)="goToEnergieAvecAnnee()">
         ✏️ Modifier une autre année
