@@ -31,7 +31,8 @@ export class BatimentOngletMapperService {
       dureeAmortissement: e.dureeAmortissement ?? null,
     }));
 
-    const mobiliers: MobilierElectromenager[] = (dto.mobiliers || []).map((m: any) => ({
+    const mobilierDtoList = dto.mobiliers ?? dto.mobilierElectromenagerList;
+    const mobiliers: MobilierElectromenager[] = (mobilierDtoList || []).map((m: any) => ({
       id: m.id,
       dateAjout: m.dateAjout ?? null,
       mobilier: m.mobilier as EnumBatiment_TypeMobilier,
@@ -77,7 +78,7 @@ export class BatimentOngletMapperService {
         surfaceConcernee: e.surfaceConcernee,
         dureeAmortissement: e.dureeAmortissement,
       })),
-      mobiliers: model.mobiliers.map((m: MobilierElectromenager) => ({
+      mobilierElectromenagerList: model.mobiliers.map((m: MobilierElectromenager) => ({
         id: m.id,
         dateAjout: m.dateAjout,
         mobilier: typeof m.mobilier === 'string' ? m.mobilier : (m.mobilier as EnumBatiment_TypeMobilier).toString(),
