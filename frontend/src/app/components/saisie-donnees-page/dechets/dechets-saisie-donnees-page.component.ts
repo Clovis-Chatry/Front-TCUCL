@@ -34,9 +34,9 @@ export class DechetSaisieDonneesPageComponent implements OnInit {
   traitements = Object.values(TRAITEMENT_DECHET);
 
   ngOnInit(): void {
-    this.estTermine = this.statusService.getStatus('dechetsOnglet');
+    this.estTermine = this.statusService.getStatus('dechetOnglet');
     this.statusService.statuses$.subscribe(s => {
-      this.estTermine = s['dechetsOnglet'] ?? false;
+      this.estTermine = s['dechetOnglet'] ?? false;
     });
     const id = this.route.snapshot.paramMap.get('id');
     if (id) this.loadData(id);

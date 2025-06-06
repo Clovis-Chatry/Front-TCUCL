@@ -46,9 +46,9 @@ export class AutoSaisieDonneesPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.vehiculeOnglet.estTermine = this.statusService.getStatus('autoOnglet');
+    this.vehiculeOnglet.estTermine = this.statusService.getStatus('vehiculeOnglet');
     this.statusService.statuses$.subscribe(s => {
-      this.vehiculeOnglet.estTermine = s['autoOnglet'] ?? false;
+      this.vehiculeOnglet.estTermine = s['vehiculeOnglet'] ?? false;
     });
 
     const id = this.route.snapshot.paramMap.get('id');

@@ -38,9 +38,9 @@ export class DomTravSaisieDonneesPageComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.estTermine = this.statusService.getStatus('mobiliteDomTravOnglet');
+    this.estTermine = this.statusService.getStatus('mobiliteDomicileTravailOnglet');
     this.statusService.statuses$.subscribe(s => {
-      this.estTermine = s['mobiliteDomTravOnglet'] ?? false;
+      this.estTermine = s['mobiliteDomicileTravailOnglet'] ?? false;
     });
     const id = this.route.snapshot.paramMap.get('id');
     if (id) this.loadData(id);

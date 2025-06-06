@@ -65,9 +65,9 @@ export class AutreImmobilisationPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.estTermine = this.statusService.getStatus('immobOnglet');
+    this.estTermine = this.statusService.getStatus('autreImmobilisationOnglet');
     this.statusService.statuses$.subscribe(s => {
-      this.estTermine = s['immobOnglet'] ?? false;
+      this.estTermine = s['autreImmobilisationOnglet'] ?? false;
     });
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
