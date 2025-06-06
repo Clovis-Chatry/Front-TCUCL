@@ -120,3 +120,48 @@
   color: #555;
   cursor: pointer;
 }
+/* Bloc contenant le bouton + selecteur, avec même style que .main-button */
+.year-selector-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 30px;
+  padding: 0.6em 1.5em;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  transition: background-color 0.2s ease;
+  gap: 0.6em; /* espace entre le texte et le select */
+}
+
+/* Texte du bouton */
+.year-button-text {
+  font-size: 1em;
+  font-weight: bold;
+  color: black;
+  cursor: pointer;
+}
+
+/* même style que ton .main-button:hover */
+.year-selector-button:hover {
+  background-color: #333;
+  color: white;
+}
+
+/* Le sélecteur d’année dans le bouton */
+.year-dropdown {
+  font-size: 1em;
+  padding: 0.3em;
+  border-radius: 6px;
+  border: 1px solid #999;
+  width: 80%;
+  max-width: 200px;
+}
+.year-selector-button:hover .year-button-text {
+  color: white;
+}
