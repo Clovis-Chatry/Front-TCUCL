@@ -11,6 +11,11 @@ export class OngletStatusService {
     this.statuses.next({ ...current, [path]: status });
   }
 
+  setStatuses(newStatuses: Record<string, boolean>): void {
+    const current = this.statuses.getValue();
+    this.statuses.next({ ...current, ...newStatuses });
+  }
+
   getStatus(path: string): boolean {
     return this.statuses.getValue()[path] ?? false;
   }

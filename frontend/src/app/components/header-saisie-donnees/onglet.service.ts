@@ -22,4 +22,17 @@ export class OngletService {
     const url = `${ApiEndpoints.Onglets.getAllIds(entiteId)}?annee=${annee}`;
     return this.http.get<{ [key: string]: number }>(url, { headers });
   }
+
+  getOngletStatuses(entiteId: number, annee: number) {
+    const token = this.auth.getToken();
+    if (!token) return;
+
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    };
+
+    const url = `${ApiEndpoints.Onglets.getAllStatus(entiteId)}?annee=${annee}`;
+    return this.http.get<{ [key: string]: boolean }>(url, { headers });
+  }
 }

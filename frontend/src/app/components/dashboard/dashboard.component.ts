@@ -49,6 +49,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadOngletIds();
+    this.loadOngletStatuses();
   }
 
   loadOngletIds(): void {
@@ -58,6 +59,17 @@ export class DashboardComponent implements OnInit {
       },
       error: (err) => {
         console.error('Erreur récupération onglet IDs:', err);
+      }
+    });
+  }
+
+  loadOngletStatuses(): void {
+    this.ongletService.getOngletStatuses(this.entiteId, this.currentYear)?.subscribe({
+      next: (statuses) => {
+        this.statusService.setStatuses(statuses);
+      },
+      error: (err) => {
+        console.error('Erreur récupération statuses:', err);
       }
     });
   }
