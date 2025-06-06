@@ -31,7 +31,7 @@
         </label>
 
         <label>Émissions de GES connues ?
-          <select [(ngModel)]="nouveauParking.emissionsGesConnues">
+          <select [(ngModel)]="nouveauParking.emissionsGesConnues" (ngModelChange)="onEmissionsConnuesChange($event)">
             <option [ngValue]="false">Non</option>
             <option [ngValue]="true">Oui</option>
           </select>

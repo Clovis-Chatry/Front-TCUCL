@@ -40,6 +40,12 @@ export class ParkSaisieDonneesPageComponent implements OnInit {
   parkingTypes = Object.values(PARKING_VOIRIE_TYPE);
   structureTypes = Object.values(PARKING_VOIRIE_TYPE_STRUCTURE);
 
+  onEmissionsConnuesChange(value: boolean): void {
+    if (!value) {
+      this.nouveauParking.emissionsGesReelles = null;
+    }
+  }
+
   ngOnInit(): void {
     this.parkingOnglet.estTermine = this.statusService.getStatus('parkingVoirieOnglet');
     this.statusService.statuses$.subscribe(s => {
@@ -76,6 +82,9 @@ export class ParkSaisieDonneesPageComponent implements OnInit {
   }
 
   ajouterParking(): void {
+    if (!this.nouveauParking.emissionsGesConnues) {
+      this.nouveauParking.emissionsGesReelles = null;
+    }
     this.parkingOnglet.parkings.push({ ...this.nouveauParking });
     this.nouveauParking = {
       nomOuAdresse: '',

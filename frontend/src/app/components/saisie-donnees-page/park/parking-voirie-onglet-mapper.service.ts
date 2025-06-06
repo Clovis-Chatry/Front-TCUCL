@@ -34,12 +34,14 @@ export class ParkingVoirieOngletMapperService {
     const parkings: ParkingVoirie[] = (dto.parkingVoirieList || []).map((p: any) => {
       const backendType = p.type as string;
       const localType = this.backendToLocal[backendType] ?? this.normalizeType(backendType);
+      const emissionsGesConnues = p.emissionsGesConnues ?? false;
+      const emissionsGesReelles = emissionsGesConnues ? p.emissionsGesReelles ?? null : null;
       return {
         id: p.id,
         nomOuAdresse: p.nomOuAdresse ?? '',
         dateConstruction: p.dateConstruction ?? null,
-        emissionsGesConnues: p.emissionsGesConnues ?? false,
-        emissionsGesReelles: p.emissionsGesReelles ?? null,
+        emissionsGesConnues,
+        emissionsGesReelles,
         type: localType as PARKING_VOIRIE_TYPE,
         nombreM2: p.nombreM2 ?? null,
         typeStructure: this.normalizeStructure(p.typeStructure) as PARKING_VOIRIE_TYPE_STRUCTURE,
@@ -63,7 +65,7 @@ export class ParkingVoirieOngletMapperService {
         nomOuAdresse: p.nomOuAdresse,
         dateConstruction: p.dateConstruction,
         emissionsGesConnues: p.emissionsGesConnues,
-        emissionsGesReelles: p.emissionsGesReelles,
+        emissionsGesReelles: p.emissionsGesConnues ? p.emissionsGesReelles : null,
         type: this.localToBackend[p.type] ?? p.type.toString(),
         nombreM2: p.nombreM2,
         typeStructure: typeof p.typeStructure === 'string' ? p.typeStructure : (p.typeStructure as PARKING_VOIRIE_TYPE_STRUCTURE).toString(),
