@@ -135,26 +135,9 @@
     <button (click)="ajouterMobilier()">Ajouter ce mobilier</button>
   </details>
 
-  <table class="data-table" *ngIf="mobiliersAjoutes.length > 0">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Nombre</th>
-        <th>Poids (kg)</th>
-        <th>Durée amortissement</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let mob of mobiliersAjoutes; let i = index">
-        <td>{{ mob.type }}</td>
-        <td>{{ mob.nombre }}</td>
-        <td>{{ mob.poids }}</td>
-        <td>{{ mob.dureeAmortissement }}</td>
-        <td>
-          <button (click)="supprimerMobilier(i)">Supprimer</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div *ngFor="let mob of mobiliersAjoutes; let i = index">
+    <h3>{{ mob.type }}</h3>
+    <p>{{ mob.nombre }} x {{ mob.poids }} kg - {{ mob.dureeAmortissement }} ans</p>
+    <button (click)="supprimerMobilier(i)">Supprimer</button>
+  </div>
 </div>
