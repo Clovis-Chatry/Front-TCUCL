@@ -44,6 +44,8 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
   selectedYear: number;
   years: YearRange[] = [];
 
+  loading = false;
+
   @ViewChild('tabsContainer') tabsContainer!: ElementRef<HTMLDivElement>;
   @ViewChild('tabsElement') tabsRef!: ElementRef<HTMLDivElement>; // nom changé
   @ViewChildren('tabBtn') tabButtons!: QueryList<ElementRef<HTMLButtonElement>>;
@@ -114,6 +116,13 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
     if (this.startIndex + this.visibleCount < this.tabs.length) {
       this.startIndex++;
     }
+  }
+
+  save() {
+    this.loading = true;
+    setTimeout(() => {
+      this.loading = false;
+    }, 2000);
   }
 
   navigateTo(tab: string) {
