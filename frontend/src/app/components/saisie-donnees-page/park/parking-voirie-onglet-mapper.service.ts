@@ -4,6 +4,20 @@ import { ParkingVoirie, ParkingVoirieOngletModel } from '../../../models/parking
 
 @Injectable({ providedIn: 'root' })
 export class ParkingVoirieOngletMapperService {
+  private readonly backendToLocal: Record<string, PARKING_VOIRIE_TYPE> = {
+    PARKING: PARKING_VOIRIE_TYPE.PARKING,
+    VOIRIE: PARKING_VOIRIE_TYPE.VOIRIE,
+    NA: PARKING_VOIRIE_TYPE.NA,
+  };
+
+  private readonly localToBackend: Record<
+    PARKING_VOIRIE_TYPE,
+    string
+  > = {
+    [PARKING_VOIRIE_TYPE.PARKING]: 'PARKING',
+    [PARKING_VOIRIE_TYPE.VOIRIE]: 'VOIRIE',
+    [PARKING_VOIRIE_TYPE.NA]: 'NA',
+  };
   private normalizeType(value: string): PARKING_VOIRIE_TYPE | string {
     const upper = value?.toUpperCase();
     const found = (Object.values(PARKING_VOIRIE_TYPE) as string[]).find(v => v.toUpperCase() === upper);
@@ -17,17 +31,21 @@ export class ParkingVoirieOngletMapperService {
   }
 
   fromDto(dto: any): ParkingVoirieOngletModel {
-    const parkings: ParkingVoirie[] = (dto.parkingVoirieList || []).map((p: any) => ({
-      id: p.id,
-      nomOuAdresse: p.nomOuAdresse ?? '',
-      dateConstruction: p.dateConstruction ?? null,
-      emissionsGesConnues: p.emissionsGesConnues ?? false,
-      emissionsGesReelles: p.emissionsGesReelles ?? null,
-      type: this.normalizeType(p.type) as PARKING_VOIRIE_TYPE,
-      nombreM2: p.nombreM2 ?? null,
-      typeStructure: this.normalizeStructure(p.typeStructure) as PARKING_VOIRIE_TYPE_STRUCTURE,
-      dateAjoutEnBase: p.dateAjoutEnBase ?? null,
-    }));
+    const parkings: ParkingVoirie[] = (dto.parkingVoirieList || []).map((p: any) => {
+      const backendType = p.type as string;
+      const localType = this.backendToLocal[backendType] ?? this.normalizeType(backendType);
+      return {
+        id: p.id,
+        nomOuAdresse: p.nomOuAdresse ?? '',
+        dateConstruction: p.dateConstruction ?? null,
+        emissionsGesConnues: p.emissionsGesConnues ?? false,
+        emissionsGesReelles: p.emissionsGesReelles ?? null,
+        type: localType as PARKING_VOIRIE_TYPE,
+        nombreM2: p.nombreM2 ?? null,
+        typeStructure: this.normalizeStructure(p.typeStructure) as PARKING_VOIRIE_TYPE_STRUCTURE,
+        dateAjoutEnBase: p.dateAjoutEnBase ?? null,
+      };
+    });
 
     return {
       estTermine: dto.estTermine,
@@ -46,7 +64,7 @@ export class ParkingVoirieOngletMapperService {
         dateConstruction: p.dateConstruction,
         emissionsGesConnues: p.emissionsGesConnues,
         emissionsGesReelles: p.emissionsGesReelles,
-        type: typeof p.type === 'string' ? p.type : (p.type as PARKING_VOIRIE_TYPE).toString(),
+        type: this.localToBackend[p.type] ?? p.type.toString(),
         nombreM2: p.nombreM2,
         typeStructure: typeof p.typeStructure === 'string' ? p.typeStructure : (p.typeStructure as PARKING_VOIRIE_TYPE_STRUCTURE).toString(),
         dateAjoutEnBase: p.dateAjoutEnBase,
