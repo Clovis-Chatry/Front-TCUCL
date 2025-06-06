@@ -27,13 +27,15 @@ export class AchatsSaisieDonneesPageComponent implements OnInit {
   estTermine = false;
 
   consommablesFields = [
-    { label: 'Papier (ramettes)', unit: 'Tonnes', key: 'papierCons' },
+    { label: 'Papier', unit: 'Tonnes', key: 'papierCons' },
+    { label: 'Papier', unit: 'Ramettes', key: 'papierCons' },
     { label: 'Livres', unit: 'Tonnes', key: 'livresCons' },
+    { label: 'Livres', unit: 'Nb', key: 'livresCons' },
     { label: 'Carton neuf', unit: 'Tonnes', key: 'cartonNeufCons' },
     { label: 'Carton recycle', unit: 'Tonnes', key: 'cartonRecycleCons' },
     { label: 'Petites fournitures', unit: 'EUR', key: 'fournituresCons' },
-    { label: "Impressions jet d'encre", unit: 'Nb', key: 'jetEncreCons' },
-    { label: 'Impressions toner', unit: 'Nb', key: 'tonerCons' },
+    { label: "Impressions jet d'encre", unit: 'Ramettes', key: 'jetEncreCons' },
+    { label: 'Impressions toner', unit: 'Ramettes', key: 'tonerCons' },
     { label: 'Produits pharmaceutiques', unit: 'EUR', key: 'pharmaCons' },
     { label: 'Services (imprimerie, publicité, architecture et ingénierie, maintenance multi-technique des bâtiments)', unit: 'EUR', key: 'servicesCons' },
     { label: 'Service/Enseignement', unit: 'EUR', key: 'serviceEnseignementCons' },
