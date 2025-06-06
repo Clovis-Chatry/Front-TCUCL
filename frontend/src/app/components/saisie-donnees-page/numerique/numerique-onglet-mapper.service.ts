@@ -23,9 +23,9 @@ export class NumeriqueOngletMapperService {
     return {
       estTermine: dto.estTermine,
       note: dto.note,
-      cloudDataDisponible: dto.cloudData?.disponible ?? dto.cloudDataDisponible ?? null,
-      traficCloud: dto.cloudData?.trafic ?? dto.TraficCloudUtilisateur ?? null,
-      tipUtilisateur: dto.cloudData?.tip ?? dto.TraficTipUtilisateur ?? null,
+      cloudDataDisponible: dto.cloudDataDisponible ?? null,
+      traficCloud: dto.TraficCloudUtilisateur ?? null,
+      tipUtilisateur: dto.TraficTipUtilisateur ?? null,
       partTraficFranceEtranger: dto.PartTraficFranceEtranger ?? null,
       equipements,
     };
@@ -40,9 +40,7 @@ export class NumeriqueOngletMapperService {
       TraficTipUtilisateur: model.tipUtilisateur,
       PartTraficFranceEtranger: model.partTraficFranceEtranger,
       equipementNumeriqueList: model.equipements.map((e: EquipementNumerique) => ({
-        equipement: typeof e.equipement === 'string'
-          ? e.equipement
-          : (e.equipement as NUMERIQUE_EQUIPEMENT).toString(),
+        type: typeof e.equipement === 'string' ? e.equipement : (e.equipement as NUMERIQUE_EQUIPEMENT).toString(),
         nombre: e.nombre,
         dureeAmortissement: e.dureeAmortissement,
         emissionsGesPrecisesConnues: e.emissionsGesPrecisesConnues,
@@ -51,4 +49,3 @@ export class NumeriqueOngletMapperService {
     };
   }
 }
-
