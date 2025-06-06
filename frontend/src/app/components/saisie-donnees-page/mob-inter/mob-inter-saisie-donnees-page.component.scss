@@ -108,3 +108,17 @@ button {
   display: flex;
   align-items: center;
 }
+
+details {
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-bottom: 2rem;
+
+  summary {
+    font-weight: bold;
+    margin-bottom: 1rem;
+    cursor: pointer;
+  }
+}
