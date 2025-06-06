@@ -32,9 +32,9 @@ export class ParkSaisieDonneesPageComponent implements OnInit {
     dateConstruction: null,
     emissionsGesConnues: false,
     emissionsGesReelles: null,
-    type: PARKING_VOIRIE_TYPE.AERIEN,
+    type: PARKING_VOIRIE_TYPE.PARKING,
     nombreM2: null,
-    typeStructure: PARKING_VOIRIE_TYPE_STRUCTURE.OUVERT
+    typeStructure: PARKING_VOIRIE_TYPE_STRUCTURE.SOUTERRAIN
   };
 
   parkingTypes = Object.values(PARKING_VOIRIE_TYPE);
@@ -82,9 +82,9 @@ export class ParkSaisieDonneesPageComponent implements OnInit {
       dateConstruction: null,
       emissionsGesConnues: false,
       emissionsGesReelles: null,
-      type: PARKING_VOIRIE_TYPE.AERIEN,
+      type: PARKING_VOIRIE_TYPE.PARKING,
       nombreM2: null,
-      typeStructure: PARKING_VOIRIE_TYPE_STRUCTURE.OUVERT
+      typeStructure: PARKING_VOIRIE_TYPE_STRUCTURE.SOUTERRAIN
     };
     this.updateData();
   }
