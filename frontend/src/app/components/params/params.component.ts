@@ -1,10 +1,11 @@
-import {Component, inject} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
-import {Router} from '@angular/router';
-import {UserService} from '../../services/user.service';
-import {ParamService} from './params.service';
-import {AuthService} from '../../services/auth.service'; // adapte le chemin selon ton arborescence
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { UserService } from '../../services/user.service';
+import { ParamService } from './params.service';
+import { AuthService } from '../../services/auth.service';
+import {UtilisateurDto} from '../../models/user.model'; // adapte le chemin selon ton arborescence
 
 interface User {
   firstName: string;
@@ -15,6 +16,7 @@ interface User {
 }
 
 interface Entity {
+  id: number;
   name: string;
   type: string;
   params: User;
@@ -34,9 +36,9 @@ export class ParamsComponent {
   private paramService = inject(ParamService);
   private authService = inject(AuthService);
 
-  isUser = this.userService.isUser;
   isAdmin = this.userService.isAdmin;
   isSuperAdmin = this.userService.isSuperAdmin;
+  utilisateursEntiteSelectionnee: UtilisateurDto[] = [];
 
   user: User = {
     firstName: '',
@@ -45,11 +47,24 @@ export class ParamsComponent {
     isParams: false
   };
 
-  entity: Entity = {
+  entityToCreate = {
     name: '',
     type: '',
-    params: { firstName: '', lastName: '', email: '', isParams: true },
-    admin: { firstName: '', lastName: '', email: '', isParams: false, isAdmin: false }
+    admin: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      isParams: false,
+      isAdmin: true
+    }
+  };
+
+  userToAdd = {
+    entityName: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    isAdmin: false
   };
 
   newUserEntity: string = '';
@@ -57,6 +72,18 @@ export class ParamsComponent {
 
   entities: Entity[] = [];
   users: { entity: string; user: User }[] = [];
+  selectedEntityId: number | null = null;
+
+  onEntityChange(): void {
+    if (this.selectedEntityId !== null) {
+      this.loadUtilisateursParEntite(this.selectedEntityId);
+    }
+  }
+  ngOnInit(): void {
+    this.selectedEntityId = 2;
+    this.loadUtilisateursParEntite(2);
+  }
+
 
   getAuthHeaders(): { [key: string]: string } {
     const token = this.authService.getToken();
@@ -70,7 +97,6 @@ export class ParamsComponent {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
   }
-
 
   updateInfo(): void {
     const userId = this.userService.rawUser().id;
@@ -90,48 +116,81 @@ export class ParamsComponent {
   }
 
   createEntity(): void {
-    // Préparation de l'objet selon le format attendu par le backend
     const body = {
-      nom: this.entity.name,
-      type: this.entity.type,
-      nomUtilisateur: this.entity.admin.lastName,
-      prenomUtilisateur: this.entity.admin.firstName,
-      emailUtilisateur: this.entity.admin.email
+      nom: this.entityToCreate.name,
+      type: this.entityToCreate.type,
+      nomUtilisateur: this.entityToCreate.admin.lastName,
+      prenomUtilisateur: this.entityToCreate.admin.firstName,
+      emailUtilisateur: this.entityToCreate.admin.email
     };
 
-    // Récupération des headers avec token JWT
     const headers = this.getAuthHeaders();
 
-    // Envoi via paramService (tu dois avoir une méthode dans paramService qui fait le POST)
     this.paramService.creerEntite(body, headers).subscribe({
-      next: (res) => {
+      next: (response) => {
         alert('Entité créée avec succès !');
-        // Ajout local si tu souhaites l'afficher tout de suite dans ta liste d'entités
-        this.entities.push({ ...this.entity });
+        this.entities.push({
+          id: response.id,
+          name: this.entityToCreate.name,
+          type: this.entityToCreate.type,
+          params: { firstName: '', lastName: '', email: '', isParams: true },
+          admin: { ...this.entityToCreate.admin }
+        });
 
-        // Réinitialiser le formulaire
-        this.entity = {
+        this.entityToCreate = {
           name: '',
           type: '',
-          params: { firstName: '', lastName: '', email: '', isParams: true },
-          admin: { firstName: '', lastName: '', email: '', isParams: false, isAdmin: false }
+          admin: {
+            firstName: '',
+            lastName: '',
+            email: '',
+            isParams: false,
+            isAdmin: true
+          }
         };
       },
-      error: (err) => {
-        console.error('Erreur création entité', err);
-        alert('Erreur lors de la création de l\'entité');
-      }
+      error: (err) => console.error('Erreur HTTP :', err)
     });
   }
 
   addUser(): void {
-    if (this.newUserEntity) {
-      this.users.push({ entity: this.newUserEntity, user: { ...this.entity.admin } });
-      console.log('Utilisateur ajouté à', this.newUserEntity, ':', this.entity.admin);
+    const { entityName, firstName, lastName, email, isAdmin } = this.userToAdd;
 
-      this.entity.admin = { firstName: '', lastName: '', email: '', isParams: false, isAdmin: false };
+    if (entityName && firstName && lastName && email) {
+      const newUser: User = {
+        firstName,
+        lastName,
+        email,
+        isParams: false,
+        isAdmin
+      };
+
+      this.users.push({ entity: entityName, user: newUser });
+
+      this.userToAdd = {
+        entityName: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        isAdmin: false
+      };
     }
   }
+
+  loadUtilisateursParEntite(entiteId: number): void {
+    const headers = this.getAuthHeaders();
+
+    this.paramService.getUtilisateurParEntiteId(entiteId, headers).subscribe({
+      next: (users :UtilisateurDto[]) => {
+        this.utilisateursEntiteSelectionnee = users;
+        console.log('Utilisateurs chargés :', users);
+      },
+      error: (err) => {
+        console.error('Erreur lors du chargement des utilisateurs :', err);
+      }
+    });
+  }
+
 
   filteredUsers(): User[] {
     return this.users

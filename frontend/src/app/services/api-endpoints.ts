@@ -71,6 +71,7 @@ export const ApiEndpoints = {
 
   Utilisateur: {
     creerEntite: () => `${BASE_URL}/parametre/creer-entite`,
-    modifierSesInfos: (utilisateurId: number) => `${BASE_URL}/parametre/modifier-utilisateur-utilisateur/${utilisateurId}`
+    modifierSesInfos: (utilisateurId: number) => `${BASE_URL}/parametre/modifier-utilisateur-utilisateur/${utilisateurId}`,
+    recupererUtilisateurPourEntite: (entiteId: number) => `${BASE_URL}/parametre/utilisateur-entite/${entiteId}`,
   }
 };

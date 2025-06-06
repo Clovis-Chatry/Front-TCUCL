@@ -1,8 +1,10 @@
-export interface UserModel {
+export interface UtilisateurDto {
   id: number;
   nom: string;
   prenom: string;
   email: string;
-  estParams: boolean;
+  entiteId: number;
   entiteNom: string;
+  estAdmin: boolean;
+  superAdmin: boolean;
 }
