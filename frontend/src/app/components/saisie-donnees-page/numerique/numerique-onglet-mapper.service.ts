@@ -35,8 +35,11 @@ export class NumeriqueOngletMapperService {
       cloudDataDisponible: model.cloudDataDisponible,
       TraficCloudUtilisateur: model.traficCloud,
       TraficTipUtilisateur: model.tipUtilisateur,
-      equipementNumeriqueList: model.equipements.map(e => ({
-        equipement: typeof e.equipement === 'string' ? e.equipement : e.equipement.toString(),
+      equipementNumeriqueList: model.equipements
+        .map((e: EquipementNumerique) => ({
+          type: typeof e.equipement === 'string'
+            ? e.equipement
+            : (e.equipement as NUMERIQUE_EQUIPEMENT).toString(),
         nombre: e.nombre,
         dureeAmortissement: e.dureeAmortissement,
         emissionsGesPrecisesConnues: e.emissionsGesPrecisesConnues,

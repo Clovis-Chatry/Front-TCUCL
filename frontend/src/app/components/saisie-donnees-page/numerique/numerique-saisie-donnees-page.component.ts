@@ -1,16 +1,16 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../../services/auth.service';
-import { ApiEndpoints } from '../../../services/api-endpoints';
-import { CommonModule } from '@angular/common';
-import { SaveFooterComponent } from '../../save-footer/save-footer.component';
-import { OngletStatusService } from '../../../services/onglet-status.service';
-import { NumeriqueOngletMapperService } from './numerique-onglet-mapper.service';
-import { EquipementNumerique } from '../../../models/numerique.model';
-import { NUMERIQUE_EQUIPEMENT } from '../../../models/enums/numerique.enum';
-import { numeriqueEquipmentLabels } from '../../../models/numerique-equipment-labels';
+import {Component, OnInit, inject} from '@angular/core';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {ActivatedRoute} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {AuthService} from '../../../services/auth.service';
+import {ApiEndpoints} from '../../../services/api-endpoints';
+import {CommonModule} from '@angular/common';
+import {SaveFooterComponent} from '../../save-footer/save-footer.component';
+import {OngletStatusService} from '../../../services/onglet-status.service';
+import {NumeriqueOngletMapperService} from './numerique-onglet-mapper.service';
+import {EquipementNumerique} from '../../../models/numerique.model';
+import {NUMERIQUE_EQUIPEMENT} from '../../../models/enums/numerique.enum';
+import {numeriqueEquipmentLabels} from '../../../models/numerique-equipment-labels';
 
 @Component({
   selector: 'app-numerique-saisie-donnees-page',
@@ -40,7 +40,7 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
 
   equipementOptions = Object.keys(NUMERIQUE_EQUIPEMENT).map(key => {
     const value = NUMERIQUE_EQUIPEMENT[key as keyof typeof NUMERIQUE_EQUIPEMENT];
-    return { value, label: numeriqueEquipmentLabels[value] };
+    return {value, label: numeriqueEquipmentLabels[value]};
   });
 
   numeriqueEquipmentLabels = numeriqueEquipmentLabels;
@@ -79,7 +79,7 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
       'Authorization': `Bearer ${token}`
     };
 
-    this.http.get<any>(ApiEndpoints.NumeriqueOnglet.getById(id), { headers }).subscribe({
+    this.http.get<any>(ApiEndpoints.NumeriqueOnglet.getById(id), {headers}).subscribe({
       next: data => {
         const model = this.mapper.fromDto(data);
         this.donneesCloudDisponibles = model.cloudDataDisponible;
@@ -97,7 +97,7 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
       this.nouvelEquipement.dureeAmortissement !== null &&
       (!this.nouvelEquipement.emissionsGesPrecisesConnues || this.nouvelEquipement.emissionsReellesParProduitKgCO2e !== null)
     ) {
-      this.equipementsAjoutes.push({ ...this.nouvelEquipement });
+      this.equipementsAjoutes.push({...this.nouvelEquipement});
       this.nouvelEquipement = {
         equipement: NUMERIQUE_EQUIPEMENT.ECRAN,
         nombre: null,
@@ -131,8 +131,8 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
     };
 
     const payload = this.mapper.toDto(model);
-
-    this.http.patch(ApiEndpoints.NumeriqueOnglet.update(id), payload, { headers }).subscribe({
+    console.log(payload)
+    this.http.patch(ApiEndpoints.NumeriqueOnglet.update(id), payload, {headers}).subscribe({
       error: err => console.error('Erreur lors de la mise à jour des données numériques', err)
     });
   }
