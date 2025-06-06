@@ -9,6 +9,7 @@ import {GROUPE_VOYAGEURS, MODE_TRANSPORT_DOM_TRAV} from '../../../models/enums/t
 import {TransportDomTrav} from '../../../models/transport-data.model';
 import {TransportDataDomTravMapperService} from './transport-data-dom-trav-mapper.service';
 import { SaveFooterComponent } from '../../save-footer/save-footer.component';
+import { OngletStatusService } from '../../../services/onglet-status.service';
 
 @Component({
   selector: 'app-dom-trav-saisie-donnees-page',
@@ -22,6 +23,7 @@ export class DomTravSaisieDonneesPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
   private mapper = inject(TransportDataDomTravMapperService);
+  private statusService = inject(OngletStatusService);
 
   transportModes = Object.values(MODE_TRANSPORT_DOM_TRAV).filter(
     mode => mode !== MODE_TRANSPORT_DOM_TRAV.NOMBRE_TRAJETS
@@ -32,8 +34,14 @@ export class DomTravSaisieDonneesPageComponent implements OnInit {
   nbJoursEtudiant?: number;
   nbJoursSalarie?: number;
 
+  estTermine = false;
+
 
   ngOnInit(): void {
+    this.estTermine = this.statusService.getStatus('mobiliteDomTravOnglet');
+    this.statusService.statuses$.subscribe(s => {
+      this.estTermine = s['mobiliteDomTravOnglet'] ?? false;
+    });
     const id = this.route.snapshot.paramMap.get('id');
     if (id) this.loadData(id);
   }
@@ -74,7 +82,10 @@ export class DomTravSaisieDonneesPageComponent implements OnInit {
       'Authorization': `Bearer ${token}`
     };
 
-    const payload = this.mapper.buildFlatPayload(this.items, this.nbJoursEtudiant, this.nbJoursSalarie);
+    const payload = {
+      ...this.mapper.buildFlatPayload(this.items, this.nbJoursEtudiant, this.nbJoursSalarie),
+      estTermine: this.estTermine
+    };
 
     this.http.patch(ApiEndpoints.DomTravOnglet.update(id), payload, {headers}).subscribe({
       error: (error) => console.error('Erreur lors de la mise à jour', error)
@@ -99,6 +110,11 @@ export class DomTravSaisieDonneesPageComponent implements OnInit {
   }
 
   private tempValues = new Map<string, number>();
+
+  onEstTermineChange(value: boolean): void {
+    this.estTermine = value;
+    this.updateData();
+  }
 
   setValueTemp(mode: MODE_TRANSPORT_DOM_TRAV, group: GROUPE_VOYAGEURS, value: number) {
     const key = `${mode}_${group}`;

@@ -10,6 +10,7 @@ import { DechetDataMapperService } from './dechet-data-mapper.service';
 import { ApiEndpoints } from '../../../services/api-endpoints';
 import { AuthService } from '../../../services/auth.service';
 import { SaveFooterComponent } from '../../save-footer/save-footer.component';
+import { OngletStatusService } from '../../../services/onglet-status.service';
 
 @Component({
   selector: 'app-dechet-saisie-donnees-page',
@@ -23,13 +24,20 @@ export class DechetSaisieDonneesPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private auth = inject(AuthService);
   private mapper = inject(DechetDataMapperService);
+  private statusService = inject(OngletStatusService);
 
   items: DechetData[] = [];
+
+  estTermine = false;
 
   types = Object.values(TYPE_DECHET);
   traitements = Object.values(TRAITEMENT_DECHET);
 
   ngOnInit(): void {
+    this.estTermine = this.statusService.getStatus('dechetsOnglet');
+    this.statusService.statuses$.subscribe(s => {
+      this.estTermine = s['dechetsOnglet'] ?? false;
+    });
     const id = this.route.snapshot.paramMap.get('id');
     if (id) this.loadData(id);
   }
@@ -58,7 +66,7 @@ export class DechetSaisieDonneesPageComponent implements OnInit {
       Authorization: `Bearer ${token}`
     };
 
-    const payload = this.mapper.buildPayload(this.items);
+    const payload = { ...this.mapper.buildPayload(this.items), estTermine: this.estTermine };
 
     this.http.patch(ApiEndpoints.DechetsOnglet.update(id), payload, { headers }).subscribe({
       error: err => console.error('PATCH déchets échoué', err)
@@ -67,5 +75,10 @@ export class DechetSaisieDonneesPageComponent implements OnInit {
 
   updateConso(): void {
     console.log('Mise à jour des champs de déchets :', this.items);
+  }
+
+  onEstTermineChange(value: boolean): void {
+    this.estTermine = value;
+    this.updateData();
   }
 }

@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { SaveFooterComponent } from '../../save-footer/save-footer.component';
 import { AuthService } from '../../../services/auth.service';
 import { ApiEndpoints } from '../../../services/api-endpoints';
+import { OngletStatusService } from '../../../services/onglet-status.service';
 
 @Component({
   selector: 'app-saisie-donnees-page',
@@ -18,6 +19,7 @@ export class AutreImmobilisationPageComponent implements OnInit {
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
+  private statusService = inject(OngletStatusService);
 
   items: any = {
     // Photovoltaïque
@@ -55,7 +57,18 @@ export class AutreImmobilisationPageComponent implements OnInit {
     machines: []
   };
 
+  estTermine = false;
+
+  onEstTermineChange(value: boolean): void {
+    this.estTermine = value;
+    this.updateData();
+  }
+
   ngOnInit() {
+    this.estTermine = this.statusService.getStatus('immobOnglet');
+    this.statusService.statuses$.subscribe(s => {
+      this.estTermine = s['immobOnglet'] ?? false;
+    });
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) {
@@ -108,5 +121,21 @@ export class AutreImmobilisationPageComponent implements OnInit {
 
   supprimerMachine(index: number): void {
     this.items.machines.splice(index, 1);
+    this.updateData();
+  }
+
+  updateData(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    const token = this.authService.getToken();
+    if (!id || !token) return;
+
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    };
+
+    this.http.patch(ApiEndpoints.ImmobOnglet.update(id), { ...this.items, estTermine: this.estTermine }, { headers }).subscribe({
+      error: err => console.error('PATCH immob echoue', err)
+    });
   }
 }

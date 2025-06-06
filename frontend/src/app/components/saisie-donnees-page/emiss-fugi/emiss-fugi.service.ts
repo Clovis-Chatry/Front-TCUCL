@@ -22,4 +22,8 @@ export class EmmissionsFugtivesService {
   deleteMachine(EmissionFugitivesOnglet: string, machine: any, headers: any): Observable<any> {
     return this.http.delete<any>(ApiEndpoints.EmissionFugitivesOnglet.deleteMachine(EmissionFugitivesOnglet, machine), { headers });
   }
+
+  updateEstTermine(id: string, estTermine: boolean, headers: any): Observable<any> {
+    return this.http.patch<any>(ApiEndpoints.EmissionFugitivesOnglet.update(id), { estTermine }, { headers });
+  }
 }

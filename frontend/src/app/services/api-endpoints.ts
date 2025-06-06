@@ -15,6 +15,7 @@ export const ApiEndpoints = {
     addMachine: (id: string) => `${BASE_URL}/emissionFugitiveOnglet/${id}/machine`,
     deleteMachine: (id: string, idMachine: string) =>
       `${BASE_URL}/emissionFugitiveOnglet/${id}/machine/${idMachine}`,
+    update: (id: string) => `${BASE_URL}/emissionFugitiveOnglet/${id}`,
   },
 
   DomTravOnglet: {
