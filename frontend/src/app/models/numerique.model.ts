@@ -1,4 +1,4 @@
-import {NUMERIQUE_EQUIPEMENT} from '../zip/numerique.enum';
+import {NUMERIQUE_EQUIPEMENT} from './enums/numerique.enum';
 
 export interface EquipementNumerique {
   equipement: NUMERIQUE_EQUIPEMENT;
