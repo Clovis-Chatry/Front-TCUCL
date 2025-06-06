@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { OngletStatusService } from '../../services/onglet-status.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,7 +29,11 @@ export class DashboardComponent {
     { label: 'Déchets', status: true, path: 'dechetsOnglet' }
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private statusService: OngletStatusService) {}
+
+  getStatus(path: string): boolean {
+    return this.statusService.getStatus(path);
+  }
 
   goToSaisie(path: string): void {
     this.router.navigate([`/${path}/${this.currentYear}`]);

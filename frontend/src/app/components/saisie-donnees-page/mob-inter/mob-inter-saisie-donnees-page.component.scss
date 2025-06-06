@@ -39,52 +39,12 @@ label {
   input[type="date"],
   select {
     margin-top: 0.3rem;
+    display: block;
+    width: 220px;
     padding: 0.4rem;
     border-radius: 4px;
     border: 1px solid #ccc;
-    width: 100%;
-    max-width: 300px;
     box-sizing: border-box;
-  }
-}
-
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-  margin-bottom: 2rem;
-
-  th, td {
-    border: 1px solid #ccc;
-    padding: 0.5rem;
-    text-align: left;
-  }
-
-  th {
-    background-color: #f2f2f2;
-  }
-
-  input[type="number"],
-  input[type="text"] {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0.3rem;
-    background-color: #fafafa;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-  }
-
-  button {
-    padding: 0.3rem 0.6rem;
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #c0392b;
-    }
   }
 }
 
@@ -93,18 +53,56 @@ label {
   flex-direction: column;
   gap: 1rem;
   margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 button {
-  margin-top: 1rem;
   padding: 0.5rem 1rem;
   background-color: #3498db;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  margin-top: 1rem;
 
   &:hover {
     background-color: #2980b9;
   }
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+
+  th,
+  td {
+    border: 1px solid #ccc;
+    padding: 0.6rem;
+    text-align: left;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+}
+
+.note {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  margin-top: 1rem;
+}
+
+.help-icon {
+  margin-left: 0.5rem;
+  cursor: pointer;
+  color: #000;
+  margin-bottom: .75rem;
+  font-size: larger;
+}
+
+.page-title {
+  display: flex;
+  align-items: center;
 }

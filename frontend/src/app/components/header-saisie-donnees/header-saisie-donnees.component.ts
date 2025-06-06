@@ -1,4 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {
+  Component, Input, OnInit, AfterViewInit, ElementRef,
+  ViewChild, ViewChildren, QueryList, HostListener
+} from '@angular/core';
 import {Router} from '@angular/router';
 import {OngletService} from './onglet.service';
 import {CommonModule} from '@angular/common';
@@ -8,11 +11,12 @@ import {AuthService} from '../../services/auth.service';
 type YearRange = { label: string; value: number };
 @Component({
   selector: 'app-header-saisie-donnees',
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './header-saisie-donnees.component.html',
   styleUrls: ['./header-saisie-donnees.component.scss']
 })
-export class HeaderSaisieDonneesComponent implements OnInit {
+export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
   constructor(private router: Router, private ongletService: OngletService, private auth: AuthService) {
     this.currentYear = new Date().getFullYear();
     this.selectedYear = this.currentYear;
@@ -26,20 +30,23 @@ export class HeaderSaisieDonneesComponent implements OnInit {
 
   @Input() PageTitle: string = '';
   @Input() LogoSrc: string = '';
-  @Input() entiteId!: number; // tu dois fournir ça dans le parent
+  @Input() entiteId!: number;
 
   ongletIdMap: { [key: string]: number } = {};
 
-
-  tabs = ['Energie', 'Emissions fugitives', 'Mobilite dom-trav', 'Autre mob FR', 'Mob internationale', 'Batiments',
+  tabs = ['Energie', 'Emissions fugitives', 'Mobilite dom-trav', 'Autre mobilite en France', 'Mob internationale', 'Batiments',
     'Parkings', 'Auto', 'Numerique', 'Autre immob', 'Achats', 'Dechets'];
   startIndex = 0;
-  visibleCount = 8;
+  visibleCount = 12;
 
   activeTab: string | null = null;
   currentYear: number;
   selectedYear: number;
   years: YearRange[] = [];
+
+  @ViewChild('tabsContainer') tabsContainer!: ElementRef<HTMLDivElement>;
+  @ViewChild('tabsElement') tabsRef!: ElementRef<HTMLDivElement>; // nom changé
+  @ViewChildren('tabBtn') tabButtons!: QueryList<ElementRef<HTMLButtonElement>>;
 
   ngOnInit(): void {
     this.currentYear = new Date().getFullYear();
@@ -58,6 +65,29 @@ export class HeaderSaisieDonneesComponent implements OnInit {
     this.loadOngletIds();
   }
 
+  ngAfterViewInit(): void {
+    this.updateVisibleCount();
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.updateVisibleCount();
+  }
+
+  updateVisibleCount() {
+    if (!this.tabsContainer || this.tabButtons.length === 0) return;
+
+    const containerWidth = this.tabsContainer.nativeElement.offsetWidth;
+    const tabWidth = this.tabButtons.first.nativeElement.offsetWidth;
+    const gap = parseFloat(getComputedStyle(this.tabsRef.nativeElement).gap || '0');
+
+    const count = Math.floor((containerWidth + gap) / (tabWidth + gap));
+    this.visibleCount = Math.max(1, Math.min(this.tabs.length, count));
+
+    if (this.startIndex + this.visibleCount > this.tabs.length) {
+      this.startIndex = Math.max(0, this.tabs.length - this.visibleCount);
+    }
+  }
 
   loadOngletIds(): void {
     this.ongletService.getOngletIds(this.entiteId, this.selectedYear)?.subscribe({
@@ -120,7 +150,7 @@ export class HeaderSaisieDonneesComponent implements OnInit {
     'Energie': 'energieOnglet',
     'Emissions fugitives': 'emissionFugitiveOnglet',
     'Mobilite dom-trav': 'mobiliteDomicileTravailOnglet',
-    'Autre mob FR': 'autreMobFrOnglet',
+    'Autre mobilite en France': 'autreMobFrOnglet',
     'Mob internationale': 'mobInternationalOnglet',
     'Batiments': 'batimentImmobilisationMobilierOnglet',
     'Parkings': 'parkingVoirieOnglet',

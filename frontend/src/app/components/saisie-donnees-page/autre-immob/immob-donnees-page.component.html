@@ -3,123 +3,129 @@
     <h2>Autres immobilisations</h2>
 
     <p class="question-title">Avez-vous des panneaux photovoltaïques ?</p>
-    <label><input type="radio" name="hasPanneaux" [(ngModel)]="items.hasPanneaux" [value]="true" /> Oui</label>
-    <label><input type="radio" name="hasPanneaux" [(ngModel)]="items.hasPanneaux" [value]="false" /> Non</label>
+    <label><input type="radio" name="hasPanneaux" [(ngModel)]="items.hasPanneaux" [value]="true"/> Oui</label>
+    <label><input type="radio" name="hasPanneaux" [(ngModel)]="items.hasPanneaux" [value]="false"/> Non</label>
 
     <div *ngIf="items.hasPanneaux">
       <h3>Si oui :</h3>
       <table class="data-table">
         <thead>
-          <tr>
-            <th>Élément</th>
-            <th>Puissance totale</th>
-            <th>Durée de vie</th>
-            <th>Émissions GES connues ?</th>
-            <th>Émissions de GES réelles (tCO2e/an)</th>
-          </tr>
+        <tr>
+          <th>Élément</th>
+          <th>Puissance totale</th>
+          <th>Durée de vie</th>
+          <th>Émissions GES connues ?</th>
+          <th>Émissions de GES réelles (tCO2e/an)</th>
+        </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Installation complète</td>
-            <td><input type="number" [(ngModel)]="items.pvInstallationPuissance" /></td>
-            <td><input type="number" [(ngModel)]="items.pvInstallationDuree" /></td>
-            <td>
-              <select [(ngModel)]="items.pvInstallationGESConnu">
-                <option [value]="true">Oui</option>
-                <option [value]="false">Non</option>
-              </select>
-            </td>
-            <td><input type="number" [(ngModel)]="items.pvInstallationGESReel" /></td>
-          </tr>
-          <tr>
-            <td>Panneaux</td>
-            <td><input type="number" [(ngModel)]="items.pvPanneauxPuissance" /></td>
-            <td><input type="number" [(ngModel)]="items.pvPanneauxDuree" /></td>
-            <td>
-              <select [(ngModel)]="items.pvPanneauxGESConnu">
-                <option [value]="true">Oui</option>
-                <option [value]="false">Non</option>
-              </select>
-            </td>
-            <td><input type="number" [(ngModel)]="items.pvPanneauxGESReel" /></td>
-          </tr>
-          <tr>
-            <td>Onduleurs</td>
-            <td><input type="number" [(ngModel)]="items.pvOnduleursPuissance" /></td>
-            <td><input type="number" [(ngModel)]="items.pvOnduleursDuree" /></td>
-            <td>
-              <select [(ngModel)]="items.pvOnduleursGESConnu">
-                <option [value]="true">Oui</option>
-                <option [value]="false">Non</option>
-              </select>
-            </td>
-            <td><input type="number" [(ngModel)]="items.pvOnduleursGESReel" /></td>
-          </tr>
+        <tr>
+          <td>Installation complète</td>
+          <td><input type="number" [(ngModel)]="items.pvInstallationPuissance"/></td>
+          <td><input type="number" [(ngModel)]="items.pvInstallationDuree"/></td>
+          <td>
+            <select [(ngModel)]="items.pvInstallationGESConnu">
+              <option [value]="true">Oui</option>
+              <option [value]="false">Non</option>
+            </select>
+          </td>
+          <td><input type="number" [(ngModel)]="items.pvInstallationGESReel"/></td>
+        </tr>
+        <tr>
+          <td>Panneaux</td>
+          <td><input type="number" [(ngModel)]="items.pvPanneauxPuissance"/></td>
+          <td><input type="number" [(ngModel)]="items.pvPanneauxDuree"/></td>
+          <td>
+            <select [(ngModel)]="items.pvPanneauxGESConnu">
+              <option [value]="true">Oui</option>
+              <option [value]="false">Non</option>
+            </select>
+          </td>
+          <td><input type="number" [(ngModel)]="items.pvPanneauxGESReel"/></td>
+        </tr>
+        <tr>
+          <td>Onduleurs</td>
+          <td><input type="number" [(ngModel)]="items.pvOnduleursPuissance"/></td>
+          <td><input type="number" [(ngModel)]="items.pvOnduleursDuree"/></td>
+          <td>
+            <select [(ngModel)]="items.pvOnduleursGESConnu">
+              <option [value]="true">Oui</option>
+              <option [value]="false">Non</option>
+            </select>
+          </td>
+          <td><input type="number" [(ngModel)]="items.pvOnduleursGESReel"/></td>
+        </tr>
         </tbody>
       </table>
     </div>
 
-    <hr />
+    <hr/>
 
     <p class="question-title">Avez-vous des machines électriques ?</p>
-<label><input type="radio" name="machinesElectriques" [(ngModel)]="items.machinesElectriques" [value]="true" /> Oui</label>
-<label><input type="radio" name="machinesElectriques" [(ngModel)]="items.machinesElectriques" [value]="false" /> Non</label>
+    <label><input type="radio" name="machinesElectriques" [(ngModel)]="items.machinesElectriques" [value]="true"/>
+      Oui</label>
+    <label><input type="radio" name="machinesElectriques" [(ngModel)]="items.machinesElectriques" [value]="false"/> Non</label>
 
-<div *ngIf="items.machinesElectriques">
-  <div class="machine-section">
-    <label>Type :
-      <select [(ngModel)]="items.machineType">
-        <option value="groupe">Groupe électrogène</option>
-        <option value="autre">Autre</option>
-      </select>
-    </label>
-    <label>Nombre :
-      <input type="number" [(ngModel)]="items.machineNombre" />
-    </label>
-    <label>Poids du produit :
-      <input type="number" [(ngModel)]="items.machinePoids" /> Kg
-    </label>
-    <label>Durée d’amortissement :
-      <input type="number" [(ngModel)]="items.machineAmortissement" />
-    </label>
-    <label>Émissions de GES réelles connues ?
-      <select [(ngModel)]="items.machineGESConnu">
-        <option [value]="true">Oui</option>
-        <option [value]="false">Non</option>
-      </select>
-    </label>
-    <label>Émissions de GES réelles (tCO2e/an):
-      <input type="number" [(ngModel)]="items.machineGESReel" />
-    </label>
+    <div *ngIf="items.machinesElectriques">
+      <div class="machine-section">
+        <label>Type :
+          <select [(ngModel)]="items.machineType">
+            <option value="groupe">Groupe électrogène</option>
+            <option value="autre">Autre</option>
+          </select>
+        </label>
+        <label>Nombre :
+          <input type="number" [(ngModel)]="items.machineNombre"/>
+        </label>
+        <label>Poids du produit :
+          <input type="number" [(ngModel)]="items.machinePoids"/> Kg
+        </label>
+        <label>Durée d’amortissement :
+          <input type="number" [(ngModel)]="items.machineAmortissement"/>
+        </label>
+        <label>Émissions de GES réelles connues ?
+          <select [(ngModel)]="items.machineGESConnu">
+            <option [value]="true">Oui</option>
+            <option [value]="false">Non</option>
+          </select>
+        </label>
+        <label>Émissions de GES réelles (tCO2e/an):
+          <input type="number" [(ngModel)]="items.machineGESReel"/>
+        </label>
 
-    <button type="button" (click)="ajouterMachine()">Ajouter cet équipement</button>
-  </div>
+        <button type="button" (click)="ajouterMachine()">Ajouter cet équipement</button>
+      </div>
 
-  <div *ngIf="items.machines?.length > 0" class="added-machines">
-    <h4>Équipements ajoutés :</h4>
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Nombre</th>
-          <th>Poids</th>
-          <th>Amortissement</th>
-          <th>GES connu</th>
-          <th>GES réel</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let machine of items.machines; let i = index">
-          <td>{{ machine.nom }}</td>
-          <td>{{ machine.nombre }}</td>
-          <td>{{ machine.poids }} kg</td>
-          <td>{{ machine.amortissement }}</td>
-          <td>{{ machine.gesConnu ? 'Oui' : 'Non' }}</td>
-          <td>{{ machine.gesReel }}</td>
-          <td><button (click)="supprimerMachine(i)">Supprimer</button></td>
-        </tr>
-      </tbody>
-    </table>
+      <div *ngIf="items.machines?.length > 0" class="added-machines">
+        <h4>Équipements ajoutés :</h4>
+        <table class="data-table">
+          <thead>
+          <tr>
+            <th>Type</th>
+            <th>Nombre</th>
+            <th>Poids</th>
+            <th>Amortissement</th>
+            <th>GES connu</th>
+            <th>GES réel</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let machine of items.machines; let i = index">
+            <td>{{ machine.nom }}</td>
+            <td>{{ machine.nombre }}</td>
+            <td>{{ machine.poids }} kg</td>
+            <td>{{ machine.amortissement }}</td>
+            <td>{{ machine.gesConnu ? 'Oui' : 'Non' }}</td>
+            <td>{{ machine.gesReel }}</td>
+            <td>
+              <button (click)="supprimerMachine(i)">Supprimer</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <app-save-footer [path]="'immobOnglet'"></app-save-footer>
   </div>
 </div>

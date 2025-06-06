@@ -8,6 +8,7 @@ import {TypeFluide} from '../../../models/enums/typeFluide.enum';
 import {TypeMachineEnum} from '../../../models/enums/typeMachine.enum';
 import {TypeFluideLabels} from '../../../models/typeFluide-label';
 import {TypeMachineLabels} from '../../../models/type-machine-labels'
+import { SaveFooterComponent } from '../../save-footer/save-footer.component';
 
 @Component({
   selector: 'app-saisie-donnees-page',
@@ -16,7 +17,8 @@ import {TypeMachineLabels} from '../../../models/type-machine-labels'
   styleUrls: ['./emiss-fugi-saisie-donnees-page.component.scss'],
   imports: [
     FormsModule,
-    CommonModule
+    CommonModule,
+    SaveFooterComponent
   ]
 })
 export class EmissFugiSaisieDonneesPageComponent implements OnInit {
