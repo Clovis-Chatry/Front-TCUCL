@@ -7,7 +7,8 @@
     <span class="year-label">Année : {{ currentYear - 1 }} - {{ currentYear }}</span>
 
     <!-- Bouton Sauvegarder -->
-    <button class="button primary-button">Sauvegarder</button>
+    <button class="button primary-button" (click)="save()" [disabled]="loading">Sauvegarder</button>
+    <div class="loader" *ngIf="loading"></div>
 
     <!-- Trait séparateur -->
     <div class="splitter"><br class="splitter"></div>
