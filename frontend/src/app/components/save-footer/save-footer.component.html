@@ -1,0 +1,5 @@
+<div class="save-footer">
+  <button class="save-button" (click)="save()" [disabled]="loading">Sauvegarder</button>
+  <button class="termine-button" (click)="toggleTermine()">Terminé</button>
+  <div class="loader" *ngIf="loading"></div>
+</div>

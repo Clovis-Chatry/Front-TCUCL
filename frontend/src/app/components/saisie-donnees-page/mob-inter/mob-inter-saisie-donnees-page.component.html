@@ -1,6 +1,9 @@
 <div class="main-container">
   <div class="left-panel">
-    <h2>Saisir une destination</h2>
+    <div class="page-title">
+      <h2>Mobilité internationale</h2>
+      <span class="help-icon" title="Lorem ipsum"><i class="fa-solid fa-circle-info"></i></span>
+    </div>
 
     <details>
       <summary><strong>Saisir une destination</strong></summary>
@@ -19,6 +22,7 @@
               <th>Pro</th>
               <th>Stage étudiant</th>
               <th>Semestre étudiant</th>
+              <th>Autre</th>
             </tr>
           </thead>
           <tbody>
@@ -27,12 +31,14 @@
               <td><input type="number" [(ngModel)]="destinationEnCours.avion.pro" /></td>
               <td><input type="number" [(ngModel)]="destinationEnCours.avion.stage" /></td>
               <td><input type="number" [(ngModel)]="destinationEnCours.avion.semestre" /></td>
+              <td><input type="number" [(ngModel)]="destinationEnCours.avion.autre" /></td>
             </tr>
             <tr>
-              <td>Train</td>
+              <td>Train / Bus</td>
               <td><input type="number" [(ngModel)]="destinationEnCours.train.pro" /></td>
               <td><input type="number" [(ngModel)]="destinationEnCours.train.stage" /></td>
               <td><input type="number" [(ngModel)]="destinationEnCours.train.semestre" /></td>
+              <td><input type="number" [(ngModel)]="destinationEnCours.train.autre" /></td>
             </tr>
           </tbody>
         </table>
@@ -78,3 +84,4 @@
     </div>
   </div>
 </div>
+<app-save-footer [path]="'mobiliteInternationaleOnglet'"></app-save-footer>

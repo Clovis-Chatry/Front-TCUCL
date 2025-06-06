@@ -4,7 +4,7 @@
     <button class="button home-button" (click)="navigateToDashboard()">Accueil</button>
 
     <!-- Texte Année -->
-    <span class="year-label">Année : {{ currentYear-1 }} - {{currentYear}}</span>
+    <span class="year-label">Année : {{ currentYear - 1 }} - {{ currentYear }}</span>
 
     <!-- Bouton Sauvegarder -->
     <button class="button primary-button">Sauvegarder</button>
@@ -31,12 +31,16 @@
   <div class="nav-wrapper">
     <div class="nav-container">
       <!-- Flèche gauche -->
-      <button class="nav-arrow left" (click)="scrollLeft()" [disabled]="startIndex === 0">←</button>
+      <button class="nav-arrow left"
+              *ngIf="visibleCount < tabs.length"
+              (click)="scrollLeft()"
+              [disabled]="startIndex === 0">←</button>
 
       <!-- Conteneur des onglets -->
-      <div class="tabs-container">
-        <div class="tabs">
+      <div class="tabs-container" #tabsContainer>
+        <div class="tabs" #tabsElement>
           <button *ngFor="let tab of visibleTabs()"
+                  #tabBtn
                   [ngClass]="getTabClass(tab)"
                   class="tab"
                   (click)="navigateTo(tab)">
@@ -46,7 +50,10 @@
       </div>
 
       <!-- Flèche droite -->
-      <button class="nav-arrow right" (click)="scrollRight()" [disabled]="startIndex + visibleCount >= tabs.length">→
+      <button class="nav-arrow right"
+              *ngIf="visibleCount < tabs.length"
+              (click)="scrollRight()"
+              [disabled]="startIndex + visibleCount >= tabs.length">→
       </button>
     </div>
   </div>

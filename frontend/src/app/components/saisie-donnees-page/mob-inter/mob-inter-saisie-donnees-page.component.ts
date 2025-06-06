@@ -6,13 +6,14 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
 import { ApiEndpoints } from '../../../services/api-endpoints';
 import { Pays } from '../../../models/enums/pays.enum';
+import { SaveFooterComponent } from '../../save-footer/save-footer.component';
 
 @Component({
   selector: 'app-destination-page',
   standalone: true,
   templateUrl: './mob-inter-saisie-donnees-page.component.html',
-  styleUrls: ['./mob-inter-saisie-donnees-page.component.html'],
-  imports: [FormsModule, HttpClientModule, CommonModule]
+  styleUrls: ['./mob-inter-saisie-donnees-page.component.scss'],
+  imports: [FormsModule, HttpClientModule, CommonModule, SaveFooterComponent]
 })
 export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit {
   private http = inject(HttpClient);
@@ -21,8 +22,8 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
 
   destinationEnCours = {
     pays: '',
-    avion: { pro: null, stage: null, semestre: null },
-    train: { pro: null, stage: null, semestre: null }
+    avion: { pro: null, stage: null, semestre: null, autre: null },
+    train: { pro: null, stage: null, semestre: null, autre: null }
   };
 
   destinations: any[] = [];
@@ -72,8 +73,8 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
 
     this.destinationEnCours = {
       pays: '',
-      avion: { pro: null, stage: null, semestre: null },
-      train: { pro: null, stage: null, semestre: null }
+      avion: { pro: null, stage: null, semestre: null, autre: null },
+      train: { pro: null, stage: null, semestre: null, autre: null }
     };
   }
 
