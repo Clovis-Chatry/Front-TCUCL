@@ -7,12 +7,11 @@ import { ApiEndpoints } from '../../../services/api-endpoints';
 import { CommonModule } from '@angular/common';
 
 interface EquipementNumerique {
-  id?: number;
-  equipement: string;
-  nombre: number | null;
-  dureeAmortissement: number | null;
-  emissionsGesPrecisesConnues: boolean;
-  emissionsReellesParProduitKgCO2e: number | null;
+  type: string;
+  quantite: number | null;
+  amortissement: number | null;
+  gesConnu: boolean;
+  gesReel: number | null;
   anneeAjout?: number;
 }
 
@@ -28,17 +27,16 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
 
-  useMethodSimplifiee: boolean | null = null;
-  traficCloudUtilisateur: number | null = null;
-  traficTipUtilisateur: number | null = null;
-  partTraficFranceEtranger: number | null = null;
+  donneesCloudDisponibles: boolean | null = null;
+  traficCloud: number | null = null;
+  tipUtilisateur: number | null = null;
 
   nouvelEquipement: EquipementNumerique = {
-    equipement: 'Ecran',
-    nombre: null,
-    dureeAmortissement: null,
-    emissionsGesPrecisesConnues: false,
-    emissionsReellesParProduitKgCO2e: null
+    type: 'Ecran',
+    quantite: null,
+    amortissement: null,
+    gesConnu: false,
+    gesReel: null
   };
 
   equipementsAjoutes: EquipementNumerique[] = [];
@@ -66,11 +64,10 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
 
     this.http.get<any>(ApiEndpoints.NumeriqueOnglet.getById(id), { headers }).subscribe(
       (data) => {
-        this.useMethodSimplifiee = data.useMethodSimplifiee ?? null;
-        this.traficCloudUtilisateur = data.traficCloudUtilisateur ?? null;
-        this.traficTipUtilisateur = data.traficTipUtilisateur ?? null;
-        this.partTraficFranceEtranger = data.partTraficFranceEtranger ?? null;
-        this.equipementsAnciens = data.equipementNumeriqueList || [];
+        this.donneesCloudDisponibles = data.cloudData?.disponible ?? null;
+        this.traficCloud = data.cloudData?.trafic ?? null;
+        this.tipUtilisateur = data.cloudData?.tip ?? null;
+        this.equipementsAnciens = data.equipements || [];
       },
       (error) => {
         console.error("Erreur lors du chargement des données numériques", error);
@@ -80,18 +77,17 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
 
   ajouterEquipement(): void {
     if (
-      this.nouvelEquipement.nombre !== null &&
-      this.nouvelEquipement.dureeAmortissement !== null &&
-      (!this.nouvelEquipement.emissionsGesPrecisesConnues ||
-        this.nouvelEquipement.emissionsReellesParProduitKgCO2e !== null)
+      this.nouvelEquipement.quantite !== null &&
+      this.nouvelEquipement.amortissement !== null &&
+      (!this.nouvelEquipement.gesConnu || this.nouvelEquipement.gesReel !== null)
     ) {
       this.equipementsAjoutes.push({ ...this.nouvelEquipement });
       this.nouvelEquipement = {
-        equipement: 'Ecran',
-        nombre: null,
-        dureeAmortissement: null,
-        emissionsGesPrecisesConnues: true,
-        emissionsReellesParProduitKgCO2e: null
+        type: 'Ecran',
+        quantite: null,
+        amortissement: null,
+        gesConnu: true,
+        gesReel: null
       };
     }
   }
