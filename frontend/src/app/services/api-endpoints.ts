@@ -45,9 +45,15 @@ NumeriqueOnglet: {
   getById: (id: string) => `${BASE_URL}/numeriqueOnglet/${id}`,
   update: (id: string) => `${BASE_URL}/numeriqueOnglet/${id}`
 },
-ParkOnglet: {
-  getById: (id: string) => `${BASE_URL}/parkOnglet/${id}`,
-  update: (id: string) => `${BASE_URL}/parkOnglet/${id}`
+ParkingVoirieOnglet: {
+  getById: (id: string) => `${BASE_URL}/parkingVoirieOnglet/${id}`,
+  update: (id: string) => `${BASE_URL}/parkingVoirieOnglet/${id}`,
+  addParking: (id: string) => `${BASE_URL}/parkingVoirieOnglet/${id}/parkingVoirie`,
+  deleteParking: (ongletId: string, parkingId: string) =>
+    `${BASE_URL}/parkingVoirieOnglet/${ongletId}/parkingVoirie/${parkingId}`,
+  updateParking: (ongletId: string, parkingId: string) =>
+    `${BASE_URL}/parkingVoirieOnglet/${ongletId}/parkingVoirie/${parkingId}`,
+  getResult: (id: string) => `${BASE_URL}/parkingVoirieOnglet/${id}/resultat`
 },
 MobiliteInternationaleOnglet: {
   getById: (id: string) => `${BASE_URL}/mobiliteInternationaleOnglet/${id}`,
