@@ -3,7 +3,7 @@ const BASE_URL = 'http://localhost:8080';
 export const ApiEndpoints = {
   Onglets: {
     getAllIds: (entiteId: number) => `${BASE_URL}/general/${entiteId}`,
-    getAllStatus: (entiteId: number) => `${BASE_URL}/general/${entiteId}/status`
+    getAllStatus: (entiteId: number) => `${BASE_URL}/general/status/${entiteId}`
   },
 
   EnergieOnglet: {
