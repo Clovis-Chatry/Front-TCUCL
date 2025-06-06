@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { OngletService } from './onglet.service';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {Component, Input, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {OngletService} from './onglet.service';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
 
+type YearRange = { label: string; value: number };
 @Component({
   selector: 'app-header-saisie-donnees',
   imports: [CommonModule, FormsModule],
@@ -14,7 +15,6 @@ import {AuthService} from '../../services/auth.service';
 export class HeaderSaisieDonneesComponent implements OnInit {
   constructor(private router: Router, private ongletService: OngletService, private auth: AuthService) {
     this.currentYear = new Date().getFullYear();
-    this.years = Array.from({ length: this.currentYear - 2018 }, (_, i) => this.currentYear - i);
     this.selectedYear = this.currentYear;
     const user = this.auth.getUserInfo()();
     if (user?.entiteId) {
@@ -39,11 +39,25 @@ export class HeaderSaisieDonneesComponent implements OnInit {
   activeTab: string | null = null;
   currentYear: number;
   selectedYear: number;
-  years: number[] = [];
+  years: YearRange[] = [];
 
   ngOnInit(): void {
+    this.currentYear = new Date().getFullYear();
+    this.years = Array.from({ length: this.currentYear - 2018 }, (_, i) => {
+      const end = this.currentYear - i;
+      const start = end - 1;
+      return { label: `${start}-${end}`, value: end };
+    });
+
+    this.selectedYear = this.currentYear;
     this.loadOngletIds();
   }
+
+  onYearChange(newYear: number): void {
+    this.selectedYear = newYear;
+    this.loadOngletIds();
+  }
+
 
   loadOngletIds(): void {
     this.ongletService.getOngletIds(this.entiteId, this.selectedYear)?.subscribe({
@@ -69,15 +83,6 @@ export class HeaderSaisieDonneesComponent implements OnInit {
   scrollRight() {
     if (this.startIndex + this.visibleCount < this.tabs.length) {
       this.startIndex++;
-    }
-  }
-
-  goToOnglet(ongletKey: string): void {
-    const ongletId = this.ongletIdMap[ongletKey];
-    if (ongletId) {
-      this.router.navigate([`/${ongletKey}`, ongletId]);
-    } else {
-      console.error(`ID introuvable pour l'onglet ${ongletKey}`);
     }
   }
 
