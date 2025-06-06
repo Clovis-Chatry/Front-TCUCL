@@ -34,6 +34,16 @@ export class AutoSaisieDonneesPageComponent implements OnInit {
   };
 
   vehiculeTypes = Object.values(VEHICULE_TYPE);
+  vehiculeTypesLibelles = [
+    { value: VEHICULE_TYPE.THERMIQUE, label: 'Thermique' },
+    { value: VEHICULE_TYPE.HYBRIDE, label: 'Hybride' },
+    { value: VEHICULE_TYPE.ELECTRIQUE, label: 'Électrique' }
+  ];
+
+  getLibelleTypeVehicule(type: string): string {
+    const item = this.vehiculeTypesLibelles.find(t => t.value === type);
+    return item ? item.label : type;
+  }
 
   ngOnInit(): void {
     this.vehiculeOnglet.estTermine = this.statusService.getStatus('autoOnglet');

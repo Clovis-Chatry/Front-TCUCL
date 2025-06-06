@@ -11,7 +11,9 @@
 
         <label>Type de véhicule</label>
         <select [(ngModel)]="nouveauVehicule.typeVehicule">
-          <option *ngFor="let t of vehiculeTypes" [ngValue]="t">{{ t }}</option>
+          <option *ngFor="let type of vehiculeTypesLibelles" [ngValue]="type.value">
+            {{ type.label }}
+          </option>
         </select>
 
         <label>Nombre de véhicules identiques</label>
@@ -39,7 +41,7 @@
         <tbody>
           <tr *ngFor="let v of vehiculeOnglet.vehicules; let i = index">
             <td>{{ v.modeleOuImmatriculation }}</td>
-            <td>{{ v.typeVehicule }}</td>
+            <td>{{ getLibelleTypeVehicule(v.typeVehicule) }}</td>
             <td>{{ v.nombreVehiculesIdentiques }}</td>
             <td>{{ v.nombreKilometresParVoitureMoyen }}</td>
             <td><button type="button" (click)="supprimerVehicule(i)">Supprimer</button></td>
