@@ -70,6 +70,7 @@ BatimentsOnglet: {
 
   ajouterMobilier: (id: string) => `${BASE_URL}/batimentImmobilisationMobilierOnglet/${id}/mobilierElectromenager`,
   supprimerMobilier: (tabId: string, mobilierId: string) => `${BASE_URL}/batimentImmobilisationMobilierOnglet/${tabId}/mobilierElectromenager/${mobilierId}`,
+  update: (id: string) => `${BASE_URL}/batimentImmobilisationMobilierOnglet/${id}`
 },
 AutoOnglet: {
   getById: (id: string) => `${BASE_URL}/vehiculeOnglet/${id}`,
