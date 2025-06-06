@@ -9,6 +9,7 @@ import {TypeMachineEnum} from '../../../models/enums/typeMachine.enum';
 import {TypeFluideLabels} from '../../../models/typeFluide-label';
 import {TypeMachineLabels} from '../../../models/type-machine-labels'
 import { SaveFooterComponent } from '../../save-footer/save-footer.component';
+import { OngletStatusService } from '../../../services/onglet-status.service';
 
 @Component({
   selector: 'app-saisie-donnees-page',
@@ -24,6 +25,7 @@ import { SaveFooterComponent } from '../../save-footer/save-footer.component';
 export class EmissFugiSaisieDonneesPageComponent implements OnInit {
   private route = inject(ActivatedRoute); // Récupération des paramètres de l'URL
   private authService = inject(AuthService);
+  private statusService = inject(OngletStatusService);
   emmissionFugitiveOngletId: string = '';
   noData: boolean = false;
   hasError: boolean = false;
@@ -121,9 +123,15 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
 
   fuiteReelleConnue: boolean = true;
 
+  estTermine = false;
+
   constructor(private emmissionsFugtivesService: EmmissionsFugtivesService) {}
 
   ngOnInit() {
+    this.estTermine = this.statusService.getStatus('emissionsFugitivesOnglet');
+    this.statusService.statuses$.subscribe(s => {
+      this.estTermine = s['emissionsFugitivesOnglet'] ?? false;
+    });
     this.route.paramMap.subscribe(params => {
       this.emmissionFugitiveOngletId = params.get('id') || '';
       this.loadMachines();
@@ -251,5 +259,22 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
       typeMachine: ''
     };
     this.fuiteReelleConnue = true;
+  }
+
+  onEstTermineChange(value: boolean): void {
+    this.estTermine = value;
+    this.updateEstTermine();
+  }
+
+  updateEstTermine(): void {
+    const token = this.authService.getToken();
+    if (!token) return;
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    };
+    this.emmissionsFugtivesService.updateEstTermine(this.emmissionFugitiveOngletId, this.estTermine, headers).subscribe({
+      error: err => console.error('Erreur mise à jour estTermine', err)
+    });
   }
 }

@@ -7,6 +7,7 @@ import { AuthService } from '../../../services/auth.service';
 import { ApiEndpoints } from '../../../services/api-endpoints';
 import { Pays } from '../../../models/enums/pays.enum';
 import { SaveFooterComponent } from '../../save-footer/save-footer.component';
+import { OngletStatusService } from '../../../services/onglet-status.service';
 
 @Component({
   selector: 'app-destination-page',
@@ -19,6 +20,7 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
+  private statusService = inject(OngletStatusService);
 
   destinationEnCours = {
     pays: '',
@@ -28,9 +30,15 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
 
   destinations: any[] = [];
 
+  estTermine = false;
+
   listePays = Object.values(Pays);
 
   ngOnInit(): void {
+    this.estTermine = this.statusService.getStatus('mobiliteInternationaleOnglet');
+    this.statusService.statuses$.subscribe(s => {
+      this.estTermine = s['mobiliteInternationaleOnglet'] ?? false;
+    });
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) this.loadData(id);
@@ -80,5 +88,27 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
 
   supprimerDestination(index: number): void {
     this.destinations.splice(index, 1);
+  }
+
+  onEstTermineChange(value: boolean): void {
+    this.estTermine = value;
+    this.updateData();
+  }
+
+  updateData(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    const token = this.authService.getToken();
+    if (!id || !token) return;
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    };
+
+    const payload = { destinations: this.destinations, estTermine: this.estTermine };
+
+    this.http.patch(ApiEndpoints.MobiliteInternationaleOnglet.update(id), payload, { headers }).subscribe({
+      error: err => console.error('PATCH mobilite internationale echoue', err)
+    });
   }
 }

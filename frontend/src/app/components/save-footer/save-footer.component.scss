@@ -17,9 +17,9 @@
   transition: background-color 0.3s;
 }
 
+
 .termine-button {
   margin-left: 1rem;
-  background-color: #28a745;
   color: white;
   border: none;
   padding: 0.56em 1.12em;
@@ -29,8 +29,20 @@
   transition: background-color 0.3s;
 }
 
-.termine-button:hover {
+.termine-button.complete {
+  background-color: #28a745;
+}
+
+.termine-button.complete:hover {
   background-color: #1e7e34;
+}
+
+.termine-button.incomplete {
+  background-color: #dc3545;
+}
+
+.termine-button.incomplete:hover {
+  background-color: #c82333;
 }
 
 .save-button:hover {

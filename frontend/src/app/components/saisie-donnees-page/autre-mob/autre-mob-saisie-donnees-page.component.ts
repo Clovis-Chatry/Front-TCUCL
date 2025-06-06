@@ -12,6 +12,7 @@ import { ApiEndpoints } from '../../../services/api-endpoints';
 import { AuthService } from '../../../services/auth.service';
 import { TransportAutreMobMapperService} from './transport-data-autre-mob-mapper.service';
 import { SaveFooterComponent } from '../../save-footer/save-footer.component';
+import { OngletStatusService } from '../../../services/onglet-status.service';
 
 @Component({
   selector: 'app-autre-mob-saisie-donnees-page',
@@ -25,13 +26,20 @@ export class AutreMobSaisieDonneesPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private auth = inject(AuthService);
   private mapper = inject(TransportAutreMobMapperService);
+  private statusService = inject(OngletStatusService);
 
   items: TransportAutreMob[] = [];
+
+  estTermine = false;
 
   transportModes = Object.values(MODE_TRANSPORT_AUTRE_MOB);
   travelerGroups = Object.values(GROUPE_VOYAGEURS);
 
   ngOnInit(): void {
+    this.estTermine = this.statusService.getStatus('autreMobFrOnglet');
+    this.statusService.statuses$.subscribe(s => {
+      this.estTermine = s['autreMobFrOnglet'] ?? false;
+    });
     const id = this.route.snapshot.paramMap.get('id');
     if (id) this.loadData(id);
   }
@@ -73,6 +81,11 @@ export class AutreMobSaisieDonneesPageComponent implements OnInit {
 
   private tempValues = new Map<string, number>();
 
+  onEstTermineChange(value: boolean): void {
+    this.estTermine = value;
+    this.updateData();
+  }
+
   setValueTemp(mode: MODE_TRANSPORT_AUTRE_MOB, group: GROUPE_VOYAGEURS, field: 'distanceKm' | 'oneWayTrips', value: number) {
     const key = `${mode}_${group}_${field}`;
     this.tempValues.set(key, value);
@@ -96,7 +109,7 @@ export class AutreMobSaisieDonneesPageComponent implements OnInit {
       Authorization: `Bearer ${token}`,
     };
 
-    const payload = this.mapper.buildFlatPayload(this.items);
+    const payload = { ...this.mapper.buildFlatPayload(this.items), estTermine: this.estTermine };
 
     this.http.patch(ApiEndpoints.AutreMobFrOnglet.update(id), payload, { headers }).subscribe({
       error: err => console.error('PATCH autre mobilité échoué', err),
