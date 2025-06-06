@@ -51,3 +51,16 @@ button {
 td{
   background-color: white;
 }
+
+.help-icon {
+  margin-left: 0.5rem;
+  cursor: pointer;
+  color: #000;
+  margin-bottom: 0.75rem;
+  font-size: larger;
+}
+
+.page-title {
+  display: flex;
+  align-items: center;
+}

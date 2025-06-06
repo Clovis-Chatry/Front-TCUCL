@@ -1,13 +1,15 @@
 <div class="main-container">
   <div class="left-panel">
-    <h2>Autres immobilisations</h2>
-    <span class="help-icon" title="Lorem ipsum">
+    <div class="page-title">
+      <h2>Autres immobilisations</h2>
+      <span class="help-icon" title="Lorem ipsum">
         <svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="black"></circle>
           <rect x="11" y="10" width="2" height="6" fill="white"></rect>
           <circle cx="12" cy="8" r="1" fill="white"></circle>
         </svg>
       </span>
+    </div>
     <p class="question-title">Avez-vous des panneaux photovoltaïques ?</p>
     <label><input type="radio" name="hasPanneaux" [(ngModel)]="items.hasPanneaux" [value]="true"/> Oui</label>
     <label><input type="radio" name="hasPanneaux" [(ngModel)]="items.hasPanneaux" [value]="false"/> Non</label>
