@@ -96,9 +96,9 @@ export class AchatsSaisieDonneesPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.estTermine = this.statusService.getStatus('achatsOnglet');
+    this.estTermine = this.statusService.getStatus('achatOnglet');
     this.statusService.statuses$.subscribe(statuses => {
-      this.estTermine = statuses['achatsOnglet'] ?? false;
+      this.estTermine = statuses['achatOnglet'] ?? false;
     });
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');

@@ -128,9 +128,9 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
   constructor(private emmissionsFugtivesService: EmmissionsFugtivesService) {}
 
   ngOnInit() {
-    this.estTermine = this.statusService.getStatus('emissionsFugitivesOnglet');
+    this.estTermine = this.statusService.getStatus('emissionFugitiveOnglet');
     this.statusService.statuses$.subscribe(s => {
-      this.estTermine = s['emissionsFugitivesOnglet'] ?? false;
+      this.estTermine = s['emissionFugitiveOnglet'] ?? false;
     });
     this.route.paramMap.subscribe(params => {
       this.emmissionFugitiveOngletId = params.get('id') || '';

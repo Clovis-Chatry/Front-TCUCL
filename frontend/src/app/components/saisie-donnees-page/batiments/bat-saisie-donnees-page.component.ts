@@ -178,9 +178,9 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.batimentOnglet.estTermine = this.statusService.getStatus('batimentsOnglet');
+    this.batimentOnglet.estTermine = this.statusService.getStatus('batimentImmobilisationMobilierOnglet');
     this.statusService.statuses$.subscribe(s => {
-      this.batimentOnglet.estTermine = s['batimentsOnglet'] ?? false;
+      this.batimentOnglet.estTermine = s['batimentImmobilisationMobilierOnglet'] ?? false;
     });
     this.route.paramMap.subscribe(params => {
       this.batimentOngletId = params.get('id') || '';
