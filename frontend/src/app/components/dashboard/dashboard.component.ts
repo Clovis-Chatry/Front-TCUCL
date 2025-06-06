@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private statusService: OngletStatusService,
+    protected statusService: OngletStatusService,
     private ongletService: OngletService,
     private auth: AuthService
   ) {
@@ -96,4 +96,4 @@ export class DashboardComponent implements OnInit {
     }
     this.router.navigate([`/energieOnglet/${id}`]);
   }
-};
+}

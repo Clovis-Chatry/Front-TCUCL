@@ -2,6 +2,7 @@
 .main-container {
   background-color: #E6F0FF;
   display: flex;
+  flex-direction: column;
   gap: 2rem;
   padding: 2rem;
   min-height: 100vh;
