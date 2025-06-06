@@ -1,4 +1,4 @@
-import {NUMERIQUE_EQUIPEMENT} from './enums/numerique.enum';
+import {NUMERIQUE_EQUIPEMENT} from '../zip/numerique.enum';
 
 export interface EquipementNumerique {
   equipement: NUMERIQUE_EQUIPEMENT;
@@ -7,4 +7,14 @@ export interface EquipementNumerique {
   emissionsGesPrecisesConnues: boolean;
   emissionsReellesParProduitKgCO2e?: number | null;
   anneeAjout?: number;
+}
+
+export interface NumeriqueModel {
+  estTermine?: boolean;
+  note?: string;
+  cloudDataDisponible: boolean | null;
+  traficCloud: number | null;
+  tipUtilisateur: number | null;
+  partTraficFranceEtranger: number | null;
+  equipements: EquipementNumerique[];
 }

@@ -8,7 +8,7 @@ import {CommonModule} from '@angular/common';
 import {SaveFooterComponent} from '../../save-footer/save-footer.component';
 import {OngletStatusService} from '../../../services/onglet-status.service';
 import {NumeriqueOngletMapperService} from './numerique-onglet-mapper.service';
-import {EquipementNumerique} from '../../../models/numerique.model';
+import {EquipementNumerique, NumeriqueModel} from '../../../models/numerique.model';
 import {NUMERIQUE_EQUIPEMENT} from '../../../models/enums/numerique.enum';
 import {numeriqueEquipmentLabels} from '../../../models/numerique-equipment-labels';
 
@@ -29,6 +29,7 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
   donneesCloudDisponibles: boolean | null = null;
   traficCloud: number | null = null;
   tipUtilisateur: number | null = null;
+  partTraficFranceEtranger: number | null = null;
 
   nouvelEquipement: EquipementNumerique = {
     equipement: NUMERIQUE_EQUIPEMENT.ECRAN,
@@ -68,7 +69,6 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
 
   loadData(id: string): void {
     const token = this.authService.getToken();
-
     if (!token) {
       console.error("Token d'authentification manquant");
       return;
@@ -85,6 +85,7 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
         this.donneesCloudDisponibles = model.cloudDataDisponible;
         this.traficCloud = model.traficCloud;
         this.tipUtilisateur = model.tipUtilisateur;
+        this.partTraficFranceEtranger = model.partTraficFranceEtranger;
         this.equipementsAnciens = model.equipements;
       },
       error: err => console.error("Erreur lors du chargement des données numériques", err)
@@ -122,16 +123,17 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
       'Authorization': `Bearer ${token}`
     };
 
-    const model = {
+    const model: NumeriqueModel = {
       estTermine: this.estTermine,
       cloudDataDisponible: this.donneesCloudDisponibles,
       traficCloud: this.traficCloud,
       tipUtilisateur: this.tipUtilisateur,
+      partTraficFranceEtranger: this.partTraficFranceEtranger,
       equipements: this.equipementsAjoutes
     };
 
     const payload = this.mapper.toDto(model);
-    console.log(payload)
+    console.log(payload);
     this.http.patch(ApiEndpoints.NumeriqueOnglet.update(id), payload, {headers}).subscribe({
       error: err => console.error('Erreur lors de la mise à jour des données numériques', err)
     });

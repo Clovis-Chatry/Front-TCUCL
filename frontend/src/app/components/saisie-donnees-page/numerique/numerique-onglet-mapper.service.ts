@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EquipementNumerique } from '../../../models/numerique.model';
+import { EquipementNumerique, NumeriqueModel } from '../../../models/numerique.model';
 import { NUMERIQUE_EQUIPEMENT } from '../../../models/enums/numerique.enum';
 
 @Injectable({ providedIn: 'root' })
@@ -10,7 +10,7 @@ export class NumeriqueOngletMapperService {
     return (found as NUMERIQUE_EQUIPEMENT) || value;
   }
 
-  fromDto(dto: any): { cloudDataDisponible: boolean | null; traficCloud: number | null; tipUtilisateur: number | null; equipements: EquipementNumerique[] } {
+  fromDto(dto: any): NumeriqueModel {
     const equipements: EquipementNumerique[] = (dto.equipementNumeriqueList || []).map((e: any) => ({
       equipement: this.normalizeEquipement(e.equipement) as NUMERIQUE_EQUIPEMENT,
       nombre: e.nombre ?? null,
@@ -21,25 +21,26 @@ export class NumeriqueOngletMapperService {
     }));
 
     return {
+      estTermine: dto.estTermine,
+      note: dto.note,
       cloudDataDisponible: dto.cloudData?.disponible ?? dto.cloudDataDisponible ?? null,
       traficCloud: dto.cloudData?.trafic ?? dto.TraficCloudUtilisateur ?? null,
       tipUtilisateur: dto.cloudData?.tip ?? dto.TraficTipUtilisateur ?? null,
+      partTraficFranceEtranger: dto.PartTraficFranceEtranger ?? null,
       equipements,
     };
   }
 
-  toDto(model: { estTermine?: boolean; note?: string; cloudDataDisponible: boolean | null; traficCloud: number | null; tipUtilisateur: number | null; equipements: EquipementNumerique[] }): any {
+  toDto(model: NumeriqueModel): any {
     return {
       estTermine: model.estTermine,
       note: model.note,
       cloudDataDisponible: model.cloudDataDisponible,
       TraficCloudUtilisateur: model.traficCloud,
       TraficTipUtilisateur: model.tipUtilisateur,
-      equipementNumeriqueList: model.equipements
-        .map((e: EquipementNumerique) => ({
-          type: typeof e.equipement === 'string'
-            ? e.equipement
-            : (e.equipement as NUMERIQUE_EQUIPEMENT).toString(),
+      PartTraficFranceEtranger: model.partTraficFranceEtranger,
+      equipementNumeriqueList: model.equipements.map((e: EquipementNumerique) => ({
+        type: typeof e.equipement === 'string' ? e.equipement : (e.equipement as NUMERIQUE_EQUIPEMENT).toString(),
         nombre: e.nombre,
         dureeAmortissement: e.dureeAmortissement,
         emissionsGesPrecisesConnues: e.emissionsGesPrecisesConnues,
@@ -48,3 +49,4 @@ export class NumeriqueOngletMapperService {
     };
   }
 }
+
