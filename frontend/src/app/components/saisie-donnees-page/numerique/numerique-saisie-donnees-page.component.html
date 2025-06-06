@@ -3,15 +3,18 @@
     <h2>Poste numérique</h2>
 
     <p class="question-title">Disposez-vous de données sur le cloud ?</p>
-    <label><input type="radio" name="hasCloud" [(ngModel)]="donneesCloudDisponibles" [value]="true" /> Oui</label>
-    <label><input type="radio" name="hasCloud" [(ngModel)]="donneesCloudDisponibles" [value]="false" /> Non</label>
+    <label><input type="radio" name="hasCloud" [(ngModel)]="useMethodSimplifiee" [value]="false" /> Oui</label>
+    <label><input type="radio" name="hasCloud" [(ngModel)]="useMethodSimplifiee" [value]="true" /> Non</label>
 
-    <div class="card" *ngIf="donneesCloudDisponibles">
+    <div class="card" *ngIf="useMethodSimplifiee === false">
       <label for="cloudTraffic">Trafic cloud (Go)</label>
-      <input id="cloudTraffic" type="number" [(ngModel)]="traficCloud" />
+      <input id="cloudTraffic" type="number" [(ngModel)]="traficCloudUtilisateur" />
 
       <label for="tipUtilisateur">TIP utilisateur</label>
-      <input id="tipUtilisateur" type="number" [(ngModel)]="tipUtilisateur" />
+      <input id="tipUtilisateur" type="number" [(ngModel)]="traficTipUtilisateur" />
+
+      <label for="partTrafic">Part trafic France/Étranger (%)</label>
+      <input id="partTrafic" type="number" [(ngModel)]="partTraficFranceEtranger" />
     </div>
 
     <hr />
@@ -21,7 +24,7 @@
 
       <div class="form-column">
         <label>Type d'équipement</label>
-        <select [(ngModel)]="nouvelEquipement.type">
+        <select [(ngModel)]="nouvelEquipement.equipement">
           <option value="Ecran">Écran</option>
           <option value="Ordinateur">Ordinateur</option>
           <option value="Serveur">Serveur</option>
@@ -30,19 +33,19 @@
         </select>
 
         <label>Quantité</label>
-        <input type="number" [(ngModel)]="nouvelEquipement.quantite" />
+        <input type="number" [(ngModel)]="nouvelEquipement.nombre" />
 
         <label>Durée d’amortissement (ans)</label>
-        <input type="number" [(ngModel)]="nouvelEquipement.amortissement" />
+        <input type="number" [(ngModel)]="nouvelEquipement.dureeAmortissement" />
 
         <label>Émissions de GES connues ?</label>
-        <select [(ngModel)]="nouvelEquipement.gesConnu">
+        <select [(ngModel)]="nouvelEquipement.emissionsGesPrecisesConnues">
           <option [ngValue]="false" selected>Non</option>
           <option [ngValue]="true">Oui</option>
         </select>
 
-        <label *ngIf="nouvelEquipement.gesConnu">Émissions de GES réelles (tCO2e/an)</label>
-        <input *ngIf="nouvelEquipement.gesConnu" type="number" [(ngModel)]="nouvelEquipement.gesReel" />
+        <label *ngIf="nouvelEquipement.emissionsGesPrecisesConnues">Émissions de GES réelles (kgCO2e)</label>
+        <input *ngIf="nouvelEquipement.emissionsGesPrecisesConnues" type="number" [(ngModel)]="nouvelEquipement.emissionsReellesParProduitKgCO2e" />
       </div>
 
       <button type="button" (click)="ajouterEquipement()">Ajouter cet équipement</button>
@@ -62,11 +65,11 @@
         </thead>
         <tbody>
           <tr *ngFor="let equipement of equipementsAjoutes">
-            <td>{{ equipement.type }}</td>
-            <td>{{ equipement.quantite }}</td>
-            <td>{{ equipement.amortissement }}</td>
-            <td>{{ equipement.gesConnu ? 'Oui' : 'Non' }}</td>
-            <td>{{ equipement.gesReel ?? 'N/A' }}</td>
+            <td>{{ equipement.equipement }}</td>
+            <td>{{ equipement.nombre }}</td>
+            <td>{{ equipement.dureeAmortissement }}</td>
+            <td>{{ equipement.emissionsGesPrecisesConnues ? 'Oui' : 'Non' }}</td>
+            <td>{{ equipement.emissionsReellesParProduitKgCO2e ?? 'N/A' }}</td>
           </tr>
         </tbody>
       </table>
@@ -87,11 +90,11 @@
         </thead>
         <tbody>
           <tr *ngFor="let equipement of equipementsAnciens">
-            <td>{{ equipement.type }}</td>
-            <td>{{ equipement.quantite }}</td>
-            <td>{{ equipement.amortissement }}</td>
-            <td>{{ equipement.gesConnu ? 'Oui' : 'Non' }}</td>
-            <td>{{ equipement.gesReel ?? 'N/A' }}</td>
+            <td>{{ equipement.equipement }}</td>
+            <td>{{ equipement.nombre }}</td>
+            <td>{{ equipement.dureeAmortissement }}</td>
+            <td>{{ equipement.emissionsGesPrecisesConnues ? 'Oui' : 'Non' }}</td>
+            <td>{{ equipement.emissionsReellesParProduitKgCO2e ?? 'N/A' }}</td>
             <td>{{ equipement.anneeAjout }}</td>
           </tr>
         </tbody>
