@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { OngletStatusService } from '../../services/onglet-status.service';
 import { OngletService } from '../header-saisie-donnees/onglet.service';
 import { AuthService } from '../../services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,10 +14,13 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./dashboard.component.scss'],
   imports: [CommonModule, FormsModule]
 })
-export class DashboardComponent implements OnInit {
+
+export class DashboardComponent implements OnInit, OnDestroy {
   currentYear: number = new Date().getFullYear();
   ongletIdMap: { [key: string]: number } = {};
   entiteId!: number;
+  statuses: Record<string, boolean> = {};
+  private statusSub?: Subscription;
 
     onglets = [
       { label: 'Energie', status: false, path: 'energieOnglet' },
@@ -50,6 +54,13 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.loadOngletIds();
     this.loadOngletStatuses();
+    this.statusSub = this.statusService.statuses$.subscribe(s => {
+      this.statuses = s;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.statusSub?.unsubscribe();
   }
 
   loadOngletIds(): void {
@@ -75,7 +86,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getStatus(path: string): boolean {
-    return this.statusService.getStatus(path);
+    return this.statuses[path] ?? false;
   }
 
   goToSaisie(path: string): void {
