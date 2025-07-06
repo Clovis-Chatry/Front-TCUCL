@@ -23,18 +23,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private statusSub?: Subscription;
 
     onglets = [
-      { label: 'Energie', status: false, path: 'energieOnglet' },
-      { label: 'Emissions fugitives', status: true, path: 'emissionFugitiveOnglet' },
-      { label: 'Mobilité dom-trav', status: true, path: 'mobiliteDomicileTravailOnglet' },
-      { label: 'Autre mob fr', status: false, path: 'autreMobFrOnglet' },
-      { label: 'Mob internatio', status: false, path: 'mobInternationalOnglet' },
-      { label: 'Bâtiments', status: true, path: 'batimentImmobilisationMobilierOnglet' },
-      { label: 'Parkings', status: true, path: 'parkingVoirieOnglet' },
-      { label: 'Auto', status: true, path: 'vehiculeOnglet' },
-      { label: 'Numérique', status: true, path: 'numeriqueOnglet' },
-      { label: 'Autres immob', status: false, path: 'autreImmobilisationOnglet' },
-      { label: 'Achats', status: false, path: 'achatOnglet' },
-      { label: 'Déchets', status: true, path: 'dechetOnglet' }
+      { label: 'Energie', path: 'energieOnglet' },
+      { label: 'Emissions fugitives', path: 'emissionFugitiveOnglet' },
+      { label: 'Mobilité dom-trav', path: 'mobiliteDomicileTravailOnglet' },
+      { label: 'Autre mob fr', path: 'autreMobFrOnglet' },
+      { label: 'Mob internatio', path: 'mobInternationalOnglet' },
+      { label: 'Bâtiments', path: 'batimentImmobilisationMobilierOnglet' },
+      { label: 'Parkings', path: 'parkingVoirieOnglet' },
+      { label: 'Auto', path: 'vehiculeOnglet' },
+      { label: 'Numérique', path: 'numeriqueOnglet' },
+      { label: 'Autres immob', path: 'autreImmobilisationOnglet' },
+      { label: 'Achats', path: 'achatOnglet' },
+      { label: 'Déchets', path: 'dechetOnglet' }
     ];
 
   constructor(
@@ -61,6 +61,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.statusSub?.unsubscribe();
+  }
+
+  onYearChange(newYear: number): void {
+    this.currentYear = newYear;
+    this.loadOngletIds();
+    this.loadOngletStatuses();
   }
 
   loadOngletIds(): void {

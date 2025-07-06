@@ -9,7 +9,7 @@
 
     <div class="main-button year-selector-button">
       ✏️ Modifier une autre année
-      <select [(ngModel)]="currentYear">
+      <select [(ngModel)]="currentYear" (ngModelChange)="onYearChange($event)">
         <option *ngFor="let y of [2024, 2023, 2022]">{{ y }}</option>
       </select>
     </div>
