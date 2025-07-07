@@ -29,7 +29,7 @@
           {{ getStatus(onglet.path) ? '✅' : '❌' }}
         </span>
         {{ onglet.label }}
-        <span class="edit" (click)="goToSaisie(onglet.path)">✏️</span>
+        <span class="edit" (click)="goToSaisie(onglet.route)">✏️</span>
       </div>
     </div>
     <div class="column">
@@ -38,7 +38,7 @@
           {{ getStatus(onglet.path) ? '✅' : '❌' }}
         </span>
         {{ onglet.label }}
-        <span class="edit" (click)="goToSaisie(onglet.path)">✏️</span>
+        <span class="edit" (click)="goToSaisie(onglet.route)">✏️</span>
       </div>
     </div>
   </div>
