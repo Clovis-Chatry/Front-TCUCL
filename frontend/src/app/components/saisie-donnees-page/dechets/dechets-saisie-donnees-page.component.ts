@@ -35,7 +35,7 @@ export class DechetSaisieDonneesPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.estTermine = this.statusService.getStatus('dechetOnglet');
-    this.statusService.statuses$.subscribe(s => {
+    this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
       this.estTermine = s['dechetOnglet'] ?? false;
     });
     const id = this.route.snapshot.paramMap.get('id');

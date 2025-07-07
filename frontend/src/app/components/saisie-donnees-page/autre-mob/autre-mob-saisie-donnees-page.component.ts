@@ -37,7 +37,7 @@ export class AutreMobSaisieDonneesPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.estTermine = this.statusService.getStatus('autreMobFrOnglet');
-    this.statusService.statuses$.subscribe(s => {
+    this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
       this.estTermine = s['autreMobFrOnglet'] ?? false;
     });
     const id = this.route.snapshot.paramMap.get('id');

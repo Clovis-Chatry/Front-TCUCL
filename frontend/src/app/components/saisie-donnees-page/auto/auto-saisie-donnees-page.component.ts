@@ -47,7 +47,7 @@ export class AutoSaisieDonneesPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.vehiculeOnglet.estTermine = this.statusService.getStatus('autoOnglet');
-    this.statusService.statuses$.subscribe(s => {
+    this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
       this.vehiculeOnglet.estTermine = s['autoOnglet'] ?? false;
     });
 

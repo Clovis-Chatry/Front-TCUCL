@@ -48,6 +48,7 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
     'Parkings', 'Auto', 'Numerique', 'Autre immob', 'Achats', 'Dechets'];
   startIndex = 0;
   visibleCount = 12;
+  loading = false;
 
   activeTab: string | null = null;
   currentYear: number;
@@ -66,7 +67,7 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
       return {label: `${start}-${end}`, value: end};
     });
 
-    this.yearSub = this.yearService.selectedYear$.subscribe(year => {
+    this.yearSub = this.yearService.selectedYear$.subscribe((year: number) => {
       this.selectedYear = year;
       this.loadOngletIds();
     });
@@ -103,10 +104,10 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
 
   loadOngletIds(): void {
     this.ongletService.getOngletIds(this.entiteId, this.selectedYear)?.subscribe({
-      next: (result) => {
+      next: (result: { [key: string]: number }) => {
         this.ongletIdMap = result;
       },
-      error: (err) => {
+      error: (err: unknown) => {
         console.error('Erreur récupération onglet IDs:', err);
       }
     });
