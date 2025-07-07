@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { OngletStatusService } from '../../services/onglet-status.service';
@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   standalone: true,
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, RouterModule]
 })
 
 export class DashboardComponent implements OnInit, OnDestroy {
