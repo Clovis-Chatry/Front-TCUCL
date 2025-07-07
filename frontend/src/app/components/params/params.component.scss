@@ -6,6 +6,13 @@
   padding: 1em;
 }
 
+.top-sections {
+  display: flex;
+  gap: 3em; /* espace entre les deux cartes */
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
 /* Bouton de retour */
 .top-bar {
   margin-bottom: 1em;
@@ -50,7 +57,10 @@
   padding: 0.2em 0.6em;
   border-radius: 6px;
 }
-
+.card[data-title="Paramètres personnels"] {
+  max-width: 600px;  /* Plus large */
+  flex-grow: 1;      /* Peut grandir pour utiliser l’espace dispo */
+}
 /* Limiter la largeur des deux premières sections */
 .card[data-title="Paramètres personnels"],
 .card[data-title="Changer son mot de passe"] {
@@ -106,6 +116,14 @@ button {
   transition: background-color 0.2s ease;
   width: auto;
   display: inline-block;
+}
+
+button.disabled,
+button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  border-color: #aaa;
 }
 
 button:hover {
