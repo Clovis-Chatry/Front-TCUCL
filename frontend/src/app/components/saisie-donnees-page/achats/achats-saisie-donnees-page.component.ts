@@ -97,7 +97,7 @@ export class AchatsSaisieDonneesPageComponent implements OnInit {
 
   ngOnInit() {
     this.estTermine = this.statusService.getStatus('achatOnglet');
-    this.statusService.statuses$.subscribe(statuses => {
+    this.statusService.statuses$.subscribe((statuses: Record<string, boolean>) => {
       this.estTermine = statuses['achatOnglet'] ?? false;
     });
 

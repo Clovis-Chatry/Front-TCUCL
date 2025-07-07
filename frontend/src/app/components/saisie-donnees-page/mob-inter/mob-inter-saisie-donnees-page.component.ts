@@ -36,7 +36,7 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
 
   ngOnInit(): void {
     this.estTermine = this.statusService.getStatus('mobiliteInternationaleOnglet');
-    this.statusService.statuses$.subscribe(s => {
+    this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
       this.estTermine = s['mobiliteInternationaleOnglet'] ?? false;
     });
     this.route.paramMap.subscribe(params => {

@@ -22,7 +22,7 @@ export class SaveFooterComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.path) {
       this.estTermine = this.statusService.getStatus(this.path);
-      this.sub = this.statusService.statuses$.subscribe(statuses => {
+      this.sub = this.statusService.statuses$.subscribe((statuses: Record<string, boolean>) => {
         const status = statuses[this.path];
         if (status !== undefined) {
           this.estTermine = status;

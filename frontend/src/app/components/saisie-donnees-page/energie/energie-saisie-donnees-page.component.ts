@@ -30,7 +30,7 @@ export class EnergieSaisieDonneesPageComponent implements OnInit {
 
   ngOnInit() {
     this.estTermine = this.statusService.getStatus('energieOnglet');
-    this.statusService.statuses$.subscribe(statuses => {
+    this.statusService.statuses$.subscribe((statuses: Record<string, boolean>) => {
       this.estTermine = statuses['energieOnglet'] ?? false;
     });
     this.route.paramMap.subscribe(params => {

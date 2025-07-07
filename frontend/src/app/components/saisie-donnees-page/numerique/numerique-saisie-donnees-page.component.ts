@@ -58,7 +58,7 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.estTermine = this.statusService.getStatus('numeriqueOnglet');
-    this.statusService.statuses$.subscribe(statuses => {
+    this.statusService.statuses$.subscribe((statuses: Record<string, boolean>) => {
       this.estTermine = statuses['numeriqueOnglet'] ?? false;
     });
     const id = this.route.snapshot.paramMap.get('id');

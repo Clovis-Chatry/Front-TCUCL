@@ -129,7 +129,7 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
 
   ngOnInit() {
     this.estTermine = this.statusService.getStatus('emissionFugitiveOnglet');
-    this.statusService.statuses$.subscribe(s => {
+    this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
       this.estTermine = s['emissionFugitiveOnglet'] ?? false;
     });
     this.route.paramMap.subscribe(params => {
