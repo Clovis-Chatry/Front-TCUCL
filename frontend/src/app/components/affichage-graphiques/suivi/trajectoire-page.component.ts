@@ -26,6 +26,10 @@ export class TrajectoireComponent implements OnInit {
     navigateToDashboard() {
     this.router.navigate(['/dashboard']);
   }
+
+  goToRecap() {
+    this.router.navigate(['/synthese-eges']);
+  }
   ngOnInit(): void {
     this.loadIndicators();
   }

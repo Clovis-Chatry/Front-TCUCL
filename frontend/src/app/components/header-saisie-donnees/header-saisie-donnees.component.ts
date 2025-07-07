@@ -9,15 +9,15 @@ import {
   ViewChild,
   ViewChildren
 } from '@angular/core';
-import {Router} from '@angular/router';
-import {OngletService} from './onglet.service';
-import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
-import {AuthService} from '../../services/auth.service';
-import {AnneeService} from '../../services/annee.service';
-import {Subscription} from 'rxjs';
-import {ONGLET_ROUTES} from '../../constants/onglet-routes';
-import {ONGLET_KEYS} from '../../constants/onglet-keys';
+import { Router } from '@angular/router';
+import { OngletService } from './onglet.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { AnneeService } from '../../services/annee.service';
+import { Subscription } from 'rxjs';
+import { ONGLET_ROUTES } from '../../constants/onglet-routes';
+import { ONGLET_KEYS } from '../../constants/onglet-keys';
 
 type YearRange = { label: string; value: number };
 
@@ -62,10 +62,10 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
   private yearSub?: Subscription;
   ngOnInit(): void {
     this.currentYear = new Date().getFullYear();
-    this.years = Array.from({length: this.currentYear - 2018}, (_, i) => {
+    this.years = Array.from({ length: this.currentYear - 2018 }, (_, i) => {
       const end = this.currentYear - i;
       const start = end - 1;
-      return {label: `${start}-${end}`, value: end};
+      return { label: `${start}-${end}`, value: end };
     });
 
     this.yearSub = this.yearService.selectedYear$.subscribe((year: number) => {
@@ -171,5 +171,11 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
     this.router.navigate([`/trajectoire`]);
   }
 
+
   private tabToRoute = ONGLET_ROUTES;
+
+  goToSynthese() {
+    this.router.navigate(['/synthese-eges']);
+  }
+
 }
