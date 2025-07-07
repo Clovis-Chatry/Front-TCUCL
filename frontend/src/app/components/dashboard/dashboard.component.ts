@@ -102,6 +102,7 @@ export class DashboardComponent {
   }
   @Input() entiteId!: number;
   ongletIdMap: { [key: string]: number } = {};
+  statuses: Record<string, boolean> = {};
 
   ngOnInit(): void {
     this.currentYear = new Date().getFullYear();
@@ -113,12 +114,16 @@ export class DashboardComponent {
 
     this.selectedYear = this.yearService.getSelectedYear();
 
+    this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
+      this.statuses = s;
+    });
+
     this.loadOngletIds();
     this.loadOngletStatuses();
   }
 
   getStatus(key: string): boolean {
-    return this.statusService.getStatus(key);
+    return this.statuses[key] ?? false;
   }
 
   goToSaisie(onglet: { statusKey: string; route: string }): void {
