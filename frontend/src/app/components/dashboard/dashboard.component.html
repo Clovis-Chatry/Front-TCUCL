@@ -24,20 +24,20 @@
   <div class="status-grid">
     <div class="column">
       <div class="row" *ngFor="let onglet of onglets.slice(0, 6)">
-        <span class="icon" [ngClass]="getStatus(onglet.path) ? 'green' : 'red'">
-          {{ getStatus(onglet.path) ? '✅' : '❌' }}
+        <span class="icon" [ngClass]="getStatus(onglet.statusKey) ? 'green' : 'red'">
+          {{ getStatus(onglet.statusKey) ? '✅' : '❌' }}
         </span>
         {{ onglet.label }}
-        <span class="edit" (click)="goToSaisie(onglet.path)">✏️</span>
+        <span class="edit" (click)="goToSaisie(onglet)">✏️</span>
       </div>
     </div>
     <div class="column">
       <div class="row" *ngFor="let onglet of onglets.slice(6)">
-        <span class="icon" [ngClass]="getStatus(onglet.path) ? 'green' : 'red'">
-          {{ getStatus(onglet.path) ? '✅' : '❌' }}
+        <span class="icon" [ngClass]="getStatus(onglet.statusKey) ? 'green' : 'red'">
+          {{ getStatus(onglet.statusKey) ? '✅' : '❌' }}
         </span>
         {{ onglet.label }}
-        <span class="edit" (click)="goToSaisie(onglet.path)">✏️</span>
+        <span class="edit" (click)="goToSaisie(onglet)">✏️</span>
       </div>
     </div>
   </div>

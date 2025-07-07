@@ -119,7 +119,7 @@ export class AchatsSaisieDonneesPageComponent implements OnInit {
       next: data => {
         this.items = this.mapper.fromDto(data);
         this.estTermine = this.items.estTermine ?? false;
-        this.statusService.setStatus('achatsOnglet', this.estTermine);
+        this.statusService.setStatus('achatOnglet', this.estTermine);
       },
       error: err => console.error("Erreur de chargement", err)
     });
