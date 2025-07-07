@@ -94,7 +94,7 @@ export class AutreImmobilisationPageComponent implements OnInit {
       (data) => {
         this.items = { ...this.items, ...data };
         this.estTermine = data.estTermine ?? false;
-        this.statusService.setStatus('immobOnglet', this.estTermine);
+        this.statusService.setStatus('autreImmobilisationOnglet', this.estTermine);
       },
       (error) => {
         console.error("Erreur lors du chargement des données", error);
