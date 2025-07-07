@@ -1,13 +1,14 @@
 import {Component, OnInit, inject} from '@angular/core';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {HttpClientModule} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 import {AuthService} from '../../../services/auth.service';
-import {ApiEndpoints} from '../../../services/api-endpoints';
 import {CommonModule} from '@angular/common';
 import {SaveFooterComponent} from '../../save-footer/save-footer.component';
 import {OngletStatusService} from '../../../services/onglet-status.service';
+import { ONGLET_KEYS } from '../../../constants/onglet-keys';
 import {NumeriqueOngletMapperService} from './numerique-onglet-mapper.service';
+import {NumeriqueService} from './numerique.service';
 import {EquipementNumerique, NumeriqueModel} from '../../../models/numerique.model';
 import {NUMERIQUE_EQUIPEMENT} from '../../../models/enums/numerique.enum';
 import {numeriqueEquipmentLabels} from '../../../models/numerique-equipment-labels';
@@ -20,7 +21,7 @@ import {numeriqueEquipmentLabels} from '../../../models/numerique-equipment-labe
   imports: [FormsModule, HttpClientModule, CommonModule, SaveFooterComponent]
 })
 export class NumeriqueSaisieDonneesPageComponent implements OnInit {
-  private http = inject(HttpClient);
+  private numeriqueService = inject(NumeriqueService);
   private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
   private statusService = inject(OngletStatusService);
@@ -47,9 +48,9 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
   numeriqueEquipmentLabels = numeriqueEquipmentLabels;
   NUMERIQUE_EQUIPEMENT = NUMERIQUE_EQUIPEMENT;
 
-  equipementsAjoutes: EquipementNumerique[] = [];
   equipementsAnciens: EquipementNumerique[] = [];
   estTermine = false;
+  ONGLET_KEYS = ONGLET_KEYS;
 
   onEstTermineChange(value: boolean): void {
     this.estTermine = value;
@@ -57,9 +58,9 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.estTermine = this.statusService.getStatus('numeriqueOnglet');
-    this.statusService.statuses$.subscribe(statuses => {
-      this.estTermine = statuses['numeriqueOnglet'] ?? false;
+    this.estTermine = this.statusService.getStatus(ONGLET_KEYS.Numerique);
+    this.statusService.statuses$.subscribe((statuses: Record<string, boolean>) => {
+      this.estTermine = statuses[ONGLET_KEYS.Numerique] ?? false;
     });
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
@@ -79,7 +80,7 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
       'Authorization': `Bearer ${token}`
     };
 
-    this.http.get<any>(ApiEndpoints.NumeriqueOnglet.getById(id), {headers}).subscribe({
+    this.numeriqueService.getOnglet(id, headers).subscribe({
       next: data => {
         const model = this.mapper.fromDto(data);
         this.donneesCloudDisponibles = model.cloudDataDisponible;
@@ -87,6 +88,8 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
         this.tipUtilisateur = model.tipUtilisateur;
         this.partTraficFranceEtranger = model.partTraficFranceEtranger;
         this.equipementsAnciens = model.equipements;
+        this.estTermine = model.estTermine ?? false;
+        this.statusService.setStatus(ONGLET_KEYS.Numerique, this.estTermine);
       },
       error: err => console.error("Erreur lors du chargement des données numériques", err)
     });
@@ -98,15 +101,25 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
       this.nouvelEquipement.dureeAmortissement !== null &&
       (!this.nouvelEquipement.emissionsGesPrecisesConnues || this.nouvelEquipement.emissionsReellesParProduitKgCO2e !== null)
     ) {
-      this.equipementsAjoutes.push({...this.nouvelEquipement});
+      const id = this.route.snapshot.paramMap.get('id');
+      const token = this.authService.getToken();
+      if (!id || !token) return;
+      const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      };
+      const dto = this.mapper.toEquipementDto(this.nouvelEquipement);
+      this.numeriqueService.addEquipement(id, dto, headers).subscribe({
+        next: () => this.loadData(id),
+        error: err => console.error('Erreur ajout équipement', err)
+      });
       this.nouvelEquipement = {
         equipement: NUMERIQUE_EQUIPEMENT.ECRAN,
         nombre: null,
         dureeAmortissement: null,
-        emissionsGesPrecisesConnues: true,
+        emissionsGesPrecisesConnues: false,
         emissionsReellesParProduitKgCO2e: null
       };
-      this.updateData();
     }
   }
 
@@ -129,12 +142,11 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
       traficCloud: this.traficCloud,
       tipUtilisateur: this.tipUtilisateur,
       partTraficFranceEtranger: this.partTraficFranceEtranger,
-      equipements: this.equipementsAjoutes
+      equipements: []
     };
 
     const payload = this.mapper.toDto(model);
-    console.log(payload);
-    this.http.patch(ApiEndpoints.NumeriqueOnglet.update(id), payload, {headers}).subscribe({
+    this.numeriqueService.updateOnglet(id, payload, headers).subscribe({
       error: err => console.error('Erreur lors de la mise à jour des données numériques', err)
     });
   }

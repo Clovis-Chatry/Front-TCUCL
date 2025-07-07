@@ -10,6 +10,7 @@ import {TypeFluideLabels} from '../../../models/typeFluide-label';
 import {TypeMachineLabels} from '../../../models/type-machine-labels'
 import { SaveFooterComponent } from '../../save-footer/save-footer.component';
 import { OngletStatusService } from '../../../services/onglet-status.service';
+import { ONGLET_KEYS } from '../../../constants/onglet-keys';
 
 @Component({
   selector: 'app-saisie-donnees-page',
@@ -30,6 +31,8 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
   noData: boolean = false;
   hasError: boolean = false;
   fluideTypes = Object.values(TypeFluide);
+
+  ONGLET_KEYS = ONGLET_KEYS;
 
   fluideTypesLibelles = [
     { value: TypeFluide.CH4, label: "CH4" },
@@ -128,9 +131,9 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
   constructor(private emmissionsFugtivesService: EmmissionsFugtivesService) {}
 
   ngOnInit() {
-    this.estTermine = this.statusService.getStatus('emissionFugitiveOnglet');
-    this.statusService.statuses$.subscribe(s => {
-      this.estTermine = s['emissionFugitiveOnglet'] ?? false;
+    this.estTermine = this.statusService.getStatus(ONGLET_KEYS.EmissionsFugitives);
+    this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
+      this.estTermine = s[ONGLET_KEYS.EmissionsFugitives] ?? false;
     });
     this.route.paramMap.subscribe(params => {
       this.emmissionFugitiveOngletId = params.get('id') || '';
@@ -185,6 +188,8 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
 
         this.noData = this.machines.length === 0;
         this.hasError = false;
+        this.estTermine = data.estTermine ?? false;
+        this.statusService.setStatus(ONGLET_KEYS.EmissionsFugitives, this.estTermine);
       },
       error: (err) => {
         console.error('Erreur API', err);

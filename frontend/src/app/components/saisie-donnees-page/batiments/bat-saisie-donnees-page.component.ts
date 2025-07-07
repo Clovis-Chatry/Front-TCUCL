@@ -5,15 +5,16 @@ import {ActivatedRoute} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {AuthService} from '../../../services/auth.service';
 import {ApiEndpoints} from '../../../services/api-endpoints';
-import { SaveFooterComponent } from '../../save-footer/save-footer.component';
-import { BatimentOngletMapperService } from './batiment-onglet-mapper.service';
-import { BatimentOngletModel, BatimentExistantOuNeufConstruit, EntretienCourant, MobilierElectromenager } from '../../../models/batiment.model';
-import { OngletStatusService } from '../../../services/onglet-status.service';
+import {SaveFooterComponent} from '../../save-footer/save-footer.component';
+import {BatimentOngletMapperService} from './batiment-onglet-mapper.service';
+import {BatimentOngletModel} from '../../../models/batiment.model';
+import {OngletStatusService} from '../../../services/onglet-status.service';
+import {ONGLET_KEYS} from '../../../constants/onglet-keys';
 import {
   EnumBatiment_TypeBatiment,
+  EnumBatiment_TypeMobilier,
   EnumBatiment_TypeStructure,
-  EnumBatiment_TypeTravaux,
-  EnumBatiment_TypeMobilier
+  EnumBatiment_TypeTravaux
 } from '../../../models/bat.enum';
 
 @Component({
@@ -30,10 +31,7 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   private mapper = inject(BatimentOngletMapperService);
   private statusService = inject(OngletStatusService);
   batimentOngletId: string = '';
-  batimentTypes = Object.values(EnumBatiment_TypeBatiment);
-  structureTypes = Object.values(EnumBatiment_TypeStructure);
-  travauxTypes = Object.values(EnumBatiment_TypeTravaux);
-
+  ONGLET_KEYS = ONGLET_KEYS;
   batimentTypesLibelles = [
     { value: EnumBatiment_TypeBatiment.NA, label: 'Non renseigné' },
     { value: EnumBatiment_TypeBatiment.EQUIPEMENT_SPORTIF, label: 'Équipement sportif' },
@@ -56,10 +54,10 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     { value: EnumBatiment_TypeTravaux.CHAUFFAGE_VENTILATION_CLIMATISATION, label:'Chauffage - Ventilation - Climatisation' },
     { value: EnumBatiment_TypeTravaux.CLOISONNEMENT_DOUBLAGE, label:'Cloisonnement - Doublage' },
     { value: EnumBatiment_TypeTravaux.FACADES_ET_MENUISERIES, label:'Facades - Menuiseries' },
-    { value: EnumBatiment_TypeTravaux.SUPERSTRUCTURES_MAÇONNERIE, label:'Superstructures - Maçonnerie' },
+    { value: EnumBatiment_TypeTravaux.SUPERSTRUCTURES_MACONNERIE, label:'Superstructures - Maçonnerie' },
     { value: EnumBatiment_TypeTravaux.SANITAIRES, label:'Sanitaires' },
     { value: EnumBatiment_TypeTravaux.VOIRIE, label:'Voirie' },
-    { value: EnumBatiment_TypeTravaux.COUVERTURE_ETANCHÉITÉ, label:'Couverture - Etanchéité' },
+    { value: EnumBatiment_TypeTravaux.COUVERTURE_ETANCHEITE, label:'Couverture - Etanchéité' },
     { value: EnumBatiment_TypeTravaux.ELECTRICITE, label:'Electricité' },
     { value: EnumBatiment_TypeTravaux.REVETEMENTS_DE_SOLS_ET_MURS, label:'Revetements de sols et murs' },
     { value: EnumBatiment_TypeTravaux.FONDATIONS_INFRASTRUCTURES, label:'Fondations - Infrastructures' },
@@ -178,9 +176,9 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.batimentOnglet.estTermine = this.statusService.getStatus('batimentsOnglet');
+    this.batimentOnglet.estTermine = this.statusService.getStatus(ONGLET_KEYS.Batiments);
     this.statusService.statuses$.subscribe(s => {
-      this.batimentOnglet.estTermine = s['batimentsOnglet'] ?? false;
+      this.batimentOnglet.estTermine = s[ONGLET_KEYS.Batiments] ?? false;
     });
     this.route.paramMap.subscribe(params => {
       this.batimentOngletId = params.get('id') || '';
@@ -197,6 +195,8 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
       next: (data) => {
         const model = this.mapper.fromDto(data);
         this.batimentOnglet = model;
+        this.batimentOnglet.estTermine = model.estTermine ?? false;
+        this.statusService.setStatus(ONGLET_KEYS.Batiments, this.batimentOnglet.estTermine);
       },
       error: (error) => {
         console.error('Erreur lors de la récupération des données :', error);

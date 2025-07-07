@@ -7,6 +7,7 @@ import { SaveFooterComponent } from '../../save-footer/save-footer.component';
 import { AuthService } from '../../../services/auth.service';
 import { ApiEndpoints } from '../../../services/api-endpoints';
 import { VehiculeOngletMapperService } from './vehicule-onglet-mapper.service';
+import { ONGLET_KEYS } from '../../../constants/onglet-keys';
 import { VEHICULE_TYPE } from '../../../models/enums/vehicule.enum';
 import { Vehicule, VehiculeOngletModel } from '../../../models/vehicule.model';
 import { OngletStatusService } from '../../../services/onglet-status.service';
@@ -40,15 +41,17 @@ export class AutoSaisieDonneesPageComponent implements OnInit {
     { value: VEHICULE_TYPE.ELECTRIQUE, label: 'Électrique' }
   ];
 
+  ONGLET_KEYS = ONGLET_KEYS;
+
   getLibelleTypeVehicule(type: string): string {
     const item = this.vehiculeTypesLibelles.find(t => t.value === type);
     return item ? item.label : type;
   }
 
   ngOnInit(): void {
-    this.vehiculeOnglet.estTermine = this.statusService.getStatus('autoOnglet');
-    this.statusService.statuses$.subscribe(s => {
-      this.vehiculeOnglet.estTermine = s['autoOnglet'] ?? false;
+    this.vehiculeOnglet.estTermine = this.statusService.getStatus(ONGLET_KEYS.Auto);
+    this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
+      this.vehiculeOnglet.estTermine = s[ONGLET_KEYS.Auto] ?? false;
     });
 
     const id = this.route.snapshot.paramMap.get('id');
@@ -72,6 +75,8 @@ export class AutoSaisieDonneesPageComponent implements OnInit {
         const model = this.mapper.fromDto(data);
         this.vehiculeOnglet.vehicules = model.vehicules;
         this.vehiculeOnglet.note = model.note;
+        this.vehiculeOnglet.estTermine = model.estTermine ?? false;
+        this.statusService.setStatus(ONGLET_KEYS.Auto, this.vehiculeOnglet.estTermine);
       },
       error: err => console.error('Erreur lors du chargement des véhicules', err)
     });

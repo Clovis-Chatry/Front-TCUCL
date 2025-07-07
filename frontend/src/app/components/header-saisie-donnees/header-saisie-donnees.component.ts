@@ -16,6 +16,7 @@ import {FormsModule} from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
 import {AnneeService} from '../../services/annee.service';
 import {Subscription} from 'rxjs';
+import {ONGLET_ROUTES} from '../../constants/onglet-routes';
 
 type YearRange = { label: string; value: number };
 
@@ -44,10 +45,10 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
 
   ongletIdMap: { [key: string]: number } = {};
 
-  tabs = ['Energie', 'Emissions fugitives', 'Mobilite dom-trav', 'Autre mobilite en France', 'Mob internationale', 'Batiments',
-    'Parkings', 'Auto', 'Numerique', 'Autre immob', 'Achats', 'Dechets'];
+  tabs = Object.keys(ONGLET_ROUTES);
   startIndex = 0;
   visibleCount = 12;
+  loading = false;
 
   activeTab: string | null = null;
   currentYear: number;
@@ -66,7 +67,7 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
       return {label: `${start}-${end}`, value: end};
     });
 
-    this.yearSub = this.yearService.selectedYear$.subscribe(year => {
+    this.yearSub = this.yearService.selectedYear$.subscribe((year: number) => {
       this.selectedYear = year;
       this.loadOngletIds();
     });
@@ -103,10 +104,10 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
 
   loadOngletIds(): void {
     this.ongletService.getOngletIds(this.entiteId, this.selectedYear)?.subscribe({
-      next: (result) => {
+      next: (result: { [key: string]: number }) => {
         this.ongletIdMap = result;
       },
-      error: (err) => {
+      error: (err: unknown) => {
         console.error('Erreur récupération onglet IDs:', err);
       }
     });
@@ -165,18 +166,5 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
     this.router.navigate([`/trajectoire`]);
   }
 
-  private tabToRoute: { [key: string]: string } = {
-    'Energie': 'energieOnglet',
-    'Emissions fugitives': 'emissionFugitiveOnglet',
-    'Mobilite dom-trav': 'mobiliteDomicileTravailOnglet',
-    'Autre mobilite en France': 'autreMobFrOnglet',
-    'Mob internationale': 'mobInternationalOnglet',
-    'Batiments': 'batimentImmobilisationMobilierOnglet',
-    'Parkings': 'parkingVoirieOnglet',
-    'Auto': 'vehiculeOnglet',
-    'Numerique': 'numeriqueOnglet',
-    'Autre immob': 'autreImmobilisationOnglet',
-    'Achats': 'achatOnglet',
-    'Dechets': 'dechetOnglet'
-  };
+  private tabToRoute = ONGLET_ROUTES;
 }

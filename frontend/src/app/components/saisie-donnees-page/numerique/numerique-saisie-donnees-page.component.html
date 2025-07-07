@@ -57,29 +57,6 @@
       <button type="button" (click)="ajouterEquipement()">Ajouter cet équipement</button>
     </details>
 
-    <div *ngIf="equipementsAjoutes.length > 0">
-      <h3>Équipements numériques ajoutés</h3>
-      <table class="data-table">
-        <thead>
-        <tr>
-          <th>Type</th>
-          <th>Quantité</th>
-          <th>Amortissement</th>
-          <th>GES Connus</th>
-          <th>GES Réels</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let equipement of equipementsAjoutes">
-          <td>{{ numeriqueEquipmentLabels[equipement.equipement] }}</td>
-          <td>{{ equipement.nombre }}</td>
-          <td>{{ equipement.dureeAmortissement }}</td>
-          <td>{{ equipement.emissionsGesPrecisesConnues ? 'Oui' : 'Non' }}</td>
-          <td>{{ equipement.emissionsReellesParProduitKgCO2e ?? 'N/A' }}</td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
 
     <div *ngIf="equipementsAnciens.length > 0">
       <h3>Équipements enregistrés les années précédentes</h3>
@@ -107,6 +84,5 @@
       </table>
     </div>
   </div>
-  <app-save-footer [path]="'numeriqueOnglet'" (estTermineChange)="onEstTermineChange($event)"></app-save-footer>
+  <app-save-footer [path]="ONGLET_KEYS.Numerique" (estTermineChange)="onEstTermineChange($event)"></app-save-footer>
 </div>
-<app-save-footer [path]="'numeriqueOnglet'" (estTermineChange)="onEstTermineChange($event)"></app-save-footer>

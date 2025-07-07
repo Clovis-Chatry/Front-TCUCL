@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 import {EnergieSaisieDonneesPageComponent} from './components/saisie-donnees-page/energie/energie-saisie-donnees-page.component';
 import {LoginPageComponent} from './components/login-page/login-page.component';
 import {HeaderSaisieDonneesComponent} from './components/header-saisie-donnees/header-saisie-donnees.component';
-import {IndicatorsComponent} from './components/affichage-graphiques/suivi/trajectoire-page.component';
+import {TrajectoireComponent} from './components/affichage-graphiques/suivi/trajectoire-page.component';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter([

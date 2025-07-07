@@ -8,6 +8,7 @@ import { ApiEndpoints } from '../../../services/api-endpoints';
 import { Pays } from '../../../models/enums/pays.enum';
 import { SaveFooterComponent } from '../../save-footer/save-footer.component';
 import { OngletStatusService } from '../../../services/onglet-status.service';
+import { ONGLET_KEYS } from '../../../constants/onglet-keys';
 
 @Component({
   selector: 'app-destination-page',
@@ -31,13 +32,14 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
   destinations: any[] = [];
 
   estTermine = false;
+  ONGLET_KEYS = ONGLET_KEYS;
 
   listePays = Object.values(Pays);
 
   ngOnInit(): void {
-    this.estTermine = this.statusService.getStatus('mobiliteInternationaleOnglet');
-    this.statusService.statuses$.subscribe(s => {
-      this.estTermine = s['mobiliteInternationaleOnglet'] ?? false;
+    this.estTermine = this.statusService.getStatus(ONGLET_KEYS.MobInternationale);
+    this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
+      this.estTermine = s[ONGLET_KEYS.MobInternationale] ?? false;
     });
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
@@ -58,11 +60,13 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
       'Authorization': `Bearer ${token}`
     };
 
-    this.http.get<any>(ApiEndpoints.MobiliteInternationaleOnglet.getById(id), { headers }).subscribe(
+    this.http.get<any>(ApiEndpoints.mobInternationaleOnglet.getById(id), { headers }).subscribe(
       (data) => {
         if (data.destinations) {
           this.destinations = data.destinations;
         }
+        this.estTermine = data.estTermine ?? false;
+        this.statusService.setStatus(ONGLET_KEYS.MobInternationale, this.estTermine);
       },
       (error) => {
         console.error("Erreur lors du chargement des données", error);
@@ -107,7 +111,7 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
 
     const payload = { destinations: this.destinations, estTermine: this.estTermine };
 
-    this.http.patch(ApiEndpoints.MobiliteInternationaleOnglet.update(id), payload, { headers }).subscribe({
+    this.http.patch(ApiEndpoints.mobInternationaleOnglet.update(id), payload, { headers }).subscribe({
       error: err => console.error('PATCH mobilite internationale echoue', err)
     });
   }
