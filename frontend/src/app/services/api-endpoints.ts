@@ -45,7 +45,13 @@ ImmobOnglet: {
 },
 NumeriqueOnglet: {
   getById: (id: string) => `${BASE_URL}/numeriqueOnglet/${id}`,
-  update: (id: string) => `${BASE_URL}/numeriqueOnglet/${id}`
+  update: (id: string) => `${BASE_URL}/numeriqueOnglet/${id}`,
+  addEquipement: (id: string) => `${BASE_URL}/numeriqueOnglet/${id}/equipementNumerique`,
+  deleteEquipement: (ongletId: string, equipId: string) =>
+    `${BASE_URL}/numeriqueOnglet/${ongletId}/equipementNumerique/${equipId}`,
+  updateEquipement: (ongletId: string, equipId: string) =>
+    `${BASE_URL}/numeriqueOnglet/${ongletId}/equipementNumerique/${equipId}`,
+  getResult: (id: string) => `${BASE_URL}/numeriqueOnglet/${id}/resultat`
 },
 ParkingVoirieOnglet: {
   getById: (id: string) => `${BASE_URL}/parkingVoirieOnglet/${id}`,

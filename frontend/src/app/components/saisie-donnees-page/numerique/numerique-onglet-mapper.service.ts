@@ -12,7 +12,8 @@ export class NumeriqueOngletMapperService {
 
   fromDto(dto: any): NumeriqueModel {
     const equipements: EquipementNumerique[] = (dto.equipementNumeriqueList || []).map((e: any) => ({
-      equipement: this.normalizeEquipement(e.equipement) as NUMERIQUE_EQUIPEMENT,
+      id: e.id,
+      equipement: this.normalizeEquipement(e.equipement ?? e.type) as NUMERIQUE_EQUIPEMENT,
       nombre: e.nombre ?? null,
       dureeAmortissement: e.dureeAmortissement ?? null,
       emissionsGesPrecisesConnues: e.emissionsGesPrecisesConnues ?? false,
@@ -40,12 +41,24 @@ export class NumeriqueOngletMapperService {
       TraficTipUtilisateur: model.tipUtilisateur,
       PartTraficFranceEtranger: model.partTraficFranceEtranger,
       equipementNumeriqueList: model.equipements.map((e: EquipementNumerique) => ({
+        id: e.id,
         type: typeof e.equipement === 'string' ? e.equipement : (e.equipement as NUMERIQUE_EQUIPEMENT).toString(),
         nombre: e.nombre,
         dureeAmortissement: e.dureeAmortissement,
         emissionsGesPrecisesConnues: e.emissionsGesPrecisesConnues,
         emissionsReellesParProduitKgCO2e: e.emissionsReellesParProduitKgCO2e,
       })),
+    };
+  }
+
+  toEquipementDto(e: EquipementNumerique): any {
+    return {
+      id: e.id,
+      type: typeof e.equipement === 'string' ? e.equipement : (e.equipement as NUMERIQUE_EQUIPEMENT).toString(),
+      nombre: e.nombre,
+      dureeAmortissement: e.dureeAmortissement,
+      emissionsGesPrecisesConnues: e.emissionsGesPrecisesConnues,
+      emissionsReellesParProduitKgCO2e: e.emissionsReellesParProduitKgCO2e,
     };
   }
 }
