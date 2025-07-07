@@ -68,6 +68,8 @@ export class EnergieSaisieDonneesPageComponent implements OnInit {
           consoElecSpecifique: data.consoElecSpecifique,
           consoEau: data.consoEau
         };
+        this.estTermine = data.estTermine ?? false;
+        this.statusService.setStatus('energieOnglet', this.estTermine);
       },
       (error) => {
         console.error("Erreur lors du chargement des données", error);

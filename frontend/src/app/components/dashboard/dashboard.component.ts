@@ -67,6 +67,7 @@ export class DashboardComponent {
     this.selectedYear = this.yearService.getSelectedYear();
 
     this.loadOngletIds();
+    this.loadOngletStatuses();
   }
 
   getStatus(path: string): boolean {
@@ -104,6 +105,7 @@ export class DashboardComponent {
     this.selectedYear = newYear;
     this.yearService.setSelectedYear(newYear);
     this.loadOngletIds();
+    this.loadOngletStatuses();
   }
 
   loadOngletIds(): void {
@@ -113,6 +115,17 @@ export class DashboardComponent {
       },
       error: (err) => {
         console.error('Erreur récupération onglet IDs:', err);
+      }
+    });
+  }
+
+  loadOngletStatuses(): void {
+    this.ongletService.getOngletStatuses(this.entiteId, this.selectedYear)?.subscribe({
+      next: (result) => {
+        this.statusService.setStatuses(result);
+      },
+      error: (err) => {
+        console.error('Erreur récupération statut onglets:', err);
       }
     });
   }

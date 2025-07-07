@@ -65,9 +65,9 @@ export class AutreImmobilisationPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.estTermine = this.statusService.getStatus('autreImmobilisationOnglet');
+    this.estTermine = this.statusService.getStatus('immobOnglet');
     this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
-      this.estTermine = s['autreImmobilisationOnglet'] ?? false;
+      this.estTermine = s['immobOnglet'] ?? false;
     });
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
@@ -93,12 +93,14 @@ export class AutreImmobilisationPageComponent implements OnInit {
     this.http.get<any>(ApiEndpoints.ImmobOnglet.getById(id), { headers }).subscribe(
       (data) => {
         this.items = { ...this.items, ...data };
+        this.estTermine = data.estTermine ?? false;
+        this.statusService.setStatus('immobOnglet', this.estTermine);
       },
       (error) => {
         console.error("Erreur lors du chargement des données", error);
       }
     );
-  }  
+  }
 
   ajouterMachine() {
     this.items.machines.push({

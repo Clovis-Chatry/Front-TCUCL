@@ -197,6 +197,8 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
       next: (data) => {
         const model = this.mapper.fromDto(data);
         this.batimentOnglet = model;
+        this.batimentOnglet.estTermine = model.estTermine ?? false;
+        this.statusService.setStatus('batimentsOnglet', this.batimentOnglet.estTermine);
       },
       error: (error) => {
         console.error('Erreur lors de la récupération des données :', error);

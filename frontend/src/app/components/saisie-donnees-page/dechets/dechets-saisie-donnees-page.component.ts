@@ -34,9 +34,9 @@ export class DechetSaisieDonneesPageComponent implements OnInit {
   traitements = Object.values(TRAITEMENT_DECHET);
 
   ngOnInit(): void {
-    this.estTermine = this.statusService.getStatus('dechetOnglet');
+    this.estTermine = this.statusService.getStatus('dechetsOnglet');
     this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
-      this.estTermine = s['dechetOnglet'] ?? false;
+      this.estTermine = s['dechetsOnglet'] ?? false;
     });
     const id = this.route.snapshot.paramMap.get('id');
     if (id) this.loadData(id);
@@ -51,7 +51,11 @@ export class DechetSaisieDonneesPageComponent implements OnInit {
     };
 
     this.http.get<any>(ApiEndpoints.DechetsOnglet.getById(id), { headers }).subscribe({
-      next: data => this.items = this.mapper.parseData(data),
+      next: data => {
+        this.items = this.mapper.parseData(data);
+        this.estTermine = data.estTermine ?? false;
+        this.statusService.setStatus('dechetsOnglet', this.estTermine);
+      },
       error: err => console.error('Erreur chargement déchets:', err)
     });
   }

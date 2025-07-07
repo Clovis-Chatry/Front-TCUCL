@@ -72,6 +72,8 @@ export class AutoSaisieDonneesPageComponent implements OnInit {
         const model = this.mapper.fromDto(data);
         this.vehiculeOnglet.vehicules = model.vehicules;
         this.vehiculeOnglet.note = model.note;
+        this.vehiculeOnglet.estTermine = model.estTermine ?? false;
+        this.statusService.setStatus('autoOnglet', this.vehiculeOnglet.estTermine);
       },
       error: err => console.error('Erreur lors du chargement des véhicules', err)
     });

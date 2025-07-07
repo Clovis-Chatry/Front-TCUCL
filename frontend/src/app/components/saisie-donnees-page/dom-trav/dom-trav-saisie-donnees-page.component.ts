@@ -38,9 +38,9 @@ export class DomTravSaisieDonneesPageComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.estTermine = this.statusService.getStatus('mobiliteDomicileTravailOnglet');
+    this.estTermine = this.statusService.getStatus('mobiliteDomTravOnglet');
     this.statusService.statuses$.subscribe(s => {
-      this.estTermine = s['mobiliteDomicileTravailOnglet'] ?? false;
+      this.estTermine = s['mobiliteDomTravOnglet'] ?? false;
     });
     const id = this.route.snapshot.paramMap.get('id');
     if (id) this.loadData(id);
@@ -63,6 +63,8 @@ export class DomTravSaisieDonneesPageComponent implements OnInit {
         this.items = this.mapper.parseFlatData(data);
         this.nbJoursEtudiant = data.nbJoursDeplacementEtudiant ?? 0;
         this.nbJoursSalarie = data.nbJoursDeplacementSalarie ?? 0;
+        this.estTermine = data.estTermine ?? false;
+        this.statusService.setStatus('mobiliteDomTravOnglet', this.estTermine);
       },
       error: (err) => console.error("Erreur lors du chargement des données", err)
     });
