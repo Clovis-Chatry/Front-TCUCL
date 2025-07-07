@@ -36,6 +36,7 @@ import {
   BatimentsSaisieDonneesPageComponent
 } from './components/saisie-donnees-page/batiments/bat-saisie-donnees-page.component';
 import {TrajectoireComponent} from './components/affichage-graphiques/suivi/trajectoire-page.component';
+import {SyntheseEgesComponent} from './components/affichage-graphiques/synthese/synthese-eges-page.component';
 
 export const routes: Routes = [
   {
@@ -134,6 +135,11 @@ export const routes: Routes = [
   {
     path: 'trajectoire',
     component: TrajectoireComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'synthese-eges',
+    component: SyntheseEgesComponent,
     canActivate: [authGuard]
   },
   {

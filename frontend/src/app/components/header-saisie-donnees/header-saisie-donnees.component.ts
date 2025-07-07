@@ -155,6 +155,10 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
     this.router.navigate([`/trajectoire`]);
   }
 
+  goToSynthese() {
+    this.router.navigate(['/synthese-eges']);
+  }
+
   private tabToRoute: { [key: string]: string } = {
     'Energie': 'energieOnglet',
     'Emissions fugitives': 'emissionFugitiveOnglet',
