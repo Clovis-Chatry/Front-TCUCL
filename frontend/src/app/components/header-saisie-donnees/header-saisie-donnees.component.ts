@@ -16,6 +16,7 @@ import {FormsModule} from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
 import {AnneeService} from '../../services/annee.service';
 import {Subscription} from 'rxjs';
+import {ONGLET_ROUTES} from '../../constants/onglet-routes';
 
 type YearRange = { label: string; value: number };
 
@@ -166,18 +167,5 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
     this.router.navigate([`/trajectoire`]);
   }
 
-  private tabToRoute: { [key: string]: string } = {
-    'Energie': 'energieOnglet',
-    'Emissions fugitives': 'emissionFugitiveOnglet',
-    'Mobilite dom-trav': 'mobiliteDomicileTravailOnglet',
-    'Autre mobilite en France': 'autreMobFrOnglet',
-    'Mob internationale': 'mobInternationalOnglet',
-    'Batiments': 'batimentImmobilisationMobilierOnglet',
-    'Parkings': 'parkingVoirieOnglet',
-    'Auto': 'vehiculeOnglet',
-    'Numerique': 'numeriqueOnglet',
-    'Autre immob': 'autreImmobilisationOnglet',
-    'Achats': 'achatOnglet',
-    'Dechets': 'dechetOnglet'
-  };
+  private tabToRoute = ONGLET_ROUTES;
 }
