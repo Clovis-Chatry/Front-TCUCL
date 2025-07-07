@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -16,7 +16,7 @@ type YearRange = { label: string; value: number };
   styleUrls: ['./dashboard.component.scss'],
   imports: [CommonModule, FormsModule]
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   currentYear: number;
   selectedYear: number;
   years: YearRange[] = [];
