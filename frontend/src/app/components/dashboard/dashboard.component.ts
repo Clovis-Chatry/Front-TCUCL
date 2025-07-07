@@ -29,12 +29,12 @@ export class DashboardComponent implements OnInit {
     },
     {
       label: 'Emissions fugitives',
-      statusKey: 'emissionFugitiveOnglet',
+      statusKey: 'emissionsFugitivesOnglet',
       route: 'emissionFugitiveOnglet'
     },
     {
       label: 'Mobilité dom-trav',
-      statusKey: 'mobiliteDomicileTravailOnglet',
+      statusKey: 'mobiliteDomTravOnglet',
       route: 'mobiliteDomicileTravailOnglet'
     },
     {
@@ -44,22 +44,22 @@ export class DashboardComponent implements OnInit {
     },
     {
       label: 'Mob internatio',
-      statusKey: 'mobInternationalOnglet',
+      statusKey: 'mobInternationaleOnglet',
       route: 'mobInternationalOnglet'
     },
     {
       label: 'Bâtiments',
-      statusKey: 'batimentImmobilisationMobilierOnglet',
+      statusKey: 'batimentsOnglet',
       route: 'batimentImmobilisationMobilierOnglet'
     },
     {
       label: 'Parkings',
-      statusKey: 'parkingVoirieOnglet',
+      statusKey: 'parkingsOnglet',
       route: 'parkingVoirieOnglet'
     },
     {
       label: 'Auto',
-      statusKey: 'vehiculeOnglet',
+      statusKey: 'autoOnglet',
       route: 'vehiculeOnglet'
     },
     {
@@ -79,7 +79,7 @@ export class DashboardComponent implements OnInit {
     },
     {
       label: 'Déchets',
-      statusKey: 'dechetOnglet',
+      statusKey: 'dechetsOnglet',
       route: 'dechetOnglet'
     }
   ];
