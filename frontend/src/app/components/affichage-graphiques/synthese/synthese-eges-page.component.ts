@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { OngletService } from '../../header-saisie-donnees/onglet.service';
+import { AuthService } from '../../../services/auth.service';
+import { ApiEndpoints } from '../../../services/api-endpoints';
 
 interface Sector {
   label: string;
@@ -10,18 +14,31 @@ interface Sector {
 @Component({
   selector: 'app-synthese-eges',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, HttpClientModule],
   templateUrl: './synthese-eges-page.component.html',
   styleUrls: ['./synthese-eges-page.component.scss']
 })
 export class SyntheseEgesComponent implements OnInit {
   sectors: Sector[] = [];
   total: number = 0;
+  private currentYear: number = new Date().getFullYear();
+  private entiteId?: number;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private ongletService: OngletService,
+    private auth: AuthService
+  ) {
+    const user = this.auth.getUserInfo()();
+    if (user?.entiteId) {
+      this.entiteId = user.entiteId;
+    }
+  }
 
   ngOnInit(): void {
     this.loadSectors();
+    this.fetchEnergy();
   }
 
   navigateToDashboard() {
@@ -46,5 +63,32 @@ export class SyntheseEgesComponent implements OnInit {
       { label: 'Déchets', value: 0 }
     ];
     this.total = this.sectors.reduce((sum, s) => sum + s.value, 0);
+  }
+
+  private fetchEnergy(): void {
+    if (!this.entiteId) return;
+    this.ongletService.getOngletIds(this.entiteId, this.currentYear)?.subscribe({
+      next: map => {
+        const id = map['energieOnglet'];
+        if (!id) return;
+        const token = this.auth.getToken();
+        if (!token) return;
+        const headers = {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        };
+        this.http
+          .get<{ consoEnergieFinale: number }>(ApiEndpoints.EnergieOnglet.getResult(id.toString()), { headers })
+          .subscribe({
+            next: res => {
+              const sector = this.sectors.find(s => s.label === 'Energie');
+              if (sector) sector.value = res.consoEnergieFinale;
+              this.total = this.sectors.reduce((sum, s) => sum + s.value, 0);
+            },
+            error: err => console.error('Erreur récupération énergie', err)
+          });
+      },
+      error: err => console.error('Erreur récupération onglet ids', err)
+    });
   }
 }
