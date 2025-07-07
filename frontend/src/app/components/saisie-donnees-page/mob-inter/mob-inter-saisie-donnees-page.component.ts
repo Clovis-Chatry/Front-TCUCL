@@ -35,9 +35,9 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
   listePays = Object.values(Pays);
 
   ngOnInit(): void {
-    this.estTermine = this.statusService.getStatus('mobiliteInternationaleOnglet');
+    this.estTermine = this.statusService.getStatus('mobInternationaleOnglet');
     this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
-      this.estTermine = s['mobiliteInternationaleOnglet'] ?? false;
+      this.estTermine = s['mobInternationaleOnglet'] ?? false;
     });
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
@@ -58,7 +58,7 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
       'Authorization': `Bearer ${token}`
     };
 
-    this.http.get<any>(ApiEndpoints.MobiliteInternationaleOnglet.getById(id), { headers }).subscribe(
+    this.http.get<any>(ApiEndpoints.mobInternationaleOnglet.getById(id), { headers }).subscribe(
       (data) => {
         if (data.destinations) {
           this.destinations = data.destinations;
@@ -109,7 +109,7 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
 
     const payload = { destinations: this.destinations, estTermine: this.estTermine };
 
-    this.http.patch(ApiEndpoints.MobiliteInternationaleOnglet.update(id), payload, { headers }).subscribe({
+    this.http.patch(ApiEndpoints.mobInternationaleOnglet.update(id), payload, { headers }).subscribe({
       error: err => console.error('PATCH mobilite internationale echoue', err)
     });
   }

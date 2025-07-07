@@ -65,9 +65,9 @@ export class AutreImmobilisationPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.estTermine = this.statusService.getStatus('immobOnglet');
+    this.estTermine = this.statusService.getStatus('autreImmobilisationOnglet');
     this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
-      this.estTermine = s['immobOnglet'] ?? false;
+      this.estTermine = s['autreImmobilisationOnglet'] ?? false;
     });
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
@@ -79,18 +79,18 @@ export class AutreImmobilisationPageComponent implements OnInit {
 
   loadData(id: string): void {
     const token = this.authService.getToken();
-  
+
     if (!token) {
       console.error("Token d'authentification manquant");
       return;
     }
-  
+
     const headers = {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     };
-  
-    this.http.get<any>(ApiEndpoints.ImmobOnglet.getById(id), { headers }).subscribe(
+
+    this.http.get<any>(ApiEndpoints.autreImmobilisationOnglet.getById(id), { headers }).subscribe(
       (data) => {
         this.items = { ...this.items, ...data };
         this.estTermine = data.estTermine ?? false;
@@ -136,7 +136,7 @@ export class AutreImmobilisationPageComponent implements OnInit {
       Authorization: `Bearer ${token}`
     };
 
-    this.http.patch(ApiEndpoints.ImmobOnglet.update(id), { ...this.items, estTermine: this.estTermine }, { headers }).subscribe({
+    this.http.patch(ApiEndpoints.autreImmobilisationOnglet.update(id), { ...this.items, estTermine: this.estTermine }, { headers }).subscribe({
       error: err => console.error('PATCH immob echoue', err)
     });
   }

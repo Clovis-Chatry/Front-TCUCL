@@ -27,12 +27,12 @@ export class DashboardComponent {
     { label: 'Emissions fugitives', status: true, path: 'emissionsFugitivesOnglet' },
     { label: 'Mobilité dom-trav', status: true, path: 'mobiliteDomTravOnglet' },
     { label: 'Autre mob fr', status: false, path: 'autreMobFrOnglet' },
-    { label: 'Mob internatio', status: false, path: 'mobiliteInternationaleOnglet' },
+    { label: 'Mob internatio', status: false, path: 'mobInternationaleOnglet' },
     { label: 'Bâtiments', status: true, path: 'batimentsOnglet' },
     { label: 'Parkings', status: true, path: 'parkingsOnglet' },
     { label: 'Auto', status: true, path: 'autoOnglet' },
     { label: 'Numérique', status: true, path: 'numeriqueOnglet' },
-    { label: 'Autres immob', status: false, path: 'immobOnglet' },
+    { label: 'Autres immob', status: false, path: 'autreImmobilisationOnglet' },
     { label: 'Achats', status: false, path: 'achatsOnglet' },
     { label: 'Déchets', status: true, path: 'dechetsOnglet' }
   ];

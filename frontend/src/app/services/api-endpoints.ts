@@ -39,9 +39,9 @@ export const ApiEndpoints = {
     update: (id: string) => `${BASE_URL}/achatOnglet/${id}`,
   },
 
-ImmobOnglet: {
-  getById: (id: string) => `${BASE_URL}/immobOnglet/${id}`,
-  update: (id: string) => `${BASE_URL}/immobOnglet/${id}`
+autreImmobilisationOnglet: {
+  getById: (id: string) => `${BASE_URL}/autreImmobilisationOnglet/${id}`,
+  update: (id: string) => `${BASE_URL}/autreImmobilisationOnglet/${id}`
 },
 NumeriqueOnglet: {
   getById: (id: string) => `${BASE_URL}/numeriqueOnglet/${id}`,
@@ -63,9 +63,9 @@ ParkingVoirieOnglet: {
     `${BASE_URL}/parkingVoirieOnglet/${ongletId}/parkingVoirie/${parkingId}`,
   getResult: (id: string) => `${BASE_URL}/parkingVoirieOnglet/${id}/resultat`
 },
-MobiliteInternationaleOnglet: {
-  getById: (id: string) => `${BASE_URL}/mobiliteInternationaleOnglet/${id}`,
-  update: (id: string) => `${BASE_URL}/mobiliteInternationaleOnglet/${id}`
+mobInternationaleOnglet: {
+  getById: (id: string) => `${BASE_URL}/mobInternationaleOnglet/${id}`,
+  update: (id: string) => `${BASE_URL}/mobInternationaleOnglet/${id}`
 },
 BatimentsOnglet: {
   getBatimentImmobilisationMobilier: (id: string) =>
