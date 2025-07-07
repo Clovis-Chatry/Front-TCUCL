@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from '../../../services/auth.service';
+import {CommonModule, NgClass} from '@angular/common';
 
 interface Indicator {
   label: string;
@@ -12,6 +13,8 @@ interface Indicator {
 
 @Component({
   selector: 'app-indicators',
+  standalone: true,
+  imports: [CommonModule, NgClass],
   templateUrl: './trajectoire-page.component.html',
   styleUrls: ['./trajectoire-page.component.scss']
 })
