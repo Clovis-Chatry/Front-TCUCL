@@ -9,6 +9,7 @@ export const ApiEndpoints = {
   EnergieOnglet: {
     getById: (id: string) => `${BASE_URL}/energieOnglet/${id}`,
     updateConso: (id: string) => `${BASE_URL}/energieOnglet/${id}`,
+    getResult: (id: string) => `${BASE_URL}/energieOnglet/${id}/resultat`,
   },
 
   EmissionFugitivesOnglet: {
