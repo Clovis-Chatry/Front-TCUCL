@@ -7,6 +7,7 @@ import { OngletService } from '../header-saisie-donnees/onglet.service';
 import { AnneeService} from '../../services/annee.service';
 import {AuthService} from '../../services/auth.service';
 import {ApiEndpoints} from '../../services/api-endpoints';
+import { ONGLET_ROUTES } from '../../constants/onglet-routes';
 
 const extractRoute = (url: string): string =>
   url.split('/').slice(3).join('/').replace(/\/$/, '');
@@ -29,62 +30,62 @@ export class DashboardComponent implements OnInit {
     {
       label: 'Energie',
       statusKey: 'energieOnglet',
-      route: extractRoute(ApiEndpoints.EnergieOnglet.getById(''))
+      route: ONGLET_ROUTES['Energie']
     },
     {
       label: 'Emissions fugitives',
       statusKey: 'emissionsFugitivesOnglet',
-      route: extractRoute(ApiEndpoints.EmissionFugitivesOnglet.update(''))
+      route: ONGLET_ROUTES['Emissions fugitives']
     },
     {
       label: 'Mobilité dom-trav',
       statusKey: 'mobiliteDomTravOnglet',
-      route: extractRoute(ApiEndpoints.DomTravOnglet.getById(''))
+      route: ONGLET_ROUTES['Mobilite dom-trav']
     },
     {
       label: 'Autre mob fr',
       statusKey: 'autreMobFrOnglet',
-      route: extractRoute(ApiEndpoints.AutreMobFrOnglet.getById(''))
+      route: ONGLET_ROUTES['Autre mobilite en France']
     },
     {
       label: 'Mob internatio',
       statusKey: 'mobInternationaleOnglet',
-      route: extractRoute(ApiEndpoints.mobInternationaleOnglet.getById(''))
+      route: ONGLET_ROUTES['Mob internationale']
     },
     {
       label: 'Bâtiments',
       statusKey: 'batimentsOnglet',
-      route: extractRoute(ApiEndpoints.BatimentsOnglet.getBatimentImmobilisationMobilier(''))
+      route: ONGLET_ROUTES['Batiments']
     },
     {
       label: 'Parkings',
       statusKey: 'parkingsOnglet',
-      route: extractRoute(ApiEndpoints.ParkingVoirieOnglet.getById(''))
+      route: ONGLET_ROUTES['Parkings']
     },
     {
       label: 'Auto',
       statusKey: 'autoOnglet',
-      route: extractRoute(ApiEndpoints.AutoOnglet.getById(''))
+      route: ONGLET_ROUTES['Auto']
     },
     {
       label: 'Numérique',
       statusKey: 'numeriqueOnglet',
-      route: extractRoute(ApiEndpoints.NumeriqueOnglet.getById(''))
+      route: ONGLET_ROUTES['Numerique']
     },
     {
       label: 'Autres immob',
       statusKey: 'autreImmobilisationOnglet',
-      route: extractRoute(ApiEndpoints.autreImmobilisationOnglet.getById(''))
+      route: ONGLET_ROUTES['Autre immob']
     },
     {
       label: 'Achats',
       statusKey: 'achatOnglet',
-      route: extractRoute(ApiEndpoints.AchatsOnglet.getById(''))
+      route: ONGLET_ROUTES['Achats']
     },
     {
       label: 'Déchets',
       statusKey: 'dechetsOnglet',
-      route: extractRoute(ApiEndpoints.DechetsOnglet.getById(''))
+      route: ONGLET_ROUTES['Dechets']
     }
   ];
 
