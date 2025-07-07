@@ -9,6 +9,8 @@ import { SaveFooterComponent } from '../../save-footer/save-footer.component';
 import { BatimentOngletMapperService } from './batiment-onglet-mapper.service';
 import { BatimentOngletModel, BatimentExistantOuNeufConstruit, EntretienCourant, MobilierElectromenager } from '../../../models/batiment.model';
 import { OngletStatusService } from '../../../services/onglet-status.service';
+import { ONGLET_KEYS } from '../../../constants/onglet-keys';
+import { ONGLET_KEYS } from '../../../constants/onglet-keys';
 import {
   EnumBatiment_TypeBatiment,
   EnumBatiment_TypeStructure,
@@ -30,6 +32,7 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   private mapper = inject(BatimentOngletMapperService);
   private statusService = inject(OngletStatusService);
   batimentOngletId: string = '';
+  ONGLET_KEYS = ONGLET_KEYS;
   batimentTypes = Object.values(EnumBatiment_TypeBatiment);
   structureTypes = Object.values(EnumBatiment_TypeStructure);
   travauxTypes = Object.values(EnumBatiment_TypeTravaux);
@@ -178,9 +181,9 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.batimentOnglet.estTermine = this.statusService.getStatus('batimentsOnglet');
+    this.batimentOnglet.estTermine = this.statusService.getStatus(ONGLET_KEYS.Batiments);
     this.statusService.statuses$.subscribe(s => {
-      this.batimentOnglet.estTermine = s['batimentsOnglet'] ?? false;
+      this.batimentOnglet.estTermine = s[ONGLET_KEYS.Batiments] ?? false;
     });
     this.route.paramMap.subscribe(params => {
       this.batimentOngletId = params.get('id') || '';
@@ -198,7 +201,7 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
         const model = this.mapper.fromDto(data);
         this.batimentOnglet = model;
         this.batimentOnglet.estTermine = model.estTermine ?? false;
-        this.statusService.setStatus('batimentsOnglet', this.batimentOnglet.estTermine);
+        this.statusService.setStatus(ONGLET_KEYS.Batiments, this.batimentOnglet.estTermine);
       },
       error: (error) => {
         console.error('Erreur lors de la récupération des données :', error);

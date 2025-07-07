@@ -45,8 +45,7 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
 
   ongletIdMap: { [key: string]: number } = {};
 
-  tabs = ['Energie', 'Emissions fugitives', 'Mobilite dom-trav', 'Autre mobilite en France', 'Mob internationale', 'Batiments',
-    'Parkings', 'Auto', 'Numerique', 'Autre immob', 'Achats', 'Dechets'];
+  tabs = Object.keys(ONGLET_ROUTES);
   startIndex = 0;
   visibleCount = 12;
   loading = false;

@@ -36,6 +36,7 @@ import {
   BatimentsSaisieDonneesPageComponent
 } from './components/saisie-donnees-page/batiments/bat-saisie-donnees-page.component';
 import {TrajectoireComponent} from './components/affichage-graphiques/suivi/trajectoire-page.component';
+import { ONGLET_KEYS } from './constants/onglet-keys';
 
 export const routes: Routes = [
   {
@@ -60,73 +61,73 @@ export const routes: Routes = [
   },
 
   {
-    path: 'energieOnglet/:id',
+    path: `${ONGLET_KEYS.Energie}/:id`,
     component: EnergieSaisieDonneesPageComponent,
     data: { showSaisieHeader: true },
     canActivate: [authGuard],
   },
   {
-    path: 'emissionFugitiveOnglet/:id',
+    path: `${ONGLET_KEYS.EmissionsFugitives}/:id`,
     component: EmissFugiSaisieDonneesPageComponent,
     data: { showSaisieHeader: true },
     canActivate: [authGuard]
   },
   {
-    path: 'dechetOnglet/:id',
+    path: `${ONGLET_KEYS.Dechets}/:id`,
     component: DechetSaisieDonneesPageComponent,
     data: {showSaisieHeader: true},
     canActivate: [authGuard],
   },
   {
-    path: 'mobiliteDomicileTravailOnglet/:id',
+    path: `${ONGLET_KEYS.MobiliteDomTrav}/:id`,
     component: DomTravSaisieDonneesPageComponent,
     data: {showSaisieHeader: true},
     canActivate: [authGuard],
   },
   {
-    path: 'autreMobFrOnglet/:id',
+    path: `${ONGLET_KEYS.AutreMobFr}/:id`,
     component: AutreMobSaisieDonneesPageComponent,
     data: {showSaisieHeader: true},
     canActivate: [authGuard],
   },
   {
-    path: 'achatOnglet/:id',
+    path: `${ONGLET_KEYS.Achats}/:id`,
     component: AchatsSaisieDonneesPageComponent,
     data: { showSaisieHeader: true },
     canActivate: [authGuard]
   },
   {
-    path: 'autreImmobilisationOnglet/:id',
+    path: `${ONGLET_KEYS.AutreImmob}/:id`,
     component: AutreImmobilisationPageComponent,
     data: { showSaisieHeader: true },
     canActivate: [authGuard]
   },
   {
-    path: 'numeriqueOnglet/:id',
+    path: `${ONGLET_KEYS.Numerique}/:id`,
     component: NumeriqueSaisieDonneesPageComponent,
     data: { showSaisieHeader: true },
     canActivate: [authGuard]
   },
   {
-    path: 'vehiculeOnglet/:id',
+    path: `${ONGLET_KEYS.Auto}/:id`,
     component: AutoSaisieDonneesPageComponent,
     data: { showSaisieHeader: true },
     canActivate: [authGuard]
   },
   {
-    path: 'parkingVoirieOnglet/:id',
+    path: `${ONGLET_KEYS.Parkings}/:id`,
     component: ParkSaisieDonneesPageComponent,
     data: { showSaisieHeader: true },
     canActivate: [authGuard]
   },
   {
-    path: 'mobInternationalOnglet/:id',
+    path: `${ONGLET_KEYS.MobInternationale}/:id`,
     data: { showSaisieHeader: true },
     component: MobiliteInternationaleSaisieDonneesPageComponent,
     canActivate: [authGuard]
   },
   {
-    path: 'batimentImmobilisationMobilierOnglet/:id',
+    path: `${ONGLET_KEYS.Batiments}/:id`,
     data: { showSaisieHeader: true },
     component: BatimentsSaisieDonneesPageComponent,
     canActivate: [authGuard]

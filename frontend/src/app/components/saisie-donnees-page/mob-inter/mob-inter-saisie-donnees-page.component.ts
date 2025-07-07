@@ -8,6 +8,7 @@ import { ApiEndpoints } from '../../../services/api-endpoints';
 import { Pays } from '../../../models/enums/pays.enum';
 import { SaveFooterComponent } from '../../save-footer/save-footer.component';
 import { OngletStatusService } from '../../../services/onglet-status.service';
+import { ONGLET_KEYS } from '../../../constants/onglet-keys';
 
 @Component({
   selector: 'app-destination-page',
@@ -31,13 +32,14 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
   destinations: any[] = [];
 
   estTermine = false;
+  ONGLET_KEYS = ONGLET_KEYS;
 
   listePays = Object.values(Pays);
 
   ngOnInit(): void {
-    this.estTermine = this.statusService.getStatus('mobInternationaleOnglet');
+    this.estTermine = this.statusService.getStatus(ONGLET_KEYS.MobInternationale);
     this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
-      this.estTermine = s['mobInternationaleOnglet'] ?? false;
+      this.estTermine = s[ONGLET_KEYS.MobInternationale] ?? false;
     });
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
@@ -64,7 +66,7 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
           this.destinations = data.destinations;
         }
         this.estTermine = data.estTermine ?? false;
-        this.statusService.setStatus('mobInternationaleOnglet', this.estTermine);
+        this.statusService.setStatus(ONGLET_KEYS.MobInternationale, this.estTermine);
       },
       (error) => {
         console.error("Erreur lors du chargement des données", error);

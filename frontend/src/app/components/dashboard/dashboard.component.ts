@@ -6,8 +6,7 @@ import { OngletStatusService } from '../../services/onglet-status.service';
 import { OngletService } from '../header-saisie-donnees/onglet.service';
 import { AnneeService} from '../../services/annee.service';
 import {AuthService} from '../../services/auth.service';
-import {ApiEndpoints} from '../../services/api-endpoints';
-import { ONGLET_ROUTES } from '../../constants/onglet-routes';
+import { ONGLET_KEYS } from '../../constants/onglet-keys';
 
 const extractRoute = (url: string): string =>
   url.split('/').slice(3).join('/').replace(/\/$/, '');
@@ -27,66 +26,18 @@ export class DashboardComponent implements OnInit {
   years: YearRange[] = [];
 
   onglets = [
-    {
-      label: 'Energie',
-      statusKey: 'energieOnglet',
-      route: ONGLET_ROUTES['Energie']
-    },
-    {
-      label: 'Emissions fugitives',
-      statusKey: 'emissionsFugitivesOnglet',
-      route: ONGLET_ROUTES['Emissions fugitives']
-    },
-    {
-      label: 'Mobilité dom-trav',
-      statusKey: 'mobiliteDomTravOnglet',
-      route: ONGLET_ROUTES['Mobilite dom-trav']
-    },
-    {
-      label: 'Autre mob fr',
-      statusKey: 'autreMobFrOnglet',
-      route: ONGLET_ROUTES['Autre mobilite en France']
-    },
-    {
-      label: 'Mob internatio',
-      statusKey: 'mobInternationaleOnglet',
-      route: ONGLET_ROUTES['Mob internationale']
-    },
-    {
-      label: 'Bâtiments',
-      statusKey: 'batimentsOnglet',
-      route: ONGLET_ROUTES['Batiments']
-    },
-    {
-      label: 'Parkings',
-      statusKey: 'parkingsOnglet',
-      route: ONGLET_ROUTES['Parkings']
-    },
-    {
-      label: 'Auto',
-      statusKey: 'autoOnglet',
-      route: ONGLET_ROUTES['Auto']
-    },
-    {
-      label: 'Numérique',
-      statusKey: 'numeriqueOnglet',
-      route: ONGLET_ROUTES['Numerique']
-    },
-    {
-      label: 'Autres immob',
-      statusKey: 'autreImmobilisationOnglet',
-      route: ONGLET_ROUTES['Autre immob']
-    },
-    {
-      label: 'Achats',
-      statusKey: 'achatOnglet',
-      route: ONGLET_ROUTES['Achats']
-    },
-    {
-      label: 'Déchets',
-      statusKey: 'dechetsOnglet',
-      route: ONGLET_ROUTES['Dechets']
-    }
+    { label: 'Energie', statusKey: ONGLET_KEYS.Energie, route: ONGLET_KEYS.Energie },
+    { label: 'Emissions fugitives', statusKey: ONGLET_KEYS.EmissionsFugitives, route: ONGLET_KEYS.EmissionsFugitives },
+    { label: 'Mobilité dom-trav', statusKey: ONGLET_KEYS.MobiliteDomTrav, route: ONGLET_KEYS.MobiliteDomTrav },
+    { label: 'Autre mob fr', statusKey: ONGLET_KEYS.AutreMobFr, route: ONGLET_KEYS.AutreMobFr },
+    { label: 'Mob internatio', statusKey: ONGLET_KEYS.MobInternationale, route: ONGLET_KEYS.MobInternationale },
+    { label: 'Bâtiments', statusKey: ONGLET_KEYS.Batiments, route: ONGLET_KEYS.Batiments },
+    { label: 'Parkings', statusKey: ONGLET_KEYS.Parkings, route: ONGLET_KEYS.Parkings },
+    { label: 'Auto', statusKey: ONGLET_KEYS.Auto, route: ONGLET_KEYS.Auto },
+    { label: 'Numérique', statusKey: ONGLET_KEYS.Numerique, route: ONGLET_KEYS.Numerique },
+    { label: 'Autres immob', statusKey: ONGLET_KEYS.AutreImmob, route: ONGLET_KEYS.AutreImmob },
+    { label: 'Achats', statusKey: ONGLET_KEYS.Achats, route: ONGLET_KEYS.Achats },
+    { label: 'Déchets', statusKey: ONGLET_KEYS.Dechets, route: ONGLET_KEYS.Dechets }
   ];
 
   constructor(
@@ -144,9 +95,9 @@ export class DashboardComponent implements OnInit {
     this.ongletService.getOngletIds(this.entiteId, this.selectedYear)?.subscribe({
       next: (result) => {
         this.ongletIdMap = result;
-        const ongletId = this.ongletIdMap['energieOnglet'];
+        const ongletId = this.ongletIdMap[ONGLET_KEYS.Energie];
         if (ongletId) {
-          this.router.navigate([`/energieOnglet/${ongletId}`]);
+          this.router.navigate([`/${ONGLET_KEYS.Energie}/${ongletId}`]);
         } else {
           console.error('ID onglet énergie introuvable pour l’année', this.selectedYear);
         }
@@ -160,9 +111,9 @@ export class DashboardComponent implements OnInit {
 
 
   goToEnergie(): void {
-    const ongletId = this.ongletIdMap['energieOnglet'];
+    const ongletId = this.ongletIdMap[ONGLET_KEYS.Energie];
     if (ongletId) {
-      this.router.navigate([`/energieOnglet/${ongletId}`]);
+      this.router.navigate([`/${ONGLET_KEYS.Energie}/${ongletId}`]);
     } else {
       console.error('ID onglet énergie introuvable pour l\'année', this.selectedYear);
     }

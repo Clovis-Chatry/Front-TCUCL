@@ -11,6 +11,7 @@ import { ApiEndpoints } from '../../../services/api-endpoints';
 import { AuthService } from '../../../services/auth.service';
 import { SaveFooterComponent } from '../../save-footer/save-footer.component';
 import { OngletStatusService } from '../../../services/onglet-status.service';
+import { ONGLET_KEYS } from '../../../constants/onglet-keys';
 
 @Component({
   selector: 'app-dechet-saisie-donnees-page',
@@ -29,14 +30,15 @@ export class DechetSaisieDonneesPageComponent implements OnInit {
   items: DechetData[] = [];
 
   estTermine = false;
+  ONGLET_KEYS = ONGLET_KEYS;
 
   types = Object.values(TYPE_DECHET);
   traitements = Object.values(TRAITEMENT_DECHET);
 
   ngOnInit(): void {
-    this.estTermine = this.statusService.getStatus('dechetsOnglet');
+    this.estTermine = this.statusService.getStatus(ONGLET_KEYS.Dechets);
     this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
-      this.estTermine = s['dechetsOnglet'] ?? false;
+      this.estTermine = s[ONGLET_KEYS.Dechets] ?? false;
     });
     const id = this.route.snapshot.paramMap.get('id');
     if (id) this.loadData(id);
@@ -54,7 +56,7 @@ export class DechetSaisieDonneesPageComponent implements OnInit {
       next: data => {
         this.items = this.mapper.parseData(data);
         this.estTermine = data.estTermine ?? false;
-        this.statusService.setStatus('dechetsOnglet', this.estTermine);
+        this.statusService.setStatus(ONGLET_KEYS.Dechets, this.estTermine);
       },
       error: err => console.error('Erreur chargement déchets:', err)
     });

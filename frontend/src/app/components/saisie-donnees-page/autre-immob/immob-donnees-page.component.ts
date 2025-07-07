@@ -7,6 +7,7 @@ import { SaveFooterComponent } from '../../save-footer/save-footer.component';
 import { AuthService } from '../../../services/auth.service';
 import { ApiEndpoints } from '../../../services/api-endpoints';
 import { OngletStatusService } from '../../../services/onglet-status.service';
+import { ONGLET_KEYS } from '../../../constants/onglet-keys';
 
 @Component({
   selector: 'app-saisie-donnees-page',
@@ -58,6 +59,7 @@ export class AutreImmobilisationPageComponent implements OnInit {
   };
 
   estTermine = false;
+  ONGLET_KEYS = ONGLET_KEYS;
 
   onEstTermineChange(value: boolean): void {
     this.estTermine = value;
@@ -65,9 +67,9 @@ export class AutreImmobilisationPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.estTermine = this.statusService.getStatus('autreImmobilisationOnglet');
+    this.estTermine = this.statusService.getStatus(ONGLET_KEYS.AutreImmob);
     this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
-      this.estTermine = s['autreImmobilisationOnglet'] ?? false;
+      this.estTermine = s[ONGLET_KEYS.AutreImmob] ?? false;
     });
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
@@ -94,7 +96,7 @@ export class AutreImmobilisationPageComponent implements OnInit {
       (data) => {
         this.items = { ...this.items, ...data };
         this.estTermine = data.estTermine ?? false;
-        this.statusService.setStatus('autreImmobilisationOnglet', this.estTermine);
+        this.statusService.setStatus(ONGLET_KEYS.AutreImmob, this.estTermine);
       },
       (error) => {
         console.error("Erreur lors du chargement des données", error);

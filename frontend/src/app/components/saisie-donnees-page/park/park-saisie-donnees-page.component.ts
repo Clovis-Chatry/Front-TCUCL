@@ -7,6 +7,7 @@ import { AuthService } from '../../../services/auth.service';
 import { ApiEndpoints } from '../../../services/api-endpoints';
 import { SaveFooterComponent } from '../../save-footer/save-footer.component';
 import { OngletStatusService } from '../../../services/onglet-status.service';
+import { ONGLET_KEYS } from '../../../constants/onglet-keys';
 import { PARKING_VOIRIE_TYPE, PARKING_VOIRIE_TYPE_STRUCTURE } from '../../../models/enums/parking-voirie.enum';
 import { ParkingVoirie, ParkingVoirieOngletModel } from '../../../models/parking-voirie.model';
 import { ParkingVoirieOngletMapperService } from './parking-voirie-onglet-mapper.service';
@@ -40,6 +41,8 @@ export class ParkSaisieDonneesPageComponent implements OnInit {
   parkingTypes = Object.values(PARKING_VOIRIE_TYPE);
   structureTypes = Object.values(PARKING_VOIRIE_TYPE_STRUCTURE);
 
+  ONGLET_KEYS = ONGLET_KEYS;
+
   onEmissionsConnuesChange(value: boolean): void {
     if (!value) {
       this.nouveauParking.emissionsGesReelles = null;
@@ -47,9 +50,9 @@ export class ParkSaisieDonneesPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.parkingOnglet.estTermine = this.statusService.getStatus('parkingsOnglet');
+    this.parkingOnglet.estTermine = this.statusService.getStatus(ONGLET_KEYS.Parkings);
     this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
-      this.parkingOnglet.estTermine = s['parkingsOnglet'] ?? false;
+      this.parkingOnglet.estTermine = s[ONGLET_KEYS.Parkings] ?? false;
     });
 
     this.route.paramMap.subscribe(params => {
@@ -77,7 +80,7 @@ export class ParkSaisieDonneesPageComponent implements OnInit {
         this.parkingOnglet.parkings = model.parkings;
         this.parkingOnglet.note = model.note;
         this.parkingOnglet.estTermine = model.estTermine ?? false;
-        this.statusService.setStatus('parkingsOnglet', this.parkingOnglet.estTermine);
+        this.statusService.setStatus(ONGLET_KEYS.Parkings, this.parkingOnglet.estTermine);
       },
       error: err => console.error("Erreur lors du chargement des données", err)
     });

@@ -10,6 +10,7 @@ import {TransportDomTrav} from '../../../models/transport-data.model';
 import {TransportDataDomTravMapperService} from './transport-data-dom-trav-mapper.service';
 import { SaveFooterComponent } from '../../save-footer/save-footer.component';
 import { OngletStatusService } from '../../../services/onglet-status.service';
+import { ONGLET_KEYS } from '../../../constants/onglet-keys';
 
 @Component({
   selector: 'app-dom-trav-saisie-donnees-page',
@@ -35,12 +36,13 @@ export class DomTravSaisieDonneesPageComponent implements OnInit {
   nbJoursSalarie?: number;
 
   estTermine = false;
+  ONGLET_KEYS = ONGLET_KEYS;
 
 
   ngOnInit(): void {
-    this.estTermine = this.statusService.getStatus('mobiliteDomTravOnglet');
+    this.estTermine = this.statusService.getStatus(ONGLET_KEYS.MobiliteDomTrav);
     this.statusService.statuses$.subscribe(s => {
-      this.estTermine = s['mobiliteDomTravOnglet'] ?? false;
+      this.estTermine = s[ONGLET_KEYS.MobiliteDomTrav] ?? false;
     });
     const id = this.route.snapshot.paramMap.get('id');
     if (id) this.loadData(id);
@@ -64,7 +66,7 @@ export class DomTravSaisieDonneesPageComponent implements OnInit {
         this.nbJoursEtudiant = data.nbJoursDeplacementEtudiant ?? 0;
         this.nbJoursSalarie = data.nbJoursDeplacementSalarie ?? 0;
         this.estTermine = data.estTermine ?? false;
-        this.statusService.setStatus('mobiliteDomTravOnglet', this.estTermine);
+        this.statusService.setStatus(ONGLET_KEYS.MobiliteDomTrav, this.estTermine);
       },
       error: (err) => console.error("Erreur lors du chargement des données", err)
     });
