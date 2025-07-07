@@ -95,12 +95,12 @@ Les bâtiments qui ont été renseignées les années précédentes sont encore 
       </thead>
       <tbody>
       <tr *ngFor="let bat of batimentOnglet.batiments; let i = index">
-        <td>{{ bat.nom_ou_adresse }}</td>
-        <td>{{ bat.dateConstruction }}</td>
-        <td>{{ bat.dateDerniereGrosseRenovation }}</td>
-        <td>{{ bat.acvBatimentRealisee ? 'oui' : 'non' }}</td>
-        <td>{{ bat.emissionsGesReellesTCO2 }}</td>
-        <td>{{ getLibelleTypeBatiment(bat.typeBatiment) }}</td>
+          <td>{{ bat.nom_ou_adresse }}</td>
+          <td>{{ bat.dateConstruction }}</td>
+          <td>{{ bat.dateDerniereGrosseRenovation }}</td>
+          <td>{{ bat.acvBatimentRealisee ? 'oui' : 'non' }}</td>
+          <td>{{ bat.emissionsGesReellesTCO2 }}</td>
+          <td>{{ getLibelleTypeBatiment(bat.typeBatiment) }}</td>
         <td>{{ bat.surfaceEnM2 }}</td>
         <td>{{ getLibelleTypeStructure(bat.typeStructure) }}</td>
         <td>

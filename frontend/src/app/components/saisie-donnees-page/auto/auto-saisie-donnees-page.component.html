@@ -52,7 +52,7 @@
             <td>{{ getLibelleTypeVehicule(v.typeVehicule) }}</td>
             <td>{{ v.nombreVehiculesIdentiques }}</td>
             <td>{{ v.nombreKilometresParVoitureMoyen }}</td>
-            <td><button type="button" (click)="supprimerVehicule(i)">Supprimer</button></td>
+            <td><button type="button" (click)="supprimerVehicule(i)">🗑️</button></td>
           </tr>
         </tbody>
       </table>
@@ -60,3 +60,4 @@
   </div>
   <app-save-footer [path]="'vehiculeOnglet'" (estTermineChange)="onEstTermineChange($event)"></app-save-footer>
 </div>
+<app-save-footer [path]="'autoOnglet'" (estTermineChange)="onEstTermineChange($event)"></app-save-footer>

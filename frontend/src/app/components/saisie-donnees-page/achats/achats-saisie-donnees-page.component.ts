@@ -100,6 +100,7 @@ export class AchatsSaisieDonneesPageComponent implements OnInit {
     this.statusService.statuses$.subscribe(statuses => {
       this.estTermine = statuses['achatOnglet'] ?? false;
     });
+
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) this.loadData(id);
