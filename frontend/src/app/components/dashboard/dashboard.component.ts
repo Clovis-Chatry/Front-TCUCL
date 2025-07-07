@@ -154,8 +154,13 @@ export class DashboardComponent implements OnInit {
 
 
 
-  goToEnergie() {
-    this.router.navigate([`/energieOnglet/7`]);
+  goToEnergie(): void {
+    const ongletId = this.ongletIdMap['energieOnglet'];
+    if (ongletId) {
+      this.router.navigate([`/energieOnglet/${ongletId}`]);
+    } else {
+      console.error('ID onglet énergie introuvable pour l\'année', this.selectedYear);
+    }
   }
 
   onYearChange(newYear: number): void {
