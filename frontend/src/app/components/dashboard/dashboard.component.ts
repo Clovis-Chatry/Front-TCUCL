@@ -21,20 +21,67 @@ export class DashboardComponent {
   selectedYear: number;
   years: YearRange[] = [];
 
-
   onglets = [
-    { label: 'Energie', status: false, path: 'energieOnglet' },
-    { label: 'Emissions fugitives', status: true, path: 'emissionsFugitivesOnglet' },
-    { label: 'Mobilité dom-trav', status: true, path: 'mobiliteDomTravOnglet' },
-    { label: 'Autre mob fr', status: false, path: 'autreMobFrOnglet' },
-    { label: 'Mob internatio', status: false, path: 'mobInternationaleOnglet' },
-    { label: 'Bâtiments', status: true, path: 'batimentsOnglet' },
-    { label: 'Parkings', status: true, path: 'parkingsOnglet' },
-    { label: 'Auto', status: true, path: 'autoOnglet' },
-    { label: 'Numérique', status: true, path: 'numeriqueOnglet' },
-    { label: 'Autres immob', status: false, path: 'autreImmobilisationOnglet' },
-    { label: 'Achats', status: false, path: 'achatsOnglet' },
-    { label: 'Déchets', status: true, path: 'dechetsOnglet' }
+    {
+      label: 'Energie',
+      statusKey: 'energieOnglet',
+      route: 'energieOnglet'
+    },
+    {
+      label: 'Emissions fugitives',
+      statusKey: 'emissionsFugitivesOnglet',
+      route: 'emissionFugitiveOnglet'
+    },
+    {
+      label: 'Mobilité dom-trav',
+      statusKey: 'mobiliteDomTravOnglet',
+      route: 'mobiliteDomicileTravailOnglet'
+    },
+    {
+      label: 'Autre mob fr',
+      statusKey: 'autreMobFrOnglet',
+      route: 'autreMobFrOnglet'
+    },
+    {
+      label: 'Mob internatio',
+      statusKey: 'mobInternationaleOnglet',
+      route: 'mobInternationalOnglet'
+    },
+    {
+      label: 'Bâtiments',
+      statusKey: 'batimentsOnglet',
+      route: 'batimentImmobilisationMobilierOnglet'
+    },
+    {
+      label: 'Parkings',
+      statusKey: 'parkingsOnglet',
+      route: 'parkingVoirieOnglet'
+    },
+    {
+      label: 'Auto',
+      statusKey: 'autoOnglet',
+      route: 'vehiculeOnglet'
+    },
+    {
+      label: 'Numérique',
+      statusKey: 'numeriqueOnglet',
+      route: 'numeriqueOnglet'
+    },
+    {
+      label: 'Autres immob',
+      statusKey: 'autreImmobilisationOnglet',
+      route: 'autreImmobilisationOnglet'
+    },
+    {
+      label: 'Achats',
+      statusKey: 'achatOnglet',
+      route: 'achatOnglet'
+    },
+    {
+      label: 'Déchets',
+      statusKey: 'dechetsOnglet',
+      route: 'dechetOnglet'
+    }
   ];
 
   constructor(
@@ -70,12 +117,17 @@ export class DashboardComponent {
     this.loadOngletStatuses();
   }
 
-  getStatus(path: string): boolean {
-    return this.statusService.getStatus(path);
+  getStatus(key: string): boolean {
+    return this.statusService.getStatus(key);
   }
 
-  goToSaisie(path: string): void {
-    this.router.navigate([`/${path}/${this.currentYear}`]);
+  goToSaisie(onglet: { statusKey: string; route: string }): void {
+    const id = this.ongletIdMap[onglet.statusKey];
+    if (id) {
+      this.router.navigate([`/${onglet.route}/${id}`]);
+    } else {
+      console.error('ID onglet introuvable pour', onglet.statusKey, 'année', this.selectedYear);
+    }
   }
 
   goToEnergieAvecAnnee(): void {
