@@ -29,12 +29,12 @@ export class DashboardComponent {
     },
     {
       label: 'Emissions fugitives',
-      statusKey: 'emissionsFugitivesOnglet',
+      statusKey: 'emissionFugitiveOnglet',
       route: 'emissionFugitiveOnglet'
     },
     {
       label: 'Mobilité dom-trav',
-      statusKey: 'mobiliteDomTravOnglet',
+      statusKey: 'mobiliteDomicileTravailOnglet',
       route: 'mobiliteDomicileTravailOnglet'
     },
     {
@@ -44,22 +44,22 @@ export class DashboardComponent {
     },
     {
       label: 'Mob internatio',
-      statusKey: 'mobInternationaleOnglet',
+      statusKey: 'mobInternationalOnglet',
       route: 'mobInternationalOnglet'
     },
     {
       label: 'Bâtiments',
-      statusKey: 'batimentsOnglet',
+      statusKey: 'batimentImmobilisationMobilierOnglet',
       route: 'batimentImmobilisationMobilierOnglet'
     },
     {
       label: 'Parkings',
-      statusKey: 'parkingsOnglet',
+      statusKey: 'parkingVoirieOnglet',
       route: 'parkingVoirieOnglet'
     },
     {
       label: 'Auto',
-      statusKey: 'autoOnglet',
+      statusKey: 'vehiculeOnglet',
       route: 'vehiculeOnglet'
     },
     {
@@ -79,7 +79,7 @@ export class DashboardComponent {
     },
     {
       label: 'Déchets',
-      statusKey: 'dechetsOnglet',
+      statusKey: 'dechetOnglet',
       route: 'dechetOnglet'
     }
   ];
@@ -155,7 +155,7 @@ export class DashboardComponent {
 
 
   goToEnergie() {
-    this.router.navigate([`/energieOnglet/2`]);
+    this.router.navigate([`/energieOnglet/7`]);
   }
 
   onYearChange(newYear: number): void {
@@ -186,4 +186,4 @@ export class DashboardComponent {
       }
     });
   }
-};
+}
