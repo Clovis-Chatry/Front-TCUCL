@@ -86,6 +86,8 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
         this.tipUtilisateur = model.tipUtilisateur;
         this.partTraficFranceEtranger = model.partTraficFranceEtranger;
         this.equipementsAnciens = model.equipements;
+        this.estTermine = model.estTermine ?? false;
+        this.statusService.setStatus('numeriqueOnglet', this.estTermine);
       },
       error: err => console.error("Erreur lors du chargement des données numériques", err)
     });

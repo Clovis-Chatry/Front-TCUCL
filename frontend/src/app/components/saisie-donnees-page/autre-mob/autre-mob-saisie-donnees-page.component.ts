@@ -54,7 +54,11 @@ export class AutreMobSaisieDonneesPageComponent implements OnInit {
     };
 
     this.http.get<any>(ApiEndpoints.AutreMobFrOnglet.getById(id), { headers }).subscribe({
-      next: data => (this.items = this.mapper.parseFlatData(data)),
+      next: data => {
+        this.items = this.mapper.parseFlatData(data);
+        this.estTermine = data.estTermine ?? false;
+        this.statusService.setStatus('autreMobFrOnglet', this.estTermine);
+      },
       error: err => console.error('Erreur chargement autre mob:', err),
     });
   }

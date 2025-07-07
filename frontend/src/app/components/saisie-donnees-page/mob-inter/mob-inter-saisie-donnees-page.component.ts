@@ -63,6 +63,8 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
         if (data.destinations) {
           this.destinations = data.destinations;
         }
+        this.estTermine = data.estTermine ?? false;
+        this.statusService.setStatus('mobiliteInternationaleOnglet', this.estTermine);
       },
       (error) => {
         console.error("Erreur lors du chargement des données", error);

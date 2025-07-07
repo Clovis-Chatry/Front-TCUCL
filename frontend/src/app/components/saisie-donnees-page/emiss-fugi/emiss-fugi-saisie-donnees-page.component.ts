@@ -128,9 +128,9 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
   constructor(private emmissionsFugtivesService: EmmissionsFugtivesService) {}
 
   ngOnInit() {
-    this.estTermine = this.statusService.getStatus('emissionFugitiveOnglet');
+    this.estTermine = this.statusService.getStatus('emissionsFugitivesOnglet');
     this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
-      this.estTermine = s['emissionFugitiveOnglet'] ?? false;
+      this.estTermine = s['emissionsFugitivesOnglet'] ?? false;
     });
     this.route.paramMap.subscribe(params => {
       this.emmissionFugitiveOngletId = params.get('id') || '';
@@ -185,6 +185,8 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
 
         this.noData = this.machines.length === 0;
         this.hasError = false;
+        this.estTermine = data.estTermine ?? false;
+        this.statusService.setStatus('emissionsFugitivesOnglet', this.estTermine);
       },
       error: (err) => {
         console.error('Erreur API', err);

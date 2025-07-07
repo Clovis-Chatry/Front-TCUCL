@@ -47,9 +47,9 @@ export class ParkSaisieDonneesPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.parkingOnglet.estTermine = this.statusService.getStatus('parkingVoirieOnglet');
+    this.parkingOnglet.estTermine = this.statusService.getStatus('parkingsOnglet');
     this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
-      this.parkingOnglet.estTermine = s['parkingVoirieOnglet'] ?? false;
+      this.parkingOnglet.estTermine = s['parkingsOnglet'] ?? false;
     });
 
     this.route.paramMap.subscribe(params => {
@@ -76,6 +76,8 @@ export class ParkSaisieDonneesPageComponent implements OnInit {
         const model = this.mapper.fromDto(data);
         this.parkingOnglet.parkings = model.parkings;
         this.parkingOnglet.note = model.note;
+        this.parkingOnglet.estTermine = model.estTermine ?? false;
+        this.statusService.setStatus('parkingsOnglet', this.parkingOnglet.estTermine);
       },
       error: err => console.error("Erreur lors du chargement des données", err)
     });
