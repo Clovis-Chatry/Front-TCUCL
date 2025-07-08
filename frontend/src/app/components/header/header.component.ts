@@ -33,7 +33,7 @@ export class HeaderComponent {
         this.nom.set(user.nom ?? '');
         this.prenom.set(user.prenom ?? '');
         this.entite.set(user.entiteNom ?? '');
-        this.entiteId.set(user.entiteID ?? 0);
+        this.entiteId.set((user as any).entiteId ?? 0);
       }
     });
   }

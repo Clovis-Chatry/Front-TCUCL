@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, effect } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -23,6 +23,7 @@ export class SyntheseEgesComponent implements OnInit {
   total: number = 0;
   private currentYear: number = new Date().getFullYear();
   private entiteId?: number;
+  private energyLoaded = false;
 
   constructor(
     private router: Router,
@@ -30,15 +31,20 @@ export class SyntheseEgesComponent implements OnInit {
     private ongletService: OngletService,
     private auth: AuthService
   ) {
-    const user = this.auth.getUserInfo()();
-    if (user?.entiteId) {
-      this.entiteId = user.entiteId;
-    }
+    effect(() => {
+      const user = this.auth.getUserInfo()();
+      const id = (user as any)?.entiteId;
+      if (id && id !== this.entiteId) {
+        this.entiteId = id;
+        if (!this.energyLoaded) {
+          this.fetchEnergy();
+        }
+      }
+    });
   }
 
   ngOnInit(): void {
     this.loadSectors();
-    this.fetchEnergy();
   }
 
   navigateToDashboard() {
@@ -84,6 +90,7 @@ export class SyntheseEgesComponent implements OnInit {
               const sector = this.sectors.find(s => s.label === 'Energie');
               if (sector) sector.value = res.consoEnergieFinale;
               this.total = this.sectors.reduce((sum, s) => sum + s.value, 0);
+              this.energyLoaded = true;
             },
             error: err => console.error('Erreur récupération énergie', err)
           });
