@@ -150,15 +150,19 @@ export class DashboardComponent implements OnInit {
   loadOngletIdsAndStatuses(): void {
     const ids$ = this.ongletService.getOngletIds(this.entiteId, this.selectedYear);
     const status$ = this.ongletService.getOngletStatuses(this.entiteId, this.selectedYear);
-    if (!ids$ || !status$) return;
+    if (!ids$ || !status$) {
+      console.error('Jeton manquant: impossible de récupérer les onglets.');
+      return;
+    }
 
-    forkJoin([ids$, status$]).subscribe({
-      next: ([ids, statuses]) => {
+    forkJoin({ ids: ids$, statuses: status$ }).subscribe({
+      next: ({ ids, statuses }) => {
         this.ongletIdMap = ids;
         this.statusService.setStatuses(statuses);
       },
       error: (err) => {
-        console.error('Erreur récupération onglets:', err);
+        console.error('Erreur récupération IDs ou statuts des onglets:', err);
+        this.statusService.setStatuses({});
       }
     });
   }
