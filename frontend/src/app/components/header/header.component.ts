@@ -2,6 +2,7 @@ import { Component, HostListener, Input, inject, signal, effect } from '@angular
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { NgIf, NgOptimizedImage } from '@angular/common';
+import {UserService} from '../../services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -16,27 +17,15 @@ export class HeaderComponent {
 
   private router = inject(Router);
   private authService = inject(AuthService);
+  private currentUser = inject(UserService);
 
-  nom = signal('');
-  prenom = signal('');
-  entite = signal('');
-  entiteId = signal('');
+  nom = this.currentUser.nom;
+  prenom = this.currentUser.prenom;
+  entite = this.currentUser.entite;
+  entiteId = this.currentUser.entiteId;
+  isLoggedIn = this.currentUser.isLoggedIn;
 
   dropdownOpen = false;
-  isLoggedIn = this.authService.isAuthenticated; // signal directement
-
-  constructor() {
-    effect(() => {
-      const user = this.authService.getUserInfo()();
-
-      if (user) {
-        this.nom.set(user.nom ?? '');
-        this.prenom.set(user.prenom ?? '');
-        this.entite.set(user.entiteNom ?? '');
-        this.entiteId.set(user.entiteID ?? 0);
-      }
-    });
-  }
 
   toggleDropdown(): void {
     this.dropdownOpen = !this.dropdownOpen;

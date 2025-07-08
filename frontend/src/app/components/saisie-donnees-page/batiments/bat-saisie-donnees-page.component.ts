@@ -1,12 +1,12 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {HttpClientModule} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {AuthService} from '../../../services/auth.service';
-import {ApiEndpoints} from '../../../services/api-endpoints';
 import { SaveFooterComponent } from '../../save-footer/save-footer.component';
 import { BatimentOngletMapperService } from './batiment-onglet-mapper.service';
+import { BatimentsService } from './bat.service';
 import { BatimentOngletModel, BatimentExistantOuNeufConstruit, EntretienCourant, MobilierElectromenager } from '../../../models/batiment.model';
 import { OngletStatusService } from '../../../services/onglet-status.service';
 import { ONGLET_KEYS } from '../../../constants/onglet-keys';
@@ -25,11 +25,11 @@ import {
   imports: [FormsModule, HttpClientModule, CommonModule, SaveFooterComponent]
 })
 export class BatimentsSaisieDonneesPageComponent implements OnInit {
-  private http = inject(HttpClient);
   private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
   private mapper = inject(BatimentOngletMapperService);
   private statusService = inject(OngletStatusService);
+  private batService = inject(BatimentsService);
   batimentOngletId: string = '';
   ONGLET_KEYS = ONGLET_KEYS;
   batimentTypes = Object.values(EnumBatiment_TypeBatiment);
@@ -191,11 +191,9 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
 
   loadData(): void {
     const headers = this.getAuthHeaders();
-    this.http.get<any>(
-      ApiEndpoints.BatimentsOnglet.getBatimentImmobilisationMobilier(this.batimentOngletId),
-      { headers }
-    ).subscribe({
+    this.batService.getBatimentImmobilisationMobilier(this.batimentOngletId, headers).subscribe({
       next: (data) => {
+        console.log(data);
         const model = this.mapper.fromDto(data);
         this.batimentOnglet = model;
         this.batimentOnglet.estTermine = model.estTermine ?? false;
@@ -210,7 +208,7 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   ajouterBatiment(): void {
     const headers = this.getAuthHeaders();
     const batimentAAjouter = { ...this.nouveauBatiment}
-    this.http.post(ApiEndpoints.BatimentsOnglet.ajouterBatiment(this.batimentOngletId), batimentAAjouter, { headers }).subscribe(() => {
+    this.batService.ajouterBatiment(this.batimentOngletId, batimentAAjouter, headers).subscribe(() => {
       this.loadData();
       this.resetFormBatiment();
     })
@@ -220,7 +218,7 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     const entretienAAjouter = { ...this.nouvelleReno};
     entretienAAjouter.dateAjout = this.getDateAujourdhui();
     const headers = this.getAuthHeaders();
-    this.http.post(ApiEndpoints.BatimentsOnglet.ajouterEntretien(this.batimentOngletId), entretienAAjouter, { headers }).subscribe(() => {
+    this.batService.ajouterEntretien(this.batimentOngletId, entretienAAjouter, headers).subscribe(() => {
       this.loadData();
       this.resetFormRenovcation();
     })
@@ -231,10 +229,12 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     mobilierAAjouter.dateAjout = this.getDateAujourdhui();
     // mobilierAAjouter.dateAjout = this.getDateAujourdhui();
     const headers = this.getAuthHeaders();
-    this.http.post(ApiEndpoints.BatimentsOnglet.ajouterMobilier(this.batimentOngletId), mobilierAAjouter, { headers }).subscribe(() => {
-      this.loadData();
-      this.resetFormMobilier();
-    })
+    this.batService
+      .ajouterMobilier(this.batimentOngletId, mobilierAAjouter, headers)
+      .subscribe(() => {
+        this.loadData();
+        this.resetFormMobilier();
+      });
   }
 
   supprimerBatiment(index: number): void {
@@ -242,7 +242,7 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     const batiment = this.batimentOnglet.batiments[index];
 
     if (batiment && batiment.id) {
-      this.http.delete(ApiEndpoints.BatimentsOnglet.supprimerBatiment(this.batimentOngletId, batiment.id), { headers }).subscribe({
+      this.batService.supprimerBatiment(this.batimentOngletId, batiment.id, headers).subscribe({
         next: () => {
           this.batimentOnglet.batiments.splice(index, 1);
           this.loadData();
@@ -263,7 +263,7 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     const renovation = this.batimentOnglet.entretiens[index];
 
     if (renovation && renovation.id) {
-      this.http.delete(ApiEndpoints.BatimentsOnglet.supprimerEntretien(this.batimentOngletId, renovation.id), { headers }).subscribe({
+      this.batService.supprimerEntretien(this.batimentOngletId, renovation.id, headers).subscribe({
         next: () => {
           this.batimentOnglet.entretiens.splice(index, 1);
           this.loadData();
@@ -280,7 +280,7 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     const mobilier = this.batimentOnglet.mobiliers[index];
 
     if (mobilier && mobilier.id) {
-      this.http.delete(ApiEndpoints.BatimentsOnglet.supprimerMobilier(this.batimentOngletId, mobilier.id), { headers }).subscribe({
+      this.batService.supprimerMobilier(this.batimentOngletId, mobilier.id, headers).subscribe({
         next: () => {
           this.batimentOnglet.mobiliers.splice(index, 1);
           this.loadData();
@@ -302,7 +302,7 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     if (!this.batimentOngletId) return;
     const headers = this.getAuthHeaders();
     const payload = this.mapper.toDto(this.batimentOnglet);
-    this.http.patch(ApiEndpoints.BatimentsOnglet.update(this.batimentOngletId), payload, { headers }).subscribe({
+    this.batService.updateOnglet(this.batimentOngletId, payload, headers).subscribe({
       error: err => console.error('Erreur mise à jour batiments', err)
     });
   }
