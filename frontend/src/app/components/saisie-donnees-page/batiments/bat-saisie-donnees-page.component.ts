@@ -5,11 +5,11 @@ import {ActivatedRoute} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {AuthService} from '../../../services/auth.service';
 import {ApiEndpoints} from '../../../services/api-endpoints';
-import {SaveFooterComponent} from '../../save-footer/save-footer.component';
-import {BatimentOngletMapperService} from './batiment-onglet-mapper.service';
-import {BatimentOngletModel} from '../../../models/batiment.model';
-import {OngletStatusService} from '../../../services/onglet-status.service';
-import {ONGLET_KEYS} from '../../../constants/onglet-keys';
+import { SaveFooterComponent } from '../../save-footer/save-footer.component';
+import { BatimentOngletMapperService } from './batiment-onglet-mapper.service';
+import { BatimentOngletModel, BatimentExistantOuNeufConstruit, EntretienCourant, MobilierElectromenager } from '../../../models/batiment.model';
+import { OngletStatusService } from '../../../services/onglet-status.service';
+import { ONGLET_KEYS } from '../../../constants/onglet-keys';
 import {
   EnumBatiment_TypeBatiment,
   EnumBatiment_TypeMobilier,
@@ -32,6 +32,9 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   private statusService = inject(OngletStatusService);
   batimentOngletId: string = '';
   ONGLET_KEYS = ONGLET_KEYS;
+  batimentTypes = Object.values(EnumBatiment_TypeBatiment);
+  structureTypes = Object.values(EnumBatiment_TypeStructure);
+  travauxTypes = Object.values(EnumBatiment_TypeTravaux);
   batimentTypesLibelles = [
     { value: EnumBatiment_TypeBatiment.NA, label: 'Non renseigné' },
     { value: EnumBatiment_TypeBatiment.EQUIPEMENT_SPORTIF, label: 'Équipement sportif' },

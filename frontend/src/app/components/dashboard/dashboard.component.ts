@@ -7,7 +7,6 @@ import { OngletService } from '../header-saisie-donnees/onglet.service';
 import { AnneeService} from '../../services/annee.service';
 import {AuthService} from '../../services/auth.service';
 import { ONGLET_KEYS } from '../../constants/onglet-keys';
-import { forkJoin } from 'rxjs';
 
 const extractRoute = (url: string): string =>
   url.split('/').slice(3).join('/').replace(/\/$/, '');
@@ -74,8 +73,8 @@ export class DashboardComponent implements OnInit {
     this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
       this.statuses = s;
     });
-
-    this.loadOngletIdsAndStatuses();
+    this.loadOngletIds();
+    this.loadOngletStatuses();
   }
 
   getStatus(key: string): boolean {
@@ -122,7 +121,8 @@ export class DashboardComponent implements OnInit {
   onYearChange(newYear: number): void {
     this.selectedYear = newYear;
     this.yearService.setSelectedYear(newYear);
-    this.loadOngletIdsAndStatuses();
+    this.loadOngletIds();
+    this.loadOngletStatuses();
   }
 
   loadOngletIds(): void {
@@ -143,26 +143,6 @@ export class DashboardComponent implements OnInit {
       },
       error: (err) => {
         console.error('Erreur récupération statut onglets:', err);
-      }
-    });
-  }
-
-  loadOngletIdsAndStatuses(): void {
-    const ids$ = this.ongletService.getOngletIds(this.entiteId, this.selectedYear);
-    const status$ = this.ongletService.getOngletStatuses(this.entiteId, this.selectedYear);
-    if (!ids$ || !status$) {
-      console.error('Jeton manquant: impossible de récupérer les onglets.');
-      return;
-    }
-
-    forkJoin({ ids: ids$, statuses: status$ }).subscribe({
-      next: ({ ids, statuses }) => {
-        this.ongletIdMap = ids;
-        this.statusService.setStatuses(statuses);
-      },
-      error: (err) => {
-        console.error('Erreur récupération IDs ou statuts des onglets:', err);
-        this.statusService.setStatuses({});
       }
     });
   }
