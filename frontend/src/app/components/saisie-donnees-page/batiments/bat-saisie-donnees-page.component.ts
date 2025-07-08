@@ -217,10 +217,12 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     const entretienAAjouter = { ...this.nouvelleReno};
     entretienAAjouter.dateAjout = this.getDateAujourdhui();
     const headers = this.getAuthHeaders();
-    this.batService.ajouterEntretien(this.batimentOngletId, entretienAAjouter, headers).subscribe(() => {
-      this.loadData();
-      this.resetFormRenovcation();
-    })
+      this.batService
+        .ajouterEntretien(this.batimentOngletId, entretienAAjouter, headers)
+        .subscribe(() => {
+          this.loadData();
+          this.resetFormRenovation();
+        })
   }
 
   ajouterMobilier(): void {
@@ -279,17 +281,21 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     const mobilier = this.batimentOnglet.mobiliers[index];
 
     if (mobilier && mobilier.id) {
-      this.batService.supprimerMobilier(this.batimentOngletId, mobilier.id, headers).subscribe({
-        next: () => {
-          this.batimentOnglet.mobiliers.splice(index, 1);
-          this.loadData();
-        },
-        error: (err) => {
-          console.error("Erreur lors de la suppression", err);
-        }
-      });
+      this.batService
+        .supprimerMobilier(this.batimentOngletId, mobilier.id, headers)
+        .subscribe({
+          next: () => {
+            this.batimentOnglet.mobiliers.splice(index, 1);
+            this.loadData();
+          },
+          error: err => {
+            console.error('Erreur lors de la suppression', err);
+          }
+        });
+    } else {
+      // Si l'élément n'est pas encore persisté en base de données
+      this.batimentOnglet.mobiliers.splice(index, 1);
     }
-    this.batimentOnglet.mobiliers.splice(index, 1);
   }
 
   onEstTermineChange(value: boolean): void {
@@ -320,7 +326,7 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
       typeStructure: '',
     }
   }
-  resetFormRenovcation() {
+  resetFormRenovation() {
     this.nouvelleReno = {
       dateAjout: '',
       nom_adresse: '',
