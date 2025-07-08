@@ -228,10 +228,13 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     mobilierAAjouter.dateAjout = this.getDateAujourdhui();
     // mobilierAAjouter.dateAjout = this.getDateAujourdhui();
     const headers = this.getAuthHeaders();
-    this.batService.ajouterMobilier(this.batimentOngletId, mobilierAAjouter, headers).subscribe(() => {
-      this.loadData();
-      this.resetFormMobilier();
-    })
+    this.batService
+      .ajouterMobilier(this.batimentOngletId, mobilierAAjouter, headers)
+      .subscribe(() => {
+        this.loadData();
+        this.batimentOnglet.mobiliers.push(mobilierAAjouter);
+        this.resetFormMobilier();
+      });
   }
 
   supprimerBatiment(index: number): void {
