@@ -83,7 +83,17 @@ BatimentsOnglet: {
   update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}`
 },
 AutoOnglet: {
-  getById: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Auto}/${id}`,
-  update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Auto}/${id}`
-}
+  getById: (id: string) => `${BASE_URL}/vehiculeOnglet/${id}`,
+  update: (id: string) => `${BASE_URL}/vehiculeOnglet/${id}`
+},
+
+  Utilisateur: {
+    creerEntite: () => `${BASE_URL}/parametre/creer-entite`,
+    modifierSesInfos: (utilisateurId: number) => `${BASE_URL}/parametre/modifier-utilisateur-utilisateur/${utilisateurId}`,
+    recupererUtilisateurPourEntite: (entiteId: number) => `${BASE_URL}/parametre/utilisateur-entite/${entiteId}`,
+    creerutilisateur: (entiteId: number) => `${BASE_URL}/parametre/inscription-utilisateur/${entiteId}`,
+    updateAdminStatus: (utilisateurId: number) => `${BASE_URL}/parametre/modifier-est-admin/${utilisateurId}`,
+    getAllEntiteNomId: `${BASE_URL}/parametre/all-entite-nom-id`,
+    deleterUser: (utilisateurId: number) => `${BASE_URL}/parametre/supprimer-utilisateur/${utilisateurId}`,
+  }
 };
