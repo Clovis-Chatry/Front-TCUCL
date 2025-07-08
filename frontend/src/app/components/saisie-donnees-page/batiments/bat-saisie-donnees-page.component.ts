@@ -193,6 +193,7 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     const headers = this.getAuthHeaders();
     this.batService.getBatimentImmobilisationMobilier(this.batimentOngletId, headers).subscribe({
       next: (data) => {
+        console.log(data);
         const model = this.mapper.fromDto(data);
         this.batimentOnglet = model;
         this.batimentOnglet.estTermine = model.estTermine ?? false;
@@ -232,7 +233,6 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
       .ajouterMobilier(this.batimentOngletId, mobilierAAjouter, headers)
       .subscribe(() => {
         this.loadData();
-        this.batimentOnglet.mobiliers.push(mobilierAAjouter);
         this.resetFormMobilier();
       });
   }

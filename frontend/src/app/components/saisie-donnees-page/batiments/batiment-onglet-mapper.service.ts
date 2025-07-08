@@ -41,11 +41,7 @@ export class BatimentOngletMapperService {
       dureeAmortissement: e.dureeAmortissement ?? null,
     }));
 
-    const mobilierDtoList =
-      dto.mobiliers ??
-      dto.mobilierElectromenagerList ??
-      dto.mobilierElectromenagers ??
-      dto.mobilierElectromenagerDtoList;
+    const mobilierDtoList = dto.mobilierElectromenagerList;
     const mobiliers: MobilierElectromenager[] = (mobilierDtoList || []).map((m: any) => ({
       id: m.id,
       dateAjout: m.dateAjout ?? null,
