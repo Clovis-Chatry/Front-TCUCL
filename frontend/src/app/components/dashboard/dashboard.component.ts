@@ -94,9 +94,9 @@ export class DashboardComponent implements OnInit {
     this.ongletService.getOngletIds(this.entiteId, this.selectedYear)?.subscribe({
       next: (result) => {
         this.ongletIdMap = result;
-        const ongletId = this.ongletIdMap[ONGLET_KEYS.Energie];
+        const ongletId = this.ongletIdMap['energieOnglet'];
         if (ongletId) {
-          this.router.navigate([`/${ONGLET_KEYS.Energie}/${ongletId}`]);
+          this.router.navigate([`/energieOnglet/${ongletId}`]);
         } else {
           console.error('ID onglet énergie introuvable pour l’année', this.selectedYear);
         }
@@ -110,9 +110,9 @@ export class DashboardComponent implements OnInit {
 
 
   goToEnergie(): void {
-    const ongletId = this.ongletIdMap[ONGLET_KEYS.Energie];
+    const ongletId = this.ongletIdMap['energieOnglet'];
     if (ongletId) {
-      this.router.navigate([`/${ONGLET_KEYS.Energie}/${ongletId}`]);
+      this.router.navigate([`/energieOnglet/${ongletId}`]);
     } else {
       console.error('ID onglet énergie introuvable pour l\'année', this.selectedYear);
     }
