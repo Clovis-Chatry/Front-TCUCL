@@ -73,6 +73,15 @@ export class DashboardComponent implements OnInit {
     this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
       this.statuses = s;
     });
+    this.ongletService
+      .getStatutsParEntiteEtAnnee(this.entiteId, this.currentYear)?.subscribe({
+        next: (result) => {
+          this.statusService.setStatuses(result);
+        },
+        error: (err) => {
+          console.error('Erreur récupération statuts:', err);
+        }
+      });
     this.loadOngletIds();
     this.loadOngletStatuses();
   }

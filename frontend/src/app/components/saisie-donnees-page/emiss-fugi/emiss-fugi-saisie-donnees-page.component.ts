@@ -224,7 +224,6 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}` // Ajoute le token d'authentification
     };
-    console.log(machineToAdd.typeFluide)
     this.emmissionsFugtivesService.addMachine(this.emmissionFugitiveOngletId, machineToAdd, headers).subscribe(() => {
       this.loadMachines();
       this.resetForm();
