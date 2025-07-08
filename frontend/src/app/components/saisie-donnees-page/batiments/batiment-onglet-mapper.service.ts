@@ -15,7 +15,15 @@ import {
 @Injectable({providedIn: 'root'})
 export class BatimentOngletMapperService {
   fromDto(dto: any): BatimentOngletModel {
-    const batiments: BatimentExistantOuNeufConstruit[] = (dto.batimentsExistantOuNeufConstruits || []).map((b: any) => ({
+    const batimentDtoList =
+      dto.batimentsExistantOuNeufConstruits ??
+      dto.batimentExistantOuNeufConstruitList ??
+      dto.batimentsExistantOuNeufConstruitList ??
+      dto.batimentExistantOuNeufConstruits ??
+      dto.batiments ??
+      [];
+
+    const batiments: BatimentExistantOuNeufConstruit[] = (batimentDtoList || []).map((b: any) => ({
       id: b.id,
       nom_ou_adresse: b.nom_ou_adresse ?? '',
       dateConstruction: b.dateConstruction ?? null,
@@ -30,7 +38,15 @@ export class BatimentOngletMapperService {
       dateAjoutEnBase: b.dateAjoutEnBase ?? null,
     }));
 
-    const entretiens: EntretienCourant[] = (dto.entretiensCourants || []).map((e: any) => ({
+    const entretienDtoList =
+      dto.entretiensCourants ??
+      dto.entretienCourantList ??
+      dto.entretiensCourantList ??
+      dto.entretienCourants ??
+      dto.entretiens ??
+      [];
+
+    const entretiens: EntretienCourant[] = (entretienDtoList || []).map((e: any) => ({
       id: e.id,
       dateAjout: e.dateAjout ?? null,
       nom_adresse: e.nom_adresse ?? '',
