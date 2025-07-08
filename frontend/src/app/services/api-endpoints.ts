@@ -1,37 +1,47 @@
 const BASE_URL = 'http://localhost:8080';
 
 export const ApiEndpoints = {
+  Onglets: {
+    getAllIds: (entiteId: number) => `${BASE_URL}/general/${entiteId}`,
+    getAllStatus: (entiteId: number) => `${BASE_URL}/general/status/${entiteId}`
+  },
+
   EnergieOnglet: {
-    getById: (id: string) => `${BASE_URL}/energieonglet/${id}`,
-    updateConso: (id: string) => `${BASE_URL}/energieonglet/${id}`,
+    getById: (id: string) => `${BASE_URL}/energieOnglet/${id}`,
+    updateConso: (id: string) => `${BASE_URL}/energieOnglet/${id}`,
+    getResult: (id: string) => `${BASE_URL}/energieOnglet/${id}/resultat`,
     // autres méthodes PATCH (comme /consoGaz, /consoFioul, etc.)
     patchConsoGaz: (id: string) => `${BASE_URL}/energieonglet/${id}/consoGaz`,
     patchNote: (id: string) => `${BASE_URL}/energieonglet/${id}/note`,
   },
+
   EmissionFugitivesOnglet: {
-    getMachineById: (id: string) => `${BASE_URL}/emissionfugitivesonglet/${id}`,
-    addMachine: (id: string) => `${BASE_URL}/emissionfugitivesonglet/${id}/machine`,
-    deleteMachine: (id: string, idMachine: string) => `${BASE_URL}/emissionfugitivesonglet/${id}/machine/${idMachine}`,
+    getMachineById: (id: string) => `${BASE_URL}/emissionFugitiveOnglet/${id}`,
+    addMachine: (id: string) => `${BASE_URL}/emissionFugitiveOnglet/${id}/machine`,
+    deleteMachine: (id: string, idMachine: string) =>
+      `${BASE_URL}/emissionFugitiveOnglet/${id}/machine/${idMachine}`,
+    update: (id: string) => `${BASE_URL}/emissionFugitiveOnglet/${id}`,
   },
-  // Tu pourras rajouter ici d'autres blocs pour d'autres entités si besoin
 
   DomTravOnglet: {
-    getById: (id: string) => `${BASE_URL}/mobilitedomtravonglet/${id}`,
-    // tu ajoutes ici toutes les autres routes PATCH, GET, POST...
-  },
-  AutreMobFrOnglet: {
-    getById: (id: string) => `${BASE_URL}/autremobonglet/${id}`,
-    // tu pourras rajouter ici d'autres routes PATCH pour Cartons, Verre, etc.
-  },
-  DechetsOnglet: {
-    getById: (id: string) => `${BASE_URL}/dechetsonglet/${id}`,
-    updateOrdureMenagere: (id: string) => `${BASE_URL}/dechetsonglet/${id}/orduresMenageres`,
-    // autres routes PATCH...
+    getById: (id: string) => `${BASE_URL}/mobiliteDomicileTravailOnglet/${id}`,
+    update: (id: string) => `${BASE_URL}/mobiliteDomicileTravailOnglet/${id}`,
   },
 
-AchatsOnglet: {
-  getById: (id: string) => `${BASE_URL}/achatsOnglet/${id}`
-},
+  AutreMobFrOnglet: {
+    getById: (id: string) => `${BASE_URL}/autreMobFrOnglet/${id}`,
+    update: (id: string) => `${BASE_URL}/autreMobFrOnglet/${id}`,
+  },
+
+  DechetsOnglet: {
+    getById: (id: string) => `${BASE_URL}/dechetOnglet/${id}`,
+    update: (id: string) => `${BASE_URL}/dechetOnglet/${id}`,
+  },
+
+  AchatsOnglet: {
+    getById: (id: string) => `${BASE_URL}/achatOnglet/${id}`,
+    update: (id: string) => `${BASE_URL}/achatOnglet/${id}`,
+  },
 
 ImmobOnglet: {
   getById: (id: string) => `${BASE_URL}/immobOnglet/${id}`,
@@ -41,20 +51,35 @@ NumeriqueOnglet: {
   getById: (id: string) => `${BASE_URL}/numeriqueOnglet/${id}`,
   update: (id: string) => `${BASE_URL}/numeriqueOnglet/${id}`
 },
-ParkOnglet: {
-  getById: (id: string) => `${BASE_URL}/parkOnglet/${id}`,
-  update: (id: string) => `${BASE_URL}/parkOnglet/${id}`
+ParkingVoirieOnglet: {
+  getById: (id: string) => `${BASE_URL}/parkingVoirieOnglet/${id}`,
+  update: (id: string) => `${BASE_URL}/parkingVoirieOnglet/${id}`,
+  addParking: (id: string) => `${BASE_URL}/parkingVoirieOnglet/${id}/parkingVoirie`,
+  deleteParking: (ongletId: string, parkingId: string) =>
+    `${BASE_URL}/parkingVoirieOnglet/${ongletId}/parkingVoirie/${parkingId}`,
+  updateParking: (ongletId: string, parkingId: string) =>
+    `${BASE_URL}/parkingVoirieOnglet/${ongletId}/parkingVoirie/${parkingId}`,
+  getResult: (id: string) => `${BASE_URL}/parkingVoirieOnglet/${id}/resultat`
 },
 MobiliteInternationaleOnglet: {
   getById: (id: string) => `${BASE_URL}/mobiliteInternationaleOnglet/${id}`,
   update: (id: string) => `${BASE_URL}/mobiliteInternationaleOnglet/${id}`
 },
 BatimentsOnglet: {
-  getById: (id: string) => `${BASE_URL}/batimentsOnglet/${id}`,
-  update: (id: string) => `${BASE_URL}/batimentsOnglet/${id}`
+  getBatimentImmobilisationMobilier: (id: string) =>
+    `${BASE_URL}/batimentImmobilisationMobilierOnglet/${id}`,
+  ajouterBatiment: (id: string) => `${BASE_URL}/batimentImmobilisationMobilierOnglet/${id}/batimentExistantOuNeufConstruit`,
+  supprimerBatiment: (tabId: string, batimentId: number) => `${BASE_URL}/batimentImmobilisationMobilierOnglet/${tabId}/batimentExistantOuNeufConstruit/${batimentId}`,
+
+  ajouterEntretien: (id: string) => `${BASE_URL}/batimentImmobilisationMobilierOnglet/${id}/entretienCourant`,
+  supprimerEntretien: (tabId: string, entretienId: number) => `${BASE_URL}/batimentImmobilisationMobilierOnglet/${tabId}/entretienCourant/${entretienId}`,
+
+  ajouterMobilier: (id: string) => `${BASE_URL}/batimentImmobilisationMobilierOnglet/${id}/mobilierElectromenager`,
+  supprimerMobilier: (tabId: string, mobilierId: number) => `${BASE_URL}/batimentImmobilisationMobilierOnglet/${tabId}/mobilierElectromenager/${mobilierId}`,
+  update: (id: string) => `${BASE_URL}/batimentImmobilisationMobilierOnglet/${id}`
 },
 AutoOnglet: {
-  getById: (id: string) => `${BASE_URL}/autoOnglet/${id}`,
-  update: (id: string) => `${BASE_URL}/autoOnglet/${id}`
+  getById: (id: string) => `${BASE_URL}/vehiculeOnglet/${id}`,
+  update: (id: string) => `${BASE_URL}/vehiculeOnglet/${id}`
 }
 };

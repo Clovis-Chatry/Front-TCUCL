@@ -1,3 +1,8 @@
+<!-- Bouton de retour -->
+<div class="top-bar">
+  <button class="back-button" (click)="goBackToDashboard()">← Retour au tableau de bord</button>
+</div>
+
 <div class="params-container">
 
   <!-- Section: Paramètres personnels -->
@@ -26,6 +31,9 @@
     <!-- Section: Créer une entité -->
     <section class="card" data-title="Créer une entité">
       <form>
+
+        <p class="section-info">Paramètres de l'entité</p>
+
         <label>Nom</label>
         <input type="text" [(ngModel)]="entity.name" name="entityName">
 
@@ -35,14 +43,16 @@
           <option>Collectivité</option>
         </select>
 
-        <label>Prénom params</label>
-        <input type="text" placeholder="Prénom" [(ngModel)]="entity.params.firstName" name="paramsFirstName">
+        <p class="section-info">Profil du premier admin de l'entité</p>
 
-        <label>Nom params</label>
-        <input type="text" placeholder="Nom" [(ngModel)]="entity.params.lastName" name="paramsLastName">
+        <label>Prénom</label>
+        <input type="text" placeholder="Prénom" [(ngModel)]="entity.admin.firstName" name="adminFirstName">
 
-        <label>Email params</label>
-        <input type="email" placeholder="Email" [(ngModel)]="entity.params.email" name="paramsEmail">
+        <label>Nom</label>
+        <input type="text" placeholder="Nom" [(ngModel)]="entity.admin.lastName" name="adminLastName">
+
+        <label>Email</label>
+        <input type="email" placeholder="Email" [(ngModel)]="entity.admin.email" name="adminEmail">
 
         <button type="button" (click)="createEntity()">Créer l'entité</button>
       </form>
@@ -57,20 +67,21 @@
         </select>
 
         <label>Prénom</label>
-        <input placeholder="Prénom" [(ngModel)]="newUser.firstName" name="newUserFirstName">
+        <input type="text" placeholder="Prénom" [(ngModel)]="entity.admin.firstName" name="adminFirstName">
 
         <label>Nom</label>
-        <input placeholder="Nom" [(ngModel)]="newUser.lastName" name="newUserLastName">
+        <input type="text" placeholder="Nom" [(ngModel)]="entity.admin.lastName" name="adminLastName">
 
-        <label>E-mail</label>
-        <input placeholder="E-mail" [(ngModel)]="newUser.email" name="newUserEmail">
+        <label>Email</label>
+        <input type="email" placeholder="Email" [(ngModel)]="entity.admin.email" name="adminEmail">
 
-        <label>
-          <input type="checkbox" [(ngModel)]="newUser.isParams" name="newUserIsParams"> Params
-        </label>
-
-        <button type="button" (click)="addUser()">Ajouter l'utilisateur</button>
+<div class="checkbox-line">
+  <input type="checkbox" id="adminCheckbox" [(ngModel)]="entity.admin.isAdmin" name="adminIsAdmin">
+  <label for="adminCheckbox">Utilisateur avec rôle "Admin"</label>
+</div>
+        
       </form>
+      <button type="button" (click)="addUser()">Ajouter l'utilisateur</button>
     </section>
 
     <!-- Section: Gestion des utilisateurs -->
@@ -82,13 +93,13 @@
 
       <table class="user-table">
         <thead>
-          <tr><th>NOM</th><th>Prénom</th><th>Params</th><th>Action</th></tr>
+          <tr><th>NOM</th><th>Prénom</th><th>admin</th><th>Action</th></tr>
         </thead>
         <tbody>
           <tr *ngFor="let user of filteredUsers()">
             <td>{{ user.lastName }}</td>
             <td>{{ user.firstName }}</td>
-            <td><input type="checkbox" [checked]="user.isParams" disabled></td>
+            <td><input type="checkbox" [checked]="user.isAdmin" disabled></td>
             <td>
               <button title="Modifier">✏️</button>
               <button title="Supprimer">🗑️</button>

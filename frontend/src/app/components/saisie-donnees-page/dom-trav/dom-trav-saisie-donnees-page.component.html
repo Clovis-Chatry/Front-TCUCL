@@ -1,75 +1,58 @@
 <div class="main-container">
   <div class="left-panel">
+    <div class="page-title">
+      <h2>Mobilité domicile-travail</h2>
+      <span class="help-icon" title="Merci de renseigner la distance totale parcourue par les salariés et les étudiants sur l'année UNIQUEMENT POUR LES TRAJETS DOMICILE -TRAVAIL pour chaque mode de transport ainsi que dans le tableau du bas, le nombre de jours de déplacements moyens de vos salariés et étudiants sur l'année (exemple : base 210 jours pour 80% des salariés et 168 jours pour 20% soit 202 jours de moyenne. En moyenne chaque salarié prend 30 jours de télétravail par an (sans déplacements sur le campus) soit 172 jours au total. Exemple 2 : 10% des salariés sont vacataires et viennent en moyenne 50 jours par an contre 210 jours pour les 90% autres, moyenne de 194 jours.">
+        <svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="black"></circle>
+          <rect x="11" y="10" width="2" height="6" fill="white"></rect>
+          <circle cx="12" cy="8" r="1" fill="white"></circle>
+        </svg>
+      </span>
+    </div>
+
     <table class="data-table">
       <thead>
       <tr>
         <th>Moyen de transport</th>
-        <th>Étudiant</th>
-        <th>Salarié</th>
+        <th *ngFor="let group of travelerGroups">{{ group }} (km)</th>
       </tr>
       </thead>
       <tbody>
       <tr>
-        <td>À pied</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.aPiedsEtudiant" /></td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.aPiedsSalarie" /></td>
+        <td><strong>Nombre de jours de déplacement (an)</strong></td>
+        <td>
+          <input
+            class="value-input"
+            type="number"
+            [(ngModel)]="nbJoursEtudiant"
+            (blur)="updateData()"
+          />
+        </td>
+        <td>
+          <input
+            class="value-input"
+            type="number"
+            [(ngModel)]="nbJoursSalarie"
+            (blur)="updateData()"
+          />
+        </td>
       </tr>
-      <tr>
-        <td>Bus</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.busEtudiant" /></td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.busSalarie" /></td>
-      </tr>
-      <tr>
-        <td>Métro / Tram</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.metroTramEtudiant" /></td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.metroTramSalarie" /></td>
-      </tr>
-      <tr>
-        <td>Moto</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.motoEtudiant" /></td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.motoSalarie" /></td>
-      </tr>
-      <tr>
-        <td>Train régional</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.trainRegEtudiant" /></td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.trainRegSalarie" /></td>
-      </tr>
-      <tr>
-        <td>Trottinette</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.trottinetteEtudiant" /></td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.trottinetteSalarie" /></td>
-      </tr>
-      <tr>
-        <td>Vélo</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.veloEtudiant" /></td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.veloSalarie" /></td>
-      </tr>
-      <tr>
-        <td>Vélo électrique</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.veloElecEtudiant" /></td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.veloElecSalarie" /></td>
-      </tr>
-      <tr>
-        <td>Vélo mécanique</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.veloMecEtudiant" /></td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.veloMecSalarie" /></td>
-      </tr>
-      <tr>
-        <td>Voiture électrique</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.voitureElecEtudiant" /></td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.voitureElecSalarie" /></td>
-      </tr>
-      <tr>
-        <td>Voiture hybride</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.voitureHybEtudiant" /></td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.voitureHybSalarie" /></td>
-      </tr>
-      <tr>
-        <td>Voiture thermique</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.voitureThEtudiant" /></td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.voitureThSalarie" /></td>
+
+      <tr *ngFor="let mode of transportModes">
+        <td>{{ mode }}</td>
+        <td *ngFor="let group of travelerGroups">
+          <input
+            type="number"
+            class="value-input"
+            [ngModel]="getValue(mode, group)"
+            (ngModelChange)="setValueTemp(mode, group, $event)"
+            (blur)="applyValue(mode, group)"
+          />
+        </td>
       </tr>
       </tbody>
     </table>
   </div>
+  <app-save-footer [path]="'mobiliteDomicileTravailOnglet'" (estTermineChange)="onEstTermineChange($event)"></app-save-footer>
 </div>
