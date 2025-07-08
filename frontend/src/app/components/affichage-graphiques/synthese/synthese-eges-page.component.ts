@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { OngletService } from '../../header-saisie-donnees/onglet.service';
 import { AuthService } from '../../../services/auth.service';
 import { EnergieResultService } from '../../../services/energie-result.service';
+import { EnergieOngletService } from '../../../services/energie-onglet.service';
 
 interface Sector {
   label: string;
@@ -22,12 +23,14 @@ export class SyntheseEgesComponent implements OnInit {
   total: number = 0;
   private currentYear: number = new Date().getFullYear();
   private entiteId?: number;
+  consoEnergieFinale?: number;
 
   constructor(
     private router: Router,
     private ongletService: OngletService,
     private auth: AuthService,
-    private energieResultService: EnergieResultService
+    private energieResultService: EnergieResultService,
+    private energieOngletService: EnergieOngletService
   ) {
     const user = this.auth.getUserInfo()();
     if (user?.entiteId || user?.entiteID) {
@@ -38,6 +41,9 @@ export class SyntheseEgesComponent implements OnInit {
   ngOnInit(): void {
     this.loadSectors();
     this.fetchEnergy();
+    this.energieOngletService
+      .getConsoEnergieFinale(58)
+      .subscribe({ next: v => (this.consoEnergieFinale = v) });
   }
 
   navigateToDashboard() {
