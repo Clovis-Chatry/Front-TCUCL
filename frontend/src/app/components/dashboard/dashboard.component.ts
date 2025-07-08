@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -6,6 +6,10 @@ import { OngletStatusService } from '../../services/onglet-status.service';
 import { OngletService } from '../header-saisie-donnees/onglet.service';
 import { AnneeService} from '../../services/annee.service';
 import {AuthService} from '../../services/auth.service';
+import { ONGLET_KEYS } from '../../constants/onglet-keys';
+
+const extractRoute = (url: string): string =>
+  url.split('/').slice(3).join('/').replace(/\/$/, '');
 
 type YearRange = { label: string; value: number };
 
@@ -16,25 +20,24 @@ type YearRange = { label: string; value: number };
   styleUrls: ['./dashboard.component.scss'],
   imports: [CommonModule, FormsModule]
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   currentYear: number;
   selectedYear: number;
   years: YearRange[] = [];
 
-
   onglets = [
-    { label: 'Energie', status: false, path: 'energieOnglet' },
-    { label: 'Emissions fugitives', status: true, path: 'emissionsFugitivesOnglet' },
-    { label: 'Mobilité dom-trav', status: true, path: 'mobiliteDomTravOnglet' },
-    { label: 'Autre mob fr', status: false, path: 'autreMobFrOnglet' },
-    { label: 'Mob internatio', status: false, path: 'mobiliteInternationaleOnglet' },
-    { label: 'Bâtiments', status: true, path: 'batimentsOnglet' },
-    { label: 'Parkings', status: true, path: 'parkingsOnglet' },
-    { label: 'Auto', status: true, path: 'autoOnglet' },
-    { label: 'Numérique', status: true, path: 'numeriqueOnglet' },
-    { label: 'Autres immob', status: false, path: 'immobOnglet' },
-    { label: 'Achats', status: false, path: 'achatsOnglet' },
-    { label: 'Déchets', status: true, path: 'dechetsOnglet' }
+    { label: 'Energie', statusKey: ONGLET_KEYS.Energie, route: ONGLET_KEYS.Energie },
+    { label: 'Emissions fugitives', statusKey: ONGLET_KEYS.EmissionsFugitives, route: ONGLET_KEYS.EmissionsFugitives },
+    { label: 'Mobilité dom-trav', statusKey: ONGLET_KEYS.MobiliteDomTrav, route: ONGLET_KEYS.MobiliteDomTrav },
+    { label: 'Autre mob fr', statusKey: ONGLET_KEYS.AutreMobFr, route: ONGLET_KEYS.AutreMobFr },
+    { label: 'Mob internatio', statusKey: ONGLET_KEYS.MobInternationale, route: ONGLET_KEYS.MobInternationale },
+    { label: 'Bâtiments', statusKey: ONGLET_KEYS.Batiments, route: ONGLET_KEYS.Batiments },
+    { label: 'Parkings', statusKey: ONGLET_KEYS.Parkings, route: ONGLET_KEYS.Parkings },
+    { label: 'Auto', statusKey: ONGLET_KEYS.Auto, route: ONGLET_KEYS.Auto },
+    { label: 'Numérique', statusKey: ONGLET_KEYS.Numerique, route: ONGLET_KEYS.Numerique },
+    { label: 'Autres immob', statusKey: ONGLET_KEYS.AutreImmob, route: ONGLET_KEYS.AutreImmob },
+    { label: 'Achats', statusKey: ONGLET_KEYS.Achats, route: ONGLET_KEYS.Achats },
+    { label: 'Déchets', statusKey: ONGLET_KEYS.Dechets, route: ONGLET_KEYS.Dechets }
   ];
 
   constructor(
@@ -55,6 +58,7 @@ export class DashboardComponent {
   }
   @Input() entiteId!: number;
   ongletIdMap: { [key: string]: number } = {};
+  statuses: Record<string, boolean> = {};
 
   ngOnInit(): void {
     this.currentYear = new Date().getFullYear();
@@ -66,15 +70,24 @@ export class DashboardComponent {
 
     this.selectedYear = this.yearService.getSelectedYear();
 
+    this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
+      this.statuses = s;
+    });
     this.loadOngletIds();
+    this.loadOngletStatuses();
   }
 
-  getStatus(path: string): boolean {
-    return this.statusService.getStatus(path);
+  getStatus(key: string): boolean {
+    return this.statuses[key] ?? false;
   }
 
-  goToSaisie(path: string): void {
-    this.router.navigate([`/${path}/${this.currentYear}`]);
+  goToSaisie(onglet: { statusKey: string; route: string }): void {
+    const id = this.ongletIdMap[onglet.statusKey];
+    if (id) {
+      this.router.navigate([`/${onglet.route}/${id}`]);
+    } else {
+      console.error('ID onglet introuvable pour', onglet.statusKey, 'année', this.selectedYear);
+    }
   }
 
   goToEnergieAvecAnnee(): void {
@@ -96,14 +109,20 @@ export class DashboardComponent {
 
 
 
-  goToEnergie() {
-    this.router.navigate([`/energieOnglet/2`]);
+  goToEnergie(): void {
+    const ongletId = this.ongletIdMap['energieOnglet'];
+    if (ongletId) {
+      this.router.navigate([`/energieOnglet/${ongletId}`]);
+    } else {
+      console.error('ID onglet énergie introuvable pour l\'année', this.selectedYear);
+    }
   }
 
   onYearChange(newYear: number): void {
     this.selectedYear = newYear;
     this.yearService.setSelectedYear(newYear);
     this.loadOngletIds();
+    this.loadOngletStatuses();
   }
 
   loadOngletIds(): void {
@@ -116,4 +135,16 @@ export class DashboardComponent {
       }
     });
   }
-};
+
+  loadOngletStatuses(): void {
+    this.ongletService.getOngletStatuses(this.entiteId, this.selectedYear)?.subscribe({
+      next: (result) => {
+        this.statuses = result;
+        this.statusService.setStatuses(result);
+      },
+      error: (err) => {
+        console.error('Erreur récupération statut onglets:', err);
+      }
+    });
+  }
+}

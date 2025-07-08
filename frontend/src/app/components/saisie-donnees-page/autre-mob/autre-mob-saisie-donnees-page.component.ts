@@ -13,6 +13,7 @@ import { AuthService } from '../../../services/auth.service';
 import { TransportAutreMobMapperService} from './transport-data-autre-mob-mapper.service';
 import { SaveFooterComponent } from '../../save-footer/save-footer.component';
 import { OngletStatusService } from '../../../services/onglet-status.service';
+import { ONGLET_KEYS } from '../../../constants/onglet-keys';
 
 @Component({
   selector: 'app-autre-mob-saisie-donnees-page',
@@ -31,14 +32,15 @@ export class AutreMobSaisieDonneesPageComponent implements OnInit {
   items: TransportAutreMob[] = [];
 
   estTermine = false;
+  ONGLET_KEYS = ONGLET_KEYS;
 
   transportModes = Object.values(MODE_TRANSPORT_AUTRE_MOB);
   travelerGroups = Object.values(GROUPE_VOYAGEURS);
 
   ngOnInit(): void {
-    this.estTermine = this.statusService.getStatus('autreMobFrOnglet');
+    this.estTermine = this.statusService.getStatus(ONGLET_KEYS.AutreMobFr);
     this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
-      this.estTermine = s['autreMobFrOnglet'] ?? false;
+      this.estTermine = s[ONGLET_KEYS.AutreMobFr] ?? false;
     });
     const id = this.route.snapshot.paramMap.get('id');
     if (id) this.loadData(id);
@@ -54,7 +56,11 @@ export class AutreMobSaisieDonneesPageComponent implements OnInit {
     };
 
     this.http.get<any>(ApiEndpoints.AutreMobFrOnglet.getById(id), { headers }).subscribe({
-      next: data => (this.items = this.mapper.parseFlatData(data)),
+      next: data => {
+        this.items = this.mapper.parseFlatData(data);
+        this.estTermine = data.estTermine ?? false;
+        this.statusService.setStatus(ONGLET_KEYS.AutreMobFr, this.estTermine);
+      },
       error: err => console.error('Erreur chargement autre mob:', err),
     });
   }

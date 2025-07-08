@@ -7,6 +7,7 @@ import { SaveFooterComponent } from '../../save-footer/save-footer.component';
 import { AuthService } from '../../../services/auth.service';
 import { ApiEndpoints } from '../../../services/api-endpoints';
 import { OngletStatusService } from '../../../services/onglet-status.service';
+import { ONGLET_KEYS } from '../../../constants/onglet-keys';
 
 @Component({
   selector: 'app-saisie-donnees-page',
@@ -58,6 +59,7 @@ export class AutreImmobilisationPageComponent implements OnInit {
   };
 
   estTermine = false;
+  ONGLET_KEYS = ONGLET_KEYS;
 
   onEstTermineChange(value: boolean): void {
     this.estTermine = value;
@@ -65,9 +67,9 @@ export class AutreImmobilisationPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.estTermine = this.statusService.getStatus('autreImmobilisationOnglet');
+    this.estTermine = this.statusService.getStatus(ONGLET_KEYS.AutreImmob);
     this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
-      this.estTermine = s['autreImmobilisationOnglet'] ?? false;
+      this.estTermine = s[ONGLET_KEYS.AutreImmob] ?? false;
     });
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
@@ -79,26 +81,28 @@ export class AutreImmobilisationPageComponent implements OnInit {
 
   loadData(id: string): void {
     const token = this.authService.getToken();
-  
+
     if (!token) {
       console.error("Token d'authentification manquant");
       return;
     }
-  
+
     const headers = {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     };
-  
-    this.http.get<any>(ApiEndpoints.ImmobOnglet.getById(id), { headers }).subscribe(
+
+    this.http.get<any>(ApiEndpoints.autreImmobilisationOnglet.getById(id), { headers }).subscribe(
       (data) => {
         this.items = { ...this.items, ...data };
+        this.estTermine = data.estTermine ?? false;
+        this.statusService.setStatus(ONGLET_KEYS.AutreImmob, this.estTermine);
       },
       (error) => {
         console.error("Erreur lors du chargement des données", error);
       }
     );
-  }  
+  }
 
   ajouterMachine() {
     this.items.machines.push({
@@ -134,7 +138,7 @@ export class AutreImmobilisationPageComponent implements OnInit {
       Authorization: `Bearer ${token}`
     };
 
-    this.http.patch(ApiEndpoints.ImmobOnglet.update(id), { ...this.items, estTermine: this.estTermine }, { headers }).subscribe({
+    this.http.patch(ApiEndpoints.autreImmobilisationOnglet.update(id), { ...this.items, estTermine: this.estTermine }, { headers }).subscribe({
       error: err => console.error('PATCH immob echoue', err)
     });
   }

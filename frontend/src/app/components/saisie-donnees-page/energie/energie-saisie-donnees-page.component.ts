@@ -5,6 +5,7 @@ import {ActivatedRoute} from '@angular/router'; // Permet de récupérer l'ID de
 import {AuthService} from '../../../services/auth.service';
 import {ApiEndpoints} from '../../../services/api-endpoints';
 import {OngletStatusService} from '../../../services/onglet-status.service';
+import { ONGLET_KEYS } from '../../../constants/onglet-keys';
 import { SaveFooterComponent } from '../../save-footer/save-footer.component';
 
 @Component({
@@ -22,6 +23,7 @@ export class EnergieSaisieDonneesPageComponent implements OnInit {
 
   items: any = {}; // Objet qui contiendra les données récupérées
   estTermine = false;
+  ONGLET_KEYS = ONGLET_KEYS;
 
   onEstTermineChange(value: boolean): void {
     this.estTermine = value;
@@ -29,9 +31,9 @@ export class EnergieSaisieDonneesPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.estTermine = this.statusService.getStatus('energieOnglet');
+    this.estTermine = this.statusService.getStatus(ONGLET_KEYS.Energie);
     this.statusService.statuses$.subscribe((statuses: Record<string, boolean>) => {
-      this.estTermine = statuses['energieOnglet'] ?? false;
+      this.estTermine = statuses[ONGLET_KEYS.Energie] ?? false;
     });
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
@@ -68,6 +70,8 @@ export class EnergieSaisieDonneesPageComponent implements OnInit {
           consoElecSpecifique: data.consoElecSpecifique,
           consoEau: data.consoEau
         };
+        this.estTermine = data.estTermine ?? false;
+        this.statusService.setStatus(ONGLET_KEYS.Energie, this.estTermine);
       },
       (error) => {
         console.error("Erreur lors du chargement des données", error);

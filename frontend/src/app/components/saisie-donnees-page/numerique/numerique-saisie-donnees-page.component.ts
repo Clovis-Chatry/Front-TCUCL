@@ -6,6 +6,7 @@ import {AuthService} from '../../../services/auth.service';
 import {CommonModule} from '@angular/common';
 import {SaveFooterComponent} from '../../save-footer/save-footer.component';
 import {OngletStatusService} from '../../../services/onglet-status.service';
+import { ONGLET_KEYS } from '../../../constants/onglet-keys';
 import {NumeriqueOngletMapperService} from './numerique-onglet-mapper.service';
 import {NumeriqueService} from './numerique.service';
 import {EquipementNumerique, NumeriqueModel} from '../../../models/numerique.model';
@@ -49,6 +50,7 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
 
   equipementsAnciens: EquipementNumerique[] = [];
   estTermine = false;
+  ONGLET_KEYS = ONGLET_KEYS;
 
   onEstTermineChange(value: boolean): void {
     this.estTermine = value;
@@ -56,9 +58,9 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.estTermine = this.statusService.getStatus('numeriqueOnglet');
+    this.estTermine = this.statusService.getStatus(ONGLET_KEYS.Numerique);
     this.statusService.statuses$.subscribe((statuses: Record<string, boolean>) => {
-      this.estTermine = statuses['numeriqueOnglet'] ?? false;
+      this.estTermine = statuses[ONGLET_KEYS.Numerique] ?? false;
     });
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
@@ -86,6 +88,8 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
         this.tipUtilisateur = model.tipUtilisateur;
         this.partTraficFranceEtranger = model.partTraficFranceEtranger;
         this.equipementsAnciens = model.equipements;
+        this.estTermine = model.estTermine ?? false;
+        this.statusService.setStatus(ONGLET_KEYS.Numerique, this.estTermine);
       },
       error: err => console.error("Erreur lors du chargement des données numériques", err)
     });

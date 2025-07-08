@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { SaveFooterComponent } from '../../save-footer/save-footer.component';
 import { OngletStatusService } from '../../../services/onglet-status.service';
 import { AchatMapperService } from './achat-mapper.service';
+import { ONGLET_KEYS } from '../../../constants/onglet-keys';
 
 @Component({
   selector: 'app-achats-saisie-donnees-page',
@@ -25,6 +26,7 @@ export class AchatsSaisieDonneesPageComponent implements OnInit {
 
   items: any = {};
   estTermine = false;
+  ONGLET_KEYS = ONGLET_KEYS;
 
   consommablesFields = [
     { label: 'Papier', unit: 'Tonnes', key: 'papierCons' },
@@ -96,9 +98,9 @@ export class AchatsSaisieDonneesPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.estTermine = this.statusService.getStatus('achatOnglet');
+    this.estTermine = this.statusService.getStatus(ONGLET_KEYS.Achats);
     this.statusService.statuses$.subscribe((statuses: Record<string, boolean>) => {
-      this.estTermine = statuses['achatOnglet'] ?? false;
+      this.estTermine = statuses[ONGLET_KEYS.Achats] ?? false;
     });
 
     this.route.paramMap.subscribe(params => {
@@ -119,6 +121,7 @@ export class AchatsSaisieDonneesPageComponent implements OnInit {
       next: data => {
         this.items = this.mapper.fromDto(data);
         this.estTermine = this.items.estTermine ?? false;
+        this.statusService.setStatus(ONGLET_KEYS.Achats, this.estTermine);
       },
       error: err => console.error("Erreur de chargement", err)
     });
