@@ -75,8 +75,12 @@ BatimentsOnglet: {
   supprimerMobilier: (tabId: string, mobilierId: number) => `${BASE_URL}/batimentImmobilisationMobilierOnglet/${tabId}/mobilierElectromenager/${mobilierId}`,
   update: (id: string) => `${BASE_URL}/batimentImmobilisationMobilierOnglet/${id}`
 },
-AutoOnglet: {
-  getById: (id: string) => `${BASE_URL}/vehiculeOnglet/${id}`,
-  update: (id: string) => `${BASE_URL}/vehiculeOnglet/${id}`
-}
+  AutoOnglet: {
+    getById: (id: string) => `${BASE_URL}/vehiculeOnglet/${id}`,
+    update: (id: string) => `${BASE_URL}/vehiculeOnglet/${id}`
+  },
+  SyntheseEges: {
+    getByEntite: (entiteId: number, annee: number) =>
+      `${BASE_URL}/synthese-eges/${entiteId}?annee=${annee}`
+  }
 };

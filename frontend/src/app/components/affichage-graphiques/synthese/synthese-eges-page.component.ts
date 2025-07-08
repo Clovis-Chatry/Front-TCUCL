@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { OngletService } from '../../header-saisie-donnees/onglet.service';
 import { AuthService } from '../../../services/auth.service';
-import { EnergieResultService } from '../../../services/energie-result.service';
-import { EnergieOngletService } from '../../../services/energie-onglet.service';
+import { SyntheseEgesService } from '../../../services/synthese-eges.service';
 
 interface Sector {
   label: string;
@@ -27,10 +25,8 @@ export class SyntheseEgesComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private ongletService: OngletService,
     private auth: AuthService,
-    private energieResultService: EnergieResultService,
-    private energieOngletService: EnergieOngletService
+    private syntheseService: SyntheseEgesService
   ) {
     const user = this.auth.getUserInfo()();
     if (user?.entiteId || user?.entiteID) {
@@ -40,10 +36,7 @@ export class SyntheseEgesComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadSectors();
-    this.fetchEnergy();
-    this.energieOngletService
-      .getConsoEnergieFinale(58)
-      .subscribe({ next: v => (this.consoEnergieFinale = v) });
+    this.fetchSynthese();
   }
 
   navigateToDashboard() {
@@ -70,7 +63,7 @@ export class SyntheseEgesComponent implements OnInit {
     this.total = this.sectors.reduce((sum, s) => sum + s.value, 0);
   }
 
-  private fetchEnergy(): void {
+  private fetchSynthese(): void {
     if (!this.entiteId) {
       const user = this.auth.getUserInfo()();
       if (user?.entiteId || user?.entiteID) {
@@ -78,20 +71,16 @@ export class SyntheseEgesComponent implements OnInit {
       }
     }
     if (!this.entiteId) return;
-    this.ongletService.getOngletIds(this.entiteId, this.currentYear)?.subscribe({
-      next: map => {
-        const id = map['energieOnglet'];
-        if (!id) return;
-        this.energieResultService.getResult(id.toString())?.subscribe({
-          next: res => {
-            const sector = this.sectors.find(s => s.label === 'Energie');
-            if (sector) sector.value = Number(res.consoEnergieFinale ?? 0);
-            this.total = this.sectors.reduce((sum, s) => sum + s.value, 0);
-          },
-          error: err => console.error('Erreur récupération énergie', err)
-        });
-      },
-      error: err => console.error('Erreur récupération onglet ids', err)
-    });
+    this.syntheseService
+      .getSynthese(this.entiteId, this.currentYear)
+      ?.subscribe({
+        next: res => {
+          const sector = this.sectors.find(s => s.label === 'Energie');
+          if (sector) sector.value = Number(res.consoEnergieFinale ?? 0);
+          this.consoEnergieFinale = res.consoEnergieFinale;
+          this.total = this.sectors.reduce((sum, s) => sum + s.value, 0);
+        },
+        error: err => console.error('Erreur récupération synthèse', err)
+      });
   }
 }
