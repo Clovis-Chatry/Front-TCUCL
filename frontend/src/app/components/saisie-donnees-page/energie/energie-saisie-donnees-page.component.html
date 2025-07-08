@@ -1,15 +1,5 @@
 <div class="main-container">
   <div class="left-panel">
-    <div class="page-title">
-      <h2>Énergie</h2>
-      <span class="help-icon" title="Merci de renseigner vos consommations de l'année pour chaque type d'énergie et d'indiquer l'unité associée pour le gaz, le bois et le fioul.">
-        <svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="black"></circle>
-          <rect x="11" y="10" width="2" height="6" fill="white"></rect>
-          <circle cx="12" cy="8" r="1" fill="white"></circle>
-        </svg>
-      </span>
-    </div>
     <table class="data-table">
       <thead>
       <tr>
@@ -74,5 +64,5 @@
       </tbody>
     </table>
   </div>
-  <app-save-footer [path]="'energieOnglet'" (estTermineChange)="onEstTermineChange($event)"></app-save-footer>
 </div>
+<pre>{{ items | json }}</pre>

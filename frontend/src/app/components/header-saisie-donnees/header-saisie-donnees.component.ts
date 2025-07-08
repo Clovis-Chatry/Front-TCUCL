@@ -1,106 +1,34 @@
-import {
-  Component, Input, OnInit, AfterViewInit, ElementRef,
-  ViewChild, ViewChildren, QueryList, HostListener
-} from '@angular/core';
-import {Router} from '@angular/router';
-import {OngletService} from './onglet.service';
-import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
-import {AuthService} from '../../services/auth.service';
+import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
-type YearRange = { label: string; value: number };
 @Component({
   selector: 'app-header-saisie-donnees',
-  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './header-saisie-donnees.component.html',
   styleUrls: ['./header-saisie-donnees.component.scss']
 })
-export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
-  constructor(private router: Router, private ongletService: OngletService, private auth: AuthService) {
+export class HeaderSaisieDonneesComponent {
+  constructor(private router: Router) {
     this.currentYear = new Date().getFullYear();
+    this.years = Array.from({ length: this.currentYear - 2018 }, (_, i) => this.currentYear - i);
     this.selectedYear = this.currentYear;
-    const user = this.auth.getUserInfo()();
-    if (user?.entiteId) {
-      this.entiteId = user.entiteId;
-    } else {
-      console.error('Impossible de récupérer l’entiteId de l’utilisateur.');
-    }
+    console.log("Années valides : ", this.years);
   }
 
   @Input() PageTitle: string = '';
   @Input() LogoSrc: string = '';
-  @Input() entiteId!: number;
 
-  ongletIdMap: { [key: string]: number } = {};
-
-  tabs = ['Energie', 'Emissions fugitives', 'Mobilite dom-trav', 'Autre mobilite en France', 'Mob internationale', 'Batiments',
-    'Parkings', 'Auto', 'Numerique', 'Autre immob', 'Achats', 'Dechets'];
+  tabs = ['Energie', 'Emissions fugitives', 'Mobilité dom-trav', 'Autre mob FR', 'Mob internationale', 'Bâtiments',
+    'Parkings', 'Auto', 'Numérique', 'Autre immob', 'Achats', 'Déchets'];
   startIndex = 0;
-  visibleCount = 12;
+  visibleCount = 8;
 
   activeTab: string | null = null;
   currentYear: number;
   selectedYear: number;
-  years: YearRange[] = [];
-
-  loading = false;
-
-  @ViewChild('tabsContainer') tabsContainer!: ElementRef<HTMLDivElement>;
-  @ViewChild('tabsElement') tabsRef!: ElementRef<HTMLDivElement>; // nom changé
-  @ViewChildren('tabBtn') tabButtons!: QueryList<ElementRef<HTMLButtonElement>>;
-
-  ngOnInit(): void {
-    this.currentYear = new Date().getFullYear();
-    this.years = Array.from({ length: this.currentYear - 2018 }, (_, i) => {
-      const end = this.currentYear - i;
-      const start = end - 1;
-      return { label: `${start}-${end}`, value: end };
-    });
-
-    this.selectedYear = this.currentYear;
-    this.loadOngletIds();
-  }
-
-  onYearChange(newYear: number): void {
-    this.selectedYear = newYear;
-    this.loadOngletIds();
-  }
-
-  ngAfterViewInit(): void {
-    this.updateVisibleCount();
-  }
-
-  @HostListener('window:resize')
-  onResize() {
-    this.updateVisibleCount();
-  }
-
-  updateVisibleCount() {
-    if (!this.tabsContainer || this.tabButtons.length === 0) return;
-
-    const containerWidth = this.tabsContainer.nativeElement.offsetWidth;
-    const tabWidth = this.tabButtons.first.nativeElement.offsetWidth;
-    const gap = parseFloat(getComputedStyle(this.tabsRef.nativeElement).gap || '0');
-
-    const count = Math.floor((containerWidth + gap) / (tabWidth + gap));
-    this.visibleCount = Math.max(1, Math.min(this.tabs.length, count));
-
-    if (this.startIndex + this.visibleCount > this.tabs.length) {
-      this.startIndex = Math.max(0, this.tabs.length - this.visibleCount);
-    }
-  }
-
-  loadOngletIds(): void {
-    this.ongletService.getOngletIds(this.entiteId, this.selectedYear)?.subscribe({
-      next: (result) => {
-        this.ongletIdMap = result;
-      },
-      error: (err) => {
-        console.error('Erreur récupération onglet IDs:', err);
-      }
-    });
-  }
+  years: number[] = [];
 
   visibleTabs() {
     return this.tabs.slice(this.startIndex, this.startIndex + this.visibleCount);
@@ -118,29 +46,31 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
     }
   }
 
-  save() {
-    this.loading = true;
-    setTimeout(() => {
-      this.loading = false;
-    }, 2000);
-  }
-
   navigateTo(tab: string) {
     this.activeTab = tab;
+    console.log(`Navigation vers ${tab}`);
 
     const urlPart = this.tabToRoute[tab];
+
     if (!urlPart) {
       console.error('Tab non reconnu:', tab);
       return;
     }
 
-    const ongletId = this.ongletIdMap[urlPart];
-    if (!ongletId) {
-      console.error('ID introuvable pour l\'onglet', urlPart);
+    // Calcule l'ID à partir de l'année sélectionnée
+    const year = Number(this.selectedYear);
+    const index = this.years.indexOf(year);
+
+
+    if (index === -1) {
+      console.error('Année sélectionnée invalide:', this.selectedYear);
       return;
     }
 
-    this.router.navigate([`/${urlPart}/${ongletId}`]);
+    // Calcul de l'ID à partir de l'année sélectionnée
+    const id = index.toString();
+    console.log(`ID calculé: ${id}`);
+    this.router.navigate([`/${urlPart}/${id}`]);
   }
 
   navigateToDashboard() {
@@ -151,26 +81,18 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
     return this.activeTab === tab ? 'tab active' : 'tab';
   }
 
-  goToTrajectoire() {
-    this.router.navigate([`/trajectoire`]);
-  }
-
-  goToSynthese() {
-    this.router.navigate(['/synthese-eges']);
-  }
-
   private tabToRoute: { [key: string]: string } = {
     'Energie': 'energieOnglet',
-    'Emissions fugitives': 'emissionFugitiveOnglet',
-    'Mobilite dom-trav': 'mobiliteDomicileTravailOnglet',
-    'Autre mobilite en France': 'autreMobFrOnglet',
-    'Mob internationale': 'mobInternationalOnglet',
-    'Batiments': 'batimentImmobilisationMobilierOnglet',
-    'Parkings': 'parkingVoirieOnglet',
-    'Auto': 'vehiculeOnglet',
-    'Numerique': 'numeriqueOnglet',
-    'Autre immob': 'autreImmobilisationOnglet',
-    'Achats': 'achatOnglet',
-    'Dechets': 'dechetOnglet'
+    'Emissions fugitives': 'emissionsFugitivesOnglet',
+    'Mobilité dom-trav': 'mobiliteDomTravOnglet',
+    'Autre mob FR': 'autreMobFrOnglet',
+    'Mob internationale': 'mobiliteInternationaleOnglet',
+    'Bâtiments': 'batimentsOnglet',
+    'Parkings': 'parkOnglet',
+    'Auto': 'autoOnglet',
+    'Numérique': 'numeriqueOnglet',
+    'Autre immob': 'immobOnglet',
+    'Achats': 'achatsOnglet',
+    'Déchets': 'dechetsOnglet'
   };
 }

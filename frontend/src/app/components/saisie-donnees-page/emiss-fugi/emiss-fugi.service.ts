@@ -11,19 +11,15 @@ export class EmmissionsFugtivesService {
 
   constructor(private http: HttpClient) {}
 
-  getMachines(EmissionFugitivesOnglet: string, headers: any): Observable<any> {
-    return this.http.get<any>(ApiEndpoints.EmissionFugitivesOnglet.getMachineById(EmissionFugitivesOnglet), { headers });
+  getMachines(EmissionFugitivesOnglet: string): Observable<any[]> {
+    return this.http.get<any[]>(ApiEndpoints.EmissionFugitivesOnglet.getMachineById(EmissionFugitivesOnglet));
   }
 
-  addMachine(EmissionFugitivesOnglet: string, machine: any, headers: any): Observable<any> {
-    return this.http.post<any>(ApiEndpoints.EmissionFugitivesOnglet.addMachine(EmissionFugitivesOnglet), machine, { headers });
+  addMachine(EmissionFugitivesOnglet: string, machine: any): Observable<any> {
+    return this.http.post<any>(ApiEndpoints.EmissionFugitivesOnglet.addMachine(EmissionFugitivesOnglet), machine);
   }
 
-  deleteMachine(EmissionFugitivesOnglet: string, machine: any, headers: any): Observable<any> {
-    return this.http.delete<any>(ApiEndpoints.EmissionFugitivesOnglet.deleteMachine(EmissionFugitivesOnglet, machine), { headers });
-  }
-
-  updateEstTermine(id: string, estTermine: boolean, headers: any): Observable<any> {
-    return this.http.patch<any>(ApiEndpoints.EmissionFugitivesOnglet.update(id), { estTermine }, { headers });
+  deleteMachine(EmissionFugitivesOnglet: string, machine: any): Observable<any> {
+    return this.http.delete<any>(ApiEndpoints.EmissionFugitivesOnglet.deleteMachine(EmissionFugitivesOnglet, machine), machine);
   }
 }

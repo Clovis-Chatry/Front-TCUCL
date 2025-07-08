@@ -1,49 +1,71 @@
 <div class="main-container">
   <div class="left-panel">
-    <div class="page-title">
-      <h2>Déchets</h2>
-      <span class="help-icon" title="Lorem ipsum">
-        <svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="black"></circle>
-          <rect x="11" y="10" width="2" height="6" fill="white"></rect>
-          <circle cx="12" cy="8" r="1" fill="white"></circle>
-        </svg>
-      </span>
-    </div>
     <table class="data-table">
       <thead>
-      <tr>
-        <th>Type</th>
-        <th>Quantité (tonnes)</th>
-        <th>Traitement</th>
-      </tr>
+        <tr>
+          <th>Type de Déchet</th>
+          <th>Quantité (tonnes)</th>
+          <th>Type de traitement</th>
+        </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let item of items">
-        <td>{{ item.type }}</td>
-        <td>
-          <input
-            type="number"
-            class="value-input"
-            [(ngModel)]="item.quantiteTonne"
-            min="0"
-            (blur)="updateData()"
-          />
-        </td>
-        <td>
-          <select
-            class="unit-select"
-            [(ngModel)]="item.traitement"
-            (change)="updateData()"
-          >
-            <option [ngValue]="null">-- Sélectionner --</option>
-            <option *ngFor="let t of traitements" [ngValue]="t">{{ t }}</option>
-          </select>
-        </td>
-
-      </tr>
+        <tr>
+          <td>Ordures ménagères</td>
+          <td><input type="number" class="value-input" [(ngModel)]="items.orduresMenageres"/></td>
+          <td>
+            <select class="unit-select" [(ngModel)]="items.traitementOrduresMenageres">
+              <option value="Stockage">Stockage</option>
+              <option value="Incinération">Incinération</option>
+              <option value="Recyclage">Recyclage</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Cartons</td>
+          <td><input type="number" class="value-input" [(ngModel)]="items.cartons"/></td>
+          <td>
+            <select class="unit-select" [(ngModel)]="items.traitementCartons">
+              <option value="Stockage">Stockage</option>
+              <option value="Incinération">Incinération</option>
+              <option value="Recyclage">Recyclage</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Verre</td>
+          <td><input type="number" class="value-input" [(ngModel)]="items.verre"/></td>
+          <td>
+            <select class="unit-select" [(ngModel)]="items.traitementVerre">
+              <option value="Stockage">Stockage</option>
+              <option value="Incinération">Incinération</option>
+              <option value="Recyclage">Recyclage</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Métaux</td>
+          <td><input type="number" class="value-input" [(ngModel)]="items.metaux"/></td>
+          <td>
+            <select class="unit-select" [(ngModel)]="items.traitementMetaux">
+              <option value="Stockage">Stockage</option>
+              <option value="Incinération">Incinération</option>
+              <option value="Recyclage">Recyclage</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Textile</td>
+          <td><input type="number" class="value-input" [(ngModel)]="items.textile"/></td>
+          <td>
+            <select class="unit-select" [(ngModel)]="items.traitementTextile">
+              <option value="Stockage">Stockage</option>
+              <option value="Incinération">Incinération</option>
+              <option value="Recyclage">Recyclage</option>
+            </select>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
-  <app-save-footer [path]="'dechetOnglet'" (estTermineChange)="onEstTermineChange($event)"></app-save-footer>
 </div>
+
