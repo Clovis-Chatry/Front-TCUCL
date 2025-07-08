@@ -87,6 +87,7 @@ export const ApiEndpoints = {
     ajouterEntretien: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}/entretienCourant`,
     supprimerEntretien: (tabId: string, entretienId: number) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${tabId}/entretienCourant/${entretienId}`,
 
+
     ajouterMobilier: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}/mobilierElectromenager`,
     supprimerMobilier: (tabId: string, mobilierId: number) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${tabId}/mobilierElectromenager/${mobilierId}`,
     update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}`,
@@ -105,5 +106,11 @@ export const ApiEndpoints = {
     updateAdminStatus: (utilisateurId: number) => `${BASE_URL}/parametre/modifier-est-admin/${utilisateurId}`,
     getAllEntiteNomId: `${BASE_URL}/parametre/all-entite-nom-id`,
     deleterUser: (utilisateurId: number) => `${BASE_URL}/parametre/supprimer-utilisateur/${utilisateurId}`,
+  },
+
+  SyntheseEges: {
+    getByEntite: (entiteId: number, annee: number) =>
+      `${BASE_URL}/synthese-eges/${entiteId}?annee=${annee}`
+
   }
-};
+}
