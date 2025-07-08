@@ -139,6 +139,7 @@ export class DashboardComponent implements OnInit {
   loadOngletStatuses(): void {
     this.ongletService.getOngletStatuses(this.entiteId, this.selectedYear)?.subscribe({
       next: (result) => {
+        this.statuses = result;
         this.statusService.setStatuses(result);
       },
       error: (err) => {
