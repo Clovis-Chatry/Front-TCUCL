@@ -35,4 +35,8 @@ export class OngletService {
     const url = `${ApiEndpoints.Onglets.getAllStatus(entiteId)}?annee=${annee}`;
     return this.http.get<{ [key: string]: boolean }>(url, { headers });
   }
+
+  getStatutsParEntiteEtAnnee(entiteId: number, annee: number) {
+    return this.getOngletStatuses(entiteId, annee);
+  }
 }
