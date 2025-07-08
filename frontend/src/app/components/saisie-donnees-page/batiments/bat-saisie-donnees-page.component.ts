@@ -130,30 +130,13 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
 
 
 
-  batiments: any[]= [];
+  batiments: BatimentExistantOuNeufConstruit[] = [];
+  entretiens: EntretienCourant[] = [];
+
   // Parc immobilier (section 1)
-  nouveauBatiment: any = {
-    nom_ou_adresse: '',
-    dateConstruction: '',
-    dateDerniereGrosseRenovation: '',
-    acvBatimentRealisee: null,
-    emissionsGesReellesTCO2: null,
-    typeBatiment: '',
-    surfaceEnM2: null,
-    typeStructure: '',
-  };
 
 
   // Entretien / rénovations (section 2)
-  nouvelleReno: any = {
-    dateAjout: '',
-    nom_adresse: '',
-    typeTravaux: '',
-    dateTravaux: '',
-    typeBatiment: '',
-    surfaceConcernee: null,
-    dureeAmortissement: null
-  };
 
 
   // Mobilier (section 3)
@@ -192,6 +175,8 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
       next: (data) => {
         const model = this.mapper.fromDto(data);
         this.batimentOnglet = model;
+        this.batiments = model.batiments;
+        this.entretiens = model.entretiens;
         this.batimentOnglet.estTermine = model.estTermine ?? false;
         this.statusService.setStatus(ONGLET_KEYS.Batiments, this.batimentOnglet.estTermine);
       },
@@ -201,25 +186,33 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     });
   }
 
-  ajouterBatiment(): void {
-    const headers = this.getAuthHeaders();
-    const batimentAAjouter = { ...this.nouveauBatiment}
-    this.batService.ajouterBatiment(this.batimentOngletId, batimentAAjouter, headers).subscribe(() => {
-      this.loadData();
-      this.resetFormBatiment();
-    })
+  ajouterBatiment() {
+    const nouveau: BatimentExistantOuNeufConstruit = {
+      nom_ou_adresse: '',
+      dateConstruction: null,
+      dateDerniereGrosseRenovation: null,
+      acvBatimentRealisee: null,
+      emissionsGesReellesTCO2: null,
+      typeBatiment: '',
+      surfaceEnM2: null,
+      typeStructure: '',
+    };
+    this.batiments.push(nouveau);
+    this.batimentOnglet.batiments = this.batiments;
   }
 
-  ajouterEntretien(): void {
-    const entretienAAjouter = { ...this.nouvelleReno};
-    entretienAAjouter.dateAjout = this.getDateAujourdhui();
-    const headers = this.getAuthHeaders();
-      this.batService
-        .ajouterEntretien(this.batimentOngletId, entretienAAjouter, headers)
-        .subscribe(() => {
-          this.loadData();
-          this.resetFormRenovation();
-        })
+  ajouterEntretien() {
+    const nouveau: EntretienCourant = {
+      dateAjout: '',
+      nom_adresse: '',
+      typeTravaux: '',
+      dateTravaux: null,
+      typeBatiment: '',
+      surfaceConcernee: null,
+      dureeAmortissement: null
+    };
+    this.entretiens.push(nouveau);
+    this.batimentOnglet.entretiens = this.entretiens;
   }
 
   ajouterMobilier(): void {
@@ -235,51 +228,15 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
       });
   }
 
-  supprimerBatiment(index: number): void {
-    const headers = this.getAuthHeaders();
-    const batiment = this.batimentOnglet.batiments[index];
-
-    if (!batiment || !batiment.id) {
-      // Si le bâtiment n'est pas encore enregistré en base
-      this.batimentOnglet.batiments.splice(index, 1);
-      return;
-    }
-
-    this.batService
-      .supprimerBatiment(this.batimentOngletId, batiment.id, headers)
-      .subscribe({
-        next: () => {
-          this.batimentOnglet.batiments.splice(index, 1);
-          this.loadData();
-        },
-        error: err => {
-          console.error('Erreur lors de la suppression', err);
-        }
-      });
+  supprimerBatiment(index: number) {
+    this.batiments.splice(index, 1);
+    this.batimentOnglet.batiments = this.batiments;
   }
 
 
-  supprimerRenovation(index: number): void {
-    const headers = this.getAuthHeaders();
-    const renovation = this.batimentOnglet.entretiens[index];
-
-    if (!renovation || !renovation.id) {
-      // Si l'entretien n'est pas encore enregistré en base
-      this.batimentOnglet.entretiens.splice(index, 1);
-      return;
-    }
-
-    this.batService
-      .supprimerEntretien(this.batimentOngletId, renovation.id, headers)
-      .subscribe({
-        next: () => {
-          this.batimentOnglet.entretiens.splice(index, 1);
-          this.loadData();
-        },
-        error: err => {
-          console.error('Erreur lors de la suppression', err);
-        }
-      });
+  supprimerEntretien(index: number) {
+    this.entretiens.splice(index, 1);
+    this.batimentOnglet.entretiens = this.entretiens;
   }
 
   supprimerMobilier(index: number): void {
@@ -318,29 +275,7 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     });
   }
 
-  resetFormBatiment() {
-    this.nouveauBatiment = {
-      nom_ou_adresse: '',
-      dateConstruction: '',
-      dateDerniereGrosseRenovation: '',
-      acvBatimentRealisee: null,
-      emissionsGesReellesTCO2: null,
-      typeBatiment: '',
-      surfaceEnM2: null,
-      typeStructure: '',
-    }
-  }
-  resetFormRenovation() {
-    this.nouvelleReno = {
-      dateAjout: '',
-      nom_adresse: '',
-      typeTravaux: '',
-      dateTravaux: '',
-      typeBatiment: '',
-      surfaceConcernee: null,
-      dureeAmortissement: null
-    };
-  }
+
 
   resetFormMobilier() {
     this.nouveauMobilier = {

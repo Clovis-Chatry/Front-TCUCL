@@ -14,6 +14,8 @@ import {
 
 @Injectable({providedIn: 'root'})
 export class BatimentOngletMapperService {
+  batiments: BatimentExistantOuNeufConstruit[] = [];
+  entretiens: EntretienCourant[] = [];
   fromDto(dto: any): BatimentOngletModel {
     const batimentDtoList =
       dto.batimentsExistantOuNeufConstruits ??
@@ -136,5 +138,20 @@ export class BatimentOngletMapperService {
       mobilierElectromenagerList: mobilierList,
       mobiliersElectromenagers: mobilierList,
     };
+  }
+
+  parse(dto: any): void {
+    const model = this.fromDto(dto);
+    this.batiments = model.batiments;
+    this.entretiens = model.entretiens;
+  }
+
+  payload(): any {
+    const model: BatimentOngletModel = {
+      batiments: this.batiments,
+      entretiens: this.entretiens,
+      mobiliers: [],
+    };
+    return this.toDto(model);
   }
 }
