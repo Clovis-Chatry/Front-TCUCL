@@ -57,7 +57,11 @@ export class BatimentOngletMapperService {
       dureeAmortissement: e.dureeAmortissement ?? null,
     }));
 
-    const mobilierDtoList = dto.mobilierElectromenagerList;
+    const mobilierDtoList =
+      dto.mobiliersElectromenagers ??
+      dto.mobilierElectromenagerList ??
+      dto.mobilierElectromenagers ??
+      [];
     const mobiliers: MobilierElectromenager[] = (mobilierDtoList || []).map((m: any) => ({
       id: m.id,
       dateAjout: m.dateAjout ?? null,
@@ -105,6 +109,14 @@ export class BatimentOngletMapperService {
         dureeAmortissement: e.dureeAmortissement,
       })),
       mobilierElectromenagerList: model.mobiliers.map((m: MobilierElectromenager) => ({
+        id: m.id,
+        dateAjout: m.dateAjout,
+        mobilier: typeof m.mobilier === 'string' ? m.mobilier : (m.mobilier as EnumBatiment_TypeMobilier).toString(),
+        quantite: m.quantite,
+        poidsDuProduit: m.poidsDuProduit,
+        dureeAmortissement: m.dureeAmortissement,
+      })),
+      mobiliersElectromenagers: model.mobiliers.map((m: MobilierElectromenager) => ({
         id: m.id,
         dateAjout: m.dateAjout,
         mobilier: typeof m.mobilier === 'string' ? m.mobilier : (m.mobilier as EnumBatiment_TypeMobilier).toString(),
