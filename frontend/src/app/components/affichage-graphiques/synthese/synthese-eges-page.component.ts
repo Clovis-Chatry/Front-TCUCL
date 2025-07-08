@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { OngletService } from '../../header-saisie-donnees/onglet.service';
 import { AuthService } from '../../../services/auth.service';
-import { ApiEndpoints } from '../../../services/api-endpoints';
+import { EnergieResultService } from '../../../services/energie-result.service';
 
 interface Sector {
   label: string;
@@ -14,7 +13,7 @@ interface Sector {
 @Component({
   selector: 'app-synthese-eges',
   standalone: true,
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule],
   templateUrl: './synthese-eges-page.component.html',
   styleUrls: ['./synthese-eges-page.component.scss']
 })
@@ -26,9 +25,9 @@ export class SyntheseEgesComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private http: HttpClient,
     private ongletService: OngletService,
-    private auth: AuthService
+    private auth: AuthService,
+    private energieResultService: EnergieResultService
   ) {
     const user = this.auth.getUserInfo()();
     if (user?.entiteId || user?.entiteID) {
@@ -77,22 +76,14 @@ export class SyntheseEgesComponent implements OnInit {
       next: map => {
         const id = map['energieOnglet'];
         if (!id) return;
-        const token = this.auth.getToken();
-        if (!token) return;
-        const headers = {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        };
-        this.http
-          .get<{ consoEnergieFinale: number }>(ApiEndpoints.EnergieOnglet.getResult(id.toString()), { headers })
-          .subscribe({
-            next: res => {
-              const sector = this.sectors.find(s => s.label === 'Energie');
-              if (sector) sector.value = Number(res.consoEnergieFinale ?? 0);
-              this.total = this.sectors.reduce((sum, s) => sum + s.value, 0);
-            },
-            error: err => console.error('Erreur récupération énergie', err)
-          });
+        this.energieResultService.getResult(id.toString())?.subscribe({
+          next: res => {
+            const sector = this.sectors.find(s => s.label === 'Energie');
+            if (sector) sector.value = Number(res.consoEnergieFinale ?? 0);
+            this.total = this.sectors.reduce((sum, s) => sum + s.value, 0);
+          },
+          error: err => console.error('Erreur récupération énergie', err)
+        });
       },
       error: err => console.error('Erreur récupération onglet ids', err)
     });
