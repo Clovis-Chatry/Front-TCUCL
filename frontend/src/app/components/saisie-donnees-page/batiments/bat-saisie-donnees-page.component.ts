@@ -10,12 +10,11 @@ import { BatimentOngletMapperService } from './batiment-onglet-mapper.service';
 import { BatimentOngletModel, BatimentExistantOuNeufConstruit, EntretienCourant, MobilierElectromenager } from '../../../models/batiment.model';
 import { OngletStatusService } from '../../../services/onglet-status.service';
 import { ONGLET_KEYS } from '../../../constants/onglet-keys';
-import { ONGLET_KEYS } from '../../../constants/onglet-keys';
 import {
   EnumBatiment_TypeBatiment,
+  EnumBatiment_TypeMobilier,
   EnumBatiment_TypeStructure,
-  EnumBatiment_TypeTravaux,
-  EnumBatiment_TypeMobilier
+  EnumBatiment_TypeTravaux
 } from '../../../models/bat.enum';
 
 @Component({
@@ -36,7 +35,6 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   batimentTypes = Object.values(EnumBatiment_TypeBatiment);
   structureTypes = Object.values(EnumBatiment_TypeStructure);
   travauxTypes = Object.values(EnumBatiment_TypeTravaux);
-
   batimentTypesLibelles = [
     { value: EnumBatiment_TypeBatiment.NA, label: 'Non renseigné' },
     { value: EnumBatiment_TypeBatiment.EQUIPEMENT_SPORTIF, label: 'Équipement sportif' },
@@ -59,10 +57,10 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     { value: EnumBatiment_TypeTravaux.CHAUFFAGE_VENTILATION_CLIMATISATION, label:'Chauffage - Ventilation - Climatisation' },
     { value: EnumBatiment_TypeTravaux.CLOISONNEMENT_DOUBLAGE, label:'Cloisonnement - Doublage' },
     { value: EnumBatiment_TypeTravaux.FACADES_ET_MENUISERIES, label:'Facades - Menuiseries' },
-    { value: EnumBatiment_TypeTravaux.SUPERSTRUCTURES_MAÇONNERIE, label:'Superstructures - Maçonnerie' },
+    { value: EnumBatiment_TypeTravaux.SUPERSTRUCTURES_MACONNERIE, label:'Superstructures - Maçonnerie' },
     { value: EnumBatiment_TypeTravaux.SANITAIRES, label:'Sanitaires' },
     { value: EnumBatiment_TypeTravaux.VOIRIE, label:'Voirie' },
-    { value: EnumBatiment_TypeTravaux.COUVERTURE_ETANCHÉITÉ, label:'Couverture - Etanchéité' },
+    { value: EnumBatiment_TypeTravaux.COUVERTURE_ETANCHEITE, label:'Couverture - Etanchéité' },
     { value: EnumBatiment_TypeTravaux.ELECTRICITE, label:'Electricité' },
     { value: EnumBatiment_TypeTravaux.REVETEMENTS_DE_SOLS_ET_MURS, label:'Revetements de sols et murs' },
     { value: EnumBatiment_TypeTravaux.FONDATIONS_INFRASTRUCTURES, label:'Fondations - Infrastructures' },

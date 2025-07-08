@@ -1,8 +1,18 @@
-import { Injectable } from '@angular/core';
-import { BatimentOngletModel, BatimentExistantOuNeufConstruit, EntretienCourant, MobilierElectromenager } from '../../../models/batiment.model';
-import { EnumBatiment_TypeBatiment, EnumBatiment_TypeStructure, EnumBatiment_TypeTravaux, EnumBatiment_TypeMobilier } from '../../../models/bat.enum';
+import {Injectable} from '@angular/core';
+import {
+  BatimentExistantOuNeufConstruit,
+  BatimentOngletModel,
+  EntretienCourant,
+  MobilierElectromenager
+} from '../../../models/batiment.model';
+import {
+  EnumBatiment_TypeBatiment,
+  EnumBatiment_TypeMobilier,
+  EnumBatiment_TypeStructure,
+  EnumBatiment_TypeTravaux
+} from '../../../models/bat.enum';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class BatimentOngletMapperService {
   fromDto(dto: any): BatimentOngletModel {
     const batiments: BatimentExistantOuNeufConstruit[] = (dto.batimentsExistantOuNeufConstruits || []).map((b: any) => ({

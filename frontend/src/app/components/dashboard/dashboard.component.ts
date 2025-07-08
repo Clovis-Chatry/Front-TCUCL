@@ -73,7 +73,6 @@ export class DashboardComponent implements OnInit {
     this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
       this.statuses = s;
     });
-
     this.loadOngletIds();
     this.loadOngletStatuses();
   }
