@@ -75,6 +75,7 @@ export class DashboardComponent implements OnInit {
     });
 
     this.loadOngletIds();
+    // Récupère l'état de chaque onglet dès l'initialisation du dashboard
     this.loadOngletStatuses();
   }
 
@@ -137,6 +138,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  // Effectue l'appel HTTP pour récupérer les statuts de tous les onglets
   loadOngletStatuses(): void {
     this.ongletService.getOngletStatuses(this.entiteId, this.selectedYear)?.subscribe({
       next: (result) => {
