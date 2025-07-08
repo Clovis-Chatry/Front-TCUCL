@@ -5,8 +5,7 @@ const BASE_URL = 'http://localhost:8080';
 export const ApiEndpoints = {
   Onglets: {
     getAllIds: (entiteId: number) => `${BASE_URL}/general/${entiteId}`,
-    // The backend expects the status endpoint in the form /general/{id}/status
-    getAllStatus: (entiteId: number) => `${BASE_URL}/general/${entiteId}/status`
+    getAllStatus: (entiteId: number) => `${BASE_URL}/general/status/${entiteId}`
   },
 
   EnergieOnglet: {
