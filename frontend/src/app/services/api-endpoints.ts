@@ -10,6 +10,9 @@ export const ApiEndpoints = {
     getById: (id: string) => `${BASE_URL}/energieOnglet/${id}`,
     updateConso: (id: string) => `${BASE_URL}/energieOnglet/${id}`,
     getResult: (id: string) => `${BASE_URL}/energieOnglet/${id}/resultat`,
+    // autres méthodes PATCH (comme /consoGaz, /consoFioul, etc.)
+    patchConsoGaz: (id: string) => `${BASE_URL}/energieonglet/${id}/consoGaz`,
+    patchNote: (id: string) => `${BASE_URL}/energieonglet/${id}/note`,
   },
 
   EmissionFugitivesOnglet: {
