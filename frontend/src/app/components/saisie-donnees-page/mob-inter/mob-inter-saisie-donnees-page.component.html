@@ -1,15 +1,6 @@
 <div class="main-container">
   <div class="left-panel">
-    <div class="page-title">
-      <h2>Mobilité internationale</h2>
-      <span class="help-icon" title="Merci de renseigner les nombres de déplacements (1 déplacement = 1 aller simple) selon chaque destination à l'internationale pour chaque public cible. Certaines destinations européennes semblent accessibles en train/bus et il est donc possible d'indiquer si les déplacementts se font en train/bus ou avion pour ces dernières. Si le trajet s'est fait en co voiturage ou bus, alors mettre le nombre dans la colonne 'train', si le trajet s'est fait en voiture individuelle, alors mettre le nombre dans 'avion'.">
-        <svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="black"></circle>
-          <rect x="11" y="10" width="2" height="6" fill="white"></rect>
-          <circle cx="12" cy="8" r="1" fill="white"></circle>
-        </svg>
-      </span>
-    </div>
+    <h2>Saisir une destination</h2>
 
     <details>
       <summary><strong>Saisir une destination</strong></summary>
@@ -28,7 +19,6 @@
               <th>Pro</th>
               <th>Stage étudiant</th>
               <th>Semestre étudiant</th>
-              <th>Autre</th>
             </tr>
           </thead>
           <tbody>
@@ -37,14 +27,12 @@
               <td><input type="number" [(ngModel)]="destinationEnCours.avion.pro" /></td>
               <td><input type="number" [(ngModel)]="destinationEnCours.avion.stage" /></td>
               <td><input type="number" [(ngModel)]="destinationEnCours.avion.semestre" /></td>
-              <td><input type="number" [(ngModel)]="destinationEnCours.avion.autre" /></td>
             </tr>
             <tr>
-              <td>Train / Bus</td>
+              <td>Train</td>
               <td><input type="number" [(ngModel)]="destinationEnCours.train.pro" /></td>
               <td><input type="number" [(ngModel)]="destinationEnCours.train.stage" /></td>
               <td><input type="number" [(ngModel)]="destinationEnCours.train.semestre" /></td>
-              <td><input type="number" [(ngModel)]="destinationEnCours.train.autre" /></td>
             </tr>
           </tbody>
         </table>
@@ -89,5 +77,4 @@
       </table>
     </div>
   </div>
-  <app-save-footer [path]="'mobiliteInternationaleOnglet'" (estTermineChange)="onEstTermineChange($event)"></app-save-footer>
 </div>
