@@ -31,8 +31,8 @@ export class SyntheseEgesComponent implements OnInit {
     private auth: AuthService
   ) {
     const user = this.auth.getUserInfo()();
-    if (user?.entiteId) {
-      this.entiteId = user.entiteId;
+    if (user?.entiteId || user?.entiteID) {
+      this.entiteId = user.entiteId ?? user.entiteID;
     }
   }
 
@@ -66,6 +66,12 @@ export class SyntheseEgesComponent implements OnInit {
   }
 
   private fetchEnergy(): void {
+    if (!this.entiteId) {
+      const user = this.auth.getUserInfo()();
+      if (user?.entiteId || user?.entiteID) {
+        this.entiteId = user.entiteId ?? user.entiteID;
+      }
+    }
     if (!this.entiteId) return;
     this.ongletService.getOngletIds(this.entiteId, this.currentYear)?.subscribe({
       next: map => {
@@ -82,7 +88,7 @@ export class SyntheseEgesComponent implements OnInit {
           .subscribe({
             next: res => {
               const sector = this.sectors.find(s => s.label === 'Energie');
-              if (sector) sector.value = res.consoEnergieFinale;
+              if (sector) sector.value = Number(res.consoEnergieFinale ?? 0);
               this.total = this.sectors.reduce((sum, s) => sum + s.value, 0);
             },
             error: err => console.error('Erreur récupération énergie', err)
