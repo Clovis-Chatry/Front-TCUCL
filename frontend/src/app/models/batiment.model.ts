@@ -4,8 +4,6 @@ export interface BatimentExistantOuNeufConstruit {
   id?: number;
   nom_ou_adresse: string;
   dateConstruction: string | null;
-  moinsDe50ans: boolean | null;
-  renoComplete: boolean | null;
   dateDerniereGrosseRenovation: string | null;
   acvBatimentRealisee: boolean | null;
   emissionsGesReellesTCO2: number | null;

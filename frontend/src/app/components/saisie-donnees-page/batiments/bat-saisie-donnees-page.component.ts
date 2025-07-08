@@ -135,15 +135,12 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   nouveauBatiment: any = {
     nom_ou_adresse: '',
     dateConstruction: '',
-    moinsDe50ans: null,
-    renoComplete: null,
     dateDerniereGrosseRenovation: '',
     acvBatimentRealisee: null,
     emissionsGesReellesTCO2: null,
     typeBatiment: '',
     surfaceEnM2: null,
     typeStructure: '',
-    acompleter: ''
   };
 
 
@@ -325,8 +322,6 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     this.nouveauBatiment = {
       nom_ou_adresse: '',
       dateConstruction: '',
-      moinsDe50ans: null,
-      renoComplete: null,
       dateDerniereGrosseRenovation: '',
       acvBatimentRealisee: null,
       emissionsGesReellesTCO2: null,
