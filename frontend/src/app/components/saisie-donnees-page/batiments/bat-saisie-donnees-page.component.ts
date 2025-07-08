@@ -217,10 +217,12 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     const entretienAAjouter = { ...this.nouvelleReno};
     entretienAAjouter.dateAjout = this.getDateAujourdhui();
     const headers = this.getAuthHeaders();
-    this.batService.ajouterEntretien(this.batimentOngletId, entretienAAjouter, headers).subscribe(() => {
-      this.loadData();
-      this.resetFormRenovcation();
-    })
+      this.batService
+        .ajouterEntretien(this.batimentOngletId, entretienAAjouter, headers)
+        .subscribe(() => {
+          this.loadData();
+          this.resetFormRenovation();
+        })
   }
 
   ajouterMobilier(): void {
@@ -240,20 +242,23 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     const headers = this.getAuthHeaders();
     const batiment = this.batimentOnglet.batiments[index];
 
-    if (batiment && batiment.id) {
-      this.batService.supprimerBatiment(this.batimentOngletId, batiment.id, headers).subscribe({
+    if (!batiment || !batiment.id) {
+      // Si le bâtiment n'est pas encore enregistré en base
+      this.batimentOnglet.batiments.splice(index, 1);
+      return;
+    }
+
+    this.batService
+      .supprimerBatiment(this.batimentOngletId, batiment.id, headers)
+      .subscribe({
         next: () => {
           this.batimentOnglet.batiments.splice(index, 1);
           this.loadData();
         },
-        error: (err) => {
-          console.error("Erreur lors de la suppression", err);
+        error: err => {
+          console.error('Erreur lors de la suppression', err);
         }
       });
-    } else {
-      // Si le bâtiment n'existe pas encore en base (non persisté), on le supprime juste localement
-      this.batimentOnglet.batiments.splice(index, 1);
-  }
   }
 
 
@@ -261,17 +266,23 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     const headers = this.getAuthHeaders();
     const renovation = this.batimentOnglet.entretiens[index];
 
-    if (renovation && renovation.id) {
-      this.batService.supprimerEntretien(this.batimentOngletId, renovation.id, headers).subscribe({
+    if (!renovation || !renovation.id) {
+      // Si l'entretien n'est pas encore enregistré en base
+      this.batimentOnglet.entretiens.splice(index, 1);
+      return;
+    }
+
+    this.batService
+      .supprimerEntretien(this.batimentOngletId, renovation.id, headers)
+      .subscribe({
         next: () => {
           this.batimentOnglet.entretiens.splice(index, 1);
           this.loadData();
         },
-        error: (err) => {
-          console.error("Erreur lors de la suppression", err);
+        error: err => {
+          console.error('Erreur lors de la suppression', err);
         }
       });
-    }
   }
 
   supprimerMobilier(index: number): void {
@@ -279,17 +290,21 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     const mobilier = this.batimentOnglet.mobiliers[index];
 
     if (mobilier && mobilier.id) {
-      this.batService.supprimerMobilier(this.batimentOngletId, mobilier.id, headers).subscribe({
-        next: () => {
-          this.batimentOnglet.mobiliers.splice(index, 1);
-          this.loadData();
-        },
-        error: (err) => {
-          console.error("Erreur lors de la suppression", err);
-        }
-      });
+      this.batService
+        .supprimerMobilier(this.batimentOngletId, mobilier.id, headers)
+        .subscribe({
+          next: () => {
+            this.batimentOnglet.mobiliers.splice(index, 1);
+            this.loadData();
+          },
+          error: err => {
+            console.error('Erreur lors de la suppression', err);
+          }
+        });
+    } else {
+      // Si l'élément n'est pas encore persisté en base de données
+      this.batimentOnglet.mobiliers.splice(index, 1);
     }
-    this.batimentOnglet.mobiliers.splice(index, 1);
   }
 
   onEstTermineChange(value: boolean): void {
@@ -320,7 +335,7 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
       typeStructure: '',
     }
   }
-  resetFormRenovcation() {
+  resetFormRenovation() {
     this.nouvelleReno = {
       dateAjout: '',
       nom_adresse: '',

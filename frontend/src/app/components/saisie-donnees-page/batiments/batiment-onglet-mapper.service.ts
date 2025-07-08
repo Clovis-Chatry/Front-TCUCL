@@ -57,7 +57,11 @@ export class BatimentOngletMapperService {
       dureeAmortissement: e.dureeAmortissement ?? null,
     }));
 
-    const mobilierDtoList = dto.mobilierElectromenagerList;
+    const mobilierDtoList =
+      dto.mobiliersElectromenagers ??
+      dto.mobilierElectromenagerList ??
+      dto.mobilierElectromenagers ??
+      [];
     const mobiliers: MobilierElectromenager[] = (mobilierDtoList || []).map((m: any) => ({
       id: m.id,
       dateAjout: m.dateAjout ?? null,
@@ -77,41 +81,50 @@ export class BatimentOngletMapperService {
   }
 
   toDto(model: BatimentOngletModel): any {
+    const batimentList = model.batiments.map((b: BatimentExistantOuNeufConstruit) => ({
+      id: b.id,
+      nom_ou_adresse: b.nom_ou_adresse,
+      dateConstruction: b.dateConstruction,
+      moinsDe50ans: b.moinsDe50ans,
+      renoComplete: b.renoComplete,
+      dateDerniereGrosseRenovation: b.dateDerniereGrosseRenovation,
+      acvBatimentRealisee: b.acvBatimentRealisee,
+      emissionsGesReellesTCO2: b.emissionsGesReellesTCO2,
+      typeBatiment: typeof b.typeBatiment === 'string' ? b.typeBatiment : (b.typeBatiment as EnumBatiment_TypeBatiment).toString(),
+      surfaceEnM2: b.surfaceEnM2,
+      typeStructure: typeof b.typeStructure === 'string' ? b.typeStructure : (b.typeStructure as EnumBatiment_TypeStructure).toString(),
+      dateAjoutEnBase: b.dateAjoutEnBase,
+    }));
+
+    const entretienList = model.entretiens.map((e: EntretienCourant) => ({
+      id: e.id,
+      dateAjout: e.dateAjout,
+      nom_adresse: e.nom_adresse,
+      typeTravaux: typeof e.typeTravaux === 'string' ? e.typeTravaux : (e.typeTravaux as EnumBatiment_TypeTravaux).toString(),
+      dateTravaux: e.dateTravaux,
+      typeBatiment: typeof e.typeBatiment === 'string' ? e.typeBatiment : (e.typeBatiment as EnumBatiment_TypeBatiment).toString(),
+      surfaceConcernee: e.surfaceConcernee,
+      dureeAmortissement: e.dureeAmortissement,
+    }));
+
+    const mobilierList = model.mobiliers.map((m: MobilierElectromenager) => ({
+      id: m.id,
+      dateAjout: m.dateAjout,
+      mobilier: typeof m.mobilier === 'string' ? m.mobilier : (m.mobilier as EnumBatiment_TypeMobilier).toString(),
+      quantite: m.quantite,
+      poidsDuProduit: m.poidsDuProduit,
+      dureeAmortissement: m.dureeAmortissement,
+    }));
+
     return {
       estTermine: model.estTermine,
       note: model.note,
-      batimentsExistantOuNeufConstruits: model.batiments.map((b: BatimentExistantOuNeufConstruit) => ({
-        id: b.id,
-        nom_ou_adresse: b.nom_ou_adresse,
-        dateConstruction: b.dateConstruction,
-        moinsDe50ans: b.moinsDe50ans,
-        renoComplete: b.renoComplete,
-        dateDerniereGrosseRenovation: b.dateDerniereGrosseRenovation,
-        acvBatimentRealisee: b.acvBatimentRealisee,
-        emissionsGesReellesTCO2: b.emissionsGesReellesTCO2,
-        typeBatiment: typeof b.typeBatiment === 'string' ? b.typeBatiment : (b.typeBatiment as EnumBatiment_TypeBatiment).toString(),
-        surfaceEnM2: b.surfaceEnM2,
-        typeStructure: typeof b.typeStructure === 'string' ? b.typeStructure : (b.typeStructure as EnumBatiment_TypeStructure).toString(),
-        dateAjoutEnBase: b.dateAjoutEnBase,
-      })),
-      entretiensCourants: model.entretiens.map((e: EntretienCourant) => ({
-        id: e.id,
-        dateAjout: e.dateAjout,
-        nom_adresse: e.nom_adresse,
-        typeTravaux: typeof e.typeTravaux === 'string' ? e.typeTravaux : (e.typeTravaux as EnumBatiment_TypeTravaux).toString(),
-        dateTravaux: e.dateTravaux,
-        typeBatiment: typeof e.typeBatiment === 'string' ? e.typeBatiment : (e.typeBatiment as EnumBatiment_TypeBatiment).toString(),
-        surfaceConcernee: e.surfaceConcernee,
-        dureeAmortissement: e.dureeAmortissement,
-      })),
-      mobilierElectromenagerList: model.mobiliers.map((m: MobilierElectromenager) => ({
-        id: m.id,
-        dateAjout: m.dateAjout,
-        mobilier: typeof m.mobilier === 'string' ? m.mobilier : (m.mobilier as EnumBatiment_TypeMobilier).toString(),
-        quantite: m.quantite,
-        poidsDuProduit: m.poidsDuProduit,
-        dureeAmortissement: m.dureeAmortissement,
-      })),
+      batimentsExistantOuNeufConstruits: batimentList,
+      batimentExistantOuNeufConstruitList: batimentList,
+      entretiensCourants: entretienList,
+      entretienCourantList: entretienList,
+      mobilierElectromenagerList: mobilierList,
+      mobiliersElectromenagers: mobilierList,
     };
   }
 }
