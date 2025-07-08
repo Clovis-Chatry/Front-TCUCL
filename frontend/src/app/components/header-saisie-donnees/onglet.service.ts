@@ -32,7 +32,7 @@ export class OngletService {
       Authorization: `Bearer ${token}`
     };
 
-    const url = `${ApiEndpoints.Onglets.getAllStatus(entiteId)}?annee=${annee}`;
+    const url = ApiEndpoints.Onglets.getAllStatus(entiteId, annee);
     return this.http.get<{ [key: string]: boolean }>(url, { headers });
   }
 
