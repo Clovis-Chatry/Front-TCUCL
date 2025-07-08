@@ -33,4 +33,8 @@ export class ParamService {
   getAllEntiteNomId(headers: any): Observable<{ id: number, nom: string }[]> {
     return this.http.get<EntityNomId[]>(ApiEndpoints.Utilisateur.getAllEntiteNomId, { headers });
   }
+
+  deleterUser(utilisateurId: number, headers: any) {
+    return this.http.delete(ApiEndpoints.Utilisateur.deleterUser(utilisateurId) , {headers})
+  }
 }

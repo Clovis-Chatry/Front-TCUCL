@@ -43,6 +43,7 @@ export class ParamsComponent {
 
   isAdmin = this.userService.isAdmin;
   isSuperAdmin = this.userService.isSuperAdmin;
+  idUtilisateurConnecte = this.userService.id;
   utilisateursEntiteSelectionnee: UtilisateurDto[] = [];
   @ViewChild('form') form!: NgForm;
 
@@ -73,16 +74,14 @@ export class ParamsComponent {
     estAdmin: false
   };
 
-  newUserEntity: string = '';
   selectedEntity: string = '';
 
   entities: Entity[] = [];
   entitiesList: EntityNomId[] = [];
-  users: { entity: string; user: User }[] = [];
 
   ngOnInit(): void {
     this.loadUtilisateursParEntite(this.userService.entiteId());
-    this.loadEntitiesIfSuperAdmin();
+    if(this.isSuperAdmin()) {this.loadEntitiesIfSuperAdmin();}
   }
 
 
@@ -129,23 +128,32 @@ export class ParamsComponent {
 
     this.paramService.creerEntite(body, headers).subscribe({
       next: (response) => {
-        alert('Entité créée avec succès !');
-        this.entities.push({
-          id: response.id,
-          name: this.entityToCreate.name,
-          type: this.entityToCreate.type,
-          params: {firstName: '', lastName: '', email: '', isParams: true},
-          admin: {...this.entityToCreate.admin}
-        });
         this.form.resetForm();
+        this.entityToCreate = {
+          name: '',
+          type: '',
+          admin: {
+            firstName: '',
+            lastName: '',
+            email: '',
+            isParams: false,
+            isAdmin: true
+          }
+        };
+        alert('Entité créée avec succès !');
+        this.loadEntitiesIfSuperAdmin();
       },
-      error: (err) => console.error('Erreur HTTP :', err)
+      error: (err) => {
+        console.error('Erreur HTTP :', err);
+        this.form.resetForm();
+      }
     });
   }
 
   addUser(): void {
     const headers = this.getAuthHeaders();
-    const entiteId = this.userService.entiteId();
+    // Choix de l'entité selon le rôle
+    const entiteId = this.isSuperAdmin() ? this.selectedEntity : this.userService.entiteId();
     const body = {
       prenom: this.userToAdd.prenom,
       nom: this.userToAdd.nom,
@@ -158,7 +166,14 @@ export class ParamsComponent {
         next: () => {
           alert('Utilisateur créé avec succès');
           this.form.resetForm();
-          this.loadEntitiesIfSuperAdmin();
+          this.userToAdd = {
+            entityName: '',
+            prenom: '',
+            nom: '',
+            email: '',
+            estAdmin: false
+          };
+          this.loadUtilisateursParEntite(entiteId);
         },
         error: (err) => {
           console.error('Erreur lors de la création', err);
@@ -172,8 +187,9 @@ export class ParamsComponent {
 
     this.paramService.getUtilisateurParEntiteId(entiteId, headers).subscribe({
       next: (users: UtilisateurDto[]) => {
-        this.utilisateursEntiteSelectionnee = users;
-        console.log('Utilisateurs chargés :', users);
+        this.utilisateursEntiteSelectionnee = users.filter(
+          u => u.id !== this.idUtilisateurConnecte()
+        );
       },
       error: (err) => {
         console.error('Erreur lors du chargement des utilisateurs :', err);
@@ -186,7 +202,6 @@ export class ParamsComponent {
     this.paramService.getAllEntiteNomId(headers).subscribe({
       next: (entites: { id: number, nom: string }[]) => {
         this.entitiesList = entites;
-        console.log('Entités chargées :', this.entitiesList);
       },
       error: (err) => {
         console.error('Erreur lors du chargement des entités :', err);
@@ -204,7 +219,6 @@ export class ParamsComponent {
   // Permet de gérer le check du rôle Admin dans la liste des utilisateurs
   onToggleAdmin(utilisateur: UtilisateurDto): void {
     const headers = this.getAuthHeaders();
-    const entiteId = this.userService.entiteId();
 
     // Nouvelle valeur à envoyer
     const nouvelleValeur = !utilisateur.estAdmin;
@@ -218,6 +232,24 @@ export class ParamsComponent {
           alert('Erreur lors de la mise à jour du rôle administrateur.');
         }
       });
+  }
+
+  deleterUser(utilisateurId: number): void {
+    const entiteId = this.isSuperAdmin() ? this.selectedEntity : this.userService.entiteId();
+    const headers = this.getAuthHeaders();
+
+    if (confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) {
+      this.paramService.deleterUser(utilisateurId, headers).subscribe({
+        next: () => {
+          alert('Utilisateur supprimé avec succès');
+          this.utilisateursEntiteSelectionnee = this.utilisateursEntiteSelectionnee.filter(u => u.id !== utilisateurId);
+          this.loadUtilisateursParEntite(entiteId);
+        },
+        error: (err) => {
+          console.error('Erreur lors de la suppression de l’utilisateur :', err);
+        }
+      });
+    }
   }
 
   goBackToDashboard(): void {

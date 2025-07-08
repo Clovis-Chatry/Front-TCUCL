@@ -93,6 +93,7 @@ AutoOnglet: {
     recupererUtilisateurPourEntite: (entiteId: number) => `${BASE_URL}/parametre/utilisateur-entite/${entiteId}`,
     creerutilisateur: (entiteId: number) => `${BASE_URL}/parametre/inscription-utilisateur/${entiteId}`,
     updateAdminStatus: (utilisateurId: number) => `${BASE_URL}/parametre/modifier-est-admin/${utilisateurId}`,
-    getAllEntiteNomId: `${BASE_URL}/parametre/all-entite-nom-id`
+    getAllEntiteNomId: `${BASE_URL}/parametre/all-entite-nom-id`,
+    deleterUser: (utilisateurId: number) => `${BASE_URL}/parametre/supprimer-utilisateur/${utilisateurId}`,
   }
 };

@@ -11,6 +11,7 @@ export class UserService {
   email = computed(() => this.rawUser()?.email ?? '');
   entite = computed(() => this.rawUser()?.entiteNom ?? '');
   entiteId = computed(() => this.rawUser()?.entiteId ?? 0);
+  id = computed(() => this.rawUser()?.id ?? 0);
 
   isSuperAdmin = computed(() => !!this.rawUser()?.superAdmin);
   isAdmin = computed(() => !!this.rawUser()?.estAdmin && !this.rawUser()?.superAdmin);
