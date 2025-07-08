@@ -17,10 +17,13 @@ export class BatimentOngletMapperService {
   fromDto(dto: any): BatimentOngletModel {
     const batimentDtoList =
       dto.batimentsExistantOuNeufConstruits ??
-      dto.batimentExistantOuNeufConstruitList ??
       dto.batimentsExistantOuNeufConstruitList ??
+      dto.batimentExistantOuNeufConstruitList ??
       dto.batimentExistantOuNeufConstruits ??
+      dto.batimentExistantOuNeufConstruit ??
+      dto.batimentsExistantOuNeufConstruit ??
       dto.batiments ??
+      dto.batimentList ??
       [];
 
     const batiments: BatimentExistantOuNeufConstruit[] = (batimentDtoList || []).map((b: any) => ({
@@ -40,9 +43,12 @@ export class BatimentOngletMapperService {
 
     const entretienDtoList =
       dto.entretiensCourants ??
+      dto.entretiensCourantsList ??
       dto.entretienCourantList ??
+      dto.entretienCourantsList ??
       dto.entretiensCourantList ??
       dto.entretienCourants ??
+      dto.entretienCourant ??
       dto.entretiens ??
       [];
 
@@ -120,9 +126,17 @@ export class BatimentOngletMapperService {
       estTermine: model.estTermine,
       note: model.note,
       batimentsExistantOuNeufConstruits: batimentList,
+      batimentsExistantOuNeufConstruitList: batimentList,
       batimentExistantOuNeufConstruitList: batimentList,
+      batimentExistantOuNeufConstruits: batimentList,
+      batiments: batimentList,
+      batimentList: batimentList,
       entretiensCourants: entretienList,
+      entretiensCourantsList: entretienList,
       entretienCourantList: entretienList,
+      entretienCourantsList: entretienList,
+      entretienCourants: entretienList,
+      entretiens: entretienList,
       mobilierElectromenagerList: mobilierList,
       mobiliersElectromenagers: mobilierList,
     };
