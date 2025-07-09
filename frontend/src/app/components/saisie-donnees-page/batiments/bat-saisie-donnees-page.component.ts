@@ -190,7 +190,7 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     const headers = this.getAuthHeaders();
     this.batService.getBatimentImmobilisationMobilier(this.batimentOngletId, headers).subscribe({
       next: (data) => {
-        const model = this.mapper.fromDto(data);
+        const model = this.mapper.parseDtoToModel(data);
         this.batimentOnglet = model;
         this.batimentOnglet.estTermine = model.estTermine ?? false;
         this.statusService.setStatus(ONGLET_KEYS.Batiments, this.batimentOnglet.estTermine);
@@ -324,7 +324,7 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   updateData(): void {
     if (!this.batimentOngletId) return;
     const headers = this.getAuthHeaders();
-    const payload = this.mapper.toDto(this.batimentOnglet);
+    const payload = this.mapper.createPayloadFromModel(this.batimentOnglet);
     this.batService.updateOnglet(this.batimentOngletId, payload, headers).subscribe({
       error: err => console.error('Erreur mise à jour batiments', err)
     });

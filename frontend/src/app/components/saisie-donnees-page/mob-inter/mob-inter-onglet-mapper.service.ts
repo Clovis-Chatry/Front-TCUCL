@@ -4,8 +4,6 @@ import { Pays } from '../../../models/enums/pays.enum';
 
 @Injectable({ providedIn: 'root' })
 export class MobInterOngletMapperService {
-  // Convertit une valeur renvoyée par le backend (nom d'énumération ou libellé)
-  // en libellé utilisé dans le frontend.
   private normalizePays(value: string): Pays | string {
     if (!value) return value;
     const key = Object.keys(Pays).find(k => k.toUpperCase() === value.toUpperCase());
@@ -16,12 +14,12 @@ export class MobInterOngletMapperService {
     return (found as Pays) || value;
   }
 
-  // Convertit un libellé ou une valeur d'énumération en nom utilisé par le backend
   private toBackendPays(value: Pays | string): string {
     if (!value) return value as string;
-    const entry = Object.entries(Pays).find(([, v]) => v.toUpperCase() === value.toString().toUpperCase());
+    const entry = Object.entries(Pays).find(([enumKey, label]) => label === value);
     return entry ? entry[0] : value.toString();
   }
+
   fromDto(dto: any): MobInternationalOngletModel {
     const voyages: Voyage[] = (dto.voyageVersUneDestinationMobInternationale || dto.voyage || []).map((v: any) => ({
       id: v.id,
