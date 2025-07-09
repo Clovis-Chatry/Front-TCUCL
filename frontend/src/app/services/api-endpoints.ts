@@ -81,7 +81,8 @@ BatimentsOnglet: {
 
   ajouterMobilier: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}/mobilierElectromenager`,
   supprimerMobilier: (tabId: string, mobilierId: number) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${tabId}/mobilierElectromenager/${mobilierId}`,
-  update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}`
+  update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}`,
+  getResult: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}/resultat`
 },
 AutoOnglet: {
   getById: (id: string) => `${BASE_URL}/vehiculeOnglet/${id}`,
