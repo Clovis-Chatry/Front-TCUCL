@@ -50,7 +50,6 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
   NUMERIQUE_EQUIPEMENT = NUMERIQUE_EQUIPEMENT;
 
   equipements: EquipementNumerique[] = [];
-  resultats: NumeriqueResultat | null = null;
   estTermine = false;
   ONGLET_KEYS = ONGLET_KEYS;
 
@@ -149,6 +148,7 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
     this.equipements.splice(index, 1);
     this.updateData();
   }
+
 
   loadResultats(id: string) {
     const token = this.authService.getToken();
