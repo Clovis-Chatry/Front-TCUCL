@@ -22,7 +22,6 @@ export class MobInterOngletMapperService {
     const entry = Object.entries(Pays).find(([, v]) => v.toUpperCase() === value.toString().toUpperCase());
     return entry ? entry[0] : value.toString();
   }
-
   fromDto(dto: any): MobInternationalOngletModel {
     const voyages: Voyage[] = (dto.voyageVersUneDestinationMobInternationale || dto.voyage || []).map((v: any) => ({
       id: v.id,
