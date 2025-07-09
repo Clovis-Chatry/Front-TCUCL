@@ -1,6 +1,7 @@
 import { ONGLET_KEYS } from './onglet-keys';
 
 export const ONGLET_ROUTES: { [key: string]: string } = {
+  'General': ONGLET_KEYS.General,
   'Energie': ONGLET_KEYS.Energie,
   'Emissions fugitives': ONGLET_KEYS.EmissionsFugitives,
   'Mobilite dom-trav': ONGLET_KEYS.MobiliteDomTrav,

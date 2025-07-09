@@ -9,6 +9,11 @@ export const ApiEndpoints = {
       `${BASE_URL}/general/${entiteId}/estTermineAnnee/${annee}`
   },
 
+  GeneralOnglet: {
+    getById: (id:string) => `${BASE_URL}/${ONGLET_KEYS.General}/${id}`,
+    updateNombre: (id:string) => `${BASE_URL}/${ONGLET_KEYS.General}/${id}`,
+  },
+
   EnergieOnglet: {
     getById: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Energie}/${id}`,
     updateConso: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Energie}/${id}`,

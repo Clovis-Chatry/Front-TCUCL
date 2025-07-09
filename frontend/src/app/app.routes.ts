@@ -37,6 +37,9 @@ import {
 } from './components/saisie-donnees-page/batiments/bat-saisie-donnees-page.component';
 import {TrajectoireComponent} from './components/affichage-graphiques/suivi/trajectoire-page.component';
 import { ONGLET_KEYS } from './constants/onglet-keys';
+import {
+  GeneralSaisieDonneesPageComponent
+} from './components/saisie-donnees-page/general/general-saisie-donnees-page.component';
 
 export const routes: Routes = [
   {
@@ -60,6 +63,12 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
 
+  {
+    path: `${ONGLET_KEYS.General}/:id`,
+    component: GeneralSaisieDonneesPageComponent,
+    data: { showSaisieHeader: true },
+    canActivate: [authGuard],
+  },
   {
     path: `${ONGLET_KEYS.Energie}/:id`,
     component: EnergieSaisieDonneesPageComponent,
