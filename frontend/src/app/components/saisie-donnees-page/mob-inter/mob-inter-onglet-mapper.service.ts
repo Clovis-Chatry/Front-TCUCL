@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { MobInternationalOngletModel, Voyage } from '../../../models/mob-international.model';
-import { Pays } from '../../../models/enums/pays.enum';
+import {Injectable} from '@angular/core';
+import {MobInternationalOngletModel, Voyage} from '../../../models/mob-international.model';
+import {Pays} from '../../../models/enums/pays.enum';
 
 @Injectable({ providedIn: 'root' })
 export class MobInterOngletMapperService {
@@ -57,7 +57,7 @@ export class MobInterOngletMapperService {
     const num = (val: number | null | undefined) => val ?? 0;
     return {
       id: v.id,
-      pays: this.toBackendPays(v.nomPays),
+      nomPays: this.toBackendPays(v.nomPays),
       prosAvion: num(v.prosAvion),
       prosTrain: num(v.prosTrain),
       stagesEtudiantsAvion: num(v.stagesEtudiantsAvion),
