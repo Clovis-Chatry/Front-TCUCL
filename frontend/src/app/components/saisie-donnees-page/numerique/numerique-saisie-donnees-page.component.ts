@@ -102,23 +102,10 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
     if (
       this.nouvelEquipement.nombre !== null &&
       this.nouvelEquipement.dureeAmortissement !== null &&
-      (!this.nouvelEquipement.emissionsGesPrecisesConnues || this.nouvelEquipement.emissionsReellesParProduitKgCO2e !== null)
+      (!this.nouvelEquipement.emissionsGesPrecisesConnues ||
+        this.nouvelEquipement.emissionsReellesParProduitKgCO2e !== null)
     ) {
-      const id = this.route.snapshot.paramMap.get('id');
-      const token = this.authService.getToken();
-      if (!id || !token) return;
-      const headers = {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      };
-      const dto = this.mapper.toEquipementDto(this.nouvelEquipement);
-      this.numeriqueService.addEquipement(id, dto, headers).subscribe({
-        next: () => {
-          this.loadData(id);
-          this.loadResultats(id);
-        },
-        error: err => console.error('Erreur ajout équipement', err)
-      });
+      this.equipements.push({ ...this.nouvelEquipement });
       this.nouvelEquipement = {
         equipement: NUMERIQUE_EQUIPEMENT.ECRAN,
         nombre: null,
@@ -126,6 +113,7 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
         emissionsGesPrecisesConnues: false,
         emissionsReellesParProduitKgCO2e: null
       };
+      this.updateData();
     }
   }
 
@@ -148,7 +136,7 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
       traficCloud: this.traficCloud,
       tipUtilisateur: this.tipUtilisateur,
       partTraficFranceEtranger: this.partTraficFranceEtranger,
-      equipements: []
+      equipements: this.equipements
     };
 
     const payload = this.mapper.toDto(model);
@@ -157,22 +145,9 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
       error: err => console.error('Erreur lors de la mise à jour des données numériques', err)
     });
   }
-
-  supprimerEquipement(idEquip: number): void {
-    const ongletId = this.route.snapshot.paramMap.get('id');
-    const token = this.authService.getToken();
-    if (!ongletId || !token) return;
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
-    };
-    this.numeriqueService.deleteEquipement(ongletId, idEquip.toString(), headers).subscribe({
-      next: () => {
-        this.loadData(ongletId);
-        this.loadResultats(ongletId);
-      },
-      error: err => console.error('Erreur suppression équipement', err)
-    });
+  supprimerEquipement(index: number): void {
+    this.equipements.splice(index, 1);
+    this.updateData();
   }
 
   loadResultats(id: string) {

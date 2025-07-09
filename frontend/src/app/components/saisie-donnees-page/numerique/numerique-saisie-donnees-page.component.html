@@ -74,14 +74,14 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let equipement of equipements">
+        <tr *ngFor="let equipement of equipements; let i = index">
           <td>{{ numeriqueEquipmentLabels[equipement.equipement] }}</td>
           <td>{{ equipement.nombre }}</td>
           <td>{{ equipement.dureeAmortissement }}</td>
           <td>{{ equipement.emissionsGesPrecisesConnues ? 'Oui' : 'Non' }}</td>
           <td>{{ equipement.emissionsReellesParProduitKgCO2e ?? 'N/A' }}</td>
           <td>{{ equipement.anneeAjout }}</td>
-          <td><button (click)="supprimerEquipement(equipement.id!)">🗑️</button></td>
+          <td><button (click)="supprimerEquipement(i)">🗑️</button></td>
         </tr>
         </tbody>
       </table>
