@@ -145,7 +145,6 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
       error: err => console.error('Erreur lors de la mise à jour des données numériques', err)
     });
   }
-
   supprimerEquipement(index: number): void {
     this.equipements.splice(index, 1);
     this.updateData();
