@@ -1,10 +1,13 @@
 <!-- Bouton de retour -->
 <div class="top-bar">
-  <button class="back-button" (click)="goBackToDashboard()">Accueil</button>
+  <button class="back-button" (click)="goBackToDashboard()" mat-button>
+    <mat-icon>arrow_back</mat-icon>
+    Accueil
+  </button>
 </div>
 
 <div class="params-container">
-  <div class="top-sections">
+  <div class="params-row">
     <!-- Section: Paramètres personnels -->
     <section class="card" data-title="Paramètres personnels">
       <form #form="ngForm">
@@ -17,23 +20,91 @@
         <label>Email</label>
         <input type="email" [(ngModel)]="user.email" name="email">
 
-        <button type="button" (click)="updateInfo()"
-                [disabled]="!user.firstName || !user.lastName || !user.email||
+        <button type="button" (click)="updateInfo()" [disabled]="!user.firstName || !user.lastName || !user.email||
     !isEmailValid(user.email)" class="btn-update">
           Changer ses informations
         </button>
       </form>
     </section>
 
-    <!-- Section: Réinitialisation mot de passe -->
+    <!-- Section: Changer son mot de passe -->
     <section class="card" data-title="Changer son mot de passe">
-      <button class="password-reset" (click)="sendPasswordReset()">Envoyer un mail de réinitialisation</button>
+      <form #passwordForm="ngForm">
+        <label>Email</label>
+        <input type="email" [(ngModel)]="changePasswordData.email" name="emailPassword" required>
+
+        <label>Ancien mot de passe</label>
+        <input type="password" [(ngModel)]="changePasswordData.ancienMdp" name="ancienMdp" required>
+
+        <label>Nouveau mot de passe</label>
+        <input type="password" [(ngModel)]="changePasswordData.nouveauMdp" name="nouveauMdp" required>
+
+        <button type="button" (click)="changePassword()"
+                [disabled]="!changePasswordData.email || !changePasswordData.ancienMdp || !changePasswordData.nouveauMdp"
+                class="btn-update">
+          Changer le mot de passe
+        </button>
+      </form>
     </section>
-  </div>
-  <!-- Grille des blocs params -->
-  <div class="params-grid">
-    <!-- Section: Créer une entité -->
-    <div *ngIf="isSuperAdmin()">
+    <!-- Grille des blocs params -->
+    <div class="params-grid">
+      <!-- Section: Admin-->
+      <div *ngIf="isAdmin()" class="params-row">
+        <!-- Ajouter un utilisateur -->
+        <section class="card" data-title="Ajouter un utilisateur">
+          <form #form="ngForm">
+            <label>Prénom</label>
+            <input type="text" placeholder="Prénom" [(ngModel)]="userToAdd.prenom" name="adminFirstName">
+
+            <label>Nom</label>
+            <input type="text" placeholder="Nom" [(ngModel)]="userToAdd.nom" name="adminLastName">
+
+            <label>Email</label>
+            <input type="email" placeholder="Email" [(ngModel)]="userToAdd.email" name="adminEmail">
+
+            <div class="checkbox-line">
+              <input type="checkbox" id="adminCheckbox" [(ngModel)]="userToAdd.estAdmin" name="adminIsAdmin">
+              <label for="adminCheckbox">Utilisateur avec rôle "Admin"</label>
+            </div>
+          </form>
+          <button type="button" (click)="addUser()"
+                  [disabled]="!userToAdd.prenom || !userToAdd.nom || !userToAdd.email || !isEmailValid(userToAdd.email)"
+                  class="btn-update">
+            Ajouter l'utilisateur
+          </button>
+        </section>
+
+        <!-- Gestion des utilisateurs Admin-->
+        <section class="card" data-title="Gestion des utilisateurs">
+          <table *ngIf="utilisateursEntiteSelectionnee.length > 0" class="user-table">
+            <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Admin</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let user of utilisateursEntiteSelectionnee">
+              <td>{{ user.nom }}</td>
+              <td>{{ user.prenom }}</td>
+              <td>
+                <input type="checkbox" [checked]="user.estAdmin" (change)="onToggleAdmin(user)"
+                       [disabled]="!isAdmin || !isSuperAdmin()"/>
+              </td>
+              <td>
+                <button title="Supprimer" (click)="deleterUser(user.id)">🗑️</button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+    </div>
+    <!-- Section: Super Admin-->
+    <div *ngIf="isSuperAdmin()" class="params-row">
+      <!-- Section: Créer une entité -->
       <section class="card" data-title="Créer une entité">
         <form #form="ngForm">
 
@@ -66,9 +137,7 @@
           </button>
         </form>
       </section>
-    </div>
-    <!-- Section: Ajouter un utilisateur Super Admin-->
-    <div *ngIf="isSuperAdmin()">
+      <!-- Section: Ajouter un utilisateur Super Admin-->
       <section class="card" data-title="Ajouter un utilisateur à une entité">
         <form #form="ngForm">
           <label>Sélectionner l'entité</label>
@@ -91,44 +160,14 @@
           </div>
 
         </form>
-        <button type="button"
-                (click)="addUser()"
+        <button type="button" (click)="addUser()"
                 [disabled]="!selectedEntity || !userToAdd.prenom || !userToAdd.nom || !userToAdd.email || !isEmailValid(userToAdd.email)"
                 class="btn-update">
           Ajouter l'utilisateur
         </button>
       </section>
-    </div>
 
-    <!-- Section: Ajouter un utilisateur Admin-->
-    <div *ngIf="isAdmin()">
-      <section class="card" data-title="Ajouter un utilisateur">
-        <form #form="ngForm">
-          <label>Prénom</label>
-          <input type="text" placeholder="Prénom" [(ngModel)]="userToAdd.prenom" name="adminFirstName">
-
-          <label>Nom</label>
-          <input type="text" placeholder="Nom" [(ngModel)]="userToAdd.nom" name="adminLastName">
-
-          <label>Email</label>
-          <input type="email" placeholder="Email" [(ngModel)]="userToAdd.email" name="adminEmail">
-
-          <div class="checkbox-line">
-            <input type="checkbox" id="adminCheckbox" [(ngModel)]="userToAdd.estAdmin" name="adminIsAdmin">
-            <label for="adminCheckbox">Utilisateur avec rôle "Admin"</label>
-          </div>
-        </form>
-        <button type="button"
-                (click)="addUser()"
-                [disabled]="!userToAdd.prenom || !userToAdd.nom || !userToAdd.email || !isEmailValid(userToAdd.email)"
-                class="btn-update">
-          Ajouter l'utilisateur
-        </button>
-      </section>
-    </div>
-
-    <!-- Section: Gestion des utilisateurs Super Admin-->
-    <div *ngIf="isSuperAdmin()">
+      <!-- Section: Gestion des utilisateurs Super Admin-->
       <section class="card" data-title="Gestion des utilisateurs">
         <label>Entité :</label>
         <select [(ngModel)]="selectedEntity" name="selectedEntity" (ngModelChange)="onEntityChange($event)">
@@ -149,12 +188,8 @@
             <td>{{ user.nom }}</td>
             <td>{{ user.prenom }}</td>
             <td>
-              <input
-                type="checkbox"
-                [checked]="user.estAdmin"
-                (change)="onToggleAdmin(user)"
-                [disabled]="!isAdmin || !isSuperAdmin"
-              />
+              <input type="checkbox" [checked]="user.estAdmin" (change)="onToggleAdmin(user)"
+                     [disabled]="!isAdmin || !isSuperAdmin"/>
             </td>
             <td>
               <button title="Supprimer" (click)="deleterUser(user.id)">🗑️</button>
@@ -163,37 +198,12 @@
           </tbody>
         </table>
       </section>
-    </div>
-    <!-- Section: Gestion des utilisateurs Admin-->
-    <div *ngIf="isAdmin()">
-      <section class="card" data-title="Gestion des utilisateurs">
-        <table *ngIf="utilisateursEntiteSelectionnee.length >0" class="user-table">
-          <thead>
-          <tr>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Admin</th>
-            <th>Action</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let user of utilisateursEntiteSelectionnee">
-            <td>{{ user.nom }}</td>
-            <td>{{ user.prenom }}</td>
-            <td>
-              <input
-                type="checkbox"
-                [checked]="user.estAdmin"
-                (change)="onToggleAdmin(user)"
-                [disabled]="!isAdmin || !isSuperAdmin"
-              />
-            </td>
-            <td>
-              <button title="Supprimer" (click)="deleterUser(user.id)">🗑️</button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+      <section class="card" data-title="Facteurs d'émissions">
+        <label for="fileInput">Importer le fichier excel des facteurs d'émissions :</label>
+        <div style="display: flex; flex-direction: column; align-items: start; gap: 0.5rem; margin-top: 0.5rem;">
+          <input type="file" id="fileInput" (change)="onFileSelected($event)">
+          <button (click)="importFile()">Importer</button>
+        </div>
       </section>
     </div>
   </div>

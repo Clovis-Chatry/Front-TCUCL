@@ -24,6 +24,7 @@ export class EnergieSaisieDonneesPageComponent implements OnInit {
   items: any = {}; // Objet qui contiendra les données récupérées
   estTermine = false;
   ONGLET_KEYS = ONGLET_KEYS;
+  resultats: any = {};
 
   onEstTermineChange(value: boolean): void {
     this.estTermine = value;
@@ -39,6 +40,7 @@ export class EnergieSaisieDonneesPageComponent implements OnInit {
       const id = params.get('id');
       if (id) {
         this.loadData(id);
+        this.loadResultats(id);
       }
     });
   }
@@ -106,11 +108,33 @@ export class EnergieSaisieDonneesPageComponent implements OnInit {
         },
         {headers}
       ).subscribe({
-        next: () => {},
+        next: () => {
+          this.loadResultats(id);
+        },
         error: err => console.error('Erreur lors de la mise à jour de ConsoGaz', err)
       });
     } else {
       console.error('ID ou Token manquant');
     }
   }
+
+  loadResultats(id: string) {
+    const token = this.authService.getToken();
+    if (!token) return;
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    };
+
+    this.http.get<any>(`${ApiEndpoints.EnergieOnglet.getById(id)}/resultat`, { headers }).subscribe(
+      (res) => {
+        this.resultats = res;
+      },
+      (error) => {
+        console.error("Erreur lors du chargement des résultats", error);
+      }
+    );
+  }
+
 }

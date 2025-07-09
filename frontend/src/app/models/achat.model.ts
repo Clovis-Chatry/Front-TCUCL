@@ -21,8 +21,8 @@ export interface AchatConsommable {
 }
 
 export interface AchatTextile {
-  Chemise_nb?: number | null;
-  Polaire_nb?: number | null;
+  chemise_nb?: number | null;
+  polaire_nb?: number | null;
   Pull_Acrylique_nb?: number | null;
   Pull_Coton_nb?: number | null;
   T_shirt_polyester_nb?: number | null;
@@ -70,4 +70,14 @@ export interface AchatOnglet {
   achatConsommable: AchatConsommable;
   achatRestauration: AchatRestauration;
   achatTextile: AchatTextile;
+}
+
+export interface ResultatAchatDTO {
+  emissionPosteConsommable: Record<string, number>;
+  emissionPosteTextile: Record<string, number>;
+  emissionPosteRestauration: Record<string, number>;
+  totalConsommable: number;
+  totalTextile: number;
+  totalRestauration: number;
+  totalAchats: number;
 }

@@ -1,7 +1,92 @@
 .main-container {
   background-color: #E6F0FF;
-  min-height: 100vh; /* 100% de la hauteur de l'écran */
-  padding: 20px;
+  min-height: 100vh;
+  padding: 20px 40px 80px; // padding bottom = footer height + marge
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.panels-wrapper {
+  display: flex;
+  gap: 3em;
+  flex: 1 1 auto; // prendre tout l’espace vertical restant
+  overflow: hidden;
+}
+
+.left-panel, .right-panel {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5em 2em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+.left-panel {
+  flex: 1.5; // 60%
+}
+
+.right-panel {
+  flex: 1; // 40%
+}
+
+.right-panel h3 {
+  font-size: 1.4rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+th, td {
+  padding: 0.8em;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  font-weight: bold;
+  background-color: #f0f0f0;
+}
+
+.right-panel td {
+  background-color: #f3f3f3;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.value-input, .unit-select {
+  width: 80%;
+  padding: 0.4em;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.data-table + .data-table {
+  margin-top: 1.5em;
+}
+
+.page-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-bottom: 1em;
+}
+
+.help-icon {
+  cursor: help;
+  display: inline-flex;
+  align-items: center;
+  color: #2c3e50;
 }
 
 h2 {
@@ -10,62 +95,24 @@ h2 {
   color: #2c3e50;
 }
 
-.data-entry-container {
-  width: 100%;
-  display: flex;
-  justify-content: flex-start; /* Aligner à gauche */
-  margin-top: 1.5em; /* Espacement avec la barre de navigation */
-  padding-left: 10em; /* Décalage léger du bord gauche */
+.help-icon {
+  cursor: help;
+  display: inline-flex;
+  align-items: center;
+  color: #2c3e50;
 }
 
-.data-table {
-  background-color: white;
-  margin-left: 3em;
-  width: 45%; /* Le tableau prend 50% de la page */
-  border-collapse: collapse;
-}
-
-th, td {
-  padding: 0.8em;
-  text-align: center;
-}
-
-th {
-  font-weight: bold;
-  background-color: #f0f0f0;
-}
-
-td {
-  border-bottom: 1px solid #ddd;
-}
-
-/* Bouton des catégories de consommation */
-.consumption-button {
-  width: 100%;
-  background-color: #d1d1d1;
-  border: none;
-  padding: 0.5em;
-  border-radius: 8px;
-  font-size: 1em;
-  font-weight: bold;
-}
-
-/* Input pour la valeur */
-.value-input {
-  width: 80%;
-  padding: 0.4em;
-  text-align: center;
-  font-size: 1em;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-/* Sélecteur d'unité */
-.unit-select {
-  width: 100%;
-  padding: 0.4em;
-  font-size: 1em;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: white;
-}
+/* Footer fixe en bas */
+//app-save-footer {
+//  position: fixed;
+//  bottom: 0;
+//  left: 0;
+//  right: 0;
+//  background-color: #E6F0FF;
+//  padding: 1em 3em;
+//  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+//  z-index: 1000;
+//  display: flex;
+//  justify-content: flex-end;
+//  gap: 1em;
+//}

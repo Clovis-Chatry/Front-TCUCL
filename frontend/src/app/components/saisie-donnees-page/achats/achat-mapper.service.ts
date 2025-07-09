@@ -9,8 +9,10 @@ export class AchatMapperService {
     const rest = dto.achatRestauration || {};
     return {
       // consommables
-      papierCons: cons.papier_T,
-      livresCons: cons.livres_T,
+      papierConsTonnes: cons.papier_T,
+      papierConsRamettes: cons.papier_nb,
+      livresConsTonnes: cons.livres_T,
+      livresConsNb: cons.livres_nb,
       cartonNeufCons: cons.cartonNeuf_T,
       cartonRecycleCons: cons.cartonRecycle_T,
       fournituresCons: cons.petitesFournitures_Eur,
@@ -26,16 +28,16 @@ export class AchatMapperService {
       serviceTelecomCons: cons.service_de_telecommunications,
 
       // textile (approx mapping)
-      chemise: tex.Chemise_nb,
-      polaire: tex.Polaire_nb,
-      pullAcrylique: tex.Pull_Acrylique_nb,
-      pullCoton: tex.Pull_Coton_nb,
-      tshirtPolyester: tex.T_shirt_polyester_nb,
-      jean: tex.Jean_nb,
-      sweat: tex.Sweat_nb,
-      veste: tex.Veste_Anorak_nb,
-      manteau: tex.Manteau_nb,
-      chaussure: tex.Chaussure_nb,
+      chemise: tex.chemise_nb,
+      polaire: tex.polaire_nb,
+      pullAcrylique: tex.pull_Acrylique_nb,
+      pullCoton: tex.pull_Coton_nb,
+      tshirtPolyester: tex.t_shirt_polyester_nb,
+      jean: tex.jean_nb,
+      sweat: tex.sweat_nb,
+      veste: tex.veste_Anorak_nb,
+      manteau: tex.manteau_nb,
+      chaussure: tex.chaussure_nb,
 
       // restauration (subset)
       boeufAgneauMouton: rest.boeufAgneauMouton_Tonnes,
@@ -79,8 +81,10 @@ export class AchatMapperService {
       estTermine: model.estTermine,
       note: model.note,
       achatConsommable: {
-        papier_T: model.papierCons,
-        livres_T: model.livresCons,
+        papier_T: model.papierConsTonnes,
+        papier_nb: model.papierConsRamettes,
+        livres_T: model.livresConsTonnes,
+        livres_nb: model.livresConsNb,
         cartonNeuf_T: model.cartonNeufCons,
         cartonRecycle_T: model.cartonRecycleCons,
         petitesFournitures_Eur: model.fournituresCons,
@@ -96,16 +100,16 @@ export class AchatMapperService {
         service_de_telecommunications: model.serviceTelecomCons
       },
       achatTextile: {
-        Chemise_nb: model.chemise,
-        Polaire_nb: model.polaire,
-        Pull_Acrylique_nb: model.pullAcrylique,
-        Pull_Coton_nb: model.pullCoton,
-        T_shirt_polyester_nb: model.tshirtPolyester,
-        Jean_nb: model.jean,
-        Sweat_nb: model.sweat,
-        Veste_Anorak_nb: model.veste,
-        Manteau_nb: model.manteau,
-        Chaussure_nb: model.chaussure
+        chemise_nb: model.chemise,
+        polaire_nb: model.polaire,
+        pull_Acrylique_nb: model.pullAcrylique,
+        pull_Coton_nb: model.pullCoton,
+        t_shirt_polyester_nb: model.tshirtPolyester,
+        jean_nb: model.jean,
+        sweat_nb: model.sweat,
+        veste_Anorak_nb: model.veste,
+        manteau_nb: model.manteau,
+        chaussure_nb: model.chaussure
       },
       achatRestauration: {
         boeufAgneauMouton_Tonnes: model.boeufAgneauMouton,

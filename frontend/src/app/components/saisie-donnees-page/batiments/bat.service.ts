@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import { BatimentResultat } from '../../../models/batiment-resultat.model';
 import {ApiEndpoints} from '../../../services/api-endpoints';
 
 @Injectable({
@@ -39,5 +40,9 @@ export class BatimentsService {
 
   updateOnglet(BatimentsOnglet: string, payload: any, headers: any): Observable<any> {
     return this.http.patch(ApiEndpoints.BatimentsOnglet.update(BatimentsOnglet), payload, { headers });
+  }
+
+  chargerResultatGES(id: string, headers: any): Observable<any> {
+    return this.http.get<any>(ApiEndpoints.BatimentsOnglet.resultats(id), {headers});
   }
 }

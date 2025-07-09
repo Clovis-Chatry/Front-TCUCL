@@ -23,25 +23,9 @@ Les bâtiments qui ont été renseignées les années précédentes sont encore 
       <input type="date" [(ngModel)]="nouveauBatiment.dateConstruction"/>
     </label>
 
-    <label>Ce bâtiment a-t-il été construit il y a moins de 50 ans ?
-      <select [(ngModel)]="nouveauBatiment.moinsDe50ans">
-        <option [ngValue]="true">Oui</option>
-        <option [ngValue]="false">Non</option>
-      </select>
+    <label>Date de la dernière rénovation complète :
+      <input type="date" [(ngModel)]="nouveauBatiment.dateDerniereGrosseRenovation"/>
     </label>
-
-    <div *ngIf="nouveauBatiment.moinsDe50ans === false">
-      <label>A-t-il subi une rénovation complète il y a moins de 50 ans ?
-        <select [(ngModel)]="nouveauBatiment.renoComplete">
-          <option [ngValue]="true">Oui</option>
-          <option [ngValue]="false">Non</option>
-        </select>
-      </label>
-
-      <label>Date de la dernière rénovation complète :
-        <input type="date" [(ngModel)]="nouveauBatiment.dateDerniereGrosseRenovation"/>
-      </label>
-    </div>
 
     <label>Avez-vous une ACV de ce bâtiment ?
       <select [(ngModel)]="nouveauBatiment.acvBatimentRealisee">
@@ -95,12 +79,12 @@ Les bâtiments qui ont été renseignées les années précédentes sont encore 
       </thead>
       <tbody>
       <tr *ngFor="let bat of batimentOnglet.batiments; let i = index">
-          <td>{{ bat.nom_ou_adresse }}</td>
-          <td>{{ bat.dateConstruction }}</td>
-          <td>{{ bat.dateDerniereGrosseRenovation }}</td>
-          <td>{{ bat.acvBatimentRealisee ? 'oui' : 'non' }}</td>
-          <td>{{ bat.emissionsGesReellesTCO2 }}</td>
-          <td>{{ getLibelleTypeBatiment(bat.typeBatiment) }}</td>
+        <td>{{ bat.nom_ou_adresse }}</td>
+        <td>{{ bat.dateConstruction }}</td>
+        <td>{{ bat.dateDerniereGrosseRenovation }}</td>
+        <td>{{ bat.acvBatimentRealisee ? 'oui' : 'non' }}</td>
+        <td>{{ bat.emissionsGesReellesTCO2 }}</td>
+        <td>{{ getLibelleTypeBatiment(bat.typeBatiment) }}</td>
         <td>{{ bat.surfaceEnM2 }}</td>
         <td>{{ getLibelleTypeStructure(bat.typeStructure) }}</td>
         <td>
@@ -253,5 +237,30 @@ Merci de ne renseigner que vos travaux de l'année, l'outil réintègre automati
     </table>
   </div>
   <hr/>
+  <div class="bottom-panel">
+    <h2>Résultats des émissions GES</h2>
+    <table class="data-table">
+      <thead>
+      <tr>
+        <th>Poste</th>
+        <th>Total (Tonnes CO2e)</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>Bâtiment (existant ou neuf construit)</td>
+        <td>{{ totalPosteBatiment }}</td>
+      </tr>
+      <tr>
+        <td>Entretien courant</td>
+        <td>{{ totalPosteEntretien }}</td>
+      </tr>
+      <tr>
+        <td>Mobilier électroménager</td>
+        <td>{{ totalPosteMobilier }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
   <app-save-footer [path]="ONGLET_KEYS.Batiments" (estTermineChange)="onEstTermineChange($event)"></app-save-footer>
 </div>

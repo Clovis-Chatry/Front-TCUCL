@@ -1,9 +1,10 @@
 export enum ONGLET_KEYS {
+  General = 'generalOnglet',
   Energie = 'energieOnglet',
   EmissionsFugitives = 'emissionFugitiveOnglet',
   MobiliteDomTrav = 'mobiliteDomicileTravailOnglet',
   AutreMobFr = 'autreMobFrOnglet',
-  MobInternationale = 'mobInternationalOnglet',
+  MobInternationale = 'mobInternationaleOnglet',
   Batiments = 'batimentImmobilisationMobilierOnglet',
   Parkings = 'parkingVoirieOnglet',
   Auto = 'vehiculeOnglet',

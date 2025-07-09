@@ -1,12 +1,17 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, inject, Input, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { OngletStatusService } from '../../services/onglet-status.service';
 import { OngletService } from '../header-saisie-donnees/onglet.service';
-import { AnneeService} from '../../services/annee.service';
-import {AuthService} from '../../services/auth.service';
+import { AnneeService } from '../../services/annee.service';
+import { AuthService } from '../../services/auth.service';
 import { ONGLET_KEYS } from '../../constants/onglet-keys';
+import { MatIcon } from '@angular/material/icon';
+import { BilanParSecteurComponent } from '../bilan-par-secteur/bilan-par-secteur.component';
+import { SyntheseEgesService } from '../../services/synthese-eges.service';
+import {UserService} from '../../services/user.service';
+
 
 const extractRoute = (url: string): string =>
   url.split('/').slice(3).join('/').replace(/\/$/, '');
@@ -18,14 +23,20 @@ type YearRange = { label: string; value: number };
   standalone: true,
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, BilanParSecteurComponent]
 })
 export class DashboardComponent implements OnInit {
+  private userService = inject(UserService);
+
+  isSuperAdmin = this.userService.isSuperAdmin;
   currentYear: number;
   selectedYear: number;
   years: YearRange[] = [];
+  sectors: { label: string, value: number }[] = [];
+  total = 0;
 
   onglets = [
+    { label: 'General', statusKey: ONGLET_KEYS.General, route: ONGLET_KEYS.General },
     { label: 'Energie', statusKey: ONGLET_KEYS.Energie, route: ONGLET_KEYS.Energie },
     { label: 'Emissions fugitives', statusKey: ONGLET_KEYS.EmissionsFugitives, route: ONGLET_KEYS.EmissionsFugitives },
     { label: 'Mobilité dom-trav', statusKey: ONGLET_KEYS.MobiliteDomTrav, route: ONGLET_KEYS.MobiliteDomTrav },
@@ -45,6 +56,7 @@ export class DashboardComponent implements OnInit {
     private statusService: OngletStatusService,
     private ongletService: OngletService,
     private yearService: AnneeService,
+    private syntheseService: SyntheseEgesService,
     private auth: AuthService
   ) {
     this.currentYear = new Date().getFullYear();
@@ -61,6 +73,7 @@ export class DashboardComponent implements OnInit {
   statuses: Record<string, boolean> = {};
 
   ngOnInit(): void {
+    this.fetchSectors();
     this.currentYear = new Date().getFullYear();
     this.years = Array.from({ length: this.currentYear - 2018 }, (_, i) => {
       const end = this.currentYear - i;
@@ -99,15 +112,15 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  goToEnergieAvecAnnee(): void {
+  goToGeneralOngletAvecAnnee(): void {
     this.ongletService.getOngletIds(this.entiteId, this.selectedYear)?.subscribe({
       next: (result) => {
         this.ongletIdMap = result;
-        const ongletId = this.ongletIdMap['energieOnglet'];
+        const ongletId = this.ongletIdMap['generalOnglet'];
         if (ongletId) {
-          this.router.navigate([`/energieOnglet/${ongletId}`]);
+          this.router.navigate([`/generalOnglet/${ongletId}`]);
         } else {
-          console.error('ID onglet énergie introuvable pour l’année', this.selectedYear);
+          console.error('ID onglet général introuvable pour l’année', this.selectedYear);
         }
       },
       error: (err) => {
@@ -116,14 +129,12 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-
-
-  goToEnergie(): void {
-    const ongletId = this.ongletIdMap['energieOnglet'];
+  goToGeneralOnglet(): void {
+    const ongletId = this.ongletIdMap['generalOnglet'];
     if (ongletId) {
-      this.router.navigate([`/energieOnglet/${ongletId}`]);
+      this.router.navigate([`/generalOnglet/${ongletId}`]);
     } else {
-      console.error('ID onglet énergie introuvable pour l\'année', this.selectedYear);
+      console.error('ID onglet général introuvable pour l\'année', this.selectedYear);
     }
   }
 
@@ -137,6 +148,10 @@ export class DashboardComponent implements OnInit {
   loadOngletIds(): void {
     this.ongletService.getOngletIds(this.entiteId, this.selectedYear)?.subscribe({
       next: (result) => {
+        if (!result[ONGLET_KEYS.MobInternationale] && result['mobInternationalOnglet']) {
+          result[ONGLET_KEYS.MobInternationale] = result['mobInternationalOnglet'];
+          delete result['mobInternationalOnglet'];
+        }
         this.ongletIdMap = result;
       },
       error: (err) => {
@@ -145,9 +160,46 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  fetchSectors(): void {
+    const user = this.auth.getUserInfo()();
+    const entiteId = user?.entiteId ?? user?.entiteID;
+    const currentYear = this.selectedYear;
+
+    if (!entiteId) return;
+
+    this.syntheseService.getSynthese(entiteId, currentYear)?.subscribe({
+      next: (res) => {
+        const mapping: Record<string, number | null | undefined> = {
+          'Emissions fugitives': res.emissionFugitivesGlobal,
+          'Energie': res.energieGlobal,
+          'Déplacements domicile - travail': res.mobiliteDomicileTravailGlobal,
+          'Autres déplacements France': res.autreMobiliteFrGlobal,
+          'Déplacements internationaux': res.mobiliteInternationalGlobal,
+          'Bâtiments, mobilier et parkings': res.batimentParkingGlobal,
+          'Numérique': res.numeriqueGlobal,
+          'Autres immobilisations': res.autreImmobilisationGlobal,
+          'Achats': res.achatGlobal,
+          'Déchets': res.dechetGlobal
+        };
+
+        this.sectors = Object.entries(mapping).map(([label, value]) => ({
+          label,
+          value: Number(value ?? 0)
+        }));
+        this.total = this.sectors.reduce((sum, s) => sum + s.value, 0);
+      },
+      error: err => console.error('Erreur fetchSectors:', err)
+    });
+  }
+
+
   loadOngletStatuses(): void {
     this.ongletService.getOngletStatuses(this.entiteId, this.selectedYear)?.subscribe({
       next: (result) => {
+        if (!result[ONGLET_KEYS.MobInternationale] && result['mobInternationalOnglet']) {
+          result[ONGLET_KEYS.MobInternationale] = result['mobInternationalOnglet'];
+          delete result['mobInternationalOnglet'];
+        }
         this.statuses = result;
         this.statusService.setStatuses(result);
       },

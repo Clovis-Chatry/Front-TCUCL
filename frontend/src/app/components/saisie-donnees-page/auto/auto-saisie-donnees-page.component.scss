@@ -95,3 +95,22 @@ details summary {
   flex-direction: column;
   gap: 12px;
 }
+
+.results-section {
+  flex: 1;
+  background-color: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  min-width: 0;
+  overflow-x: hidden;
+  margin-top: 2rem;
+}
+
+.results-section td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f3f3f3; // fond grisé uniforme
+}

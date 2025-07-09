@@ -8,14 +8,30 @@
 
 .top-sections {
   display: flex;
-  gap: 3em; /* espace entre les deux cartes */
+  flex-wrap: wrap;     // autorise le retour à la ligne
+  gap: 3em;            // espace horizontal ET vertical entre cartes
   justify-content: flex-start;
   align-items: flex-start;
 }
 
+.top-sections > section.card {
+  flex: 1 1 calc(50% - 1.5em);  // 50% largeur moins la moitié du gap
+  max-width: calc(50% - 1.5em);
+  box-sizing: border-box;        // pour prendre en compte le padding dans la largeur
+  min-width: 280px;              // éviter que ça soit trop petit sur petit écran
+}
+.params-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.params-row > section {
+  flex: 1;
+  min-width: 400px; /* pour éviter qu’ils soient trop serrés sur petit écran */
+}
 /* Bouton de retour */
 .top-bar {
-  margin-bottom: 1em;
+  padding: 1em 2.2em;
 }
 
 .back-button {
@@ -28,6 +44,10 @@
   cursor: pointer;
   font-weight: bold;
   transition: all 0.2s ease;
+
+  mat-icon {
+    margin-top: .1em;
+  }
 }
 
 .back-button:hover {
@@ -42,6 +62,10 @@
   padding: 1.2em;
   position: relative;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
+
+  .password-reset {
+    margin-top: 1em
+  }
 }
 
 /* Titre flottant de section */
@@ -57,10 +81,14 @@
   padding: 0.2em 0.6em;
   border-radius: 6px;
 }
+
 .card[data-title="Paramètres personnels"] {
-  max-width: 600px;  /* Plus large */
-  flex-grow: 1;      /* Peut grandir pour utiliser l’espace dispo */
+  max-width: 600px;
+  /* Plus large */
+  flex-grow: 1;
+  /* Peut grandir pour utiliser l’espace dispo */
 }
+
 /* Limiter la largeur des deux premières sections */
 .card[data-title="Paramètres personnels"],
 .card[data-title="Changer son mot de passe"] {
@@ -105,7 +133,6 @@ select {
 
 /* Boutons */
 button {
-  margin-top: 1em;
   padding: 0.5em 1em;
   font-weight: bold;
   border: none;
@@ -140,12 +167,11 @@ button:hover {
 .user-table th,
 .user-table td {
   padding: 0.5em;
-  text-align: left;
+  text-align: center;
   border-bottom: 1px solid #ccc;
 }
 
 .user-table button {
-  margin-right: 0.5em;
   background: none;
   border: none;
   cursor: pointer;
@@ -168,16 +194,45 @@ button:hover {
   font-size: 0.95em;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
-  width: fit-content; /* ✅ réduit le conteneur à son contenu */
+  width: fit-content;
+  /* ✅ réduit le conteneur à son contenu */
 }
 
 .checkbox-line input[type="checkbox"] {
-  margin: 0;         /* ✅ empêche tout décalage */
+  margin: 0;
+  /* ✅ empêche tout décalage */
   padding: 0;
+}
+
+.card[data-title="Changer son mot de passe"] form {
+  display: flex;
+  flex-direction: column;
+}
+
+.card[data-title="Changer son mot de passe"] label {
+  margin-bottom: 0;
+  /* colle le label à l’input */
+  font-weight: 500;
+  font-size: 0.95em;
+}
+
+.card[data-title="Changer son mot de passe"] input {
+  margin-bottom: 1em;
+  /* espace entre l’input et le label suivant */
+  padding: 0.4em;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 0.95em;
+}
+
+/* Espacement spécifique au bouton */
+.card[data-title="Changer son mot de passe"] button {
+  margin-top: 0.6em;
 }
 
 .checkbox-line label {
   margin: 0;
   padding: 0;
-  white-space: nowrap; /* ✅ empêche le retour à la ligne */
+  white-space: nowrap;
+  /* ✅ empêche le retour à la ligne */
 }

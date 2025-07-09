@@ -31,6 +31,9 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   private statusService = inject(OngletStatusService);
   private batService = inject(BatimentsService);
   batimentOngletId: string = '';
+  totalPosteBatiment!: number;
+  totalPosteEntretien!: number;
+  totalPosteMobilier!: number;
   ONGLET_KEYS = ONGLET_KEYS;
   batimentTypes = Object.values(EnumBatiment_TypeBatiment);
   structureTypes = Object.values(EnumBatiment_TypeStructure);
@@ -134,16 +137,13 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   // Parc immobilier (section 1)
   nouveauBatiment: any = {
     nom_ou_adresse: '',
-    dateConstruction: '',
-    moinsDe50ans: null,
-    renoComplete: null,
-    dateDerniereGrosseRenovation: '',
+    dateConstruction: null,
+    dateDerniereGrosseRenovation: null,
     acvBatimentRealisee: null,
     emissionsGesReellesTCO2: null,
-    typeBatiment: '',
+    typeBatiment: EnumBatiment_TypeBatiment.NA,
     surfaceEnM2: null,
-    typeStructure: '',
-    acompleter: ''
+    typeStructure: EnumBatiment_TypeStructure.NA,
   };
 
 
@@ -151,9 +151,9 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   nouvelleReno: any = {
     dateAjout: '',
     nom_adresse: '',
-    typeTravaux: '',
-    dateTravaux: '',
-    typeBatiment: '',
+    typeTravaux: EnumBatiment_TypeTravaux.CHAUFFAGE_VENTILATION_CLIMATISATION,
+    dateTravaux: null,
+    typeBatiment: EnumBatiment_TypeBatiment.NA,
     surfaceConcernee: null,
     dureeAmortissement: null
   };
@@ -162,10 +162,10 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   // Mobilier (section 3)
   nouveauMobilier: any = {
     dateAjout: '',
-    mobilier: '',
-    quantite: '',
-    poidsDuProduit: '',
-    dureeAmortissement: ''
+    mobilier: EnumBatiment_TypeMobilier.ARMOIRE,
+    quantite: null,
+    poidsDuProduit: null,
+    dureeAmortissement: null
   };
 
 
@@ -186,6 +186,7 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.batimentOngletId = params.get('id') || '';
       this.loadData();
+      this.chargerResultatGES();
     });
   }
 
@@ -193,7 +194,7 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     const headers = this.getAuthHeaders();
     this.batService.getBatimentImmobilisationMobilier(this.batimentOngletId, headers).subscribe({
       next: (data) => {
-        const model = this.mapper.fromDto(data);
+        const model = this.mapper.parseDtoToModel(data);
         this.batimentOnglet = model;
         this.batimentOnglet.estTermine = model.estTermine ?? false;
         this.statusService.setStatus(ONGLET_KEYS.Batiments, this.batimentOnglet.estTermine);
@@ -206,32 +207,49 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
 
   ajouterBatiment(): void {
     const headers = this.getAuthHeaders();
-    const batimentAAjouter = { ...this.nouveauBatiment}
+    const batimentAAjouter = {
+      ...this.nouveauBatiment,
+      dateConstruction: this.nouveauBatiment.dateConstruction || null,
+      dateDerniereGrosseRenovation: this.nouveauBatiment.dateDerniereGrosseRenovation || null,
+      typeBatiment: this.nouveauBatiment.typeBatiment || null,
+      typeStructure: this.nouveauBatiment.typeStructure || null
+    };
     this.batService.ajouterBatiment(this.batimentOngletId, batimentAAjouter, headers).subscribe(() => {
       this.loadData();
+      this.chargerResultatGES();
       this.resetFormBatiment();
     })
   }
 
   ajouterEntretien(): void {
-    const entretienAAjouter = { ...this.nouvelleReno};
-    entretienAAjouter.dateAjout = this.getDateAujourdhui();
+    const entretienAAjouter = {
+      ...this.nouvelleReno,
+      dateAjout: this.getDateAujourdhui(),
+      dateTravaux: this.nouvelleReno.dateTravaux || null,
+      typeBatiment: this.nouvelleReno.typeBatiment || null,
+      typeTravaux: this.nouvelleReno.typeTravaux || null
+    };
     const headers = this.getAuthHeaders();
-    this.batService.ajouterEntretien(this.batimentOngletId, entretienAAjouter, headers).subscribe(() => {
-      this.loadData();
-      this.resetFormRenovcation();
-    })
+      this.batService
+        .ajouterEntretien(this.batimentOngletId, entretienAAjouter, headers)
+        .subscribe(() => {
+          this.loadData();
+          this.chargerResultatGES();
+          this.resetFormRenovation();
+        })
   }
 
   ajouterMobilier(): void {
-    const mobilierAAjouter = { ...this.nouveauMobilier};
-    mobilierAAjouter.dateAjout = this.getDateAujourdhui();
-    // mobilierAAjouter.dateAjout = this.getDateAujourdhui();
+    const mobilierAAjouter = {
+      ...this.nouveauMobilier,
+      dateAjout: this.getDateAujourdhui()
+    };
     const headers = this.getAuthHeaders();
     this.batService
       .ajouterMobilier(this.batimentOngletId, mobilierAAjouter, headers)
       .subscribe(() => {
         this.loadData();
+        this.chargerResultatGES();
         this.resetFormMobilier();
       });
   }
@@ -240,20 +258,24 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     const headers = this.getAuthHeaders();
     const batiment = this.batimentOnglet.batiments[index];
 
-    if (batiment && batiment.id) {
-      this.batService.supprimerBatiment(this.batimentOngletId, batiment.id, headers).subscribe({
+    if (!batiment || !batiment.id) {
+      // Si le bâtiment n'est pas encore enregistré en base
+      this.batimentOnglet.batiments.splice(index, 1);
+      return;
+    }
+
+    this.batService
+      .supprimerBatiment(this.batimentOngletId, batiment.id, headers)
+      .subscribe({
         next: () => {
           this.batimentOnglet.batiments.splice(index, 1);
           this.loadData();
+          this.chargerResultatGES();
         },
-        error: (err) => {
-          console.error("Erreur lors de la suppression", err);
+        error: err => {
+          console.error('Erreur lors de la suppression', err);
         }
       });
-    } else {
-      // Si le bâtiment n'existe pas encore en base (non persisté), on le supprime juste localement
-      this.batimentOnglet.batiments.splice(index, 1);
-  }
   }
 
 
@@ -261,17 +283,24 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     const headers = this.getAuthHeaders();
     const renovation = this.batimentOnglet.entretiens[index];
 
-    if (renovation && renovation.id) {
-      this.batService.supprimerEntretien(this.batimentOngletId, renovation.id, headers).subscribe({
+    if (!renovation || !renovation.id) {
+      // Si l'entretien n'est pas encore enregistré en base
+      this.batimentOnglet.entretiens.splice(index, 1);
+      return;
+    }
+
+    this.batService
+      .supprimerEntretien(this.batimentOngletId, renovation.id, headers)
+      .subscribe({
         next: () => {
           this.batimentOnglet.entretiens.splice(index, 1);
           this.loadData();
+          this.chargerResultatGES();
         },
-        error: (err) => {
-          console.error("Erreur lors de la suppression", err);
+        error: err => {
+          console.error('Erreur lors de la suppression', err);
         }
       });
-    }
   }
 
   supprimerMobilier(index: number): void {
@@ -279,17 +308,22 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     const mobilier = this.batimentOnglet.mobiliers[index];
 
     if (mobilier && mobilier.id) {
-      this.batService.supprimerMobilier(this.batimentOngletId, mobilier.id, headers).subscribe({
-        next: () => {
-          this.batimentOnglet.mobiliers.splice(index, 1);
-          this.loadData();
-        },
-        error: (err) => {
-          console.error("Erreur lors de la suppression", err);
-        }
-      });
+      this.batService
+        .supprimerMobilier(this.batimentOngletId, mobilier.id, headers)
+        .subscribe({
+          next: () => {
+            this.batimentOnglet.mobiliers.splice(index, 1);
+            this.loadData();
+            this.chargerResultatGES();
+          },
+          error: err => {
+            console.error('Erreur lors de la suppression', err);
+          }
+        });
+    } else {
+      // Si l'élément n'est pas encore persisté en base de données
+      this.batimentOnglet.mobiliers.splice(index, 1);
     }
-    this.batimentOnglet.mobiliers.splice(index, 1);
   }
 
   onEstTermineChange(value: boolean): void {
@@ -300,33 +334,45 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   updateData(): void {
     if (!this.batimentOngletId) return;
     const headers = this.getAuthHeaders();
-    const payload = this.mapper.toDto(this.batimentOnglet);
+    const payload = this.mapper.createPayloadFromModel(this.batimentOnglet);
     this.batService.updateOnglet(this.batimentOngletId, payload, headers).subscribe({
       error: err => console.error('Erreur mise à jour batiments', err)
+    });
+  }
+
+  chargerResultatGES() {
+    const headers = this.getAuthHeaders();
+    this.batService.chargerResultatGES(this.batimentOngletId, headers).subscribe({
+      next: (result) => {
+        this.totalPosteBatiment = result.totalPosteBatiment;
+        this.totalPosteEntretien = result.totalPosteEntretien;
+        this.totalPosteMobilier = result.totalPosteMobilier;
+      },
+      error: (err) => {
+        console.error('Erreur lors du chargement des totaux GES', err);
+      }
     });
   }
 
   resetFormBatiment() {
     this.nouveauBatiment = {
       nom_ou_adresse: '',
-      dateConstruction: '',
-      moinsDe50ans: null,
-      renoComplete: null,
-      dateDerniereGrosseRenovation: '',
+      dateConstruction: null,
+      dateDerniereGrosseRenovation: null,
       acvBatimentRealisee: null,
       emissionsGesReellesTCO2: null,
-      typeBatiment: '',
+      typeBatiment: EnumBatiment_TypeBatiment.NA,
       surfaceEnM2: null,
-      typeStructure: '',
+      typeStructure: EnumBatiment_TypeStructure.NA,
     }
   }
-  resetFormRenovcation() {
+  resetFormRenovation() {
     this.nouvelleReno = {
       dateAjout: '',
       nom_adresse: '',
-      typeTravaux: '',
-      dateTravaux: '',
-      typeBatiment: '',
+      typeTravaux: EnumBatiment_TypeTravaux.CHAUFFAGE_VENTILATION_CLIMATISATION,
+      dateTravaux: null,
+      typeBatiment: EnumBatiment_TypeBatiment.NA,
       surfaceConcernee: null,
       dureeAmortissement: null
     };
@@ -335,10 +381,10 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   resetFormMobilier() {
     this.nouveauMobilier = {
       dateAjout: '',
-      mobilier: '',
-      quantite: '',
-      poidsDuProduit: '',
-      dureeAmortissement: ''
+      mobilier: EnumBatiment_TypeMobilier.ARMOIRE,
+      quantite: null,
+      poidsDuProduit: null,
+      dureeAmortissement: null
     };
   }
 }
