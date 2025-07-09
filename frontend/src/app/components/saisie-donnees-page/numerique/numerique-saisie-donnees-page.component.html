@@ -1,5 +1,6 @@
 <div class="main-container">
-  <div class="left-panel">
+  <div class="panels-wrapper">
+    <div class="left-panel">
     <div class="page-title">
       <h2>Poste numérique</h2>
       <span class="help-icon" title="Merci de renseigner le nombre de chaque type d'équipements en cours d'amortissement comptable, la durée d'amortissement et les émissions de GES précises si celles-ci sont connues (via une ACV / fiche PEP par exemple)">
@@ -58,30 +59,35 @@
     </details>
 
 
-    <div *ngIf="equipementsAnciens.length > 0">
-      <h3>Équipements enregistrés les années précédentes</h3>
-      <table class="data-table">
-        <thead>
-        <tr>
-          <th>Type</th>
-          <th>Quantité</th>
-          <th>Amortissement</th>
-          <th>GES Connus</th>
-          <th>GES Réels</th>
-          <th>Année</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let equipement of equipementsAnciens">
-          <td>{{ numeriqueEquipmentLabels[equipement.equipement] }}</td>
-          <td>{{ equipement.nombre }}</td>
-          <td>{{ equipement.dureeAmortissement }}</td>
-          <td>{{ equipement.emissionsGesPrecisesConnues ? 'Oui' : 'Non' }}</td>
-          <td>{{ equipement.emissionsReellesParProduitKgCO2e ?? 'N/A' }}</td>
-          <td>{{ equipement.anneeAjout }}</td>
-        </tr>
-        </tbody>
-      </table>
+    </div>
+    <div class="right-panel">
+      <div *ngIf="equipements.length > 0" class="added-equipements">
+        <h3>Équipements enregistrés :</h3>
+        <table class="data-table">
+          <thead>
+          <tr>
+            <th>Type</th>
+            <th>Quantité</th>
+            <th>Amortissement</th>
+            <th>GES Connus</th>
+            <th>GES Réels</th>
+            <th>Année</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let equipement of equipements; let i = index">
+            <td>{{ numeriqueEquipmentLabels[equipement.equipement] }}</td>
+            <td>{{ equipement.nombre }}</td>
+            <td>{{ equipement.dureeAmortissement }}</td>
+            <td>{{ equipement.emissionsGesPrecisesConnues ? 'Oui' : 'Non' }}</td>
+            <td>{{ equipement.emissionsReellesParProduitKgCO2e ?? 'N/A' }}</td>
+            <td>{{ equipement.anneeAjout }}</td>
+            <td><button (click)="supprimerEquipement(i)">🗑️</button></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <app-save-footer [path]="ONGLET_KEYS.Numerique" (estTermineChange)="onEstTermineChange($event)"></app-save-footer>
