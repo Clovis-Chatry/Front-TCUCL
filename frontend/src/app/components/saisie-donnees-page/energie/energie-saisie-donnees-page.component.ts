@@ -24,6 +24,7 @@ export class EnergieSaisieDonneesPageComponent implements OnInit {
   items: any = {}; // Objet qui contiendra les données récupérées
   estTermine = false;
   ONGLET_KEYS = ONGLET_KEYS;
+  resultats: any = {};
 
   onEstTermineChange(value: boolean): void {
     this.estTermine = value;
@@ -72,6 +73,7 @@ export class EnergieSaisieDonneesPageComponent implements OnInit {
         };
         this.estTermine = data.estTermine ?? false;
         this.statusService.setStatus(ONGLET_KEYS.Energie, this.estTermine);
+        this.loadResultats(id);
       },
       (error) => {
         console.error("Erreur lors du chargement des données", error);
@@ -113,4 +115,24 @@ export class EnergieSaisieDonneesPageComponent implements OnInit {
       console.error('ID ou Token manquant');
     }
   }
+
+  loadResultats(id: string) {
+    const token = this.authService.getToken();
+    if (!token) return;
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    };
+
+    this.http.get<any>(`${ApiEndpoints.EnergieOnglet.getById(id)}/resultat`, { headers }).subscribe(
+      (res) => {
+        this.resultats = res;
+      },
+      (error) => {
+        console.error("Erreur lors du chargement des résultats", error);
+      }
+    );
+  }
+
 }

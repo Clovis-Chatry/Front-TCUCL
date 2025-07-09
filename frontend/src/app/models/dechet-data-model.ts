@@ -5,3 +5,8 @@ export interface DechetData {
   traitement: TRAITEMENT_DECHET | null;
   quantiteTonne: number | null;
 }
+
+export interface DechetResultat {
+  totalProduit: number;
+  totalEvite: number;
+}

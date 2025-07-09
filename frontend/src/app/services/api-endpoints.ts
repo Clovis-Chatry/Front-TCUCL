@@ -25,6 +25,7 @@ export const ApiEndpoints = {
   DomTravOnglet: {
     getById: (id: string) => `${BASE_URL}/${ONGLET_KEYS.MobiliteDomTrav}/${id}`,
     update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.MobiliteDomTrav}/${id}`,
+    resultats: (id: string) => `${BASE_URL}/${ONGLET_KEYS.MobiliteDomTrav}/${id}/resultat`,
   },
 
   AutreMobFrOnglet: {
@@ -35,6 +36,7 @@ export const ApiEndpoints = {
   DechetsOnglet: {
     getById: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Dechets}/${id}`,
     update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Dechets}/${id}`,
+    resultat: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Dechets}/${id}/resultat`
   },
 
   AchatsOnglet: {
