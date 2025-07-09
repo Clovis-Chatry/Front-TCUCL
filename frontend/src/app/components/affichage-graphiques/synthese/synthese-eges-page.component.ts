@@ -75,10 +75,30 @@ export class SyntheseEgesComponent implements OnInit {
       .getSynthese(this.entiteId, this.currentYear)
       ?.subscribe({
         next: res => {
-          const sector = this.sectors.find(s => s.label === 'Energie');
-          if (sector) sector.value = Number(res.consoEnergieFinale ?? 0);
-          this.consoEnergieFinale = res.consoEnergieFinale;
-          this.total = this.sectors.reduce((sum, s) => sum + s.value, 0);
+          const mapping: Record<string, number | null | undefined> = {
+            'Emissions fugitives': res.emissionFugitivesGlobal,
+            'Energie': res.energieGlobal,
+            'Déplacements domicile - travail': res.mobiliteDomicileTravailGlobal,
+            'Autres déplacements France': res.autreMobiliteFrGlobal,
+            'Déplacements internationaux': res.mobiliteInternationalGlobal,
+            'Bâtiments, mobilier et parkings': res.batimentParkingGlobal,
+            'Numérique': res.numeriqueGlobal,
+            'Autres immobilisations': res.autreImmobilisationGlobal,
+            'Achats': res.achatGlobal,
+            'Déchets': res.dechetGlobal
+          };
+
+          this.sectors.forEach(s => {
+            const val = mapping[s.label];
+            if (val != null) {
+              s.value = Number(val);
+            }
+          });
+
+          this.total = Number(res.bilanCarboneTotalGlobal ?? 0);
+          if (res.consoEnergieFinale != null) {
+            this.consoEnergieFinale = res.consoEnergieFinale;
+          }
         },
         error: err => console.error('Erreur récupération synthèse', err)
       });
