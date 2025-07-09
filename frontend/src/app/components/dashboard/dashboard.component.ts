@@ -7,6 +7,7 @@ import { OngletService } from '../header-saisie-donnees/onglet.service';
 import { AnneeService} from '../../services/annee.service';
 import {AuthService} from '../../services/auth.service';
 import { ONGLET_KEYS } from '../../constants/onglet-keys';
+import {MatIcon} from '@angular/material/icon';
 
 const extractRoute = (url: string): string =>
   url.split('/').slice(3).join('/').replace(/\/$/, '');
