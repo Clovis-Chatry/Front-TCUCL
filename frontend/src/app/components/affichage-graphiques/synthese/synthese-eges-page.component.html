@@ -40,6 +40,26 @@
       </tbody>
     </table>
 
+    <h2 class="table-title">BILAN PAR SCOPE / POSTES</h2>
+    <table class="indicator-table">
+      <thead>
+      <tr>
+        <th></th>
+        <th>En Tonnes CO2e</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let sc of scopes">
+        <td>{{ sc.label }}</td>
+        <td>{{ sc.value }}</td>
+      </tr>
+      <tr class="total">
+        <td>Bilan carbone totale</td>
+        <td>{{ scopesTotal }}</td>
+      </tr>
+      </tbody>
+    </table>
+
     <table class="indicator-table">
       <tbody>
       <tr>

@@ -9,6 +9,11 @@ interface Sector {
   value: number;
 }
 
+interface ScopePoste {
+  label: string;
+  value: number;
+}
+
 @Component({
   selector: 'app-synthese-eges',
   standalone: true,
@@ -19,6 +24,8 @@ interface Sector {
 export class SyntheseEgesComponent implements OnInit {
   sectors: Sector[] = [];
   total: number = 0;
+  scopes: ScopePoste[] = [];
+  scopesTotal: number = 0;
   private currentYear: number = new Date().getFullYear();
   private entiteId?: number;
   consoEnergieFinale?: number;
@@ -36,6 +43,7 @@ export class SyntheseEgesComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadSectors();
+    this.loadScopes();
     this.fetchSynthese();
   }
 
@@ -61,6 +69,35 @@ export class SyntheseEgesComponent implements OnInit {
       { label: 'Déchets', value: 0 }
     ];
     this.total = this.sectors.reduce((sum, s) => sum + s.value, 0);
+  }
+
+  loadScopes(): void {
+    this.scopes = [
+      { label: 'Emissions directes des sources fixes de combustion', value: 0 },
+      { label: 'Emissions directes des sources mobiles à moteur thermique', value: 0 },
+      { label: 'Emissions directes des procédés hors énergie', value: 0 },
+      { label: 'Emissions directes fugitives', value: 0 },
+      { label: 'Emissions issues de la biomasse (sols et forêts)', value: 0 },
+      { label: 'Emissions indirectes liées à la consommation d\'électricité', value: 0 },
+      { label: 'Emissions indirectes liées à la consommation de vapeur, chaleur, froid', value: 0 },
+      { label: 'Emissions liées à l\'énergie non incluse dans les catégories « émissions directes de GES » et « émissions de GES à énergie indirectes »', value: 0 },
+      { label: 'Achats de produits ou services', value: 0 },
+      { label: 'Immobilisations de biens', value: 0 },
+      { label: 'Déchets', value: 0 },
+      { label: 'Transport de marchandise amont', value: 0 },
+      { label: 'Déplacements professionnels', value: 0 },
+      { label: 'Actifs en leasing amont', value: 0 },
+      { label: 'Investissements', value: 0 },
+      { label: 'Transport de visiteurs et de clients', value: 0 },
+      { label: 'Transport de marchandise aval', value: 0 },
+      { label: 'Utilisation des produits vendus', value: 0 },
+      { label: 'Fin de vie des produits vendus', value: 0 },
+      { label: 'Franchise aval', value: 0 },
+      { label: 'Leasing aval', value: 0 },
+      { label: 'Déplacements domicile travail', value: 0 },
+      { label: 'Autres émissions indirectes', value: 0 }
+    ];
+    this.scopesTotal = this.scopes.reduce((sum, s) => sum + s.value, 0);
   }
 
   private fetchSynthese(): void {
