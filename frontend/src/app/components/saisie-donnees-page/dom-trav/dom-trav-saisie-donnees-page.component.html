@@ -55,6 +55,18 @@
       <table class="data-table">
         <tbody>
           <tr>
+          <td>Total des émissions GES étudiant (en Tonnes CO₂e)</td>
+          <td>{{ resultats?.totalEtudiants || 0 }}</td>
+        </tr>
+        <tr>
+          <td>Total des émissions GES salarié (en Tonnes CO₂e)</td>
+          <td>{{ resultats?.totalSalaries || 0 }}</td>
+        </tr>
+        <tr>
+          <td>Distance annuelle par salarié</td>
+          <td>{{ resultats?.distanceAnnuelleParUsagerSalaries || 0 }} km</td>
+        </tr>
+        <tr>
             <td>Distance annuelle par salarié</td>
             <td>{{ resultats?.distanceAnnuelleParUsagerSalaries || 0 }} km</td>
           </tr>
