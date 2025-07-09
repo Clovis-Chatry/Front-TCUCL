@@ -38,6 +38,7 @@ export const ApiEndpoints = {
   AutreMobFrOnglet: {
     getById: (id: string) => `${BASE_URL}/${ONGLET_KEYS.AutreMobFr}/${id}`,
     update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.AutreMobFr}/${id}`,
+    resultats: (id: string) => `${BASE_URL}/${ONGLET_KEYS.AutreMobFr}/${id}/resultat`,
   },
 
   DechetsOnglet: {
