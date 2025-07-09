@@ -1,0 +1,35 @@
+<div class="main-container">
+  <div class="panels-wrapper">
+    <div class="left-panel">
+      <div class="page-title">
+        <h2>Général - Informations Établissement</h2>
+      </div>
+        <div class="form-group">
+          <label for="nombreSalaries">Nombre de salariés dans l'établissement :</label>
+          <input
+            id="nombreSalaries"
+            type="number"
+            min="0"
+            [(ngModel)]="items.nombreSalaries"
+            name="nombreSalaries"
+            (blur)="updateConso()"
+            class="value-input"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="nombreEtudiants">Nombre d'étudiants (si école) :</label>
+          <input
+            id="nombreEtudiants"
+            type="number"
+            min="0"
+            [(ngModel)]="items.nombreEtudiants"
+            name="nombreEtudiants"
+            (blur)="updateConso()"
+            class="value-input"
+          />
+        </div>
+    </div>
+  </div>
+  <app-save-footer [path]="ONGLET_KEYS.Energie" (estTermineChange)="onEstTermineChange($event)"></app-save-footer>
+</div>

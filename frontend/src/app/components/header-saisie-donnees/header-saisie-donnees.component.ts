@@ -48,7 +48,7 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
 
   tabs = Object.keys(ONGLET_ROUTES);
   startIndex = 0;
-  visibleCount = 12;
+  visibleCount = 13;
   loading = false;
 
   activeTab: string | null = null;
