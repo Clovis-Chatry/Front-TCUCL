@@ -48,16 +48,22 @@ export class MobInterOngletMapperService {
     };
   }
 
+  /**
+   * Construit l'objet envoyé à l'API. Les champs numériques nuls ou
+   * indéfinis sont convertis en 0 afin d'éviter les erreurs `intValue()`
+   * côté backend.
+   */
   toVoyageDto(v: Voyage): any {
+    const num = (val: number | null | undefined) => val ?? 0;
     return {
       id: v.id,
       pays: this.toBackendPays(v.nomPays),
-      prosAvion: v.prosAvion,
-      prosTrain: v.prosTrain,
-      stagesEtudiantsAvion: v.stagesEtudiantsAvion,
-      stagesEtudiantsTrain: v.stagesEtudiantsTrain,
-      semestresEtudiantsAvion: v.semestresEtudiantsAvion,
-      semestresEtudiantsTrain: v.semestresEtudiantsTrain,
+      prosAvion: num(v.prosAvion),
+      prosTrain: num(v.prosTrain),
+      stagesEtudiantsAvion: num(v.stagesEtudiantsAvion),
+      stagesEtudiantsTrain: num(v.stagesEtudiantsTrain),
+      semestresEtudiantsAvion: num(v.semestresEtudiantsAvion),
+      semestresEtudiantsTrain: num(v.semestresEtudiantsTrain),
       dateAjoutEnBase: v.dateAjoutEnBase,
     };
   }
