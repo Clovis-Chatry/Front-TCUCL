@@ -1,4 +1,4 @@
-import { ONGLET_KEYS } from '../constants/onglet-keys';
+import {ONGLET_KEYS} from '../constants/onglet-keys';
 
 const BASE_URL = 'http://localhost:8080';
 
@@ -89,11 +89,10 @@ export const ApiEndpoints = {
     ajouterEntretien: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}/entretienCourant`,
     supprimerEntretien: (tabId: string, entretienId: number) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${tabId}/entretienCourant/${entretienId}`,
 
-
     ajouterMobilier: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}/mobilierElectromenager`,
     supprimerMobilier: (tabId: string, mobilierId: number) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${tabId}/mobilierElectromenager/${mobilierId}`,
     update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}`,
-    getResult: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}/resultat`
+    resultats: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}/resultat`,
   },
   AutoOnglet: {
     getById: (id: string) => `${BASE_URL}/vehiculeOnglet/${id}`,
