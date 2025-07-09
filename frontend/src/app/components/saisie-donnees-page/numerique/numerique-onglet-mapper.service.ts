@@ -25,9 +25,9 @@ export class NumeriqueOngletMapperService {
       estTermine: dto.estTermine,
       note: dto.note,
       cloudDataDisponible: dto.cloudDataDisponible ?? null,
-      traficCloud: dto.TraficCloudUtilisateur ?? null,
-      tipUtilisateur: dto.TraficTipUtilisateur ?? null,
-      partTraficFranceEtranger: dto.PartTraficFranceEtranger ?? null,
+      traficCloud: dto.TraficCloudUtilisateur != null ? Number(dto.TraficCloudUtilisateur) : null,
+      tipUtilisateur: dto.TraficTipUtilisateur != null ? Number(dto.TraficTipUtilisateur) : null,
+      partTraficFranceEtranger: dto.PartTraficFranceEtranger != null ? Number(dto.PartTraficFranceEtranger) : null,
       equipements,
     };
   }
@@ -37,12 +37,12 @@ export class NumeriqueOngletMapperService {
       estTermine: model.estTermine,
       note: model.note,
       cloudDataDisponible: model.cloudDataDisponible,
-      TraficCloudUtilisateur: model.traficCloud,
-      TraficTipUtilisateur: model.tipUtilisateur,
-      PartTraficFranceEtranger: model.partTraficFranceEtranger,
+      TraficCloudUtilisateur: model.traficCloud != null ? Number(model.traficCloud) : null,
+      TraficTipUtilisateur: model.tipUtilisateur != null ? Number(model.tipUtilisateur) : null,
+      PartTraficFranceEtranger: model.partTraficFranceEtranger != null ? Number(model.partTraficFranceEtranger) : null,
       equipementNumeriqueList: model.equipements.map((e: EquipementNumerique) => ({
         id: e.id,
-        type: typeof e.equipement === 'string' ? e.equipement : (e.equipement as NUMERIQUE_EQUIPEMENT).toString(),
+        equipement: typeof e.equipement === 'string' ? e.equipement : (e.equipement as NUMERIQUE_EQUIPEMENT).toString(),
         nombre: e.nombre,
         dureeAmortissement: e.dureeAmortissement,
         emissionsGesPrecisesConnues: e.emissionsGesPrecisesConnues,
@@ -54,7 +54,7 @@ export class NumeriqueOngletMapperService {
   toEquipementDto(e: EquipementNumerique): any {
     return {
       id: e.id,
-      type: typeof e.equipement === 'string' ? e.equipement : (e.equipement as NUMERIQUE_EQUIPEMENT).toString(),
+      equipement: typeof e.equipement === 'string' ? e.equipement : (e.equipement as NUMERIQUE_EQUIPEMENT).toString(),
       nombre: e.nombre,
       dureeAmortissement: e.dureeAmortissement,
       emissionsGesPrecisesConnues: e.emissionsGesPrecisesConnues,
