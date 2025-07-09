@@ -134,13 +134,13 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   // Parc immobilier (section 1)
   nouveauBatiment: any = {
     nom_ou_adresse: '',
-    dateConstruction: '',
-    dateDerniereGrosseRenovation: '',
+    dateConstruction: null,
+    dateDerniereGrosseRenovation: null,
     acvBatimentRealisee: null,
     emissionsGesReellesTCO2: null,
-    typeBatiment: '',
+    typeBatiment: EnumBatiment_TypeBatiment.NA,
     surfaceEnM2: null,
-    typeStructure: '',
+    typeStructure: EnumBatiment_TypeStructure.NA,
   };
 
 
@@ -148,9 +148,9 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   nouvelleReno: any = {
     dateAjout: '',
     nom_adresse: '',
-    typeTravaux: '',
-    dateTravaux: '',
-    typeBatiment: '',
+    typeTravaux: EnumBatiment_TypeTravaux.CHAUFFAGE_VENTILATION_CLIMATISATION,
+    dateTravaux: null,
+    typeBatiment: EnumBatiment_TypeBatiment.NA,
     surfaceConcernee: null,
     dureeAmortissement: null
   };
@@ -159,10 +159,10 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   // Mobilier (section 3)
   nouveauMobilier: any = {
     dateAjout: '',
-    mobilier: '',
-    quantite: '',
-    poidsDuProduit: '',
-    dureeAmortissement: ''
+    mobilier: EnumBatiment_TypeMobilier.ARMOIRE,
+    quantite: null,
+    poidsDuProduit: null,
+    dureeAmortissement: null
   };
 
 
@@ -203,7 +203,13 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
 
   ajouterBatiment(): void {
     const headers = this.getAuthHeaders();
-    const batimentAAjouter = { ...this.nouveauBatiment}
+    const batimentAAjouter = {
+      ...this.nouveauBatiment,
+      dateConstruction: this.nouveauBatiment.dateConstruction || null,
+      dateDerniereGrosseRenovation: this.nouveauBatiment.dateDerniereGrosseRenovation || null,
+      typeBatiment: this.nouveauBatiment.typeBatiment || null,
+      typeStructure: this.nouveauBatiment.typeStructure || null
+    };
     this.batService.ajouterBatiment(this.batimentOngletId, batimentAAjouter, headers).subscribe(() => {
       this.loadData();
       this.resetFormBatiment();
@@ -211,8 +217,13 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   }
 
   ajouterEntretien(): void {
-    const entretienAAjouter = { ...this.nouvelleReno};
-    entretienAAjouter.dateAjout = this.getDateAujourdhui();
+    const entretienAAjouter = {
+      ...this.nouvelleReno,
+      dateAjout: this.getDateAujourdhui(),
+      dateTravaux: this.nouvelleReno.dateTravaux || null,
+      typeBatiment: this.nouvelleReno.typeBatiment || null,
+      typeTravaux: this.nouvelleReno.typeTravaux || null
+    };
     const headers = this.getAuthHeaders();
       this.batService
         .ajouterEntretien(this.batimentOngletId, entretienAAjouter, headers)
@@ -223,9 +234,10 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   }
 
   ajouterMobilier(): void {
-    const mobilierAAjouter = { ...this.nouveauMobilier};
-    mobilierAAjouter.dateAjout = this.getDateAujourdhui();
-    // mobilierAAjouter.dateAjout = this.getDateAujourdhui();
+    const mobilierAAjouter = {
+      ...this.nouveauMobilier,
+      dateAjout: this.getDateAujourdhui()
+    };
     const headers = this.getAuthHeaders();
     this.batService
       .ajouterMobilier(this.batimentOngletId, mobilierAAjouter, headers)
@@ -321,22 +333,22 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   resetFormBatiment() {
     this.nouveauBatiment = {
       nom_ou_adresse: '',
-      dateConstruction: '',
-      dateDerniereGrosseRenovation: '',
+      dateConstruction: null,
+      dateDerniereGrosseRenovation: null,
       acvBatimentRealisee: null,
       emissionsGesReellesTCO2: null,
-      typeBatiment: '',
+      typeBatiment: EnumBatiment_TypeBatiment.NA,
       surfaceEnM2: null,
-      typeStructure: '',
+      typeStructure: EnumBatiment_TypeStructure.NA,
     }
   }
   resetFormRenovation() {
     this.nouvelleReno = {
       dateAjout: '',
       nom_adresse: '',
-      typeTravaux: '',
-      dateTravaux: '',
-      typeBatiment: '',
+      typeTravaux: EnumBatiment_TypeTravaux.CHAUFFAGE_VENTILATION_CLIMATISATION,
+      dateTravaux: null,
+      typeBatiment: EnumBatiment_TypeBatiment.NA,
       surfaceConcernee: null,
       dureeAmortissement: null
     };
@@ -345,10 +357,10 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   resetFormMobilier() {
     this.nouveauMobilier = {
       dateAjout: '',
-      mobilier: '',
-      quantite: '',
-      poidsDuProduit: '',
-      dureeAmortissement: ''
+      mobilier: EnumBatiment_TypeMobilier.ARMOIRE,
+      quantite: null,
+      poidsDuProduit: null,
+      dureeAmortissement: null
     };
   }
 }
