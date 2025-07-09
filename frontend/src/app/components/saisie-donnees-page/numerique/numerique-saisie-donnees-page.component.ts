@@ -10,6 +10,7 @@ import { ONGLET_KEYS } from '../../../constants/onglet-keys';
 import {NumeriqueOngletMapperService} from './numerique-onglet-mapper.service';
 import {NumeriqueService} from './numerique.service';
 import {EquipementNumerique, NumeriqueModel} from '../../../models/numerique.model';
+import {NumeriqueResultat} from '../../../models/numerique-resultat.model';
 import {NUMERIQUE_EQUIPEMENT} from '../../../models/enums/numerique.enum';
 import {numeriqueEquipmentLabels} from '../../../models/numerique-equipment-labels';
 
@@ -48,7 +49,8 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
   numeriqueEquipmentLabels = numeriqueEquipmentLabels;
   NUMERIQUE_EQUIPEMENT = NUMERIQUE_EQUIPEMENT;
 
-  equipementsAnciens: EquipementNumerique[] = [];
+  equipements: EquipementNumerique[] = [];
+  resultats: NumeriqueResultat | null = null;
   estTermine = false;
   ONGLET_KEYS = ONGLET_KEYS;
 
@@ -65,6 +67,7 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.loadData(id);
+      this.loadResultats(id);
     }
   }
 
@@ -87,7 +90,7 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
         this.traficCloud = model.traficCloud;
         this.tipUtilisateur = model.tipUtilisateur;
         this.partTraficFranceEtranger = model.partTraficFranceEtranger;
-        this.equipementsAnciens = model.equipements;
+        this.equipements = model.equipements;
         this.estTermine = model.estTermine ?? false;
         this.statusService.setStatus(ONGLET_KEYS.Numerique, this.estTermine);
       },
@@ -99,20 +102,10 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
     if (
       this.nouvelEquipement.nombre !== null &&
       this.nouvelEquipement.dureeAmortissement !== null &&
-      (!this.nouvelEquipement.emissionsGesPrecisesConnues || this.nouvelEquipement.emissionsReellesParProduitKgCO2e !== null)
+      (!this.nouvelEquipement.emissionsGesPrecisesConnues ||
+        this.nouvelEquipement.emissionsReellesParProduitKgCO2e !== null)
     ) {
-      const id = this.route.snapshot.paramMap.get('id');
-      const token = this.authService.getToken();
-      if (!id || !token) return;
-      const headers = {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      };
-      const dto = this.mapper.toEquipementDto(this.nouvelEquipement);
-      this.numeriqueService.addEquipement(id, dto, headers).subscribe({
-        next: () => this.loadData(id),
-        error: err => console.error('Erreur ajout équipement', err)
-      });
+      this.equipements.push({ ...this.nouvelEquipement });
       this.nouvelEquipement = {
         equipement: NUMERIQUE_EQUIPEMENT.ECRAN,
         nombre: null,
@@ -120,6 +113,7 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
         emissionsGesPrecisesConnues: false,
         emissionsReellesParProduitKgCO2e: null
       };
+      this.updateData();
     }
   }
 
@@ -142,12 +136,33 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
       traficCloud: this.traficCloud,
       tipUtilisateur: this.tipUtilisateur,
       partTraficFranceEtranger: this.partTraficFranceEtranger,
-      equipements: []
+      equipements: this.equipements
     };
 
     const payload = this.mapper.toDto(model);
     this.numeriqueService.updateOnglet(id, payload, headers).subscribe({
+      next: () => this.loadResultats(id),
       error: err => console.error('Erreur lors de la mise à jour des données numériques', err)
+    });
+  }
+
+  supprimerEquipement(index: number): void {
+    this.equipements.splice(index, 1);
+    this.updateData();
+  }
+
+  loadResultats(id: string) {
+    const token = this.authService.getToken();
+    if (!token) return;
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    };
+    this.numeriqueService.getResult(id, headers).subscribe({
+      next: data => {
+        this.resultats = data;
+      },
+      error: err => console.error('Erreur lors du chargement des résultats numériques', err)
     });
   }
 }
