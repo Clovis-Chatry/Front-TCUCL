@@ -8,6 +8,7 @@ import { AuthService } from '../../../services/auth.service';
 import { ApiEndpoints } from '../../../services/api-endpoints';
 import { OngletStatusService } from '../../../services/onglet-status.service';
 import { ONGLET_KEYS } from '../../../constants/onglet-keys';
+import { AutreImmobMapperService } from './autre-immob-mapper.service';
 
 @Component({
   selector: 'app-saisie-donnees-page',
@@ -21,6 +22,7 @@ export class AutreImmobilisationPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
   private statusService = inject(OngletStatusService);
+  private mapper = inject(AutreImmobMapperService);
 
   items: any = {
     // Photovoltaïque
@@ -92,16 +94,15 @@ export class AutreImmobilisationPageComponent implements OnInit {
       'Authorization': `Bearer ${token}`
     };
 
-    this.http.get<any>(ApiEndpoints.autreImmobilisationOnglet.getById(id), { headers }).subscribe(
-      (data) => {
-        this.items = { ...this.items, ...data };
-        this.estTermine = data.estTermine ?? false;
+    this.http.get<any>(ApiEndpoints.autreImmobilisationOnglet.getById(id), { headers }).subscribe({
+      next: data => {
+        const mapped = this.mapper.fromDto(data);
+        this.items = { ...this.items, ...mapped };
+        this.estTermine = mapped.estTermine ?? false;
         this.statusService.setStatus(ONGLET_KEYS.AutreImmob, this.estTermine);
       },
-      (error) => {
-        console.error("Erreur lors du chargement des données", error);
-      }
-    );
+      error: err => console.error("Erreur lors du chargement des données", err)
+    });
   }
 
   ajouterMachine() {
@@ -138,7 +139,8 @@ export class AutreImmobilisationPageComponent implements OnInit {
       Authorization: `Bearer ${token}`
     };
 
-    this.http.patch(ApiEndpoints.autreImmobilisationOnglet.update(id), { ...this.items, estTermine: this.estTermine }, { headers }).subscribe({
+    const payload = this.mapper.toDto({ ...this.items, estTermine: this.estTermine });
+    this.http.patch(ApiEndpoints.autreImmobilisationOnglet.update(id), payload, { headers }).subscribe({
       error: err => console.error('PATCH immob echoue', err)
     });
   }
