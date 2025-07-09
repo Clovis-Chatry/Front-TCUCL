@@ -9,6 +9,8 @@ import { Pays } from '../../../models/enums/pays.enum';
 import { SaveFooterComponent } from '../../save-footer/save-footer.component';
 import { OngletStatusService } from '../../../services/onglet-status.service';
 import { ONGLET_KEYS } from '../../../constants/onglet-keys';
+import { MobInterOngletMapperService } from './mob-inter-onglet-mapper.service';
+import { MobInternationalOngletModel, Voyage } from '../../../models/mob-international.model';
 
 @Component({
   selector: 'app-destination-page',
@@ -22,24 +24,27 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
   private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
   private statusService = inject(OngletStatusService);
+  private mapper = inject(MobInterOngletMapperService);
 
-  destinationEnCours = {
-    pays: '',
-    avion: { pro: null, stage: null, semestre: null, autre: null },
-    train: { pro: null, stage: null, semestre: null, autre: null }
+  onglet: MobInternationalOngletModel = { voyages: [] };
+
+  nouveauVoyage: Voyage = {
+    nomPays: '' as any,
+    prosAvion: null,
+    prosTrain: null,
+    stagesEtudiantsAvion: null,
+    stagesEtudiantsTrain: null,
+    semestresEtudiantsAvion: null,
+    semestresEtudiantsTrain: null
   };
 
-  destinations: any[] = [];
-
-  estTermine = false;
   ONGLET_KEYS = ONGLET_KEYS;
-
   listePays = Object.values(Pays);
 
   ngOnInit(): void {
-    this.estTermine = this.statusService.getStatus(ONGLET_KEYS.MobInternationale);
-    this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
-      this.estTermine = s[ONGLET_KEYS.MobInternationale] ?? false;
+    this.onglet.estTermine = this.statusService.getStatus(ONGLET_KEYS.MobInternationale);
+    this.statusService.statuses$.subscribe(s => {
+      this.onglet.estTermine = s[ONGLET_KEYS.MobInternationale] ?? false;
     });
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
@@ -49,7 +54,6 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
 
   loadData(id: string): void {
     const token = this.authService.getToken();
-
     if (!token) {
       console.error("Token d'authentification manquant");
       return;
@@ -57,45 +61,42 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
 
     const headers = {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`
     };
 
-    this.http.get<any>(ApiEndpoints.mobInternationaleOnglet.getById(id), { headers }).subscribe(
-      (data) => {
-        if (data.destinations) {
-          this.destinations = data.destinations;
-        }
-        this.estTermine = data.estTermine ?? false;
-        this.statusService.setStatus(ONGLET_KEYS.MobInternationale, this.estTermine);
+    this.http.get<any>(ApiEndpoints.mobInternationaleOnglet.getById(id), { headers }).subscribe({
+      next: data => {
+        const model = this.mapper.fromDto(data);
+        this.onglet.voyages = model.voyages;
+        this.onglet.estTermine = model.estTermine ?? false;
+        this.onglet.note = model.note;
+        this.statusService.setStatus(ONGLET_KEYS.MobInternationale, this.onglet.estTermine ?? false);
       },
-      (error) => {
-        console.error("Erreur lors du chargement des données", error);
-      }
-    );
+      error: err => console.error("Erreur lors du chargement des données", err)
+    });
   }
 
-  ajouterDestination(): void {
-    const nouvelle = {
-      pays: this.destinationEnCours.pays,
-      avion: { ...this.destinationEnCours.avion },
-      train: { ...this.destinationEnCours.train }
+  ajouterVoyage(): void {
+    this.onglet.voyages.push({ ...this.nouveauVoyage });
+    this.nouveauVoyage = {
+      nomPays: '' as any,
+      prosAvion: null,
+      prosTrain: null,
+      stagesEtudiantsAvion: null,
+      stagesEtudiantsTrain: null,
+      semestresEtudiantsAvion: null,
+      semestresEtudiantsTrain: null
     };
-
-    this.destinations.push(nouvelle);
-
-    this.destinationEnCours = {
-      pays: '',
-      avion: { pro: null, stage: null, semestre: null, autre: null },
-      train: { pro: null, stage: null, semestre: null, autre: null }
-    };
+    this.updateData();
   }
 
-  supprimerDestination(index: number): void {
-    this.destinations.splice(index, 1);
+  supprimerVoyage(index: number): void {
+    this.onglet.voyages.splice(index, 1);
+    this.updateData();
   }
 
   onEstTermineChange(value: boolean): void {
-    this.estTermine = value;
+    this.onglet.estTermine = value;
     this.updateData();
   }
 
@@ -106,10 +107,10 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
 
     const headers = {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`
     };
 
-    const payload = { destinations: this.destinations, estTermine: this.estTermine };
+    const payload = this.mapper.toDto(this.onglet);
 
     this.http.patch(ApiEndpoints.mobInternationaleOnglet.update(id), payload, { headers }).subscribe({
       error: err => console.error('PATCH mobilite internationale echoue', err)
