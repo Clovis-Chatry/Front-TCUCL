@@ -10,6 +10,7 @@ import { ONGLET_KEYS } from '../../../constants/onglet-keys';
 import {NumeriqueOngletMapperService} from './numerique-onglet-mapper.service';
 import {NumeriqueService} from './numerique.service';
 import {EquipementNumerique, NumeriqueModel} from '../../../models/numerique.model';
+import {NumeriqueResultat} from '../../../models/numerique-resultat.model';
 import {NUMERIQUE_EQUIPEMENT} from '../../../models/enums/numerique.enum';
 import {numeriqueEquipmentLabels} from '../../../models/numerique-equipment-labels';
 
@@ -65,6 +66,7 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.loadData(id);
+      this.loadResultats(id);
     }
   }
 
@@ -138,12 +140,28 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
 
     const payload = this.mapper.toDto(model);
     this.numeriqueService.updateOnglet(id, payload, headers).subscribe({
+      next: () => this.loadResultats(id),
       error: err => console.error('Erreur lors de la mise à jour des données numériques', err)
     });
   }
-
   supprimerEquipement(index: number): void {
     this.equipements.splice(index, 1);
     this.updateData();
+  }
+
+
+  loadResultats(id: string) {
+    const token = this.authService.getToken();
+    if (!token) return;
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    };
+    this.numeriqueService.getResult(id, headers).subscribe({
+      next: data => {
+        this.resultats = data;
+      },
+      error: err => console.error('Erreur lors du chargement des résultats numériques', err)
+    });
   }
 }
