@@ -67,8 +67,8 @@ ParkingVoirieOnglet: {
   getResult: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Parkings}/${id}/resultat`
 },
 mobInternationaleOnglet: {
-  getById: (id: string) => `${BASE_URL}/mobInternationalOnglet/${id}`,
-  update: (id: string) => `${BASE_URL}/mobInternationalOnglet/${id}`
+  getById: (id: string) => `${BASE_URL}/mobInternationaleOnglet/${id}`,
+  update: (id: string) => `${BASE_URL}/mobInternationaleOnglet/${id}`
 },
 BatimentsOnglet: {
   getBatimentImmobilisationMobilier: (id: string) =>
