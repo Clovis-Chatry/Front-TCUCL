@@ -155,6 +155,11 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
+    path: 'synthese-eges',
+    component: SyntheseEgesComponent,
+    canActivate: [authGuard]
+  },
+  {
     path: '**',
     redirectTo: 'login',
   },
