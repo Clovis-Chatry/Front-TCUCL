@@ -31,6 +31,7 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
   noData: boolean = false;
   hasError: boolean = false;
   fluideTypes = Object.values(TypeFluide);
+  resultatEmissionGES: number | null = null;
 
   ONGLET_KEYS = ONGLET_KEYS;
 
@@ -138,6 +139,7 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.emmissionFugitiveOngletId = params.get('id') || '';
       this.loadMachines();
+      this.chargerResultatGES();
     });
   }
 
@@ -226,6 +228,7 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
     };
     this.emmissionsFugtivesService.addMachine(this.emmissionFugitiveOngletId, machineToAdd, headers).subscribe(() => {
       this.loadMachines();
+      this.chargerResultatGES();
       this.resetForm();
     });
   }
@@ -242,6 +245,7 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
         next: () => {
           this.machines = this.machines.filter(m => m.id !== machine.id);
           this.loadMachines();
+          this.chargerResultatGES();
         },
         error: (err) => {
           console.error("Erreur lors de la suppression", err);
@@ -281,4 +285,22 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
       error: err => console.error('Erreur mise à jour estTermine', err)
     });
   }
+  chargerResultatGES() {
+    const token = this.authService.getToken();
+    if (!token) return;
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    };
+    this.emmissionsFugtivesService.chargerResultatGES(this.emmissionFugitiveOngletId, headers)
+      .subscribe({
+        next: (data) => {
+          this.resultatEmissionGES = data.totalEmissionGES;
+        },
+        error: (error) => {
+          console.error("Erreur lors de la récupération du total des émissions GES :", error);
+        }
+      });
+  }
+
 }
