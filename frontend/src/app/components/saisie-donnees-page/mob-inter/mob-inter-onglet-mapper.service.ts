@@ -51,7 +51,7 @@ export class MobInterOngletMapperService {
   toVoyageDto(v: Voyage): any {
     return {
       id: v.id,
-      nomPays: this.toBackendPays(v.nomPays),
+      pays: this.toBackendPays(v.nomPays),
       prosAvion: v.prosAvion,
       prosTrain: v.prosTrain,
       stagesEtudiantsAvion: v.stagesEtudiantsAvion,
