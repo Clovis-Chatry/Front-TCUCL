@@ -4,12 +4,24 @@ import { Pays } from '../../../models/enums/pays.enum';
 
 @Injectable({ providedIn: 'root' })
 export class MobInterOngletMapperService {
+  // Convertit une valeur renvoyée par le backend (nom d'énumération ou libellé)
+  // en libellé utilisé dans le frontend.
   private normalizePays(value: string): Pays | string {
-    const upper = value?.toUpperCase();
-    const found = (Object.values(Pays) as string[]).find(p => p.toUpperCase() === upper);
+    if (!value) return value;
+    const key = Object.keys(Pays).find(k => k.toUpperCase() === value.toUpperCase());
+    if (key) {
+      return (Pays as any)[key] as Pays;
+    }
+    const found = (Object.values(Pays) as string[]).find(v => v.toUpperCase() === value.toUpperCase());
     return (found as Pays) || value;
   }
 
+  // Convertit un libellé ou une valeur d'énumération en nom utilisé par le backend
+  private toBackendPays(value: Pays | string): string {
+    if (!value) return value as string;
+    const entry = Object.entries(Pays).find(([, v]) => v.toUpperCase() === value.toString().toUpperCase());
+    return entry ? entry[0] : value.toString();
+  }
   fromDto(dto: any): MobInternationalOngletModel {
     const voyages: Voyage[] = (dto.voyageVersUneDestinationMobInternationale || dto.voyage || []).map((v: any) => ({
       id: v.id,
@@ -41,7 +53,7 @@ export class MobInterOngletMapperService {
   toVoyageDto(v: Voyage): any {
     return {
       id: v.id,
-      nomPays: typeof v.nomPays === 'string' ? v.nomPays : (v.nomPays as Pays).toString(),
+      nomPays: this.toBackendPays(v.nomPays),
       prosAvion: v.prosAvion,
       prosTrain: v.prosTrain,
       stagesEtudiantsAvion: v.stagesEtudiantsAvion,
