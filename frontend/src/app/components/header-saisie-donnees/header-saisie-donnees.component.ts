@@ -17,6 +17,7 @@ import {AuthService} from '../../services/auth.service';
 import {AnneeService} from '../../services/annee.service';
 import {Subscription} from 'rxjs';
 import {ONGLET_ROUTES} from '../../constants/onglet-routes';
+import {ONGLET_KEYS} from '../../constants/onglet-keys';
 
 type YearRange = { label: string; value: number };
 
@@ -47,7 +48,7 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
 
   tabs = Object.keys(ONGLET_ROUTES);
   startIndex = 0;
-  visibleCount = 12;
+  visibleCount = 13;
   loading = false;
 
   activeTab: string | null = null;
@@ -105,6 +106,10 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
   loadOngletIds(): void {
     this.ongletService.getOngletIds(this.entiteId, this.selectedYear)?.subscribe({
       next: (result: { [key: string]: number }) => {
+        if (!result[ONGLET_KEYS.MobInternationale] && result['mobInternationalOnglet']) {
+          result[ONGLET_KEYS.MobInternationale] = result['mobInternationalOnglet'];
+          delete result['mobInternationalOnglet'];
+        }
         this.ongletIdMap = result;
       },
       error: (err: unknown) => {

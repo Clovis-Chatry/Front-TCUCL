@@ -23,25 +23,9 @@ Les bâtiments qui ont été renseignées les années précédentes sont encore 
       <input type="date" [(ngModel)]="nouveauBatiment.dateConstruction"/>
     </label>
 
-    <label>Ce bâtiment a-t-il été construit il y a moins de 50 ans ?
-      <select [(ngModel)]="nouveauBatiment.moinsDe50ans">
-        <option [ngValue]="true">Oui</option>
-        <option [ngValue]="false">Non</option>
-      </select>
+    <label>Date de la dernière rénovation complète :
+      <input type="date" [(ngModel)]="nouveauBatiment.dateDerniereGrosseRenovation"/>
     </label>
-
-    <div *ngIf="nouveauBatiment.moinsDe50ans === false">
-      <label>A-t-il subi une rénovation complète il y a moins de 50 ans ?
-        <select [(ngModel)]="nouveauBatiment.renoComplete">
-          <option [ngValue]="true">Oui</option>
-          <option [ngValue]="false">Non</option>
-        </select>
-      </label>
-
-      <label>Date de la dernière rénovation complète :
-        <input type="date" [(ngModel)]="nouveauBatiment.dateDerniereGrosseRenovation"/>
-      </label>
-    </div>
 
     <label>Avez-vous une ACV de ce bâtiment ?
       <select [(ngModel)]="nouveauBatiment.acvBatimentRealisee">

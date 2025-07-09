@@ -26,6 +26,7 @@ export class DashboardComponent implements OnInit {
   years: YearRange[] = [];
 
   onglets = [
+    { label: 'General', statusKey: ONGLET_KEYS.General, route: ONGLET_KEYS.General },
     { label: 'Energie', statusKey: ONGLET_KEYS.Energie, route: ONGLET_KEYS.Energie },
     { label: 'Emissions fugitives', statusKey: ONGLET_KEYS.EmissionsFugitives, route: ONGLET_KEYS.EmissionsFugitives },
     { label: 'Mobilité dom-trav', statusKey: ONGLET_KEYS.MobiliteDomTrav, route: ONGLET_KEYS.MobiliteDomTrav },
@@ -103,11 +104,11 @@ export class DashboardComponent implements OnInit {
     this.ongletService.getOngletIds(this.entiteId, this.selectedYear)?.subscribe({
       next: (result) => {
         this.ongletIdMap = result;
-        const ongletId = this.ongletIdMap['energieOnglet'];
+        const ongletId = this.ongletIdMap['generalOnglet'];
         if (ongletId) {
-          this.router.navigate([`/energieOnglet/${ongletId}`]);
+          this.router.navigate([`/generalOnglet/${ongletId}`]);
         } else {
-          console.error('ID onglet énergie introuvable pour l’année', this.selectedYear);
+          console.error('ID onglet général introuvable pour l’année', this.selectedYear);
         }
       },
       error: (err) => {
@@ -119,11 +120,11 @@ export class DashboardComponent implements OnInit {
 
 
   goToEnergie(): void {
-    const ongletId = this.ongletIdMap['energieOnglet'];
+    const ongletId = this.ongletIdMap['generalOnglet'];
     if (ongletId) {
-      this.router.navigate([`/energieOnglet/${ongletId}`]);
+      this.router.navigate([`/generalOnglet/${ongletId}`]);
     } else {
-      console.error('ID onglet énergie introuvable pour l\'année', this.selectedYear);
+      console.error('ID onglet général introuvable pour l\'année', this.selectedYear);
     }
   }
 

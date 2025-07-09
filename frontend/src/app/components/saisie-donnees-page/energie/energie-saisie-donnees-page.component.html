@@ -1,78 +1,124 @@
 <div class="main-container">
-  <div class="left-panel">
-    <div class="page-title">
-      <h2>Énergie</h2>
-      <span class="help-icon" title="Merci de renseigner vos consommations de l'année pour chaque type d'énergie et d'indiquer l'unité associée pour le gaz, le bois et le fioul.">
+  <div class="panels-wrapper">
+    <div class="left-panel">
+      <div class="page-title">
+        <h2>Énergie</h2>
+        <span class="help-icon"
+              title="Merci de renseigner vos consommations de l'année pour chaque type d'énergie et d'indiquer l'unité associée pour le gaz, le bois et le fioul.">
         <svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="black"></circle>
           <rect x="11" y="10" width="2" height="6" fill="white"></rect>
           <circle cx="12" cy="8" r="1" fill="white"></circle>
         </svg>
       </span>
+      </div>
+      <table class="data-table">
+        <thead>
+        <tr>
+          <th>Consommation</th>
+          <th>Valeur</th>
+          <th>Unité</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>Gaz</td>
+          <td><input type="number" class="value-input" [(ngModel)]="items.consoGaz" (blur)="updateConso()"/></td>
+          <td>
+            <select class="unit-select" [(ngModel)]="items.uniteGaz" (blur)="updateConso()">
+              <option value="TONNE">Tonnes</option>
+              <option value="MWH_PCS">MWh PCS</option>
+              <option value="M3">m3</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Fioul</td>
+          <td><input type="number" class="value-input" [(ngModel)]="items.consoFioul" (blur)="updateConso()"/></td>
+          <td>
+            <select class="unit-select" [(ngModel)]="items.uniteFioul" (blur)="updateConso()">
+              <option value="TONNE">Tonnes</option>
+              <option value="MWH_PCS">MWh PCS</option>
+              <option value="M3">m3</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Bois</td>
+          <td><input type="number" class="value-input" [(ngModel)]="items.consoBois" (blur)="updateConso()"/></td>
+          <td>
+            <select class="unit-select" [(ngModel)]="items.uniteBois" (blur)="updateConso()">
+              <option value="TONNE">Tonnes</option>
+              <option value="MWH_PCS">MWh PCS</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Réseau de chaleur urbain</td>
+          <td><input type="number" class="value-input" [(ngModel)]="items.consoReseauVille" (blur)="updateConso()"/>
+          </td>
+          <td>MWh PCS</td>
+        </tr>
+        <tr>
+          <td>Électricité pour le chauffage</td>
+          <td><input type="number" class="value-input" [(ngModel)]="items.consoElecChauffage" (blur)="updateConso()"/>
+          </td>
+          <td>MWh PCS</td>
+        </tr>
+        <tr>
+          <td>Électricité spécifique</td>
+          <td><input type="number" class="value-input" [(ngModel)]="items.consoElecSpecifique" (blur)="updateConso()"/>
+          </td>
+          <td>MWh PCS</td>
+        </tr>
+        <tr>
+          <td>Eau</td>
+          <td><input type="number" class="value-input" [(ngModel)]="items.consoEau" (blur)="updateConso()"/></td>
+          <td>m³</td>
+        </tr>
+        </tbody>
+      </table>
     </div>
-    <table class="data-table">
-      <thead>
-      <tr>
-        <th>Consommation</th>
-        <th>Valeur</th>
-        <th>Unité</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>Gaz</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.consoGaz" (blur)="updateConso()"/></td>
-        <td>
-          <select class="unit-select" [(ngModel)]="items.uniteGaz" (blur)="updateConso()">
-            <option value="TONNE">Tonnes</option>
-            <option value="MWH_PCS">MWh PCS</option>
-            <option value="M3">m3</option>
-          </select>
-        </td>
-      </tr>
-      <tr>
-        <td>Fioul</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.consoFioul" (blur)="updateConso()"/></td>
-        <td>
-          <select class="unit-select" [(ngModel)]="items.uniteFioul" (blur)="updateConso()">
-            <option value="TONNE">Tonnes</option>
-            <option value="MWH_PCS">MWh PCS</option>
-            <option value="M3">m3</option>
-          </select>
-        </td>
-      </tr>
-      <tr>
-        <td>Bois</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.consoBois" (blur)="updateConso()"/></td>
-        <td>
-          <select class="unit-select" [(ngModel)]="items.uniteBois" (blur)="updateConso()">
-            <option value="TONNE">Tonnes</option>
-            <option value="MWH_PCS">MWh PCS</option>
-          </select>
-        </td>
-      </tr>
-      <tr>
-        <td>Réseau de chaleur urbain</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.consoReseauVille" (blur)="updateConso()"/></td>
-        <td>MWh PCS</td>
-      </tr>
-      <tr>
-        <td>Électricité pour le chauffage</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.consoElecChauffage" (blur)="updateConso()"/></td>
-        <td>MWh PCS</td>
-      </tr>
-      <tr>
-        <td>Électricité spécifique</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.consoElecSpecifique" (blur)="updateConso()"/></td>
-        <td>MWh PCS</td>
-      </tr>
-      <tr>
-        <td>Eau</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.consoEau" (blur)="updateConso()"/></td>
-        <td>m³</td>
-      </tr>
-      </tbody>
-    </table>
+    <!-- Tableau des résultats -->
+    <div class="right-panel">
+      <h3>Résultats calculés</h3>
+      <table class="data-table">
+        <tbody>
+        <tr>
+          <td>Consommation finale</td>
+          <td>{{ resultats?.consoEnergieFinale || 0 }} MWh</td>
+        </tr>
+        <tr>
+          <td>Conso Chauffage</td>
+          <td>{{ resultats?.consoEnergieChauffage || 0 }} MWh</td>
+        </tr>
+        <tr>
+          <td>Conso Spécifique</td>
+          <td>{{ resultats?.consoEnergieSpecifique || 0 }} MWh</td>
+        </tr>
+        <tr>
+          <td>Conso finale / m²</td>
+          <td>{{ resultats?.consoEnergieFinaleParM2 || 0 }} MWh/m²</td>
+        </tr>
+        <tr>
+          <td>Conso primaire / m²</td>
+          <td>{{ resultats?.consoEnergiePrimaireParM2 || 0 }} MWh/m²</td>
+        </tr>
+        <tr>
+          <td>Intensité carbone / m²</td>
+          <td>{{ resultats?.intensiteCarboneParM2 || 0 }} kgCO₂/m²</td>
+        </tr>
+        <tr>
+          <td>Intensité carbone moyenne</td>
+          <td>{{ resultats?.intensiteCarboneMoyenne || 0 }} kgCO₂</td>
+        </tr>
+        <tr>
+          <td>Surface totale</td>
+          <td>{{ resultats?.surfaceTotaleBatiments || 0 }} m²</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
   <app-save-footer [path]="ONGLET_KEYS.Energie" (estTermineChange)="onEstTermineChange($event)"></app-save-footer>
 </div>
