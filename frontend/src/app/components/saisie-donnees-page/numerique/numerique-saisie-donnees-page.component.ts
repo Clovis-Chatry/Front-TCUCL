@@ -48,7 +48,7 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
   numeriqueEquipmentLabels = numeriqueEquipmentLabels;
   NUMERIQUE_EQUIPEMENT = NUMERIQUE_EQUIPEMENT;
 
-  equipementsAnciens: EquipementNumerique[] = [];
+  equipements: EquipementNumerique[] = [];
   estTermine = false;
   ONGLET_KEYS = ONGLET_KEYS;
 
@@ -87,7 +87,7 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
         this.traficCloud = model.traficCloud;
         this.tipUtilisateur = model.tipUtilisateur;
         this.partTraficFranceEtranger = model.partTraficFranceEtranger;
-        this.equipementsAnciens = model.equipements;
+        this.equipements = model.equipements;
         this.estTermine = model.estTermine ?? false;
         this.statusService.setStatus(ONGLET_KEYS.Numerique, this.estTermine);
       },
@@ -99,20 +99,10 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
     if (
       this.nouvelEquipement.nombre !== null &&
       this.nouvelEquipement.dureeAmortissement !== null &&
-      (!this.nouvelEquipement.emissionsGesPrecisesConnues || this.nouvelEquipement.emissionsReellesParProduitKgCO2e !== null)
+      (!this.nouvelEquipement.emissionsGesPrecisesConnues ||
+        this.nouvelEquipement.emissionsReellesParProduitKgCO2e !== null)
     ) {
-      const id = this.route.snapshot.paramMap.get('id');
-      const token = this.authService.getToken();
-      if (!id || !token) return;
-      const headers = {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      };
-      const dto = this.mapper.toEquipementDto(this.nouvelEquipement);
-      this.numeriqueService.addEquipement(id, dto, headers).subscribe({
-        next: () => this.loadData(id),
-        error: err => console.error('Erreur ajout équipement', err)
-      });
+      this.equipements.push({ ...this.nouvelEquipement });
       this.nouvelEquipement = {
         equipement: NUMERIQUE_EQUIPEMENT.ECRAN,
         nombre: null,
@@ -120,6 +110,7 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
         emissionsGesPrecisesConnues: false,
         emissionsReellesParProduitKgCO2e: null
       };
+      this.updateData();
     }
   }
 
@@ -142,12 +133,17 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
       traficCloud: this.traficCloud,
       tipUtilisateur: this.tipUtilisateur,
       partTraficFranceEtranger: this.partTraficFranceEtranger,
-      equipements: []
+      equipements: this.equipements
     };
 
     const payload = this.mapper.toDto(model);
     this.numeriqueService.updateOnglet(id, payload, headers).subscribe({
       error: err => console.error('Erreur lors de la mise à jour des données numériques', err)
     });
+  }
+
+  supprimerEquipement(index: number): void {
+    this.equipements.splice(index, 1);
+    this.updateData();
   }
 }
