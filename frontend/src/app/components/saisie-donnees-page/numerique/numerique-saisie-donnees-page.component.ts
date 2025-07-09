@@ -50,6 +50,7 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
   NUMERIQUE_EQUIPEMENT = NUMERIQUE_EQUIPEMENT;
 
   equipements: EquipementNumerique[] = [];
+  resultats: NumeriqueResultat | null = null;
   estTermine = false;
   ONGLET_KEYS = ONGLET_KEYS;
 
@@ -147,5 +148,20 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
   supprimerEquipement(index: number): void {
     this.equipements.splice(index, 1);
     this.updateData();
+  }
+
+  loadResultats(id: string) {
+    const token = this.authService.getToken();
+    if (!token) return;
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    };
+    this.numeriqueService.getResult(id, headers).subscribe({
+      next: data => {
+        this.resultats = data;
+      },
+      error: err => console.error('Erreur lors du chargement des résultats numériques', err)
+    });
   }
 }
