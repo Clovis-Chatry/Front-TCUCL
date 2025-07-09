@@ -96,31 +96,3 @@ button {
   }
 }
 
-.panels-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 4em;
-  margin-top: 2em;
-  padding: 0 3em;
-  box-sizing: border-box;
-}
-
-.left-panel {
-  width: 60%;
-  box-sizing: border-box;
-}
-
-.right-panel {
-  width: 40%;
-  background-color: #fff;
-  padding: 2em;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box;
-}
-
-.right-panel h3 {
-  text-align: center;
-  margin-bottom: 1rem;
-}

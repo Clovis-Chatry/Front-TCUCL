@@ -42,7 +42,7 @@ export class NumeriqueOngletMapperService {
       PartTraficFranceEtranger: model.partTraficFranceEtranger,
       equipementNumeriqueList: model.equipements.map((e: EquipementNumerique) => ({
         id: e.id,
-        type: typeof e.equipement === 'string' ? e.equipement : (e.equipement as NUMERIQUE_EQUIPEMENT).toString(),
+        equipement: typeof e.equipement === 'string' ? e.equipement : (e.equipement as NUMERIQUE_EQUIPEMENT).toString(),
         nombre: e.nombre,
         dureeAmortissement: e.dureeAmortissement,
         emissionsGesPrecisesConnues: e.emissionsGesPrecisesConnues,
@@ -54,7 +54,7 @@ export class NumeriqueOngletMapperService {
   toEquipementDto(e: EquipementNumerique): any {
     return {
       id: e.id,
-      type: typeof e.equipement === 'string' ? e.equipement : (e.equipement as NUMERIQUE_EQUIPEMENT).toString(),
+      equipement: typeof e.equipement === 'string' ? e.equipement : (e.equipement as NUMERIQUE_EQUIPEMENT).toString(),
       nombre: e.nombre,
       dureeAmortissement: e.dureeAmortissement,
       emissionsGesPrecisesConnues: e.emissionsGesPrecisesConnues,
