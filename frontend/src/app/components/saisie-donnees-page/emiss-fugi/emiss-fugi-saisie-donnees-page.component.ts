@@ -111,9 +111,10 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
     return { value: TypeFluide[key as keyof typeof TypeFluide], label: TypeFluideLabels[TypeFluide[key as keyof typeof TypeFluide]] };
   });
 
-  typeMachineLabelEntries = Object.keys(TypeMachineEnum).map(key => {
-    return { value: TypeMachineEnum[key as keyof typeof TypeMachineEnum], label: TypeMachineLabels[TypeMachineEnum[key as keyof typeof TypeMachineEnum]] };
-  });
+  typeMachineLabelEntries = Object.entries(TypeMachineLabels).map(([key, label]) => ({
+    value: key as TypeMachineEnum,
+    label
+  }));
 
   machines: any[] = [];
   newMachine: any = {
@@ -205,16 +206,19 @@ export class EmissFugiSaisieDonneesPageComponent implements OnInit {
 
     // Avant d'ajouter la machine, il faut convertir le label en valeur de l'énumération
     const labelToValueMachine = (label: string) => {
-      return Object.keys(TypeMachineEnum).find(key => TypeMachineLabels[TypeMachineEnum[key as keyof typeof TypeMachineEnum]] === label);
+      const key = Object.keys(TypeMachineEnum).find(
+        key => TypeMachineLabels[TypeMachineEnum[key as keyof typeof TypeMachineEnum]] === label
+      );
+      return key ? TypeMachineEnum[key as keyof typeof TypeMachineEnum] : undefined;
     };
 
     const machineToAdd = { ...this.newMachine };
-
+    console.log(machineToAdd)
 // Conversion des labels
     if (this.newMachine.tauxDeFuiteConnu) {
       machineToAdd.typeMachine = "NA"; // Cas où on ne veut pas de saisie
     } else {
-      machineToAdd.typeMachine = labelToValueMachine(machineToAdd.typeMachine); // Cas normal
+      machineToAdd.typeMachine = this.newMachine.typeMachine;
     }
 
     if (this.newMachine.descriptionMachine.length > 100) {
