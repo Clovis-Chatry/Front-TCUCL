@@ -21,6 +21,9 @@
 
       <label for="tipUtilisateur">TIP utilisateur</label>
       <input id="tipUtilisateur" type="number" [(ngModel)]="tipUtilisateur" (blur)="updateData()"/>
+
+      <label for="partTrafic">Part trafic France / Étranger (%)</label>
+      <input id="partTrafic" type="number" [(ngModel)]="partTraficFranceEtranger" (blur)="updateData()"/>
     </div>
 
     <hr/>
@@ -79,6 +82,30 @@
         <td>{{ equipement.emissionsReellesParProduitKgCO2e ?? 'N/A' }}</td>
         <td>{{ equipement.anneeAjout }}</td>
         <td><button (click)="supprimerEquipement(i)">🗑️</button></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="resultats" class="results">
+    <h3>Résultats calculés</h3>
+    <table class="data-table">
+      <tbody>
+      <tr>
+        <td>Méthode simplifiée</td>
+        <td>{{ resultats?.methodeSimplifieeResultat || 0 }} kgCO2e</td>
+      </tr>
+      <tr>
+        <td>Empreinte carbone data center</td>
+        <td>{{ resultats?.empreinteCarboneDataCenter || 0 }} kgCO2e</td>
+      </tr>
+      <tr>
+        <td>Empreinte carbone data center + réseaux</td>
+        <td>{{ resultats?.empreinteCarboneDataCenterEtReseaux || 0 }} kgCO2e</td>
+      </tr>
+      <tr>
+        <td>Total numérique</td>
+        <td>{{ resultats?.totalNumerique || 0 }} kgCO2e</td>
       </tr>
       </tbody>
     </table>
