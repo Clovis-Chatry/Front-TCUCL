@@ -57,6 +57,9 @@ header {
         border: none;
         cursor: pointer;
         padding: 0;
+        width: 100%;
+        justify-content: left;
+        margin: 0.75rem 1rem;
 
         img {
           border-radius: 50%;
@@ -81,7 +84,6 @@ header {
         z-index: 100;
 
         li {
-          padding: 0.75rem 1rem;
           font-size: 0.95rem;
           cursor: pointer;
           transition: background-color 0.2s ease;

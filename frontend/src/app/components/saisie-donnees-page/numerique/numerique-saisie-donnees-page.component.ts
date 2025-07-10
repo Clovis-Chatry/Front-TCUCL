@@ -47,10 +47,8 @@ export class NumeriqueSaisieDonneesPageComponent implements OnInit {
   });
 
   numeriqueEquipmentLabels = numeriqueEquipmentLabels;
-  NUMERIQUE_EQUIPEMENT = NUMERIQUE_EQUIPEMENT;
-
-  equipements: EquipementNumerique[] = [];
   resultats: NumeriqueResultat | null = null;
+  equipements: EquipementNumerique[] = [];
   estTermine = false;
   ONGLET_KEYS = ONGLET_KEYS;
 

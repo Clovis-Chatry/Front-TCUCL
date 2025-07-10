@@ -1,17 +1,17 @@
 <div class="dashboard-page">
-  <div class="dashboard-container">
+  <div class="dashboard dashboard-container">
   <h2>Saisie des données</h2>
 
   <div class="dashboard-buttons" >
-    <button class="main-button" (click)=goToEnergie()>
+    <button class="main-button" (click)=goToGeneralOnglet()>
       ✏️ Renseigner année courante
     </button>
 
-    <div class="main-button year-selector-button">
-      <div class="year-button-text" (click)="goToEnergieAvecAnnee()">
+    <div class="main-button year-selector-button" (click)="goToGeneralOngletAvecAnnee()">
+      <div class="year-button-text">
         ✏️ Modifier une autre année
       </div>
-      <select class="year-dropdown" [(ngModel)]="selectedYear" (ngModelChange)="onYearChange($event)">
+      <select class="year-dropdown" [(ngModel)]="selectedYear" (ngModelChange)="onYearChange($event)" (click)="$event.stopPropagation()">
         <option *ngFor="let year of years" [value]="year.value">{{ year.label }}</option>
       </select>
     </div>
@@ -42,5 +42,5 @@
     </div>
   </div>
   </div>
-  <div class="dashboard-side"></div>
+  <div class="dashboard dashboard-side"></div>
 </div>
