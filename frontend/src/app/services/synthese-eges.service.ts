@@ -16,7 +16,35 @@ export interface SyntheseEgesResult {
   achatGlobal: number | null;
   dechetGlobal: number | null;
   bilanCarboneTotalGlobal: number | null;
+  /** Sum of scope/poste values returned by the API */
+  bilanCarboneTotalScope?: number | null;
+  /** Scope/poste values */
+  emissionDirecteCombustion?: number | null;
+  emissionDirecteMoteurThermique?: number | null;
+  emissionDirecteHorsEnergie?: number | null;
+  emissionDirecteFugitives?: number | null;
+  emissionBiomasse?: number | null;
+  emissionIndirecteConsoElec?: number | null;
+  emissionIndirecteConsoVapeurChaleurFroid?: number | null;
+  emissionNonIncluseDansDirectOuIndirecte?: number | null;
+  achatProduitOuService?: number | null;
+  immobilisationBien?: number | null;
+  dechet?: number | null;
+  transportMarchandiseAmont?: number | null;
+  deplacementProfessionnel?: number | null;
+  leasingAmont?: number | null;
+  investissement?: number | null;
+  transportVisiteursClients?: number | null;
+  transportMarchandiseAval?: number | null;
+  utilisationProduitVendu?: number | null;
+  finVieProduitVendu?: number | null;
+  franchiseAval?: number | null;
+  leasingAval?: number | null;
+  deplacementDomicileTravail?: number | null;
+  autreEmissionIndirecte?: number | null;
   consoEnergieFinale?: number | null;
+  /** Any other numeric fields returned by the API */
+  [key: string]: number | null | undefined;
 }
 
 @Injectable({ providedIn: 'root' })
