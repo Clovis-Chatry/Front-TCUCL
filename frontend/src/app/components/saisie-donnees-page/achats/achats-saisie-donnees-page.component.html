@@ -41,19 +41,19 @@
 
     <h2>Poste restauration</h2>
     <p>Avez-vous déjà calculé le bilan carbone du poste restauration ?</p>
-    <label><input type="radio" name="hasBilanCarbone" [(ngModel)]="items.hasBilanCarbone" [value]="true" /> Oui</label>
-    <label><input type="radio" name="hasBilanCarbone" [(ngModel)]="items.hasBilanCarbone" [value]="false" /> Non</label>
+    <label><input type="radio" name="hasBilanCarbone" [(ngModel)]="items.hasBilanCarbone" [value]="true" (change)="updateAchat()"/> Oui</label>
+    <label><input type="radio" name="hasBilanCarbone" [(ngModel)]="items.hasBilanCarbone" [value]="false" (change)="updateAchat()"/> Non</label>
 
     <div *ngIf="items.hasBilanCarbone">
       <label>Bilan carbone total (tCO2e/an) :
-        <input type="number" [(ngModel)]="items.bilanCarboneTotal" />
+        <input type="number" [(ngModel)]="items.bilanCarboneTotal" (blur)="updateAchat()" />
       </label>
     </div>
 
     <div *ngIf="items.hasBilanCarbone === false">
       <p>Connaissez-vous la quantité d'aliments consommés (en tonnes) ?</p>
-      <label><input type="radio" name="quantiteAliments" [(ngModel)]="items.connaitQuantiteAliments" [value]="true" /> Oui</label>
-      <label><input type="radio" name="quantiteAliments" [(ngModel)]="items.connaitQuantiteAliments" [value]="false" /> Non</label>
+      <label><input type="radio" name="quantiteAliments" [(ngModel)]="items.connaitQuantiteAliments" [value]="true" (change)="updateAchat()"/> Oui</label>
+      <label><input type="radio" name="quantiteAliments" [(ngModel)]="items.connaitQuantiteAliments" [value]="false" (change)="updateAchat()"/> Non</label>
 
       <div *ngIf="items.connaitQuantiteAliments">
         <table class="data-table">
@@ -72,8 +72,8 @@
 
       <div *ngIf="items.connaitQuantiteAliments === false">
         <p>Connaissez-vous le nombre de repas consommés dans l'année par type ?</p>
-        <label><input type="radio" name="repasParType" [(ngModel)]="items.connaitRepasParType" [value]="true" /> Oui</label>
-        <label><input type="radio" name="repasParType" [(ngModel)]="items.connaitRepasParType" [value]="false" /> Non</label>
+        <label><input type="radio" name="repasParType" [(ngModel)]="items.connaitRepasParType" [value]="true" (change)="updateAchat()"/> Oui</label>
+        <label><input type="radio" name="repasParType" [(ngModel)]="items.connaitRepasParType" [value]="false" (change)="updateAchat()"/> Non</label>
 
         <div *ngIf="items.connaitRepasParType">
           <table class="data-table">

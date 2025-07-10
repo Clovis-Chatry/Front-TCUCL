@@ -97,16 +97,24 @@
         <tbody>
         <tr *ngFor="let machine of items.machines; let i = index">
           <td>{{ machine.nom }}</td>
-          <td><input type="number" [(ngModel)]="machine.nombre"/></td>
-          <td><input type="number" [(ngModel)]="machine.poids"/></td>
-          <td><input type="number" [(ngModel)]="machine.amortissement"/></td>
+          <td>
+            <input type="number" [(ngModel)]="machine.nombre" (blur)="updateData()"/>
+          </td>
+          <td>
+            <input type="number" [(ngModel)]="machine.poids" (blur)="updateData()"/>
+          </td>
+          <td>
+            <input type="number" [(ngModel)]="machine.amortissement" (blur)="updateData()"/>
+          </td>
           <td>
             <select [(ngModel)]="machine.gesConnu" (change)="updateData()">
               <option [value]="true">Oui</option>
               <option [value]="false">Non</option>
             </select>
           </td>
-          <td><input type="number" [(ngModel)]="machine.gesReel"/></td>
+          <td>
+            <input type="number" [(ngModel)]="machine.gesReel" (blur)="updateData()"/>
+          </td>
         </tr>
         </tbody>
       </table>
