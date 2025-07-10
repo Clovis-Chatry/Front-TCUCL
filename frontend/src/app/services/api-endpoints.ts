@@ -50,6 +50,7 @@ export const ApiEndpoints = {
   AchatsOnglet: {
     getById: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Achats}/${id}`,
     update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Achats}/${id}`,
+    resultat: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Achats}/${id}/resultat`
   },
 
   autreImmobilisationOnglet: {

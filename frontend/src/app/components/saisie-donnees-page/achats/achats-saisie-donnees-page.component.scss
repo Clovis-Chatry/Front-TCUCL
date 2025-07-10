@@ -1,11 +1,27 @@
 /* Structure globale */
 .main-container {
   background-color: #E6F0FF;
+  min-height: 100vh;
+  padding: 20px 40px 80px; // padding bottom = footer height + marge
+  box-sizing: border-box;
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  padding: 2rem;
-  min-height: 100vh;
+}
+
+.panels-wrapper {
+  display: flex;
+  gap: 3em;
+  flex: 1 1 auto; // prendre tout l’espace vertical restant
+  overflow: hidden;
+}
+
+.left-panel, .right-panel {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5em 2em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: auto;
   box-sizing: border-box;
 }
 
@@ -20,13 +36,18 @@
   overflow-y: auto;
 }
 
+.right-panel h3 {
+  font-size: 1.4rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
 /* Colonne droite : espace réservé aux graphiques */
-.right-panel {
-  flex: 1;
-  border: 2px dashed #ccc;
-  border-radius: 8px;
-  min-height: 400px;
-  background-color: #fff;
+.right-panel td {
+  background-color: #f3f3f3;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 h2 {
@@ -39,7 +60,7 @@ h2 {
 .data-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 1rem;
+  table-layout: auto;
 }
 
 .data-table th,
