@@ -28,14 +28,18 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
 
   onglet: MobInternationalOngletModel = { voyages: [] };
 
+  /**
+   * Voyage saisi dans le formulaire. Tous les champs numériques sont
+   * initialisés à 0 pour éviter l'envoi de valeurs null lors du PATCH.
+   */
   nouveauVoyage: Voyage = {
     nomPays: '' as any,
-    prosAvion: null,
-    prosTrain: null,
-    stagesEtudiantsAvion: null,
-    stagesEtudiantsTrain: null,
-    semestresEtudiantsAvion: null,
-    semestresEtudiantsTrain: null
+    prosAvion: 0,
+    prosTrain: 0,
+    stagesEtudiantsAvion: 0,
+    stagesEtudiantsTrain: 0,
+    semestresEtudiantsAvion: 0,
+    semestresEtudiantsTrain: 0
   };
 
   ONGLET_KEYS = ONGLET_KEYS;
@@ -78,14 +82,15 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
 
   ajouterVoyage(): void {
     this.onglet.voyages.push({ ...this.nouveauVoyage });
+    // Réinitialisation avec 0 pour garantir l'envoi d'entiers à l'API
     this.nouveauVoyage = {
       nomPays: '' as any,
-      prosAvion: null,
-      prosTrain: null,
-      stagesEtudiantsAvion: null,
-      stagesEtudiantsTrain: null,
-      semestresEtudiantsAvion: null,
-      semestresEtudiantsTrain: null
+      prosAvion: 0,
+      prosTrain: 0,
+      stagesEtudiantsAvion: 0,
+      stagesEtudiantsTrain: 0,
+      semestresEtudiantsAvion: 0,
+      semestresEtudiantsTrain: 0
     };
     this.updateData();
   }

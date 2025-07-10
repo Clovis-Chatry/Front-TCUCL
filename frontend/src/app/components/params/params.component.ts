@@ -5,7 +5,9 @@ import {Router} from '@angular/router';
 import {UserService} from '../../services/user.service';
 import {ParamService} from './params.service';
 import {AuthService} from '../../services/auth.service';
-import {UtilisateurDto} from '../../models/user.model'; // adapte le chemin selon ton arborescence
+import {UtilisateurDto} from '../../models/user.model';
+import {MatButton} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon'; // adapte le chemin selon ton arborescence
 
 interface User {
   firstName: string;
@@ -31,7 +33,7 @@ export interface EntityNomId {
 @Component({
   selector: 'app-params',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatIcon, MatButton],
   templateUrl: './params.component.html',
   styleUrls: ['./params.component.scss']
 })
