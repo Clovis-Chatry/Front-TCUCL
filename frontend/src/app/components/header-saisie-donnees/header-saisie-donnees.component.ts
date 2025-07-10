@@ -165,22 +165,6 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
     this.router.navigate([`/${urlPart}/${ongletId}`]);
   }
 
-  navigateToSameYear(){
-    const urlPart = this.tabToRoute[this.activeTab || 'General'];
-    if (!urlPart) {
-      console.error('Tab non reconnu:', this.activeTab);
-      return;
-    }
-
-    const ongletId = this.ongletIdMap[urlPart];
-    if (!ongletId) {
-      console.error('ID introuvable pour l\'onglet', urlPart);
-      return;
-    }
-
-    this.router.navigate([`/${urlPart}/${ongletId}`]);
-  }
-
   navigateToDashboard() {
     this.router.navigate(['/dashboard']);
   }
