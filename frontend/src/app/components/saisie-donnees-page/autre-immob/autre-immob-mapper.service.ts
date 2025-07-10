@@ -69,7 +69,8 @@ export class AutreImmobMapperService {
     const hasPvData =
       dto.installationComplete_PuissanceTotale != null ||
       dto.panneaux_PuissanceTotale != null ||
-      dto.onduleur_PuissanceTotale != null;
+      dto.onduleur_PuissanceTotale != null ||
+      dto.cablageEtStructure_PuissanceTotale != null;
 
     return {
       pvInstallationPuissance: dto.installationComplete_PuissanceTotale ?? null,
@@ -84,6 +85,10 @@ export class AutreImmobMapperService {
       pvOnduleursDuree: dto.onduleur_DureeDeVie ?? null,
       pvOnduleursGESConnu: dto.onduleur_IsEmissionGESConnues ?? null,
       pvOnduleursGESReel: dto.onduleur_EmissionDeGes ?? null,
+      pvCablagePuissance: dto.cablageEtStructure_PuissanceTotale ?? null,
+      pvCablageDuree: dto.cablageEtStructure_DureeDeVie ?? null,
+      pvCablageGESConnu: dto.cablageEtStructure_IsEmissionGESConnues ?? null,
+      pvCablageGESReel: dto.cablageEtStructure_EmissionDeGes ?? null,
       hasPanneaux: hasPvData,
       machinesElectriques: machines.length > 0,
       machines,
@@ -106,6 +111,10 @@ export class AutreImmobMapperService {
       onduleur_DureeDeVie: model.pvOnduleursDuree,
       onduleur_IsEmissionGESConnues: model.pvOnduleursGESConnu,
       onduleur_EmissionDeGes: model.pvOnduleursGESReel,
+      cablageEtStructure_PuissanceTotale: model.pvCablagePuissance,
+      cablageEtStructure_DureeDeVie: model.pvCablageDuree,
+      cablageEtStructure_IsEmissionGESConnues: model.pvCablageGESConnu,
+      cablageEtStructure_EmissionDeGes: model.pvCablageGESReel,
       estTermine: model.estTermine,
       note: model.note
     };

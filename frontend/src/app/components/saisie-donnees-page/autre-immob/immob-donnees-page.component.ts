@@ -48,6 +48,12 @@ export class AutreImmobilisationPageComponent implements OnInit {
     pvOnduleursGESConnu: '',
     pvOnduleursGESReel: null,
 
+    // Câblage / Structure
+    pvCablagePuissance: null,
+    pvCablageDuree: null,
+    pvCablageGESConnu: '',
+    pvCablageGESReel: null,
+
     // Machines
     machinesElectriques: false,
     machineType: '',
