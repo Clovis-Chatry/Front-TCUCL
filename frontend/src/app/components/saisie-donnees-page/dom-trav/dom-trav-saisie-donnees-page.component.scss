@@ -71,6 +71,10 @@ th {
   text-align: center;
 }
 
+.data-table + .data-table {
+  margin-top: 1.5em;
+}
+
 .page-title {
   display: flex;
   align-items: center;
