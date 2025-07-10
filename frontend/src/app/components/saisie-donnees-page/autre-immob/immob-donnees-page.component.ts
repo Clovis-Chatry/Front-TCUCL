@@ -122,6 +122,8 @@ export class AutreImmobilisationPageComponent implements OnInit {
     this.items.machineAmortissement = null;
     this.items.machineGESConnu = '';
     this.items.machineGESReel = null;
+
+    this.updateData();
   }
 
   supprimerMachine(index: number): void {

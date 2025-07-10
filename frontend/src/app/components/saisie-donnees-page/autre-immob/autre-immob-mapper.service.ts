@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
 export class AutreImmobMapperService {
   fromDto(dto: any): any {
     return {
+      pvInstallationPuissance: dto.installationComplete_PuissanceTotale ?? null,
+      pvInstallationDuree: dto.installationComplete_DureeDeVie ?? null,
       pvInstallationGESConnu: dto.installationComplete_IsEmissionGESConnues ?? null,
       pvInstallationGESReel: dto.installationComplete_EmissionDeGes ?? null,
       pvPanneauxPuissance: dto.panneaux_PuissanceTotale ?? null,
@@ -21,6 +23,8 @@ export class AutreImmobMapperService {
 
   toDto(model: any): any {
     return {
+      installationComplete_PuissanceTotale: model.pvInstallationPuissance,
+      installationComplete_DureeDeVie: model.pvInstallationDuree,
       installationComplete_IsEmissionGESConnues: model.pvInstallationGESConnu,
       installationComplete_EmissionDeGes: model.pvInstallationGESReel,
       panneaux_PuissanceTotale: model.pvPanneauxPuissance,
