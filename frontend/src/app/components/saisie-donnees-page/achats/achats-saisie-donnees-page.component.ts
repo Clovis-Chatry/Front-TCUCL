@@ -32,10 +32,10 @@
     resultatAchatsEntries: { key: string, value: any }[] = [];
 
     consommablesFields = [
-      { label: 'Papier', unit: 'Tonnes', key: 'papierCons' },
-      { label: 'Papier', unit: 'Ramettes', key: 'papierCons' },
-      { label: 'Livres', unit: 'Tonnes', key: 'livresCons' },
-      { label: 'Livres', unit: 'Nb', key: 'livresCons' },
+      { label: 'Papier', unit: 'Tonnes', key: 'papierConsTonnes' },
+      { label: 'Papier', unit: 'Ramettes', key: 'papierConsRamettes' },
+      { label: 'Livres', unit: 'Tonnes', key: 'livresConsTonnes' },
+      { label: 'Livres', unit: 'Nb', key: 'livresConsNb' },
       { label: 'Carton neuf', unit: 'Tonnes', key: 'cartonNeufCons' },
       { label: 'Carton recycle', unit: 'Tonnes', key: 'cartonRecycleCons' },
       { label: 'Petites fournitures', unit: 'EUR', key: 'fournituresCons' },
