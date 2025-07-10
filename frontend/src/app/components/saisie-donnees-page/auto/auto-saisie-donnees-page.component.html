@@ -15,20 +15,20 @@
 
       <div class="form-column">
         <label>Modèle / Immatriculation</label>
-        <input type="text" [(ngModel)]="nouveauVehicule.modeleOuImmatriculation" />
+        <input type="text" [(ngModel)]="nouveauVehicule.modeleOuImmatriculation" (blur)="updateData()" />
 
         <label>Type de véhicule</label>
-        <select [(ngModel)]="nouveauVehicule.typeVehicule">
+        <select [(ngModel)]="nouveauVehicule.typeVehicule" (change)="updateData()">
           <option *ngFor="let type of vehiculeTypesLibelles" [ngValue]="type.value">
             {{ type.label }}
           </option>
         </select>
 
         <label>Nombre de véhicules identiques</label>
-        <input type="number" [(ngModel)]="nouveauVehicule.nombreVehiculesIdentiques" />
+        <input type="number" [(ngModel)]="nouveauVehicule.nombreVehiculesIdentiques" (blur)="updateData()" />
 
         <label>Nombre de Km moyen annuel / Voiture</label>
-        <input type="number" [(ngModel)]="nouveauVehicule.nombreKilometresParVoitureMoyen" />
+        <input type="number" [(ngModel)]="nouveauVehicule.nombreKilometresParVoitureMoyen" (blur)="updateData()" />
       </div>
 
       <button type="button" (click)="ajouterVehicule()">Ajouter ce véhicule</button>

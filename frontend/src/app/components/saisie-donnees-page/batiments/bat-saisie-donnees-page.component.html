@@ -16,30 +16,30 @@ Les bâtiments qui ont été renseignées les années précédentes sont encore 
     <summary><strong>Saisir un nouveau bâtiment</strong></summary>
 
     <label>Nom / Adresse :
-      <input type="text" [(ngModel)]="nouveauBatiment.nom_ou_adresse"/>
+      <input type="text" [(ngModel)]="nouveauBatiment.nom_ou_adresse" (blur)="updateData()"/>
     </label>
 
     <label>Date de construction :
-      <input type="date" [(ngModel)]="nouveauBatiment.dateConstruction"/>
+      <input type="date" [(ngModel)]="nouveauBatiment.dateConstruction" (blur)="updateData()"/>
     </label>
 
     <label>Date de la dernière rénovation complète :
-      <input type="date" [(ngModel)]="nouveauBatiment.dateDerniereGrosseRenovation"/>
+      <input type="date" [(ngModel)]="nouveauBatiment.dateDerniereGrosseRenovation" (blur)="updateData()"/>
     </label>
 
     <label>Avez-vous une ACV de ce bâtiment ?
-      <select [(ngModel)]="nouveauBatiment.acvBatimentRealisee">
+      <select [(ngModel)]="nouveauBatiment.acvBatimentRealisee" (change)="updateData()">
         <option [ngValue]="true">Oui</option>
         <option [ngValue]="false">Non</option>
       </select>
     </label>
 
     <label *ngIf="nouveauBatiment.acvBatimentRealisee">Émissions de GES réelles (tCO2e/an) :
-      <input type="number" [(ngModel)]="nouveauBatiment.emissionsGesReellesTCO2"/>
+      <input type="number" [(ngModel)]="nouveauBatiment.emissionsGesReellesTCO2" (blur)="updateData()"/>
     </label>
 
     <label>Type de bâtiment :
-      <select [(ngModel)]="nouveauBatiment.typeBatiment">
+      <select [(ngModel)]="nouveauBatiment.typeBatiment" (change)="updateData()">
         <option *ngFor="let type of batimentTypesLibelles" [ngValue]="type.value">
           {{ type.label }}
         </option>
@@ -47,11 +47,11 @@ Les bâtiments qui ont été renseignées les années précédentes sont encore 
     </label>
 
     <label>Surface (m²) :
-      <input type="number" [(ngModel)]="nouveauBatiment.surfaceEnM2"/>
+      <input type="number" [(ngModel)]="nouveauBatiment.surfaceEnM2" (blur)="updateData()"/>
     </label>
 
     <label>Type de structure :
-      <select [(ngModel)]="nouveauBatiment.typeStructure">
+      <select [(ngModel)]="nouveauBatiment.typeStructure" (change)="updateData()">
         <option *ngFor="let structure of structureTypesLibelles" [ngValue]="structure.value">
           {{ structure.label }}
         </option>
@@ -110,11 +110,11 @@ Merci de ne renseigner que vos travaux de l'année, l'outil réintègre automati
     <summary><strong>Saisir une rénovation ponctuelle</strong></summary>
 
     <label>Nom du bâtiment :
-      <input type="text" [(ngModel)]="nouvelleReno.nom_adresse"/>
+      <input type="text" [(ngModel)]="nouvelleReno.nom_adresse" (blur)="updateData()"/>
     </label>
 
     <label>Type de travaux :
-      <select [(ngModel)]="nouvelleReno.typeTravaux">
+      <select [(ngModel)]="nouvelleReno.typeTravaux" (change)="updateData()">
         <option *ngFor="let travaux of travauxTypesLibelles" [ngValue]="travaux.value">
           {{ travaux.label }}
         </option>
@@ -122,11 +122,11 @@ Merci de ne renseigner que vos travaux de l'année, l'outil réintègre automati
     </label>
 
     <label>Date des travaux :
-      <input type="date" [(ngModel)]="nouvelleReno.dateTravaux"/>
+      <input type="date" [(ngModel)]="nouvelleReno.dateTravaux" (blur)="updateData()"/>
     </label>
 
     <label>Type de bâtiment :
-      <select [(ngModel)]="nouvelleReno.typeBatiment">
+      <select [(ngModel)]="nouvelleReno.typeBatiment" (change)="updateData()">
         <option *ngFor="let type of batimentTypesLibelles" [ngValue]="type.value">
           {{ type.label }}
         </option>
@@ -134,11 +134,11 @@ Merci de ne renseigner que vos travaux de l'année, l'outil réintègre automati
     </label>
 
     <label>Surface (m²) :
-      <input type="number" [(ngModel)]="nouvelleReno.surfaceConcernee"/>
+      <input type="number" [(ngModel)]="nouvelleReno.surfaceConcernee" (blur)="updateData()"/>
     </label>
 
     <label>Durée amortissement (année) :
-      <input type="number" [(ngModel)]="nouvelleReno.dureeAmortissement"/>
+      <input type="number" [(ngModel)]="nouvelleReno.dureeAmortissement" (blur)="updateData()"/>
     </label>
 
     <button (click)="ajouterEntretien()">Ajouter cette rénovation</button>
@@ -189,7 +189,7 @@ Merci de ne renseigner que vos travaux de l'année, l'outil réintègre automati
     <summary><strong>Saisir du mobilier</strong></summary>
 
     <label>Type de mobilier :
-      <select [(ngModel)]="nouveauMobilier.mobilier">
+      <select [(ngModel)]="nouveauMobilier.mobilier" (change)="updateData()">
         <option *ngFor="let type of mobilierTypesLibelles" [ngValue]="type.value">
           {{ type.label }}
         </option>
@@ -197,15 +197,15 @@ Merci de ne renseigner que vos travaux de l'année, l'outil réintègre automati
     </label>
 
     <label>Nombre :
-      <input type="number" [(ngModel)]="nouveauMobilier.quantite"/>
+      <input type="number" [(ngModel)]="nouveauMobilier.quantite" (blur)="updateData()"/>
     </label>
 
     <label>Poids (kg) :
-      <input type="number" [(ngModel)]="nouveauMobilier.poidsDuProduit"/>
+      <input type="number" [(ngModel)]="nouveauMobilier.poidsDuProduit" (blur)="updateData()"/>
     </label>
 
     <label>Durée amortissement (année) :
-      <input type="number" [(ngModel)]="nouveauMobilier.dureeAmortissement"/>
+      <input type="number" [(ngModel)]="nouveauMobilier.dureeAmortissement" (blur)="updateData()"/>
     </label>
 
     <button (click)="ajouterMobilier()">Ajouter ce mobilier</button>

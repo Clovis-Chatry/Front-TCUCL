@@ -16,7 +16,7 @@
 
       <div class="form-column">
         <label>Quel est le pays de destination ?
-          <select [(ngModel)]="nouveauVoyage.nomPays">
+          <select [(ngModel)]="nouveauVoyage.nomPays" (change)="updateData()">
             <option *ngFor="let pays of listePays" [value]="pays">{{ pays }}</option>
           </select>
         </label>
@@ -33,15 +33,15 @@
           <tbody>
             <tr>
               <td>Avion</td>
-              <td><input type="number" [(ngModel)]="nouveauVoyage.prosAvion" /></td>
-              <td><input type="number" [(ngModel)]="nouveauVoyage.stagesEtudiantsAvion" /></td>
-              <td><input type="number" [(ngModel)]="nouveauVoyage.semestresEtudiantsAvion" /></td>
+              <td><input type="number" [(ngModel)]="nouveauVoyage.prosAvion" (blur)="updateData()" /></td>
+              <td><input type="number" [(ngModel)]="nouveauVoyage.stagesEtudiantsAvion" (blur)="updateData()" /></td>
+              <td><input type="number" [(ngModel)]="nouveauVoyage.semestresEtudiantsAvion" (blur)="updateData()" /></td>
             </tr>
             <tr>
               <td>Train / Bus</td>
-              <td><input type="number" [(ngModel)]="nouveauVoyage.prosTrain" /></td>
-              <td><input type="number" [(ngModel)]="nouveauVoyage.stagesEtudiantsTrain" /></td>
-              <td><input type="number" [(ngModel)]="nouveauVoyage.semestresEtudiantsTrain" /></td>
+              <td><input type="number" [(ngModel)]="nouveauVoyage.prosTrain" (blur)="updateData()" /></td>
+              <td><input type="number" [(ngModel)]="nouveauVoyage.stagesEtudiantsTrain" (blur)="updateData()" /></td>
+              <td><input type="number" [(ngModel)]="nouveauVoyage.semestresEtudiantsTrain" (blur)="updateData()" /></td>
             </tr>
           </tbody>
         </table>

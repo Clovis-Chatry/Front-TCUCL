@@ -15,38 +15,38 @@
 
       <div class="form-column">
         <label>Nom / Adresse :
-          <input type="text" [(ngModel)]="nouveauParking.nomOuAdresse" />
+          <input type="text" [(ngModel)]="nouveauParking.nomOuAdresse" (blur)="updateData()" />
         </label>
 
         <label>Date de construction :
-          <input type="date" [(ngModel)]="nouveauParking.dateConstruction" />
+          <input type="date" [(ngModel)]="nouveauParking.dateConstruction" (blur)="updateData()" />
         </label>
 
         <label>Type :
-          <select [(ngModel)]="nouveauParking.type">
+          <select [(ngModel)]="nouveauParking.type" (change)="updateData()">
             <option *ngFor="let t of parkingTypes" [ngValue]="t">{{ t }}</option>
           </select>
         </label>
 
         <label>Surface (m²) :
-          <input type="number" [(ngModel)]="nouveauParking.nombreM2" />
+          <input type="number" [(ngModel)]="nouveauParking.nombreM2" (blur)="updateData()" />
         </label>
 
         <label>Type de structure :
-          <select [(ngModel)]="nouveauParking.typeStructure">
+          <select [(ngModel)]="nouveauParking.typeStructure" (change)="updateData()">
             <option *ngFor="let ts of structureTypes" [ngValue]="ts">{{ ts }}</option>
           </select>
         </label>
 
         <label>Émissions de GES connues ?
-          <select [(ngModel)]="nouveauParking.emissionsGesConnues" (ngModelChange)="onEmissionsConnuesChange($event)">
+          <select [(ngModel)]="nouveauParking.emissionsGesConnues" (ngModelChange)="onEmissionsConnuesChange($event); updateData()">
             <option [ngValue]="false">Non</option>
             <option [ngValue]="true">Oui</option>
           </select>
         </label>
 
         <label *ngIf="nouveauParking.emissionsGesConnues">Émissions de GES réelles (tCO2e/an) :
-          <input type="number" [(ngModel)]="nouveauParking.emissionsGesReelles" />
+          <input type="number" [(ngModel)]="nouveauParking.emissionsGesReelles" (blur)="updateData()" />
         </label>
       </div>
 
