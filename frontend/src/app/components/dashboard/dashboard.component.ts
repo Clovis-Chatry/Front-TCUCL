@@ -139,10 +139,10 @@ export class DashboardComponent implements OnInit {
   loadOngletIds(): void {
     this.ongletService.getOngletIds(this.entiteId, this.selectedYear)?.subscribe({
       next: (result) => {
-        // if (!result[ONGLET_KEYS.MobInternationale] && result['mobInternationalOnglet']) {
-        //   result[ONGLET_KEYS.MobInternationale] = result['mobInternationalOnglet'];
-        //   delete result['mobInternationalOnglet'];
-        // }
+        if (!result[ONGLET_KEYS.MobInternationale] && result['mobInternationalOnglet']) {
+          result[ONGLET_KEYS.MobInternationale] = result['mobInternationalOnglet'];
+          delete result['mobInternationalOnglet'];
+        }
         this.ongletIdMap = result;
       },
       error: (err) => {
@@ -154,10 +154,10 @@ export class DashboardComponent implements OnInit {
   loadOngletStatuses(): void {
     this.ongletService.getOngletStatuses(this.entiteId, this.selectedYear)?.subscribe({
       next: (result) => {
-        // if (!result[ONGLET_KEYS.MobInternationale] && result['mobInternationalOnglet']) {
-        //   result[ONGLET_KEYS.MobInternationale] = result['mobInternationalOnglet'];
-        //   delete result['mobInternationalOnglet'];
-        // }
+        if (!result[ONGLET_KEYS.MobInternationale] && result['mobInternationalOnglet']) {
+          result[ONGLET_KEYS.MobInternationale] = result['mobInternationalOnglet'];
+          delete result['mobInternationalOnglet'];
+        }
         this.statuses = result;
         this.statusService.setStatuses(result);
       },

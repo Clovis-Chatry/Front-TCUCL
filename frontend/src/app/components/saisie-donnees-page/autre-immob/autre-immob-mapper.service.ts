@@ -31,7 +31,7 @@ export class AutreImmobMapperService {
     };
 
     pushMachine(
-      'Groupe électrogène',
+      'groupe',
       dto.groupesElectrogenes_Nombre,
       dto.groupesElectrogenes_PoidsDuProduit,
       dto.groupesElectrogenes_DureeAmortissement,
@@ -40,7 +40,7 @@ export class AutreImmobMapperService {
     );
 
     pushMachine(
-      'Moteur électrique',
+      'moteur',
       dto.moteurElectrique_Nombre,
       dto.moteurElectrique_PoidsDuProduit,
       dto.moteurElectrique_DureeAmortissement,
@@ -49,7 +49,7 @@ export class AutreImmobMapperService {
     );
 
     pushMachine(
-      'Autres machines (en kg)',
+      'autresKg',
       dto.autresMachinesKg_Nombre,
       dto.autresMachinesKg_PoidsDuProduit,
       dto.autresMachinesKg_DureeAmortissement,
@@ -58,7 +58,7 @@ export class AutreImmobMapperService {
     );
 
     pushMachine(
-      'Autres machines (en €)',
+      'autresEur',
       dto.autresMachinesEur_Nombre,
       dto.autresMachinesEur_PoidsDuProduit,
       dto.autresMachinesEur_DureeAmortissement,
