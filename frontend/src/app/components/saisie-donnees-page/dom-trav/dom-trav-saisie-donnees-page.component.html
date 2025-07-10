@@ -17,7 +17,7 @@
         <thead>
         <tr>
           <th>Moyen de transport</th>
-          <th *ngFor="let group of travelerGroups">{{ group }} (km)</th>
+          <th *ngFor="let group of travelerGroups">{{ group }} (jours)</th>
         </tr>
         </thead>
         <tbody>
@@ -40,7 +40,17 @@
             />
           </td>
         </tr>
+        </tbody>
+      </table>
 
+      <table class="data-table">
+        <thead>
+        <tr>
+          <th>Moyen de transport</th>
+          <th *ngFor="let group of travelerGroups">{{ group }} (km)</th>
+        </tr>
+        </thead>
+        <tbody>
         <tr *ngFor="let mode of transportModes">
           <td>{{ mode }}</td>
           <td *ngFor="let group of travelerGroups">
