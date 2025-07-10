@@ -29,12 +29,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  padding: 0.56em 1.12em;
+  width: 95%;
+  padding:.5em 0 .5em 0;
 }
 
 .home-button {
-  background-color: #28a745;
+  background-color: #28a745 !important;
   font-size: 0.9em;
   padding: 0.56em 1.12em;
   width: 7.3em;
@@ -48,6 +48,8 @@ body {
 .year-label, .year-change-label {
   font-size: 1.01em;
   font-weight: bold;
+  white-space: nowrap;
+  margin: 0 .5em;
 }
 
 /* Conteneur du texte et de la liste déroulante */
@@ -70,13 +72,15 @@ body {
 .button {
   text-align: center;
   background-color: #007bff;
-  color: white;
+  color: white !important;
   border: none;
   padding: 0.56em 1.12em;
   font-size: 0.9em;
   cursor: pointer;
   border-radius: 0.3em;
   transition: background-color 0.3s;
+  white-space: nowrap;
+  margin: 0 .5em;
 }
 
 .button:hover {

@@ -101,7 +101,7 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  goToEnergieAvecAnnee(): void {
+  goToGeneralOngletAvecAnnee(): void {
     this.ongletService.getOngletIds(this.entiteId, this.selectedYear)?.subscribe({
       next: (result) => {
         this.ongletIdMap = result;
@@ -120,7 +120,7 @@ export class DashboardComponent implements OnInit {
 
 
 
-  goToEnergie(): void {
+  goToGeneralOnglet(): void {
     const ongletId = this.ongletIdMap['generalOnglet'];
     if (ongletId) {
       this.router.navigate([`/generalOnglet/${ongletId}`]);
