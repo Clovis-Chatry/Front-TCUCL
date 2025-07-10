@@ -11,8 +11,8 @@
       </span>
     </div>
     <p class="question-title">Avez-vous des panneaux photovoltaïques ?</p>
-    <label><input type="radio" name="hasPanneaux" [(ngModel)]="items.hasPanneaux" [value]="true"/> Oui</label>
-    <label><input type="radio" name="hasPanneaux" [(ngModel)]="items.hasPanneaux" [value]="false"/> Non</label>
+    <label><input type="radio" name="hasPanneaux" [(ngModel)]="items.hasPanneaux" [value]="true" (change)="updateData()"/> Oui</label>
+    <label><input type="radio" name="hasPanneaux" [(ngModel)]="items.hasPanneaux" [value]="false" (change)="updateData()"/> Non</label>
 
     <div *ngIf="items.hasPanneaux">
       <h3>Si oui :</h3>
@@ -29,39 +29,39 @@
         <tbody>
         <tr>
           <td>Installation complète</td>
-          <td><input type="number" [(ngModel)]="items.pvInstallationPuissance"/></td>
-          <td><input type="number" [(ngModel)]="items.pvInstallationDuree"/></td>
+          <td><input type="number" [(ngModel)]="items.pvInstallationPuissance" (blur)="updateData()"/></td>
+          <td><input type="number" [(ngModel)]="items.pvInstallationDuree" (blur)="updateData()"/></td>
           <td>
-            <select [(ngModel)]="items.pvInstallationGESConnu">
+            <select [(ngModel)]="items.pvInstallationGESConnu" (change)="updateData()">
               <option [value]="true">Oui</option>
               <option [value]="false">Non</option>
             </select>
           </td>
-          <td><input type="number" [(ngModel)]="items.pvInstallationGESReel"/></td>
+          <td><input type="number" [(ngModel)]="items.pvInstallationGESReel" (blur)="updateData()"/></td>
         </tr>
         <tr>
           <td>Panneaux</td>
-          <td><input type="number" [(ngModel)]="items.pvPanneauxPuissance"/></td>
-          <td><input type="number" [(ngModel)]="items.pvPanneauxDuree"/></td>
+          <td><input type="number" [(ngModel)]="items.pvPanneauxPuissance" (blur)="updateData()"/></td>
+          <td><input type="number" [(ngModel)]="items.pvPanneauxDuree" (blur)="updateData()"/></td>
           <td>
-            <select [(ngModel)]="items.pvPanneauxGESConnu">
+            <select [(ngModel)]="items.pvPanneauxGESConnu" (change)="updateData()">
               <option [value]="true">Oui</option>
               <option [value]="false">Non</option>
             </select>
           </td>
-          <td><input type="number" [(ngModel)]="items.pvPanneauxGESReel"/></td>
+          <td><input type="number" [(ngModel)]="items.pvPanneauxGESReel" (blur)="updateData()"/></td>
         </tr>
         <tr>
           <td>Onduleurs</td>
-          <td><input type="number" [(ngModel)]="items.pvOnduleursPuissance"/></td>
-          <td><input type="number" [(ngModel)]="items.pvOnduleursDuree"/></td>
+          <td><input type="number" [(ngModel)]="items.pvOnduleursPuissance" (blur)="updateData()"/></td>
+          <td><input type="number" [(ngModel)]="items.pvOnduleursDuree" (blur)="updateData()"/></td>
           <td>
-            <select [(ngModel)]="items.pvOnduleursGESConnu">
+            <select [(ngModel)]="items.pvOnduleursGESConnu" (change)="updateData()">
               <option [value]="true">Oui</option>
               <option [value]="false">Non</option>
             </select>
           </td>
-          <td><input type="number" [(ngModel)]="items.pvOnduleursGESReel"/></td>
+          <td><input type="number" [(ngModel)]="items.pvOnduleursGESReel" (blur)="updateData()"/></td>
         </tr>
         </tbody>
       </table>
@@ -70,9 +70,9 @@
     <hr/>
 
     <p class="question-title">Avez-vous des machines électriques ?</p>
-    <label><input type="radio" name="machinesElectriques" [(ngModel)]="items.machinesElectriques" [value]="true"/>
+    <label><input type="radio" name="machinesElectriques" [(ngModel)]="items.machinesElectriques" [value]="true" (change)="updateData()"/>
       Oui</label>
-    <label><input type="radio" name="machinesElectriques" [(ngModel)]="items.machinesElectriques" [value]="false"/> Non</label>
+    <label><input type="radio" name="machinesElectriques" [(ngModel)]="items.machinesElectriques" [value]="false" (change)="updateData()"/> Non</label>
 
     <div *ngIf="items.machinesElectriques">
       <div class="machine-section">
