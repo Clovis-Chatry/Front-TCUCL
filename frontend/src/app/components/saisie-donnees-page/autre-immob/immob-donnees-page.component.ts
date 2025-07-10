@@ -145,6 +145,21 @@ export class AutreImmobilisationPageComponent implements OnInit {
     this.updateData();
   }
 
+  onGesConnuChange(connuKey: string, reelKey: string): void {
+    const value = this.items[connuKey];
+    if (value === false || value === 'false') {
+      this.items[reelKey] = null;
+    }
+    this.updateData();
+  }
+
+  onMachineGesConnuChange(machine: any): void {
+    if (machine.gesConnu === false || machine.gesConnu === 'false') {
+      machine.gesReel = null;
+    }
+    this.updateData();
+  }
+
   updateData(): void {
     const id = this.route.snapshot.paramMap.get('id');
     const token = this.authService.getToken();
