@@ -132,7 +132,41 @@ export class SyntheseEgesComponent implements OnInit {
             }
           });
 
+          const scopesMapping: Record<string, number | null | undefined> = {
+            'Emissions directes des sources fixes de combustion': res.emissionDirecteCombustion,
+            'Emissions directes des sources mobiles à moteur thermique': res.emissionDirecteMoteurThermique,
+            'Emissions directes des procédés hors énergie': res.emissionDirecteHorsEnergie,
+            'Emissions directes fugitives': res.emissionDirecteFugitives,
+            'Emissions issues de la biomasse (sols et forêts)': res.emissionBiomasse,
+            "Emissions indirectes liées à la consommation d'électricité": res.emissionIndirecteConsoElec,
+            'Emissions indirectes liées à la consommation de vapeur, chaleur, froid': res.emissionIndirecteConsoVapeurChaleurFroid,
+            "Emissions liées à l'énergie non incluse dans les catégories « émissions directes de GES » et « émissions de GES à énergie indirectes »": res.emissionNonIncluseDansDirectOuIndirecte,
+            'Achats de produits ou services': res.achatProduitOuService,
+            'Immobilisations de biens': res.immobilisationBien,
+            'Déchets': res.dechet,
+            'Transport de marchandise amont': res.transportMarchandiseAmont,
+            'Déplacements professionnels': res.deplacementProfessionnel,
+            'Actifs en leasing amont': res.leasingAmont,
+            'Investissements': res.investissement,
+            'Transport de visiteurs et de clients': res.transportVisiteursClients,
+            'Transport de marchandise aval': res.transportMarchandiseAval,
+            'Utilisation des produits vendus': res.utilisationProduitVendu,
+            'Fin de vie des produits vendus': res.finVieProduitVendu,
+            'Franchise aval': res.franchiseAval,
+            'Leasing aval': res.leasingAval,
+            'Déplacements domicile travail': res.deplacementDomicileTravail,
+            'Autres émissions indirectes': res.autreEmissionIndirecte
+          };
+
+          this.scopes.forEach(sc => {
+            const val = scopesMapping[sc.label];
+            if (val != null) {
+              sc.value = Number(val);
+            }
+          });
+
           this.total = Number(res.bilanCarboneTotalGlobal ?? 0);
+          this.scopesTotal = Number(res.bilanCarboneTotalScope ?? 0);
           if (res.consoEnergieFinale != null) {
             this.consoEnergieFinale = res.consoEnergieFinale;
           }
