@@ -96,7 +96,8 @@ export const ApiEndpoints = {
   },
   AutoOnglet: {
     getById: (id: string) => `${BASE_URL}/vehiculeOnglet/${id}`,
-    update: (id: string) => `${BASE_URL}/vehiculeOnglet/${id}`
+    update: (id: string) => `${BASE_URL}/vehiculeOnglet/${id}`,
+    resultats: (id: string) => `${BASE_URL}/vehiculeOnglet/${id}/resultat`
   },
 
   Utilisateur: {

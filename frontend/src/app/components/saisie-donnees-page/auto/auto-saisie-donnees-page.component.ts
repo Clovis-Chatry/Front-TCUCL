@@ -25,6 +25,12 @@ export class AutoSaisieDonneesPageComponent implements OnInit {
   private authService = inject(AuthService);
   private mapper = inject(VehiculeOngletMapperService);
   private statusService = inject(OngletStatusService);
+  vehiculeResultat: {
+    totalEmissionGESFabrication: number,
+    totalEmissionGESPetrole: number,
+    totalEmissionGESElectrique: number,
+    totalEmissionGES: number
+  } | null = null;
 
   vehiculeOnglet: VehiculeOngletModel = { vehicules: [] };
   nouveauVehicule: Vehicule = {
@@ -57,6 +63,7 @@ export class AutoSaisieDonneesPageComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.loadData(id);
+      this.loadResultat(id);
     }
   }
 
@@ -110,7 +117,20 @@ export class AutoSaisieDonneesPageComponent implements OnInit {
     const headers = this.getAuthHeaders();
     const payload = this.mapper.toDto(this.vehiculeOnglet);
     this.http.patch(ApiEndpoints.AutoOnglet.update(id), payload, { headers }).subscribe({
+      next: () => {
+        this.loadResultat(id);
+      },
       error: err => console.error('Erreur mise à jour véhicules', err)
+    });
+  }
+
+  loadResultat(id: string): void {
+    const headers = this.getAuthHeaders();
+    this.http.get<any>(ApiEndpoints.AutoOnglet.resultats(id), { headers }).subscribe({
+      next: res => {
+        this.vehiculeResultat = res;
+      },
+      error: err => console.error('Erreur lors du chargement des résultats', err)
     });
   }
 }
