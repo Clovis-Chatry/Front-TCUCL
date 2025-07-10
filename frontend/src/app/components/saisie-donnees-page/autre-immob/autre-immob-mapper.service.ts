@@ -119,40 +119,41 @@ export class AutreImmobMapperService {
       note: model.note
     };
 
+    const map: Record<string, any> = {};
+
     if (Array.isArray(model.machines)) {
       model.machines.forEach((m: any) => {
-        switch (m.nom) {
-          case 'groupe':
-            payload.groupesElectrogenes_Nombre = m.nombre;
-            payload.groupesElectrogenes_PoidsDuProduit = m.poids;
-            payload.groupesElectrogenes_DureeAmortissement = m.amortissement;
-            payload.groupesElectrogenes_IsEmissionConnue = m.gesConnu;
-            payload.groupesElectrogenes_EmissionReelle = m.gesReel;
-            break;
-          case 'moteur':
-            payload.moteurElectrique_Nombre = m.nombre;
-            payload.moteurElectrique_PoidsDuProduit = m.poids;
-            payload.moteurElectrique_DureeAmortissement = m.amortissement;
-            payload.moteurElectrique_IsEmissionConnue = m.gesConnu;
-            payload.moteurElectrique_EmissionReelle = m.gesReel;
-            break;
-          case 'autresKg':
-            payload.autresMachinesKg_Nombre = m.nombre;
-            payload.autresMachinesKg_PoidsDuProduit = m.poids;
-            payload.autresMachinesKg_DureeAmortissement = m.amortissement;
-            payload.autresMachinesKg_IsEmissionConnue = m.gesConnu;
-            payload.autresMachinesKg_EmissionReelle = m.gesReel;
-            break;
-          case 'autresEur':
-            payload.autresMachinesEur_Nombre = m.nombre;
-            payload.autresMachinesEur_PoidsDuProduit = m.poids;
-            payload.autresMachinesEur_DureeAmortissement = m.amortissement;
-            payload.autresMachinesEur_IsEmissionConnue = m.gesConnu;
-            payload.autresMachinesEur_EmissionReelle = m.gesReel;
-            break;
-        }
+        map[m.nom] = m;
       });
     }
+
+    const groupe = map['groupe'] || {};
+    payload.groupesElectrogenes_Nombre = groupe.nombre ?? null;
+    payload.groupesElectrogenes_PoidsDuProduit = groupe.poids ?? null;
+    payload.groupesElectrogenes_DureeAmortissement = groupe.amortissement ?? null;
+    payload.groupesElectrogenes_IsEmissionConnue = groupe.gesConnu ?? null;
+    payload.groupesElectrogenes_EmissionReelle = groupe.gesReel ?? null;
+
+    const moteur = map['moteur'] || {};
+    payload.moteurElectrique_Nombre = moteur.nombre ?? null;
+    payload.moteurElectrique_PoidsDuProduit = moteur.poids ?? null;
+    payload.moteurElectrique_DureeAmortissement = moteur.amortissement ?? null;
+    payload.moteurElectrique_IsEmissionConnue = moteur.gesConnu ?? null;
+    payload.moteurElectrique_EmissionReelle = moteur.gesReel ?? null;
+
+    const autresKg = map['autresKg'] || {};
+    payload.autresMachinesKg_Nombre = autresKg.nombre ?? null;
+    payload.autresMachinesKg_PoidsDuProduit = autresKg.poids ?? null;
+    payload.autresMachinesKg_DureeAmortissement = autresKg.amortissement ?? null;
+    payload.autresMachinesKg_IsEmissionConnue = autresKg.gesConnu ?? null;
+    payload.autresMachinesKg_EmissionReelle = autresKg.gesReel ?? null;
+
+    const autresEur = map['autresEur'] || {};
+    payload.autresMachinesEur_Nombre = autresEur.nombre ?? null;
+    payload.autresMachinesEur_PoidsDuProduit = autresEur.poids ?? null;
+    payload.autresMachinesEur_DureeAmortissement = autresEur.amortissement ?? null;
+    payload.autresMachinesEur_IsEmissionConnue = autresEur.gesConnu ?? null;
+    payload.autresMachinesEur_EmissionReelle = autresEur.gesReel ?? null;
 
     return payload;
   }

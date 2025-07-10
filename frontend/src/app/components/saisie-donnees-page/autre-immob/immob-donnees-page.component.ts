@@ -132,6 +132,14 @@ export class AutreImmobilisationPageComponent implements OnInit {
     this.updateData();
   }
 
+  onMachinesElectriquesChange(value: boolean): void {
+    this.items.machinesElectriques = value;
+    if (!value) {
+      this.items.machines = [];
+    }
+    this.updateData();
+  }
+
   supprimerMachine(index: number): void {
     this.items.machines.splice(index, 1);
     this.updateData();
