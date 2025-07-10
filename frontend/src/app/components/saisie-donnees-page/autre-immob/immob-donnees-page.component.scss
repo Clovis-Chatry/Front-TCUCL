@@ -6,6 +6,16 @@
   box-sizing: border-box;
 }
 
+.left-panel {
+  max-width: 900px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 8px;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+}
+
 h2 {
   font-size: 1.8rem;
   margin-bottom: 1rem;
@@ -90,4 +100,19 @@ label {
       background-color: #2980b9;
     }
   }
+}
+
+.page-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.help-icon {
+  margin-left: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  cursor: help;
+  color: #2c3e50;
 }
