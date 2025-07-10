@@ -79,12 +79,12 @@ Les bâtiments qui ont été renseignées les années précédentes sont encore 
       </thead>
       <tbody>
       <tr *ngFor="let bat of batimentOnglet.batiments; let i = index">
-          <td>{{ bat.nom_ou_adresse }}</td>
-          <td>{{ bat.dateConstruction }}</td>
-          <td>{{ bat.dateDerniereGrosseRenovation }}</td>
-          <td>{{ bat.acvBatimentRealisee ? 'oui' : 'non' }}</td>
-          <td>{{ bat.emissionsGesReellesTCO2 }}</td>
-          <td>{{ getLibelleTypeBatiment(bat.typeBatiment) }}</td>
+        <td>{{ bat.nom_ou_adresse }}</td>
+        <td>{{ bat.dateConstruction }}</td>
+        <td>{{ bat.dateDerniereGrosseRenovation }}</td>
+        <td>{{ bat.acvBatimentRealisee ? 'oui' : 'non' }}</td>
+        <td>{{ bat.emissionsGesReellesTCO2 }}</td>
+        <td>{{ getLibelleTypeBatiment(bat.typeBatiment) }}</td>
         <td>{{ bat.surfaceEnM2 }}</td>
         <td>{{ getLibelleTypeStructure(bat.typeStructure) }}</td>
         <td>
@@ -237,5 +237,30 @@ Merci de ne renseigner que vos travaux de l'année, l'outil réintègre automati
     </table>
   </div>
   <hr/>
+  <div class="bottom-panel">
+    <h3>Résultats des émissions GES</h3>
+    <table class="data-table">
+      <thead>
+      <tr>
+        <th>Poste</th>
+        <th>Total (Tonnes CO2e)</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>Bâtiment (existant ou neuf construit)</td>
+        <td>{{ totalPosteBatiment }}</td>
+      </tr>
+      <tr>
+        <td>Entretien courant</td>
+        <td>{{ totalPosteEntretien }}</td>
+      </tr>
+      <tr>
+        <td>Mobilier électroménager</td>
+        <td>{{ totalPosteMobilier }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
   <app-save-footer [path]="ONGLET_KEYS.Batiments" (estTermineChange)="onEstTermineChange($event)"></app-save-footer>
 </div>

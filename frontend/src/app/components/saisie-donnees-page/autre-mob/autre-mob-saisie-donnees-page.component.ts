@@ -33,6 +33,7 @@ export class AutreMobSaisieDonneesPageComponent implements OnInit {
 
   estTermine = false;
   ONGLET_KEYS = ONGLET_KEYS;
+  resultat: any = null;
 
   transportModes = Object.values(MODE_TRANSPORT_AUTRE_MOB);
   travelerGroups = Object.values(GROUPE_VOYAGEURS);
@@ -43,7 +44,10 @@ export class AutreMobSaisieDonneesPageComponent implements OnInit {
       this.estTermine = s[ONGLET_KEYS.AutreMobFr] ?? false;
     });
     const id = this.route.snapshot.paramMap.get('id');
-    if (id) this.loadData(id);
+    if (id) {
+      this.loadData(id);
+      this.loadResultat(id);
+    }
   }
 
   loadData(id: string): void {
@@ -63,6 +67,24 @@ export class AutreMobSaisieDonneesPageComponent implements OnInit {
       },
       error: err => console.error('Erreur chargement autre mob:', err),
     });
+  }
+
+  loadResultat(id: string) {
+    const token = this.auth.getToken();
+    if (!token) return;
+
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    };
+    // Charger les résultats calculés
+    this.http.get<any>(ApiEndpoints.AutreMobFrOnglet.resultats(id), { headers }).subscribe({
+      next: res => {
+        this.resultat = res;
+      },
+      error: err => console.error('Erreur chargement résultats autre mob:', err),
+    });
+
   }
 
   getValue(mode: MODE_TRANSPORT_AUTRE_MOB, group: GROUPE_VOYAGEURS, field: 'distanceKm' | 'oneWayTrips'): number {
@@ -117,7 +139,9 @@ export class AutreMobSaisieDonneesPageComponent implements OnInit {
 
     const payload = { ...this.mapper.buildFlatPayload(this.items), estTermine: this.estTermine };
 
-    this.http.patch(ApiEndpoints.AutreMobFrOnglet.update(id), payload, { headers }).subscribe({
+    this.http.patch(ApiEndpoints.AutreMobFrOnglet.update(id), payload, { headers }).subscribe({next: () => {
+        this.loadResultat(id);
+      },
       error: err => console.error('PATCH autre mobilité échoué', err),
     });
   }
