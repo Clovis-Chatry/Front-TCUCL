@@ -28,36 +28,39 @@
           <td></td>
           <td></td>
           <td>
-            <select [(ngModel)]="items.pvInstallationGESConnu" (change)="updateData()">
+            <select [(ngModel)]="items.pvInstallationGESConnu" (change)="onGesConnuChange('pvInstallationGESConnu','pvInstallationGESReel')">
               <option [value]="true">Oui</option>
               <option [value]="false">Non</option>
             </select>
           </td>
-          <td><input type="number" [(ngModel)]="items.pvInstallationGESReel" (blur)="updateData()"/></td>
+          <td><input type="number" [(ngModel)]="items.pvInstallationGESReel" (blur)="updateData()"
+                     [disabled]="items.pvInstallationGESConnu === false || items.pvInstallationGESConnu === 'false'"/></td>
         </tr>
         <tr>
           <td>Panneaux</td>
           <td><input type="number" [(ngModel)]="items.pvPanneauxPuissance" (blur)="updateData()"/></td>
           <td><input type="number" [(ngModel)]="items.pvPanneauxDuree" (blur)="updateData()"/></td>
           <td>
-            <select [(ngModel)]="items.pvPanneauxGESConnu" (change)="updateData()">
+            <select [(ngModel)]="items.pvPanneauxGESConnu" (change)="onGesConnuChange('pvPanneauxGESConnu','pvPanneauxGESReel')">
               <option [value]="true">Oui</option>
               <option [value]="false">Non</option>
             </select>
           </td>
-          <td><input type="number" [(ngModel)]="items.pvPanneauxGESReel" (blur)="updateData()"/></td>
+          <td><input type="number" [(ngModel)]="items.pvPanneauxGESReel" (blur)="updateData()"
+                     [disabled]="items.pvPanneauxGESConnu === false || items.pvPanneauxGESConnu === 'false'"/></td>
         </tr>
         <tr>
           <td>Onduleurs</td>
           <td><input type="number" [(ngModel)]="items.pvOnduleursPuissance" (blur)="updateData()"/></td>
           <td><input type="number" [(ngModel)]="items.pvOnduleursDuree" (blur)="updateData()"/></td>
           <td>
-            <select [(ngModel)]="items.pvOnduleursGESConnu" (change)="updateData()">
+            <select [(ngModel)]="items.pvOnduleursGESConnu" (change)="onGesConnuChange('pvOnduleursGESConnu','pvOnduleursGESReel')">
               <option [value]="true">Oui</option>
               <option [value]="false">Non</option>
             </select>
           </td>
-          <td><input type="number" [(ngModel)]="items.pvOnduleursGESReel" (blur)="updateData()"/></td>
+          <td><input type="number" [(ngModel)]="items.pvOnduleursGESReel" (blur)="updateData()"
+                     [disabled]="items.pvOnduleursGESConnu === false || items.pvOnduleursGESConnu === 'false'"/></td>
         </tr>
         </tbody>
       </table>
@@ -92,13 +95,14 @@
             <input type="number" [(ngModel)]="machine.amortissement" (blur)="updateData()"/>
           </td>
           <td>
-            <select [(ngModel)]="machine.gesConnu" (change)="updateData()">
+            <select [(ngModel)]="machine.gesConnu" (change)="onMachineGesConnuChange(machine)">
               <option [value]="true">Oui</option>
               <option [value]="false">Non</option>
             </select>
           </td>
           <td>
-            <input type="number" [(ngModel)]="machine.gesReel" (blur)="updateData()"/>
+            <input type="number" [(ngModel)]="machine.gesReel" (blur)="updateData()"
+                   [disabled]="machine.gesConnu === false || machine.gesConnu === 'false'"/>
           </td>
         </tr>
         </tbody>
