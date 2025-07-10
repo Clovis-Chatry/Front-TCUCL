@@ -7,6 +7,7 @@ import { OngletService } from '../header-saisie-donnees/onglet.service';
 import { AnneeService} from '../../services/annee.service';
 import {AuthService} from '../../services/auth.service';
 import { ONGLET_KEYS } from '../../constants/onglet-keys';
+import {MatIcon} from '@angular/material/icon';
 
 const extractRoute = (url: string): string =>
   url.split('/').slice(3).join('/').replace(/\/$/, '');
@@ -100,7 +101,7 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  goToEnergieAvecAnnee(): void {
+  goToGeneralOngletAvecAnnee(): void {
     this.ongletService.getOngletIds(this.entiteId, this.selectedYear)?.subscribe({
       next: (result) => {
         this.ongletIdMap = result;
@@ -119,7 +120,7 @@ export class DashboardComponent implements OnInit {
 
 
 
-  goToEnergie(): void {
+  goToGeneralOnglet(): void {
     const ongletId = this.ongletIdMap['generalOnglet'];
     if (ongletId) {
       this.router.navigate([`/generalOnglet/${ongletId}`]);
@@ -138,10 +139,10 @@ export class DashboardComponent implements OnInit {
   loadOngletIds(): void {
     this.ongletService.getOngletIds(this.entiteId, this.selectedYear)?.subscribe({
       next: (result) => {
-        if (!result[ONGLET_KEYS.MobInternationale] && result['mobInternationalOnglet']) {
-          result[ONGLET_KEYS.MobInternationale] = result['mobInternationalOnglet'];
-          delete result['mobInternationalOnglet'];
-        }
+        // if (!result[ONGLET_KEYS.MobInternationale] && result['mobInternationalOnglet']) {
+        //   result[ONGLET_KEYS.MobInternationale] = result['mobInternationalOnglet'];
+        //   delete result['mobInternationalOnglet'];
+        // }
         this.ongletIdMap = result;
       },
       error: (err) => {
@@ -153,10 +154,10 @@ export class DashboardComponent implements OnInit {
   loadOngletStatuses(): void {
     this.ongletService.getOngletStatuses(this.entiteId, this.selectedYear)?.subscribe({
       next: (result) => {
-        if (!result[ONGLET_KEYS.MobInternationale] && result['mobInternationalOnglet']) {
-          result[ONGLET_KEYS.MobInternationale] = result['mobInternationalOnglet'];
-          delete result['mobInternationalOnglet'];
-        }
+        // if (!result[ONGLET_KEYS.MobInternationale] && result['mobInternationalOnglet']) {
+        //   result[ONGLET_KEYS.MobInternationale] = result['mobInternationalOnglet'];
+        //   delete result['mobInternationalOnglet'];
+        // }
         this.statuses = result;
         this.statusService.setStatuses(result);
       },

@@ -3,11 +3,13 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { NgIf, NgOptimizedImage } from '@angular/common';
 import {UserService} from '../../services/user.service';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButton} from '@angular/material/button';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [NgOptimizedImage, NgIf],
+  imports: [NgOptimizedImage, NgIf, MatIconModule, MatButton],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
