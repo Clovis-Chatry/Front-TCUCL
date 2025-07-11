@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, inject, Input, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -10,6 +10,7 @@ import { ONGLET_KEYS } from '../../constants/onglet-keys';
 import { MatIcon } from '@angular/material/icon';
 import { BilanParSecteurComponent } from '../bilan-par-secteur/bilan-par-secteur.component';
 import { SyntheseEgesService } from '../../services/synthese-eges.service';
+import {UserService} from '../../services/user.service';
 
 
 const extractRoute = (url: string): string =>
@@ -25,6 +26,9 @@ type YearRange = { label: string; value: number };
   imports: [CommonModule, FormsModule, BilanParSecteurComponent]
 })
 export class DashboardComponent implements OnInit {
+  private userService = inject(UserService);
+
+  isSuperAdmin = this.userService.isSuperAdmin;
   currentYear: number;
   selectedYear: number;
   years: YearRange[] = [];

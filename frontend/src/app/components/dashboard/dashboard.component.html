@@ -1,4 +1,4 @@
-<div class="dashboard-page">
+<div class="dashboard-page" *ngIf="!isSuperAdmin()">
   <div class="dashboard dashboard-container">
     <h2>Saisie des données</h2>
 
@@ -45,5 +45,10 @@
   </div>
   <div class="dashboard dashboard-side">
     <app-bilan-par-secteur [sectors]="sectors" [total]="total"></app-bilan-par-secteur>
+  </div>
+  <div class="dashboard dashboard-side"></div>
+</div>
+<div class="dashboard-page" *ngIf="isSuperAdmin()">
+  <div class="dashboard dashboard-superadmin dashboard-side">
   </div>
 </div>
