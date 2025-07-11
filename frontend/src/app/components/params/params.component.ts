@@ -1,11 +1,13 @@
-import {Component, inject, ViewChild} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {FormsModule, NgForm} from '@angular/forms';
-import {Router} from '@angular/router';
-import {UserService} from '../../services/user.service';
-import {ParamService} from './params.service';
-import {AuthService} from '../../services/auth.service';
-import {UtilisateurDto} from '../../models/user.model'; // adapte le chemin selon ton arborescence
+import { Component, inject, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { UserService } from '../../services/user.service';
+import { ParamService } from './params.service';
+import { AuthService } from '../../services/auth.service';
+import { UtilisateurDto } from '../../models/user.model';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon'; // adapte le chemin selon ton arborescence
 
 interface User {
   firstName: string;
@@ -31,7 +33,7 @@ export interface EntityNomId {
 @Component({
   selector: 'app-params',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatIcon, MatButton],
   templateUrl: './params.component.html',
   styleUrls: ['./params.component.scss']
 })
@@ -52,6 +54,12 @@ export class ParamsComponent {
     lastName: '',
     firstName: '',
     isParams: false
+  };
+
+  changePasswordData = {
+    email: '',
+    ancienMdp: '',
+    nouveauMdp: ''
   };
 
   entityToCreate = {
@@ -81,7 +89,7 @@ export class ParamsComponent {
 
   ngOnInit(): void {
     this.loadUtilisateursParEntite(this.userService.entiteId());
-    if(this.isSuperAdmin()) {this.loadEntitiesIfSuperAdmin();}
+    if (this.isSuperAdmin()) { this.loadEntitiesIfSuperAdmin(); }
   }
 
 
@@ -101,15 +109,41 @@ export class ParamsComponent {
   updateInfo(): void {
     const userId = this.userService.rawUser().id;
     const headers = this.getAuthHeaders();
+
     this.paramService.updateUserInfos(userId, {
       prenom: this.user.firstName,
       nom: this.user.lastName,
       email: this.user.email
     }, headers).subscribe({
-      next: () => alert("Mise à jour effectuée."),
-      error: (err) => console.error('Erreur lors de la mise à jour :', err)
+      next: () => {
+        alert("Informations mises à jour avec succès. Vous allez être redirigé vers la page de connexion.");
+        this.authService.logout(); // Déconnexion manuelle
+        this.router.navigate(['/login']); // Redirection
+      },
+      error: (err) => {
+        console.error('Erreur lors de la mise à jour :', err);
+        alert('Une erreur est survenue lors de la mise à jour des informations.');
+      }
     });
   }
+
+  changePassword(): void {
+    const headers = this.getAuthHeaders();
+
+    this.paramService.changePassword(this.changePasswordData, headers).subscribe({
+      next: () => {
+        alert('Mot de passe changé avec succès. Vous allez être redirigé vers la page de connexion.');
+        this.changePasswordData = { email: '', ancienMdp: '', nouveauMdp: '' };
+        this.authService.logout(); // Optionnel si tu veux déconnecter l'utilisateur
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error('Erreur lors du changement de mot de passe :', err);
+        alert('Erreur lors du changement de mot de passe.');
+      }
+    });
+  }
+
 
   sendPasswordReset(): void {
     console.log('Réinitialisation demandée pour :', this.user.email);

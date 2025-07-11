@@ -1,4 +1,4 @@
-import { ONGLET_KEYS } from '../constants/onglet-keys';
+import {ONGLET_KEYS} from '../constants/onglet-keys';
 
 const BASE_URL = 'http://localhost:8080';
 
@@ -10,13 +10,14 @@ export const ApiEndpoints = {
   },
 
   GeneralOnglet: {
-    getById: (id:string) => `${BASE_URL}/${ONGLET_KEYS.General}/${id}`,
-    updateNombre: (id:string) => `${BASE_URL}/${ONGLET_KEYS.General}/${id}`,
+    getById: (id: string) => `${BASE_URL}/${ONGLET_KEYS.General}/${id}`,
+    updateNombre: (id: string) => `${BASE_URL}/${ONGLET_KEYS.General}/${id}`,
   },
 
   EnergieOnglet: {
     getById: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Energie}/${id}`,
     updateConso: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Energie}/${id}`,
+    getResult: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Energie}/${id}/resultat`,
   },
 
   EmissionFugitivesOnglet: {
@@ -25,6 +26,7 @@ export const ApiEndpoints = {
     deleteMachine: (id: string, idMachine: string) =>
       `${BASE_URL}/${ONGLET_KEYS.EmissionsFugitives}/${id}/machine/${idMachine}`,
     update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.EmissionsFugitives}/${id}`,
+    resultats: (id: string) => `${BASE_URL}/${ONGLET_KEYS.EmissionsFugitives}/${id}/resultat`,
   },
 
   DomTravOnglet: {
@@ -36,6 +38,7 @@ export const ApiEndpoints = {
   AutreMobFrOnglet: {
     getById: (id: string) => `${BASE_URL}/${ONGLET_KEYS.AutreMobFr}/${id}`,
     update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.AutreMobFr}/${id}`,
+    resultats: (id: string) => `${BASE_URL}/${ONGLET_KEYS.AutreMobFr}/${id}/resultat`,
   },
 
   DechetsOnglet: {
@@ -47,53 +50,58 @@ export const ApiEndpoints = {
   AchatsOnglet: {
     getById: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Achats}/${id}`,
     update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Achats}/${id}`,
+    resultat: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Achats}/${id}/resultat`
   },
 
-autreImmobilisationOnglet: {
-  getById: (id: string) => `${BASE_URL}/${ONGLET_KEYS.AutreImmob}/${id}`,
-  update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.AutreImmob}/${id}`
-},
-NumeriqueOnglet: {
-  getById: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Numerique}/${id}`,
-  update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Numerique}/${id}`,
-  addEquipement: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Numerique}/${id}/equipementNumerique`,
-  deleteEquipement: (ongletId: string, equipId: string) =>
-    `${BASE_URL}/${ONGLET_KEYS.Numerique}/${ongletId}/equipementNumerique/${equipId}`,
-  updateEquipement: (ongletId: string, equipId: string) =>
-    `${BASE_URL}/${ONGLET_KEYS.Numerique}/${ongletId}/equipementNumerique/${equipId}`,
-  getResult: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Numerique}/${id}/resultat`
-},
-ParkingVoirieOnglet: {
-  getById: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Parkings}/${id}`,
-  update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Parkings}/${id}`,
-  addParking: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Parkings}/${id}/parkingVoirie`,
-  deleteParking: (ongletId: string, parkingId: string) =>
-    `${BASE_URL}/${ONGLET_KEYS.Parkings}/${ongletId}/parkingVoirie/${parkingId}`,
-  updateParking: (ongletId: string, parkingId: string) =>
-    `${BASE_URL}/${ONGLET_KEYS.Parkings}/${ongletId}/parkingVoirie/${parkingId}`,
-  getResult: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Parkings}/${id}/resultat`
-},
-mobInternationaleOnglet: {
-  getById: (id: string) => `${BASE_URL}/${ONGLET_KEYS.MobInternationale}/${id}`,
-  update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.MobInternationale}/${id}`
-},
-BatimentsOnglet: {
-  getBatimentImmobilisationMobilier: (id: string) =>
-    `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}`,
-  ajouterBatiment: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}/batimentExistantOuNeufConstruit`,
-  supprimerBatiment: (tabId: string, batimentId: number) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${tabId}/batimentExistantOuNeufConstruit/${batimentId}`,
+  autreImmobilisationOnglet: {
+    getById: (id: string) => `${BASE_URL}/${ONGLET_KEYS.AutreImmob}/${id}`,
+    update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.AutreImmob}/${id}`,
+    resultat: (id: string) => `${BASE_URL}/${ONGLET_KEYS.AutreImmob}/${id}/resultat`
+  },
+  NumeriqueOnglet: {
+    getById: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Numerique}/${id}`,
+    update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Numerique}/${id}`,
+    addEquipement: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Numerique}/${id}/equipementNumerique`,
+    deleteEquipement: (ongletId: string, equipId: string) =>
+      `${BASE_URL}/${ONGLET_KEYS.Numerique}/${ongletId}/equipementNumerique/${equipId}`,
+    updateEquipement: (ongletId: string, equipId: string) =>
+      `${BASE_URL}/${ONGLET_KEYS.Numerique}/${ongletId}/equipementNumerique/${equipId}`,
+    getResult: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Numerique}/${id}/resultat`
+  },
+  ParkingVoirieOnglet: {
+    getById: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Parkings}/${id}`,
+    update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Parkings}/${id}`,
+    addParking: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Parkings}/${id}/parkingVoirie`,
+    deleteParking: (ongletId: string, parkingId: string) =>
+      `${BASE_URL}/${ONGLET_KEYS.Parkings}/${ongletId}/parkingVoirie/${parkingId}`,
+    updateParking: (ongletId: string, parkingId: string) =>
+      `${BASE_URL}/${ONGLET_KEYS.Parkings}/${ongletId}/parkingVoirie/${parkingId}`,
+    getResult: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Parkings}/${id}/resultat`
+  },
+  mobInternationaleOnglet: {
+    getById: (id: string) => `${BASE_URL}/${ONGLET_KEYS.MobInternationale}/${id}`,
+    update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.MobInternationale}/${id}`,
+    resultats: (id: string) => `${BASE_URL}/${ONGLET_KEYS.MobInternationale}/${id}/resultat`
+  },
+  BatimentsOnglet: {
+    getBatimentImmobilisationMobilier: (id: string) =>
+      `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}`,
+    ajouterBatiment: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}/batimentExistantOuNeufConstruit`,
+    supprimerBatiment: (tabId: string, batimentId: number) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${tabId}/batimentExistantOuNeufConstruit/${batimentId}`,
 
-  ajouterEntretien: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}/entretienCourant`,
-  supprimerEntretien: (tabId: string, entretienId: number) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${tabId}/entretienCourant/${entretienId}`,
+    ajouterEntretien: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}/entretienCourant`,
+    supprimerEntretien: (tabId: string, entretienId: number) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${tabId}/entretienCourant/${entretienId}`,
 
-  ajouterMobilier: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}/mobilierElectromenager`,
-  supprimerMobilier: (tabId: string, mobilierId: number) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${tabId}/mobilierElectromenager/${mobilierId}`,
-  update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}`
-},
-AutoOnglet: {
-  getById: (id: string) => `${BASE_URL}/vehiculeOnglet/${id}`,
-  update: (id: string) => `${BASE_URL}/vehiculeOnglet/${id}`
-},
+    ajouterMobilier: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}/mobilierElectromenager`,
+    supprimerMobilier: (tabId: string, mobilierId: number) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${tabId}/mobilierElectromenager/${mobilierId}`,
+    update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}`,
+    resultats: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}/resultat`,
+  },
+  AutoOnglet: {
+    getById: (id: string) => `${BASE_URL}/vehiculeOnglet/${id}`,
+    update: (id: string) => `${BASE_URL}/vehiculeOnglet/${id}`,
+    resultats: (id: string) => `${BASE_URL}/vehiculeOnglet/${id}/resultat`
+  },
 
   Utilisateur: {
     creerEntite: () => `${BASE_URL}/parametre/creer-entite`,
@@ -103,5 +111,11 @@ AutoOnglet: {
     updateAdminStatus: (utilisateurId: number) => `${BASE_URL}/parametre/modifier-est-admin/${utilisateurId}`,
     getAllEntiteNomId: `${BASE_URL}/parametre/all-entite-nom-id`,
     deleterUser: (utilisateurId: number) => `${BASE_URL}/parametre/supprimer-utilisateur/${utilisateurId}`,
+  },
+
+  SyntheseEges: {
+    getByEntite: (entiteId: number, annee: number) =>
+      `${BASE_URL}/synthese-eges/${entiteId}?annee=${annee}`
+
   }
-};
+}

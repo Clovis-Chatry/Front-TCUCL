@@ -20,10 +20,10 @@
 
         <ul class="dropdown" *ngIf="dropdownOpen">
           <li>
-            <button (click)="goToParams()">Accéder à la page params</button>
+            <button (click)="goToParams()" mat-button><mat-icon>settings</mat-icon> Paramètres</button>
           </li>
           <li>
-            <button (click)="logout()">Se déconnecter</button>
+            <button (click)="logout()" mat-button><mat-icon>power_settings_new</mat-icon> Se déconnecter</button>
           </li>
         </ul>
       </div>

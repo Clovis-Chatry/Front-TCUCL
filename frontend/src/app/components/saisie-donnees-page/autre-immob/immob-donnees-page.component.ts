@@ -8,6 +8,7 @@ import { AuthService } from '../../../services/auth.service';
 import { ApiEndpoints } from '../../../services/api-endpoints';
 import { OngletStatusService } from '../../../services/onglet-status.service';
 import { ONGLET_KEYS } from '../../../constants/onglet-keys';
+import { AutreImmobMapperService } from './autre-immob-mapper.service';
 
 @Component({
   selector: 'app-saisie-donnees-page',
@@ -21,6 +22,7 @@ export class AutreImmobilisationPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
   private statusService = inject(OngletStatusService);
+  private mapper = inject(AutreImmobMapperService);
 
   items: any = {
     // Photovoltaïque
@@ -46,6 +48,12 @@ export class AutreImmobilisationPageComponent implements OnInit {
     pvOnduleursGESConnu: '',
     pvOnduleursGESReel: null,
 
+    // Câblage / Structure
+    pvCablagePuissance: null,
+    pvCablageDuree: null,
+    pvCablageGESConnu: '',
+    pvCablageGESReel: null,
+
     // Machines
     machinesElectriques: false,
     machineType: '',
@@ -55,11 +63,16 @@ export class AutreImmobilisationPageComponent implements OnInit {
     machineGESConnu: '',
     machineGESReel: null,
 
+    // Resultats
+    totalPosteBatiment: null,
+    totalPostePhotovoltaique: null,
+
     machines: []
   };
 
   estTermine = false;
   ONGLET_KEYS = ONGLET_KEYS;
+  resultats: any = null;
 
   onEstTermineChange(value: boolean): void {
     this.estTermine = value;
@@ -75,6 +88,7 @@ export class AutreImmobilisationPageComponent implements OnInit {
       const id = params.get('id');
       if (id) {
         this.loadData(id);
+        this.loadResultats(id);
       }
     });
   }
@@ -92,16 +106,15 @@ export class AutreImmobilisationPageComponent implements OnInit {
       'Authorization': `Bearer ${token}`
     };
 
-    this.http.get<any>(ApiEndpoints.autreImmobilisationOnglet.getById(id), { headers }).subscribe(
-      (data) => {
-        this.items = { ...this.items, ...data };
-        this.estTermine = data.estTermine ?? false;
+    this.http.get<any>(ApiEndpoints.autreImmobilisationOnglet.getById(id), { headers }).subscribe({
+      next: data => {
+        const mapped = this.mapper.fromDto(data);
+        this.items = { ...this.items, ...mapped };
+        this.estTermine = mapped.estTermine ?? false;
         this.statusService.setStatus(ONGLET_KEYS.AutreImmob, this.estTermine);
       },
-      (error) => {
-        console.error("Erreur lors du chargement des données", error);
-      }
-    );
+      error: err => console.error("Erreur lors du chargement des données", err)
+    });
   }
 
   ajouterMachine() {
@@ -121,10 +134,35 @@ export class AutreImmobilisationPageComponent implements OnInit {
     this.items.machineAmortissement = null;
     this.items.machineGESConnu = '';
     this.items.machineGESReel = null;
+
+    this.updateData();
+  }
+
+  onMachinesElectriquesChange(value: boolean): void {
+    this.items.machinesElectriques = value;
+    if (!value) {
+      this.items.machines = [];
+    }
+    this.updateData();
   }
 
   supprimerMachine(index: number): void {
     this.items.machines.splice(index, 1);
+    this.updateData();
+  }
+
+  onGesConnuChange(connuKey: string, reelKey: string): void {
+    const value = this.items[connuKey];
+    if (value === false || value === 'false') {
+      this.items[reelKey] = null;
+    }
+    this.updateData();
+  }
+
+  onMachineGesConnuChange(machine: any): void {
+    if (machine.gesConnu === false || machine.gesConnu === 'false') {
+      machine.gesReel = null;
+    }
     this.updateData();
   }
 
@@ -138,8 +176,33 @@ export class AutreImmobilisationPageComponent implements OnInit {
       Authorization: `Bearer ${token}`
     };
 
-    this.http.patch(ApiEndpoints.autreImmobilisationOnglet.update(id), { ...this.items, estTermine: this.estTermine }, { headers }).subscribe({
+    const payload = this.mapper.toDto({ ...this.items, estTermine: this.estTermine });
+    this.http.patch(ApiEndpoints.autreImmobilisationOnglet.update(id), payload, { headers }).subscribe({
       error: err => console.error('PATCH immob echoue', err)
     });
   }
+
+  loadResultats(id: string): void {
+    const token = this.authService.getToken();
+
+    if (!token) {
+      console.error("Token d'authentification manquant");
+      return;
+    }
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    };
+
+    this.http.get(ApiEndpoints.autreImmobilisationOnglet.resultat(id), { headers }).subscribe({
+      next: res => {
+        this.resultats = res;
+      },
+      error: err => {
+        console.error("Erreur lors de la récupération des résultats", err);
+      }
+    });
+  }
+
 }

@@ -83,5 +83,19 @@
       </table>
     </div>
   </div>
+  <div *ngIf="totalEmissionGES !== null" class="result-table-container">
+    <table class="result-table">
+      <thead>
+      <tr>
+        <th>Total des émissions GES pour ce poste (en Tonnes CO₂e)</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>{{ totalEmissionGES | number: '1.2-2' }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
   <app-save-footer [path]="ONGLET_KEYS.Parkings" (estTermineChange)="onEstTermineChange($event)"></app-save-footer>
 </div>

@@ -50,6 +50,7 @@ export enum Pays {
   DANEMARK = "Danemark",
   DJIBOUTI = "Djibouti",
   DOMINIQUE = "Dominique",
+  ECOSSE = "Écosse",
   EGYPTE = "Égypte",
   EMIRATS_ARABES_UNIS = "Émirats arabes unis",
   EQUATEUR = "Équateur",

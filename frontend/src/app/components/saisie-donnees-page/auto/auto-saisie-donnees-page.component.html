@@ -27,7 +27,7 @@
         <label>Nombre de véhicules identiques</label>
         <input type="number" [(ngModel)]="nouveauVehicule.nombreVehiculesIdentiques" />
 
-        <label>Nombre de Km moyen / Voiture</label>
+        <label>Nombre de Km moyen annuel / Voiture</label>
         <input type="number" [(ngModel)]="nouveauVehicule.nombreKilometresParVoitureMoyen" />
       </div>
 
@@ -42,7 +42,7 @@
             <th>Modèle / Immatriculation</th>
             <th>Type</th>
             <th>Nb de véhicules identiques</th>
-            <th>Nb de Km moyen par voiture</th>
+            <th>Nb de Km moyen annuel par voiture</th>
             <th></th>
           </tr>
         </thead>
@@ -57,6 +57,27 @@
         </tbody>
       </table>
     </div>
+  </div>
+  <div *ngIf="vehiculeResultat" class="results-section">
+    <h3>Résultats des émissions GES</h3>
+    <table class="data-table">
+      <thead>
+      <tr>
+        <th>Émission fabrication (Tonnes CO₂e)</th>
+        <th>Émission pétrole (Tonnes CO₂e)</th>
+        <th>Émission électrique (Tonnes CO₂e)</th>
+        <th>Émission totale (Tonnes CO₂e)</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>{{ vehiculeResultat.totalEmissionGESFabrication | number:'1.2-2' }}</td>
+        <td>{{ vehiculeResultat.totalEmissionGESPetrole | number:'1.2-2' }}</td>
+        <td>{{ vehiculeResultat.totalEmissionGESElectrique | number:'1.2-2' }}</td>
+        <td>{{ vehiculeResultat.totalEmissionGES | number:'1.2-2' }}</td>
+      </tr>
+      </tbody>
+    </table>
   </div>
   <app-save-footer [path]="ONGLET_KEYS.Auto" (estTermineChange)="onEstTermineChange($event)"></app-save-footer>
 </div>

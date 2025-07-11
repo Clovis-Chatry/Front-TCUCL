@@ -26,4 +26,8 @@ export class EmmissionsFugtivesService {
   updateEstTermine(id: string, estTermine: boolean, headers: any): Observable<any> {
     return this.http.patch<any>(ApiEndpoints.EmissionFugitivesOnglet.update(id), { estTermine }, { headers });
   }
+
+  chargerResultatGES(id: string, headers: any): Observable<any> {
+    return this.http.get<any>(ApiEndpoints.EmissionFugitivesOnglet.resultats(id), {headers});
+  }
 }

@@ -39,6 +39,8 @@ export class DomTravSaisieDonneesPageComponent implements OnInit {
   ONGLET_KEYS = ONGLET_KEYS;
 
   resultats?: {
+    totalEtudiants?: number,
+    totalSalaries?: number,
     distanceAnnuelleParUsagerSalaries?: number;
     distanceAnnuelleParUsagerEtudiants?: number;
     nombreDeJoursDeDeplacementSalaries?: number;

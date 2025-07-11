@@ -71,3 +71,13 @@ export interface AchatOnglet {
   achatRestauration: AchatRestauration;
   achatTextile: AchatTextile;
 }
+
+export interface ResultatAchatDTO {
+  emissionPosteConsommable: Record<string, number>;
+  emissionPosteTextile: Record<string, number>;
+  emissionPosteRestauration: Record<string, number>;
+  totalConsommable: number;
+  totalTextile: number;
+  totalRestauration: number;
+  totalAchats: number;
+}

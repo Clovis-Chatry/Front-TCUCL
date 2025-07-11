@@ -73,6 +73,7 @@ h2 {
     background-color: #f9f9f9;
   }
 }
+
 .no-data-message {
   margin: 16px;
   padding: 12px;
@@ -82,6 +83,7 @@ h2 {
   border-radius: 4px;
   font-weight: bold;
 }
+
 /* Conteneur principal pour l'ajout de machine */
 .form-container {
   display: flex;
@@ -156,3 +158,29 @@ button:focus {
   outline: none;
 }
 
+.result-table-container {
+  flex: 1;
+  background-color: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  min-width: 0;
+  overflow-x: hidden;
+  margin-top: 2rem;
+}
+
+.result-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #f3f3f3;
+  text-align: center;
+  font-weight: bold;
+}
+
+.result-table th, .result-table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f3f3f3; // fond grisé uniforme
+}

@@ -9,21 +9,24 @@ import {
   ViewChild,
   ViewChildren
 } from '@angular/core';
-import {Router} from '@angular/router';
-import {OngletService} from './onglet.service';
-import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
-import {AuthService} from '../../services/auth.service';
-import {AnneeService} from '../../services/annee.service';
-import {Subscription} from 'rxjs';
-import {ONGLET_ROUTES} from '../../constants/onglet-routes';
+import { Router } from '@angular/router';
+import { OngletService } from './onglet.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { AnneeService } from '../../services/annee.service';
+import { Subscription } from 'rxjs';
+import { ONGLET_ROUTES } from '../../constants/onglet-routes';
+import { ONGLET_KEYS } from '../../constants/onglet-keys';
+import { MatButton } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 type YearRange = { label: string; value: number };
 
 @Component({
   selector: 'app-header-saisie-donnees',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatButton, MatIconModule],
   templateUrl: './header-saisie-donnees.component.html',
   styleUrls: ['./header-saisie-donnees.component.scss']
 })
@@ -53,24 +56,28 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
   activeTab: string | null = null;
   currentYear: number;
   selectedYear: number;
+  ongletYear: number = 0;
   years: YearRange[] = [];
 
   @ViewChild('tabsContainer') tabsContainer!: ElementRef<HTMLDivElement>;
   @ViewChild('tabsElement') tabsRef!: ElementRef<HTMLDivElement>; // nom changé
   @ViewChildren('tabBtn') tabButtons!: QueryList<ElementRef<HTMLButtonElement>>;
   private yearSub?: Subscription;
+
   ngOnInit(): void {
     this.currentYear = new Date().getFullYear();
-    this.years = Array.from({length: this.currentYear - 2018}, (_, i) => {
+    this.years = Array.from({ length: this.currentYear - 2018 }, (_, i) => {
       const end = this.currentYear - i;
       const start = end - 1;
-      return {label: `${start}-${end}`, value: end};
+      return { label: `${start}-${end}`, value: end };
     });
 
     this.yearSub = this.yearService.selectedYear$.subscribe((year: number) => {
       this.selectedYear = year;
       this.loadOngletIds();
     });
+
+    this.ongletYear = this.selectedYear;
   }
 
   onYearChange(newYear: number): void {
@@ -105,6 +112,10 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
   loadOngletIds(): void {
     this.ongletService.getOngletIds(this.entiteId, this.selectedYear)?.subscribe({
       next: (result: { [key: string]: number }) => {
+        if (!result[ONGLET_KEYS.MobInternationale] && result['mobInternationalOnglet']) {
+          result[ONGLET_KEYS.MobInternationale] = result['mobInternationalOnglet'];
+          delete result['mobInternationalOnglet'];
+        }
         this.ongletIdMap = result;
       },
       error: (err: unknown) => {
@@ -166,5 +177,11 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
     this.router.navigate([`/trajectoire`]);
   }
 
+
   private tabToRoute = ONGLET_ROUTES;
+
+  goToSynthese() {
+    this.router.navigate(['/synthese-eges']);
+  }
+
 }

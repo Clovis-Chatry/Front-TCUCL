@@ -1,7 +1,8 @@
 <div class="header-container">
   <div class="boutons-sur-bar">
     <!-- Bouton Accueil -->
-    <button class="button home-button" (click)="navigateToDashboard()">Accueil</button>
+    <button class="home-button button" (click)="navigateToDashboard()" mat-button><mat-icon>arrow_back</mat-icon>
+      Accueil</button>
 
     <!-- Texte Année -->
     <span class="year-label">Année : {{ currentYear - 1 }} - {{ currentYear }}</span>
@@ -15,46 +16,41 @@
 
     <!-- Boutons Suivi et Récap -->
     <button class="button primary-button" (click)="goToTrajectoire()">Trajectoire</button>
-    <button class="button primary-button">Synthèse EGES en 2024-25</button>
+    <button class="button primary-button" (click)="goToSynthese()">Synthèse EGES</button>
 
     <!-- Changer d'année + Sélecteur -->
-    <div class="year-change-container">
+    <!--    // todo  faire la méthode au clique-->
+    <button class="button year-change-container">
       <span class="year-change-label">Editer l'année :</span>
-      <select class="year-select" [(ngModel)]="selectedYear" (ngModelChange)="onYearChange($event)">
+      <select class="year-select" [(ngModel)]="selectedYear" (ngModelChange)="onYearChange($event)"
+        (click)="$event.stopPropagation()">
         <option *ngFor="let year of years" [value]="year.value">
           {{ year.label }}
         </option>
       </select>
-    </div>
+    </button>
   </div>
 
   <!-- Barre de navigation dans un rectangle blanc -->
   <div class="nav-wrapper">
     <div class="nav-container">
       <!-- Flèche gauche -->
-      <button class="nav-arrow left"
-              *ngIf="visibleCount < tabs.length"
-              (click)="scrollLeft()"
-              [disabled]="startIndex === 0">←</button>
+      <button class="nav-arrow left" *ngIf="visibleCount < tabs.length" (click)="scrollLeft()"
+        [disabled]="startIndex === 0">←</button>
 
       <!-- Conteneur des onglets -->
       <div class="tabs-container" #tabsContainer>
         <div class="tabs" #tabsElement>
-          <button *ngFor="let tab of visibleTabs()"
-                  #tabBtn
-                  [ngClass]="getTabClass(tab)"
-                  class="tab"
-                  (click)="navigateTo(tab)">
+          <button *ngFor="let tab of visibleTabs()" #tabBtn [ngClass]="getTabClass(tab)" class="tab"
+            (click)="navigateTo(tab)">
             {{ tab }}
           </button>
         </div>
       </div>
 
       <!-- Flèche droite -->
-      <button class="nav-arrow right"
-              *ngIf="visibleCount < tabs.length"
-              (click)="scrollRight()"
-              [disabled]="startIndex + visibleCount >= tabs.length">→
+      <button class="nav-arrow right" *ngIf="visibleCount < tabs.length" (click)="scrollRight()"
+        [disabled]="startIndex + visibleCount >= tabs.length">→
       </button>
     </div>
   </div>

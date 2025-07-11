@@ -27,6 +27,7 @@ export class ParkSaisieDonneesPageComponent implements OnInit {
   private mapper = inject(ParkingVoirieOngletMapperService);
 
   parkingOnglet: ParkingVoirieOngletModel = { parkings: [] };
+  totalEmissionGES: number | null = null;
 
   nouveauParking: ParkingVoirie = {
     nomOuAdresse: '',
@@ -57,7 +58,10 @@ export class ParkSaisieDonneesPageComponent implements OnInit {
 
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
-      if (id) this.loadData(id);
+      if (id) {
+        this.loadData(id);
+        this.loadTotalEmission(id);
+      }
     });
   }
 
@@ -127,7 +131,23 @@ export class ParkSaisieDonneesPageComponent implements OnInit {
     const headers = this.getAuthHeaders();
     const payload = this.mapper.toDto(this.parkingOnglet);
     this.http.patch(ApiEndpoints.ParkingVoirieOnglet.update(id), payload, { headers }).subscribe({
+      next: () => {
+        this.loadTotalEmission(id);
+      },
       error: err => console.error('Erreur mise à jour parkings', err)
+    });
+  }
+
+  loadTotalEmission(ongletId: string): void {
+    const headers = this.getAuthHeaders();
+    this.http.get<{ totalEmissionGES: number }>(`http://localhost:8080/parkingVoirieOnglet/${ongletId}/resultat`, { headers }).subscribe({
+      next: (res) => {
+        this.totalEmissionGES = res.totalEmissionGES;
+      },
+      error: (err) => {
+        console.error("Erreur lors du chargement du total émissions GES", err);
+        this.totalEmissionGES = null;
+      }
     });
   }
 }
