@@ -81,7 +81,8 @@ export const ApiEndpoints = {
   mobInternationaleOnglet: {
     getById: (id: string) => `${BASE_URL}/${ONGLET_KEYS.MobInternationale}/${id}`,
     update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.MobInternationale}/${id}`,
-    resultats: (id: string) => `${BASE_URL}/${ONGLET_KEYS.MobInternationale}/${id}/resultat`
+    resultats: (id: string) => `${BASE_URL}/${ONGLET_KEYS.MobInternationale}/${id}/resultat`,
+    import:(id: string | null) => `${BASE_URL}/${ONGLET_KEYS.MobInternationale}/${id}/import-voyage`,
   },
   BatimentsOnglet: {
     getBatimentImmobilisationMobilier: (id: string) =>
