@@ -55,7 +55,8 @@ export const ApiEndpoints = {
 
   autreImmobilisationOnglet: {
     getById: (id: string) => `${BASE_URL}/${ONGLET_KEYS.AutreImmob}/${id}`,
-    update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.AutreImmob}/${id}`
+    update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.AutreImmob}/${id}`,
+    resultat: (id: string) => `${BASE_URL}/${ONGLET_KEYS.AutreImmob}/${id}/resultat`
   },
   NumeriqueOnglet: {
     getById: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Numerique}/${id}`,
