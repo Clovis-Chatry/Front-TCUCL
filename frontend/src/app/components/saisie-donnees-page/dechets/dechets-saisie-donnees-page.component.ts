@@ -1,89 +1,124 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Component, OnInit, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { AuthService } from '../../../services/auth.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+import { TYPE_DECHET, TRAITEMENT_DECHET } from '../../../models/enums/dechet.enum';
+import { DechetData, DechetResultat } from '../../../models/dechet-data-model';
+import { DechetDataMapperService } from './dechet-data-mapper.service';
 import { ApiEndpoints } from '../../../services/api-endpoints';
+import { AuthService } from '../../../services/auth.service';
+import { SaveFooterComponent } from '../../save-footer/save-footer.component';
+import { OngletStatusService } from '../../../services/onglet-status.service';
+import { ONGLET_KEYS } from '../../../constants/onglet-keys';
 
 @Component({
-  selector: 'app-saisie-donnees-page',
+  selector: 'app-dechet-saisie-donnees-page',
   standalone: true,
   templateUrl: './dechets-saisie-donnees-page.component.html',
   styleUrls: ['./dechets-saisie-donnees-page.component.scss'],
-  imports: [FormsModule, HttpClientModule]
+  imports: [CommonModule, FormsModule, SaveFooterComponent],
 })
-export class DechetsSaisieDonneesPageComponent implements OnInit {
+export class DechetSaisieDonneesPageComponent implements OnInit {
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute);
-  private authService = inject(AuthService);
+  private auth = inject(AuthService);
+  private mapper = inject(DechetDataMapperService);
+  private statusService = inject(OngletStatusService);
 
-  items: any = {}; // Contient les données du formulaire
+  items: DechetData[] = [];
+  resultat: DechetResultat | null = null;
 
-  ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      console.log('ID récupéré:', id);
-      if (id) {
-        this.loadData(id);
-      }
+  estTermine = false;
+  ONGLET_KEYS = ONGLET_KEYS;
+
+  types = Object.values(TYPE_DECHET);
+  traitements = Object.values(TRAITEMENT_DECHET);
+
+  traitementsDisponibles: Record<TYPE_DECHET, TRAITEMENT_DECHET[]> = {
+    [TYPE_DECHET.ORDURES_MENAGERES]: [TRAITEMENT_DECHET.INCINERATION],
+    [TYPE_DECHET.CARTONS]: [TRAITEMENT_DECHET.RECYCLAGE, TRAITEMENT_DECHET.INCINERATION, TRAITEMENT_DECHET.STOCKAGE] as TRAITEMENT_DECHET[],
+    [TYPE_DECHET.VERRE]: [TRAITEMENT_DECHET.RECYCLAGE, TRAITEMENT_DECHET.INCINERATION, TRAITEMENT_DECHET.STOCKAGE] as TRAITEMENT_DECHET[],
+    [TYPE_DECHET.METAUX]: [TRAITEMENT_DECHET.RECYCLAGE, TRAITEMENT_DECHET.INCINERATION, TRAITEMENT_DECHET.STOCKAGE] as TRAITEMENT_DECHET[],
+    [TYPE_DECHET.TEXTILE]: [TRAITEMENT_DECHET.RECYCLAGE],
+  };
+
+  ngOnInit(): void {
+    this.estTermine = this.statusService.getStatus(ONGLET_KEYS.Dechets);
+    this.statusService.statuses$.subscribe((s: Record<string, boolean>) => {
+      this.estTermine = s[ONGLET_KEYS.Dechets] ?? false;
+    });
+
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.loadData(id);
+      this.loadResultat(id);
+    }
+  }
+
+  loadData(id: string): void {
+    const token = this.auth.getToken();
+    if (!token) return;
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    };
+
+    this.http.get<any>(ApiEndpoints.DechetsOnglet.getById(id), { headers }).subscribe({
+      next: data => {
+        this.items = this.mapper.parseData(data);
+        this.estTermine = data.estTermine ?? false;
+        this.statusService.setStatus(ONGLET_KEYS.Dechets, this.estTermine);
+      },
+      error: err => console.error('Erreur chargement déchets:', err),
     });
   }
 
-  loadData(id: string) {
-    const token = this.authService.getToken();
-
-    if (!token) {
-      console.error("Token d'authentification manquant");
-      return;
-    }
+  loadResultat(id: string): void {
+    const token = this.auth.getToken();
+    if (!token) return;
 
     const headers = {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     };
 
-    this.http.get<any>(ApiEndpoints.DechetsOnglet.getById(id), { headers }).subscribe(
-      (data) => {
-        this.items = {
-          orduresMenageres: data.orduresMenageres,
-          traitementOrduresMenageres: data.parametreDechets?.traitementOrduresMenageres || 'Stockage',
-          cartons: data.cartons,
-          traitementCartons: data.parametreDechets?.traitementCartons || 'Recyclage',
-          verre: data.verre,
-          traitementVerre: data.parametreDechets?.traitementVerre || 'Recyclage',
-          metaux: data.metaux,
-          traitementMetaux: data.parametreDechets?.traitementMetaux || 'Recyclage',
-          textile: data.textile,
-          traitementTextile: data.parametreDechets?.traitementTextile || 'Recyclage'
-        };
+    this.http.get<DechetResultat>(ApiEndpoints.DechetsOnglet.resultat(id), { headers }).subscribe({
+      next: data => {
+        this.resultat = data;
       },
-      (error) => {
-        console.error("Erreur lors du chargement des données", error);
-      }
-    );
+      error: err => console.error('Erreur chargement résultat déchets:', err),
+    });
   }
 
-  updateOrdureMenagere() {
-    console.log("update ordures ménagères", this.items.orduresMenageres);
+  updateData(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    const token = this.authService.getToken();
+    const token = this.auth.getToken();
+    if (!id || !token) return;
 
-    if (id && token) {
-      const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      };
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    };
 
-      this.http.patch<any>(
-        ApiEndpoints.DechetsOnglet.updateOrdureMenagere(id),
-        this.items.orduresMenageres,
-        { headers }
-      ).subscribe(
-        () => console.log('Ordures ménagères mises à jour'),
-        (error) => console.error('Erreur lors de la mise à jour des ordures ménagères', error)
-      );
-    } else {
-      console.error('ID ou Token manquant');
-    }
+    const payload = { ...this.mapper.buildPayload(this.items), estTermine: this.estTermine };
+
+    this.http.patch(ApiEndpoints.DechetsOnglet.update(id), payload, { headers }).subscribe({
+      next: () => {
+        this.loadResultat(id);
+      },
+      error: err => console.error('PATCH déchets échoué', err),
+    });
+  }
+
+  onEstTermineChange(value: boolean): void {
+    this.estTermine = value;
+    this.updateData();
+  }
+
+  // ✅ Méthode pour corriger le bug Angular avec l'accès via string
+  getTraitementsPour(type: string): TRAITEMENT_DECHET[] {
+    return this.traitementsDisponibles[type as TYPE_DECHET] ?? [];
   }
 }

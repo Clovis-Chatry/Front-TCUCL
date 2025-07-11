@@ -1,42 +1,102 @@
 .main-container {
   background-color: #E6F0FF;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  min-height: 100vh;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.panels-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 3rem;
+  padding: 2rem 4rem;
+  flex: 1;
+  box-sizing: border-box;
 }
 
 .left-panel {
+  flex: 1.5; // augmente la taille
+  background-color: white;
+  border-radius: 8px;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  min-width: 0; // permet le redimensionnement fluide
+}
+
+.right-panel {
   flex: 1;
-  margin-right: 20px;
+  background-color: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  min-width: 0;
+  overflow-x: hidden; // supprime la scrollbar horizontale
 }
 
 .data-table {
-  background-color: white;
-  margin-left: 3em;
-  width: 45%; /* Le tableau prend 50% de la page */
+  width: 100%;
   border-collapse: collapse;
 }
 
 .data-table th,
 .data-table td {
-  border: 1px solid #ccc;
-  padding: 10px;
+  padding: 0.8rem;
   text-align: left;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .data-table th {
-  background-color: #f0f0f0;
+  background-color: #f3f3f3;
+  font-weight: 600;
 }
 
-.value-input {
-  width: 100%;
-  padding: 5px;
-  box-sizing: border-box;
+.right-panel td {
+  background-color: #f9f9f9;
 }
 
+/* Adaptation des champs pour ne pas forcer de débordement */
+.value-input,
 .unit-select {
   width: 100%;
-  padding: 5px;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
   box-sizing: border-box;
+  max-width: none; // supprime la limite de largeur
+}
+
+
+/* Bouton de type (si utilisé) */
+.consumption-button {
+  width: 100%;
+  background-color: #d1d1d1;
+  border: none;
+  padding: 0.5em;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+/* Icône info */
+.help-icon {
+  margin-left: 0.5em;
+  display: inline-flex;
+  align-items: center;
+  cursor: help;
+}
+
+app-save-footer {
+  margin-top: auto;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #2c3e50;
 }

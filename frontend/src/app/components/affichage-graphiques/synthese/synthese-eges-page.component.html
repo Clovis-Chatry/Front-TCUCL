@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Synthèse EGES</title>
+  <link rel="stylesheet" href="synthese-eges-page.component.scss" />
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <button class="button home-button" (click)="navigateToDashboard()">Accueil</button>
+    </header>
+
+    <nav class="tabs">
+      <div class="tabs-container">
+        <button class="tab-button" (click)="goToSuivi()">Trajectoire</button>
+        <button class="tab-button active">Synthèse EGES</button>
+      </div>
+    </nav>
+
+    <main>
+      <h2 class="table-title">BILAN PAR SECTEUR</h2>
+      <table class="indicator-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Au global en Tonnes CO2e</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let s of sectors">
+            <td>{{ s.label }}</td>
+            <td>{{ s.value }}</td>
+          </tr>
+          <tr class="total">
+            <td>Bilan carbone total</td>
+            <td>{{ total }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 class="table-title">BILAN PAR SCOPE / POSTES</h2>
+      <table class="indicator-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>En Tonnes CO2e</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let sc of scopes">
+            <td>{{ sc.label }}</td>
+            <td>{{ sc.value }}</td>
+          </tr>
+          <tr class="total">
+            <td>Bilan carbone totale</td>
+            <td>{{ scopesTotal }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+  </div>
+</body>
+
+</html>

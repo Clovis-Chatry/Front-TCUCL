@@ -1,8 +1,8 @@
-import {provideRouter, Routes} from '@angular/router';
-import {LoginPageComponent} from './components/login-page/login-page.component';
-import {DashboardComponent} from './components/dashboard/dashboard.component';
-import {authGuard} from './guards/authguard';
-import {ParamsComponent} from './components/params/params.component';
+import { provideRouter, Routes } from '@angular/router';
+import { LoginPageComponent } from './components/login-page/login-page.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { authGuard } from './guards/authguard';
+import { ParamsComponent } from './components/params/params.component';
 import {
   DomTravSaisieDonneesPageComponent
 } from './components/saisie-donnees-page/dom-trav/dom-trav-saisie-donnees-page.component';
@@ -16,7 +16,7 @@ import {
   EmissFugiSaisieDonneesPageComponent
 } from './components/saisie-donnees-page/emiss-fugi/emiss-fugi-saisie-donnees-page.component';
 import {
-  DechetsSaisieDonneesPageComponent
+  DechetSaisieDonneesPageComponent
 } from './components/saisie-donnees-page/dechets/dechets-saisie-donnees-page.component';
 import {
   AchatsSaisieDonneesPageComponent
@@ -24,22 +24,24 @@ import {
 import {
   AutreImmobilisationPageComponent
 } from './components/saisie-donnees-page/autre-immob/immob-donnees-page.component';
-import { 
-  NumeriqueSaisieDonneesPageComponent 
+import {
+  NumeriqueSaisieDonneesPageComponent
 } from './components/saisie-donnees-page/numerique/numerique-saisie-donnees-page.component';
-import { 
-  AutoSaisieDonneesPageComponent 
-} from './components/saisie-donnees-page/auto/auto-saisie-donnees-page.component';
-import { 
-  ParkSaisieDonneesPageComponent 
-} from './components/saisie-donnees-page/park/park-saisie-donnees-page.component';
+import { AutoSaisieDonneesPageComponent } from './components/saisie-donnees-page/auto/auto-saisie-donnees-page.component';
+import { ParkSaisieDonneesPageComponent } from './components/saisie-donnees-page/park/park-saisie-donnees-page.component';
 import {
   MobiliteInternationaleSaisieDonneesPageComponent
 } from './components/saisie-donnees-page/mob-inter/mob-inter-saisie-donnees-page.component';
-import { 
+import {
   BatimentsSaisieDonneesPageComponent
 } from './components/saisie-donnees-page/batiments/bat-saisie-donnees-page.component';
+import { TrajectoireComponent } from './components/affichage-graphiques/suivi/trajectoire-page.component';
 
+import { ONGLET_KEYS } from './constants/onglet-keys';
+import {
+  GeneralSaisieDonneesPageComponent
+} from './components/saisie-donnees-page/general/general-saisie-donnees-page.component';
+import { SyntheseEgesComponent } from './components/affichage-graphiques/synthese/synthese-eges-page.component';
 
 export const routes: Routes = [
   {
@@ -64,77 +66,98 @@ export const routes: Routes = [
   },
 
   {
-    path: 'energieOnglet/:id',
+    path: `${ONGLET_KEYS.General}/:id`,
+    component: GeneralSaisieDonneesPageComponent,
+    data: { showSaisieHeader: true },
+    canActivate: [authGuard],
+  },
+  {
+    path: `${ONGLET_KEYS.Energie}/:id`,
     component: EnergieSaisieDonneesPageComponent,
     data: { showSaisieHeader: true },
     canActivate: [authGuard],
   },
   {
-    path: 'emissionsFugitivesOnglet/:id',
+    path: `${ONGLET_KEYS.EmissionsFugitives}/:id`,
     component: EmissFugiSaisieDonneesPageComponent,
     data: { showSaisieHeader: true },
     canActivate: [authGuard]
   },
   {
-    path: 'dechetsOnglet/:id',
-    component: DechetsSaisieDonneesPageComponent,
-    data: {showSaisieHeader: true},
+    path: `${ONGLET_KEYS.Dechets}/:id`,
+    component: DechetSaisieDonneesPageComponent,
+    data: { showSaisieHeader: true },
     canActivate: [authGuard],
   },
   {
-    path: 'mobiliteDomTravOnglet/:id',
+    path: `${ONGLET_KEYS.MobiliteDomTrav}/:id`,
     component: DomTravSaisieDonneesPageComponent,
-    data: {showSaisieHeader: true},
+    data: { showSaisieHeader: true },
     canActivate: [authGuard],
   },
   {
-    path: 'autreMobFrOnglet/:id',
+    path: `${ONGLET_KEYS.AutreMobFr}/:id`,
     component: AutreMobSaisieDonneesPageComponent,
-    data: {showSaisieHeader: true},
+    data: { showSaisieHeader: true },
     canActivate: [authGuard],
   },
   {
-    path: 'achatsOnglet/:id',
+    path: `${ONGLET_KEYS.Achats}/:id`,
     component: AchatsSaisieDonneesPageComponent,
     data: { showSaisieHeader: true },
     canActivate: [authGuard]
   },
   {
-    path: 'immobOnglet/:id',
+    path: `${ONGLET_KEYS.AutreImmob}/:id`,
     component: AutreImmobilisationPageComponent,
     data: { showSaisieHeader: true },
     canActivate: [authGuard]
   },
   {
-    path: 'numeriqueOnglet/:id',
+    path: `${ONGLET_KEYS.Numerique}/:id`,
     component: NumeriqueSaisieDonneesPageComponent,
     data: { showSaisieHeader: true },
     canActivate: [authGuard]
   },
   {
-    path: 'autoOnglet/:id',
+    path: `${ONGLET_KEYS.Auto}/:id`,
     component: AutoSaisieDonneesPageComponent,
     data: { showSaisieHeader: true },
     canActivate: [authGuard]
   },
   {
-    path: 'parkOnglet/:id',
+    path: `${ONGLET_KEYS.Parkings}/:id`,
     component: ParkSaisieDonneesPageComponent,
     data: { showSaisieHeader: true },
     canActivate: [authGuard]
   },
   {
-    path: 'mobiliteInternationaleOnglet/:id',
+    path: `${ONGLET_KEYS.MobInternationale}/:id`,
     data: { showSaisieHeader: true },
     component: MobiliteInternationaleSaisieDonneesPageComponent,
     canActivate: [authGuard]
   },
   {
-    path: 'batimentsOnglet/:id',
+    path: `${ONGLET_KEYS.Batiments}/:id`,
     data: { showSaisieHeader: true },
     component: BatimentsSaisieDonneesPageComponent,
-    canActivate: [authGuard] 
-  },  
+    canActivate: [authGuard]
+  },
+  {
+    path: 'trajectoire',
+    component: TrajectoireComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'synthese-eges',
+    component: SyntheseEgesComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'synthese-eges',
+    component: SyntheseEgesComponent,
+    canActivate: [authGuard]
+  },
   {
     path: '**',
     redirectTo: 'login',

@@ -1,13 +1,31 @@
 <div class="main-container">
   <div class="left-panel">
-    <h2>Saisir une destination</h2>
+    <div class="page-title">
+      <h2>Mobilité internationale</h2>
+      <span class="help-icon" title="Merci de renseigner les nombres de déplacements (1 déplacement = 1 aller simple) selon chaque destination à l'internationale pour chaque public cible. Certaines destinations européennes semblent accessibles en train/bus et il est donc possible d'indiquer si les déplacementts se font en train/bus ou avion pour ces dernières. Si le trajet s'est fait en co voiturage ou bus, alors mettre le nombre dans la colonne 'train', si le trajet s'est fait en voiture individuelle, alors mettre le nombre dans 'avion'.">
+        <svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="black"></circle>
+          <rect x="11" y="10" width="2" height="6" fill="white"></rect>
+          <circle cx="12" cy="8" r="1" fill="white"></circle>
+        </svg>
+      </span>
+    </div>
+    <div class="import-buttons">
+      <!-- Input fichier caché -->
+      <p>Importer ou remplacer le fichier excel des mobilités internationales</p>
+      <input #fileInput type="file" (change)="onFileSelected($event)" hidden />
+
+      <!-- Deux boutons qui déclenchent le même input, mais avec rajouter = true / false -->
+      <button type="button" (click)="triggerFileInput(true)" class="btn-space">Importer</button>
+      <button type="button" (click)="triggerFileInput(false)">Remplacer</button>
+    </div>
 
     <details>
       <summary><strong>Saisir une destination</strong></summary>
 
       <div class="form-column">
         <label>Quel est le pays de destination ?
-          <select [(ngModel)]="destinationEnCours.pays">
+          <select [(ngModel)]="nouveauVoyage.nomPays">
             <option *ngFor="let pays of listePays" [value]="pays">{{ pays }}</option>
           </select>
         </label>
@@ -24,24 +42,24 @@
           <tbody>
             <tr>
               <td>Avion</td>
-              <td><input type="number" [(ngModel)]="destinationEnCours.avion.pro" /></td>
-              <td><input type="number" [(ngModel)]="destinationEnCours.avion.stage" /></td>
-              <td><input type="number" [(ngModel)]="destinationEnCours.avion.semestre" /></td>
+              <td><input type="number" [(ngModel)]="nouveauVoyage.prosAvion" /></td>
+              <td><input type="number" [(ngModel)]="nouveauVoyage.stagesEtudiantsAvion" /></td>
+              <td><input type="number" [(ngModel)]="nouveauVoyage.semestresEtudiantsAvion" /></td>
             </tr>
             <tr>
-              <td>Train</td>
-              <td><input type="number" [(ngModel)]="destinationEnCours.train.pro" /></td>
-              <td><input type="number" [(ngModel)]="destinationEnCours.train.stage" /></td>
-              <td><input type="number" [(ngModel)]="destinationEnCours.train.semestre" /></td>
+              <td>Train / Bus</td>
+              <td><input type="number" [(ngModel)]="nouveauVoyage.prosTrain" /></td>
+              <td><input type="number" [(ngModel)]="nouveauVoyage.stagesEtudiantsTrain" /></td>
+              <td><input type="number" [(ngModel)]="nouveauVoyage.semestresEtudiantsTrain" /></td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <button type="button" (click)="ajouterDestination()">Ajouter ce pays</button>
+      <button type="button" (click)="ajouterVoyage()">Ajouter ce pays</button>
     </details>
 
-    <div *ngIf="destinations.length > 0" class="added-destinations">
+    <div *ngIf="onglet.voyages.length > 0" class="added-destinations">
       <h3>Destinations enregistrées :</h3>
       <table class="data-table">
         <thead>
@@ -55,26 +73,108 @@
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngFor="let destination of destinations; let i = index">
+          <ng-container *ngFor="let destination of onglet.voyages; let i = index">
             <tr>
-              <td rowspan="2">{{ destination.pays }}</td>
+              <td rowspan="2">{{ destination.nomPays }}</td>
               <td><span class="icon">🚆</span></td>
-              <td><input type="number" [value]="destination.train.pro" readonly /></td>
-              <td><input type="number" [value]="destination.train.stage" readonly /></td>
-              <td><input type="number" [value]="destination.train.semestre" readonly /></td>
+              <td><input type="number" [value]="destination.prosTrain" readonly /></td>
+              <td><input type="number" [value]="destination.stagesEtudiantsTrain" readonly /></td>
+              <td><input type="number" [value]="destination.semestresEtudiantsTrain" readonly /></td>
               <td rowspan="2">
-                <button (click)="supprimerDestination(i)">🗑️</button>
+                <button (click)="supprimerVoyage(i)">🗑️</button>
               </td>
             </tr>
             <tr>
               <td><span class="icon">✈️</span></td>
-              <td><input type="number" [value]="destination.avion.pro" readonly /></td>
-              <td><input type="number" [value]="destination.avion.stage" readonly /></td>
-              <td><input type="number" [value]="destination.avion.semestre" readonly /></td>
+              <td><input type="number" [value]="destination.prosAvion" readonly /></td>
+              <td><input type="number" [value]="destination.stagesEtudiantsAvion" readonly /></td>
+              <td><input type="number" [value]="destination.semestresEtudiantsAvion" readonly /></td>
             </tr>
           </ng-container>
         </tbody>
       </table>
     </div>
   </div>
+  <div class="bottom-panel">
+    <h2>Résultats des émissions GES</h2>
+  <table class="data-table">
+    <thead>
+    <tr>
+      <th>Indicateur</th>
+      <th>Pros</th>
+      <th>Stages</th>
+      <th>Semestres</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Émissions GES Europe train (TCO2e avec trainées de condensation)</td>
+      <td>{{ resultats?.emissionGesProEuropeTrain }}</td>
+      <td>{{ resultats?.emissionGesStagesEuropeTrain }}</td>
+      <td>{{ resultats?.emissionGesSemestresEtudiantsEuropeTrain }}</td>
+    </tr>
+    <tr>
+      <td>Émissions GES Europe avion (TCO2e avec trainées de condensation)</td>
+      <td>{{ resultats?.emissionGesProEuropeAvion }}</td>
+      <td>{{ resultats?.emissionGesStagesEuropeAvion }}</td>
+      <td>{{ resultats?.emissionGesSemestresEtudiantsEuropeAvion }}</td>
+    </tr>
+    <tr>
+      <td>Émissions GES hors Europe (TCO2e avec trainées de condensation)</td>
+      <td>{{ resultats?.emissionGesProHorsEurope }}</td>
+      <td>{{ resultats?.emissionGesStagesHorsEurope }}</td>
+      <td>{{ resultats?.emissionGesSemestresEtudiantsHorsEurope }}</td>
+    </tr>
+    <tr>
+      <td>Proportion de départs</td>
+      <td>{{ resultats?.prosProportionDeDeparts }}</td>
+      <td>{{ resultats?.stagesProportionDeDeparts }}</td>
+      <td>{{ resultats?.semestresProportionDeDeparts }}</td>
+    </tr>
+    <tr>
+      <td>Part Europe vs non Europe</td>
+      <td>{{ resultats?.prosPartEuropeVsNonEurope }}</td>
+      <td>{{ resultats?.stagesPartEuropeVsNonEurope }}</td>
+      <td>{{ resultats?.semestresPartEuropeVsNonEurope }}</td>
+    </tr>
+    <tr>
+      <td>Distance moyenne hors Europe (km)</td>
+      <td>{{ resultats?.prosDistanceMoyenneHorsEurope }}</td>
+      <td>{{ resultats?.stagesDistanceMoyenneHorsEurope }}</td>
+      <td>{{ resultats?.semestresDistanceMoyenneHorsEurope }}</td>
+    </tr>
+    <tr>
+      <td>Part train en Europe</td>
+      <td>{{ resultats?.prosPartTrainEnEurope }}</td>
+      <td>{{ resultats?.stagesPartTrainEnEurope }}</td>
+      <td>{{ resultats?.semestresPartTrainEnEurope }}</td>
+    </tr>
+    <tr>
+      <td>Distance moyenne Europe avion (km)</td>
+      <td>{{ resultats?.prosDistancemoyenneEuropeAvion }}</td>
+      <td>{{ resultats?.stagesDistancemoyenneEuropeAvion }}</td>
+      <td>{{ resultats?.semestresDistancemoyenneEuropeAvion }}</td>
+    </tr>
+    <tr>
+      <td>Distance moyenne Europe train (km)</td>
+      <td>{{ resultats?.prosDistanceMoyenneEuropeTrain }}</td>
+      <td>{{ resultats?.stagesDistanceMoyenneEuropeTrain }}</td>
+      <td>{{ resultats?.semestresDistanceMoyenneEuropeTrain }}</td>
+    </tr>
+    <tr>
+      <td>Intensité carbone (gCO2e/km)</td>
+      <td>{{ resultats?.prosIntensiteCarboneDesDeplacemeents_gCo2eParKm }}</td>
+      <td>{{ resultats?.stagesIntensiteCarboneDesDeplacemeents_gCo2eParKm }}</td>
+      <td>{{ resultats?.semestresIntensiteCarboneDesDeplacemeents_gCo2eParKm }}</td>
+    </tr>
+    <tr>
+      <td>Intensité carbone (kgCO2e/départ)</td>
+      <td>{{ resultats?.prosIntensiteCarboneDesDeplacemeents_kgCo2eParDepart }}</td>
+      <td>{{ resultats?.stagesIntensiteCarboneDesDeplacemeents_kgCo2eParDepart }}</td>
+      <td>{{ resultats?.semestresIntensiteCarboneDesDeplacemeents_kgCo2eParDepart }}</td>
+    </tr>
+    </tbody>
+  </table>
+  </div>
+  <app-save-footer [path]="ONGLET_KEYS.MobInternationale" (estTermineChange)="onEstTermineChange($event)"></app-save-footer>
 </div>

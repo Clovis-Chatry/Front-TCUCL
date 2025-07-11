@@ -4,28 +4,43 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router'; // Permet de récupérer l'ID de l'URL
 import {AuthService} from '../../../services/auth.service';
 import {ApiEndpoints} from '../../../services/api-endpoints';
-import {JsonPipe} from '@angular/common';
+import {OngletStatusService} from '../../../services/onglet-status.service';
+import { ONGLET_KEYS } from '../../../constants/onglet-keys';
+import { SaveFooterComponent } from '../../save-footer/save-footer.component';
 
 @Component({
   selector: 'app-saisie-donnees-page',
   standalone: true,
   templateUrl: './energie-saisie-donnees-page.component.html',
   styleUrls: ['./energie-saisie-donnees-page.component.scss'],
-  imports: [FormsModule, HttpClientModule, JsonPipe]
+  imports: [FormsModule, HttpClientModule, SaveFooterComponent]
 })
 export class EnergieSaisieDonneesPageComponent implements OnInit {
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute); // Récupération des paramètres de l'URL
   private authService = inject(AuthService);
+  private statusService = inject(OngletStatusService);
 
   items: any = {}; // Objet qui contiendra les données récupérées
+  estTermine = false;
+  ONGLET_KEYS = ONGLET_KEYS;
+  resultats: any = {};
+
+  onEstTermineChange(value: boolean): void {
+    this.estTermine = value;
+    this.updateConso();
+  }
 
   ngOnInit() {
+    this.estTermine = this.statusService.getStatus(ONGLET_KEYS.Energie);
+    this.statusService.statuses$.subscribe((statuses: Record<string, boolean>) => {
+      this.estTermine = statuses[ONGLET_KEYS.Energie] ?? false;
+    });
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
-      console.log('ID récupéré:', id);
       if (id) {
         this.loadData(id);
+        this.loadResultats(id);
       }
     });
   }
@@ -57,6 +72,8 @@ export class EnergieSaisieDonneesPageComponent implements OnInit {
           consoElecSpecifique: data.consoElecSpecifique,
           consoEau: data.consoEau
         };
+        this.estTermine = data.estTermine ?? false;
+        this.statusService.setStatus(ONGLET_KEYS.Energie, this.estTermine);
       },
       (error) => {
         console.error("Erreur lors du chargement des données", error);
@@ -65,11 +82,8 @@ export class EnergieSaisieDonneesPageComponent implements OnInit {
   }
 
   updateConso() {
-    console.log("update conso gaz", this.items.consoGaz);
     const id = this.route.snapshot.paramMap.get('id');
     const token = this.authService.getToken(); // Récupère le token
-    console.log(id);
-    console.log(token)
 
     if (id && token) {
       const headers = {
@@ -89,15 +103,38 @@ export class EnergieSaisieDonneesPageComponent implements OnInit {
           consoReseauVille: this.items.consoReseauVille,
           consoElecChauffage: this.items.consoElecChauffage,
           consoElecSpecifique: this.items.consoElecSpecifique,
-          consoEau: this.items.consoEau
+          consoEau: this.items.consoEau,
+          estTermine: this.estTermine
         },
         {headers}
-      ).subscribe(
-        () => console.log('Conso mise à jour'),
-        (error) => console.error('Erreur lors de la mise à jour de ConsoGaz', error)
-      );
+      ).subscribe({
+        next: () => {
+          this.loadResultats(id);
+        },
+        error: err => console.error('Erreur lors de la mise à jour de ConsoGaz', err)
+      });
     } else {
       console.error('ID ou Token manquant');
     }
   }
+
+  loadResultats(id: string) {
+    const token = this.authService.getToken();
+    if (!token) return;
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    };
+
+    this.http.get<any>(`${ApiEndpoints.EnergieOnglet.getById(id)}/resultat`, { headers }).subscribe(
+      (res) => {
+        this.resultats = res;
+      },
+      (error) => {
+        console.error("Erreur lors du chargement des résultats", error);
+      }
+    );
+  }
+
 }

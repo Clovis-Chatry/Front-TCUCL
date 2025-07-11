@@ -1,76 +1,156 @@
-import { Component, Input } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  Input,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import { Router } from '@angular/router';
+import { OngletService } from './onglet.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { AnneeService } from '../../services/annee.service';
+import { Subscription } from 'rxjs';
+import { ONGLET_ROUTES } from '../../constants/onglet-routes';
+import { ONGLET_KEYS } from '../../constants/onglet-keys';
+import { MatButton } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+
+type YearRange = { label: string; value: number };
 
 @Component({
   selector: 'app-header-saisie-donnees',
-  imports: [CommonModule, FormsModule],
+  standalone: true,
+  imports: [CommonModule, FormsModule, MatButton, MatIconModule],
   templateUrl: './header-saisie-donnees.component.html',
   styleUrls: ['./header-saisie-donnees.component.scss']
 })
-export class HeaderSaisieDonneesComponent {
-  constructor(private router: Router) {
+export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
+  constructor(private router: Router, private ongletService: OngletService, private auth: AuthService, private yearService: AnneeService) {
     this.currentYear = new Date().getFullYear();
-    this.years = Array.from({ length: this.currentYear - 2018 }, (_, i) => this.currentYear - i);
     this.selectedYear = this.currentYear;
-    console.log("Années valides : ", this.years);
+    const user = this.auth.getUserInfo()();
+    if (user?.entiteId) {
+      this.entiteId = user.entiteId;
+    } else {
+      console.error('Impossible de récupérer l’entiteId de l’utilisateur.');
+    }
   }
 
   @Input() PageTitle: string = '';
   @Input() LogoSrc: string = '';
+  @Input() entiteId!: number;
 
-  tabs = ['Energie', 'Emissions fugitives', 'Mobilité dom-trav', 'Autre mob FR', 'Mob internationale', 'Bâtiments',
-    'Parkings', 'Auto', 'Numérique', 'Autre immob', 'Achats', 'Déchets'];
+  ongletIdMap: { [key: string]: number } = {};
+
+  tabs = Object.keys(ONGLET_ROUTES);
   startIndex = 0;
-  visibleCount = 8;
+  visibleCount = 13;
+  loading = false;
 
   activeTab: string | null = null;
   currentYear: number;
   selectedYear: number;
-  years: number[] = [];
+  ongletYear: number = 0;
+  years: YearRange[] = [];
+
+  @ViewChild('tabsContainer') tabsContainer!: ElementRef<HTMLDivElement>;
+  @ViewChild('tabsElement') tabsRef!: ElementRef<HTMLDivElement>; // nom changé
+  @ViewChildren('tabBtn') tabButtons!: QueryList<ElementRef<HTMLButtonElement>>;
+  private yearSub?: Subscription;
+
+  ngOnInit(): void {
+    this.currentYear = new Date().getFullYear();
+    this.years = Array.from({ length: this.currentYear - 2018 }, (_, i) => {
+      const end = this.currentYear - i;
+      const start = end - 1;
+      return { label: `${start}-${end}`, value: end };
+    });
+
+    this.yearSub = this.yearService.selectedYear$.subscribe((year: number) => {
+      this.selectedYear = year;
+      this.loadOngletIds();
+    });
+
+    this.ongletYear = this.selectedYear;
+  }
+
+  onYearChange(newYear: number): void {
+    this.yearService.setSelectedYear(newYear);
+    this.loadOngletIds();
+  }
+
+  ngAfterViewInit(): void {
+    this.updateVisibleCount();
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.updateVisibleCount();
+  }
+
+  updateVisibleCount() {
+    if (!this.tabsContainer || this.tabButtons.length === 0) return;
+
+    const containerWidth = this.tabsContainer.nativeElement.offsetWidth;
+    const tabWidth = this.tabButtons.first.nativeElement.offsetWidth;
+    const gap = parseFloat(getComputedStyle(this.tabsRef.nativeElement).gap || '0');
+
+    const count = Math.floor((containerWidth + gap) / (tabWidth + gap));
+    this.visibleCount = Math.max(1, Math.min(this.tabs.length, count));
+
+    if (this.startIndex + this.visibleCount > this.tabs.length) {
+      this.startIndex = Math.max(0, this.tabs.length - this.visibleCount);
+    }
+  }
+
+  loadOngletIds(): void {
+    this.ongletService.getOngletIds(this.entiteId, this.selectedYear)?.subscribe({
+      next: (result: { [key: string]: number }) => {
+        if (!result[ONGLET_KEYS.MobInternationale] && result['mobInternationalOnglet']) {
+          result[ONGLET_KEYS.MobInternationale] = result['mobInternationalOnglet'];
+          delete result['mobInternationalOnglet'];
+        }
+        this.ongletIdMap = result;
+      },
+      error: (err: unknown) => {
+        console.error('Erreur récupération onglet IDs:', err);
+      }
+    });
+  }
 
   visibleTabs() {
     return this.tabs.slice(this.startIndex, this.startIndex + this.visibleCount);
   }
 
-  scrollLeft() {
-    if (this.startIndex > 0) {
-      this.startIndex--;
-    }
-  }
-
-  scrollRight() {
-    if (this.startIndex + this.visibleCount < this.tabs.length) {
-      this.startIndex++;
-    }
+  save() {
+    this.loading = true;
+    setTimeout(() => {
+      this.loading = false;
+    }, 2000);
   }
 
   navigateTo(tab: string) {
     this.activeTab = tab;
-    console.log(`Navigation vers ${tab}`);
 
     const urlPart = this.tabToRoute[tab];
-
     if (!urlPart) {
       console.error('Tab non reconnu:', tab);
       return;
     }
 
-    // Calcule l'ID à partir de l'année sélectionnée
-    const year = Number(this.selectedYear);
-    const index = this.years.indexOf(year);
-
-
-    if (index === -1) {
-      console.error('Année sélectionnée invalide:', this.selectedYear);
+    const ongletId = this.ongletIdMap[urlPart];
+    if (!ongletId) {
+      console.error('ID introuvable pour l\'onglet', urlPart);
       return;
     }
 
-    // Calcul de l'ID à partir de l'année sélectionnée
-    const id = index.toString();
-    console.log(`ID calculé: ${id}`);
-    this.router.navigate([`/${urlPart}/${id}`]);
+    this.router.navigate([`/${urlPart}/${ongletId}`]);
   }
 
   navigateToDashboard() {
@@ -81,18 +161,15 @@ export class HeaderSaisieDonneesComponent {
     return this.activeTab === tab ? 'tab active' : 'tab';
   }
 
-  private tabToRoute: { [key: string]: string } = {
-    'Energie': 'energieOnglet',
-    'Emissions fugitives': 'emissionsFugitivesOnglet',
-    'Mobilité dom-trav': 'mobiliteDomTravOnglet',
-    'Autre mob FR': 'autreMobFrOnglet',
-    'Mob internationale': 'mobiliteInternationaleOnglet',
-    'Bâtiments': 'batimentsOnglet',
-    'Parkings': 'parkOnglet',
-    'Auto': 'autoOnglet',
-    'Numérique': 'numeriqueOnglet',
-    'Autre immob': 'immobOnglet',
-    'Achats': 'achatsOnglet',
-    'Déchets': 'dechetsOnglet'
-  };
+  goToTrajectoire() {
+    this.router.navigate([`/trajectoire`]);
+  }
+
+
+  private tabToRoute = ONGLET_ROUTES;
+
+  goToSynthese() {
+    this.router.navigate(['/synthese-eges']);
+  }
+
 }

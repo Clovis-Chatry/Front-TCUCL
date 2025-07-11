@@ -1,8 +1,7 @@
 import {Component} from '@angular/core';
 import {HeaderComponent} from './components/header/header.component';
 
-import {RouterOutlet} from '@angular/router';
-import {ActivatedRoute, NavigationEnd, Router, RouterModule} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router, RouterModule, RouterOutlet} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {HeaderSaisieDonneesComponent} from './components/header-saisie-donnees/header-saisie-donnees.component';
 import {filter, map, mergeMap} from 'rxjs';
@@ -10,7 +9,13 @@ import {filter, map, mergeMap} from 'rxjs';
 @Component({
   selector: 'app-root',
 
-  imports: [CommonModule, RouterOutlet, HeaderComponent, RouterModule, HeaderSaisieDonneesComponent],
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    HeaderComponent,
+    RouterModule,
+    HeaderSaisieDonneesComponent,
+  ],
 
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

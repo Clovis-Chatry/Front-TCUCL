@@ -2,11 +2,14 @@ import { Component, HostListener, Input, inject, signal, effect } from '@angular
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { NgIf, NgOptimizedImage } from '@angular/common';
+import {UserService} from '../../services/user.service';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButton} from '@angular/material/button';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [NgOptimizedImage, NgIf],
+  imports: [NgOptimizedImage, NgIf, MatIconModule, MatButton],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
@@ -16,25 +19,15 @@ export class HeaderComponent {
 
   private router = inject(Router);
   private authService = inject(AuthService);
+  private currentUser = inject(UserService);
 
-  nom = signal('');
-  prenom = signal('');
-  entite = signal('');
+  nom = this.currentUser.nom;
+  prenom = this.currentUser.prenom;
+  entite = this.currentUser.entite;
+  entiteId = this.currentUser.entiteId;
+  isLoggedIn = this.currentUser.isLoggedIn;
 
   dropdownOpen = false;
-  isLoggedIn = this.authService.isAuthenticated; // signal directement
-
-  constructor() {
-    effect(() => {
-      const user = this.authService.getUserInfo()();
-
-      if (user) {
-        this.nom.set(user.nom ?? '');
-        this.prenom.set(user.prenom ?? '');
-        this.entite.set(user.entiteNom ?? '');
-      }
-    });
-  }
 
   toggleDropdown(): void {
     this.dropdownOpen = !this.dropdownOpen;

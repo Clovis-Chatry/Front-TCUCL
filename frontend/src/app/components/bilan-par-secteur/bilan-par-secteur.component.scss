@@ -1,0 +1,39 @@
+.bilan-wrapper {
+    background-color: white;
+    border-radius: 10px;
+    padding: 1em;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.table-title {
+    background-color: #cfe2f3;
+    text-align: center;
+    padding: 10px;
+    font-size: 18px;
+    color: #333;
+    border-radius: 8px 8px 0 0;
+    margin: 0;
+}
+
+.indicator-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin-top: 0.5em;
+}
+
+.indicator-table th,
+.indicator-table td {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+.indicator-table thead {
+    background-color: #efefef;
+}
+
+.total {
+    font-weight: bold;
+    background-color: #f0f0f0;
+}

@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
 
 $primary-color: #1976d2;
 $secondary-color: #424242;
@@ -46,4 +48,21 @@ button {
 
 .text-center {
   text-align: center;
+}
+
+td{
+  background-color: white;
+}
+
+.help-icon {
+  margin-left: 0.5rem;
+  cursor: pointer;
+  color: #000;
+  margin-bottom: 0.75rem;
+  font-size: larger;
+}
+
+.page-title {
+  display: flex;
+  align-items: center;
 }

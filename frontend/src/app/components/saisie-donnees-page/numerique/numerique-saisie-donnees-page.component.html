@@ -1,101 +1,109 @@
 <div class="main-container">
-  <div class="left-panel">
-    <h2>Poste numérique</h2>
-
-    <p class="question-title">Disposez-vous de données sur le cloud ?</p>
-    <label><input type="radio" name="hasCloud" [(ngModel)]="donneesCloudDisponibles" [value]="true" /> Oui</label>
-    <label><input type="radio" name="hasCloud" [(ngModel)]="donneesCloudDisponibles" [value]="false" /> Non</label>
+  <div class="page-title">
+      <h2>Poste numérique</h2>
+      <span class="help-icon" title="Merci de renseigner le nombre de chaque type d'équipements en cours d'amortissement comptable, la durée d'amortissement et les émissions de GES précises si celles-ci sont connues (via une ACV / fiche PEP par exemple)">
+        <svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="black"></circle>
+          <rect x="11" y="10" width="2" height="6" fill="white"></rect>
+          <circle cx="12" cy="8" r="1" fill="white"></circle>
+        </svg>
+      </span>
+  </div>
+  <p class="question-title">Disposez-vous de données sur le cloud ?</p>
+  <label><input type="radio" name="hasCloud" [(ngModel)]="donneesCloudDisponibles" [value]="true"
+                (change)="updateData()"/> Oui</label>
+  <label><input type="radio" name="hasCloud" [(ngModel)]="donneesCloudDisponibles" [value]="false"
+                (change)="updateData()"/> Non</label>
 
     <div class="card" *ngIf="donneesCloudDisponibles">
       <label for="cloudTraffic">Trafic cloud (Go)</label>
-      <input id="cloudTraffic" type="number" [(ngModel)]="traficCloud" />
+      <input id="cloudTraffic" type="number" [(ngModel)]="traficCloud" (blur)="updateData()"/>
 
       <label for="tipUtilisateur">TIP utilisateur</label>
-      <input id="tipUtilisateur" type="number" [(ngModel)]="tipUtilisateur" />
+      <input id="tipUtilisateur" type="number" [(ngModel)]="tipUtilisateur" (blur)="updateData()"/>
+
+      <label for="partTrafic">Part trafic France / Étranger (Valeur comprise entre 0 et 1)</label>
+      <input id="partTrafic" type="number" [(ngModel)]="partTraficFranceEtranger" (blur)="updateData()"/>
     </div>
 
-    <hr />
+    <hr/>
 
     <details>
       <summary><strong>Ajout d’un nouvel équipement numérique</strong></summary>
 
       <div class="form-column">
         <label>Type d'équipement</label>
-        <select [(ngModel)]="nouvelEquipement.type">
-          <option value="Ecran">Écran</option>
-          <option value="Ordinateur">Ordinateur</option>
-          <option value="Serveur">Serveur</option>
-          <option value="Routeur">Routeur</option>
-          <option value="Switch">Switch</option>
+        <select [(ngModel)]="nouvelEquipement.equipement">
+          <option *ngFor="let entry of equipementOptions" [ngValue]="entry.value">
+            {{ entry.label }}
+          </option>
         </select>
 
         <label>Quantité</label>
-        <input type="number" [(ngModel)]="nouvelEquipement.quantite" />
+        <input type="number" [(ngModel)]="nouvelEquipement.nombre"/>
 
-        <label>Durée d’amortissement (ans)</label>
-        <input type="number" [(ngModel)]="nouvelEquipement.amortissement" />
+        <label>Durée d’amortissement (années)</label>
+        <input type="number" [(ngModel)]="nouvelEquipement.dureeAmortissement"/>
 
         <label>Émissions de GES connues ?</label>
-        <select [(ngModel)]="nouvelEquipement.gesConnu">
+        <select [(ngModel)]="nouvelEquipement.emissionsGesPrecisesConnues">
           <option [ngValue]="false" selected>Non</option>
           <option [ngValue]="true">Oui</option>
         </select>
 
-        <label *ngIf="nouvelEquipement.gesConnu">Émissions de GES réelles (tCO2e/an)</label>
-        <input *ngIf="nouvelEquipement.gesConnu" type="number" [(ngModel)]="nouvelEquipement.gesReel" />
+        <label *ngIf="nouvelEquipement.emissionsGesPrecisesConnues">Émissions de GES réelles (kgCO2/équipement)</label>
+        <input *ngIf="nouvelEquipement.emissionsGesPrecisesConnues" type="number"
+               [(ngModel)]="nouvelEquipement.emissionsReellesParProduitKgCO2e"/>
       </div>
 
       <button type="button" (click)="ajouterEquipement()">Ajouter cet équipement</button>
     </details>
 
-    <div *ngIf="equipementsAjoutes.length > 0">
-      <h3>Équipements numériques ajoutés</h3>
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Type</th>
-            <th>Quantité</th>
-            <th>Amortissement</th>
-            <th>GES Connus</th>
-            <th>GES Réels</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let equipement of equipementsAjoutes">
-            <td>{{ equipement.type }}</td>
-            <td>{{ equipement.quantite }}</td>
-            <td>{{ equipement.amortissement }}</td>
-            <td>{{ equipement.gesConnu ? 'Oui' : 'Non' }}</td>
-            <td>{{ equipement.gesReel ?? 'N/A' }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div *ngIf="equipementsAnciens.length > 0">
-      <h3>Équipements enregistrés les années précédentes</h3>
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Type</th>
-            <th>Quantité</th>
-            <th>Amortissement</th>
-            <th>GES Connus</th>
-            <th>GES Réels</th>
-            <th>Année</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let equipement of equipementsAnciens">
-            <td>{{ equipement.type }}</td>
-            <td>{{ equipement.quantite }}</td>
-            <td>{{ equipement.amortissement }}</td>
-            <td>{{ equipement.gesConnu ? 'Oui' : 'Non' }}</td>
-            <td>{{ equipement.gesReel ?? 'N/A' }}</td>
-            <td>{{ equipement.anneeAjout }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div *ngIf="equipements.length > 0" class="added-equipements">
+    <h3>Équipements enregistrés :</h3>
+    <table class="data-table">
+      <thead>
+      <tr>
+        <th>Type</th>
+        <th>Quantité</th>
+        <th>Amortissement</th>
+        <th>GES Connus</th>
+        <th>GES Réels</th>
+        <th>Année</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let equipement of equipements; let i = index">
+        <td>{{ numeriqueEquipmentLabels[equipement.equipement] }}</td>
+        <td>{{ equipement.nombre }}</td>
+        <td>{{ equipement.dureeAmortissement }}</td>
+        <td>{{ equipement.emissionsGesPrecisesConnues ? 'Oui' : 'Non' }}</td>
+        <td>{{ equipement.emissionsReellesParProduitKgCO2e ?? 'N/A' }}</td>
+        <td>{{ equipement.anneeAjout }}</td>
+        <td><button (click)="supprimerEquipement(i)">🗑️</button></td>
+      </tr>
+      </tbody>
+    </table>
   </div>
+  <div *ngIf="resultats" class="bottom-panel">
+    <h2>Résultats des émissions GES</h2>
+    <table class="data-table">
+      <tbody>
+      <tr>
+        <td>Empreinte carbone data center</td>
+        <td>{{ resultats.empreinteCarboneDataCenter || 0 }} kgCO2e</td>
+      </tr>
+      <tr>
+        <td>Empreinte carbone data center + réseaux</td>
+        <td>{{ resultats.empreinteCarboneDataCenterEtReseaux || 0 }} kgCO2e</td>
+      </tr>
+      <tr>
+        <td>Total numérique</td>
+        <td>{{ resultats.totalNumerique || 0 }} kgCO2e</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <app-save-footer [path]="ONGLET_KEYS.Numerique" (estTermineChange)="onEstTermineChange($event)"></app-save-footer>
 </div>

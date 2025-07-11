@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suivi des indicateurs</title>
+  <link rel="stylesheet" href="trajectoire-page.component.scss" />
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <button class="button home-button" (click)="navigateToDashboard()">Accueil</button>
+    </header>
+
+    <nav class="tabs">
+      <div class="tabs-container">
+        <button class="tab-button active">Trajectoire</button>
+        <button class="tab-button" (click)="goToRecap()">Synthèse EGES</button>
+      </div>
+    </nav>
+
+    <main>
+      <h2 class="table-title">SUIVI DES INDICATEURS</h2>
+      <table class="indicator-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>2019</th>
+            <th>{{ currentYear }}</th>
+            <th>Évolution</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ind of indicators" [ngClass]="{section: ind.section}">
+            <ng-container *ngIf="ind.section; else dataRow">
+              <td colspan="4">{{ ind.label }}</td>
+            </ng-container>
+            <ng-template #dataRow>
+              <td>{{ ind.label }}</td>
+              <td>{{ ind.value2019 }}</td>
+              <td>{{ ind.valueCurrent }}</td>
+              <td [ngClass]="{green: isGreen(ind.evolution || '')}">{{ ind.evolution }}</td>
+            </ng-template>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+  </div>
+</body>
+
+</html>

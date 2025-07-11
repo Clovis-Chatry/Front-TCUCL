@@ -1,0 +1,177 @@
+/* Mise en page globale */
+.dashboard-page {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Partie gauche et droite contenant le tableau de bord */
+.dashboard {
+  width: 50%;
+  padding: 2em;
+  margin: 1em;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dashboard-superadmin {
+  width: 100%;
+}
+
+/* Partie gauche contenant le tableau de bord */
+.dashboard-container {
+  background-color: #e6f0ff;
+}
+
+/* Partie droite de la page */
+.dashboard-side {
+  background-color: #fce6d5;
+}
+
+/* Bloc des deux boutons */
+.dashboard-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8em; /* ✅ augmenté : espace entre les boutons */
+  margin-bottom: 2em;
+  width: 100%;
+}
+
+
+.main-button {
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 30px;
+  padding: 0.6em 1.5em;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  transition: background-color 0.2s ease;
+}
+
+.main-button:hover {
+  background-color: #333;
+  color: white;
+}
+
+/* Sélecteur d’année */
+.year-selector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  margin-bottom: 1.5em;
+}
+
+/* Sous-titre */
+.subtitle {
+  font-weight: 500;
+  margin-bottom: 1em;
+}
+
+/* Grille des statuts */
+.status-grid {
+  display: flex;
+  justify-content: center;
+  gap: 2em;
+  text-align: left;
+  width: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.row {
+  background: white;
+  border-radius: 10px;
+  padding: 0.4em 1em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 500;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Icônes */
+.icon {
+  width: 1.2em;
+  text-align: center;
+  margin-right: 0.5em;
+}
+
+.icon.red {
+  color: red;
+}
+
+.icon.green {
+  color: green;
+}
+
+.status-termine {
+  color: green;
+}
+
+.status-en-cours {
+  color: orange;
+}
+
+.edit {
+  font-size: 0.9em;
+  color: #555;
+  cursor: pointer;
+  margin-left: .5em;
+}a
+/* Bloc contenant le bouton + selecteur, avec même style que .main-button */
+.year-selector-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 30px;
+  padding: 0.6em 1.5em;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  transition: background-color 0.2s ease;
+  gap: 0.6em; /* espace entre le texte et le select */
+}
+
+/* Texte du bouton */
+.year-button-text {
+  font-size: 1em;
+  font-weight: bold;
+  color: black;
+  cursor: pointer;
+}
+
+/* même style que ton .main-button:hover */
+.year-selector-button:hover {
+  background-color: #333;
+  color: white;
+}
+
+/* Le sélecteur d’année dans le bouton */
+.year-dropdown {
+  font-size: 1em;
+  padding: 0.3em;
+  border-radius: 6px;
+  border: 1px solid #999;
+  width: 80%;
+  max-width: 200px;
+}
+.year-selector-button:hover .year-button-text {
+  color: white;
+}

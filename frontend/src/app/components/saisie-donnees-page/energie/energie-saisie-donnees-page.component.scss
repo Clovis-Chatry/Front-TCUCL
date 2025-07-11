@@ -1,25 +1,32 @@
 .main-container {
   background-color: #E6F0FF;
-  min-height: 100vh; /* 100% de la hauteur de l'écran */
+  min-height: 100vh;
   padding: 20px;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #2c3e50;
 }
 
 .data-entry-container {
   width: 100%;
   display: flex;
-  justify-content: flex-start; /* Aligner à gauche */
-  margin-top: 1.5em; /* Espacement avec la barre de navigation */
-  padding-left: 10em; /* Décalage léger du bord gauche */
+  justify-content: flex-start;
+  margin-top: 1.5em;
+  padding-left: 10em;
 }
 
 .data-table {
   background-color: white;
-  margin-left: 3em;
-  width: 45%; /* Le tableau prend 50% de la page */
+  width: 100%;
   border-collapse: collapse;
+  table-layout: auto;
 }
 
-th, td {
+th,
+td {
   padding: 0.8em;
   text-align: center;
 }
@@ -31,9 +38,9 @@ th {
 
 td {
   border-bottom: 1px solid #ddd;
+  white-space: nowrap;
 }
 
-/* Bouton des catégories de consommation */
 .consumption-button {
   width: 100%;
   background-color: #d1d1d1;
@@ -44,7 +51,6 @@ td {
   font-weight: bold;
 }
 
-/* Input pour la valeur */
 .value-input {
   width: 80%;
   padding: 0.4em;
@@ -54,7 +60,6 @@ td {
   border-radius: 5px;
 }
 
-/* Sélecteur d'unité */
 .unit-select {
   width: 100%;
   padding: 0.4em;
@@ -62,4 +67,54 @@ td {
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: white;
+}
+
+.panels-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 4em;
+  margin-top: 2em;
+  padding: 0 3em;
+  box-sizing: border-box;
+}
+
+.left-panel {
+  width: 60%;
+  box-sizing: border-box;
+}
+
+.right-panel {
+  width: 40%;
+  background-color: white;
+  padding: 2em;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.right-panel h3 {
+  font-size: 1.4rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.right-panel .data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.right-panel td {
+  padding: 0.7em;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f3f3f3; // fond grisé uniforme
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #2c3e50;
 }

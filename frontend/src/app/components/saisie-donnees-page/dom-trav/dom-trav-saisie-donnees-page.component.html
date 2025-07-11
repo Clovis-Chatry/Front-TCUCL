@@ -1,75 +1,131 @@
 <div class="main-container">
-  <div class="left-panel">
-    <table class="data-table">
-      <thead>
-      <tr>
-        <th>Moyen de transport</th>
-        <th>Étudiant</th>
-        <th>Salarié</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>À pied</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.aPiedsEtudiant" /></td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.aPiedsSalarie" /></td>
-      </tr>
-      <tr>
-        <td>Bus</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.busEtudiant" /></td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.busSalarie" /></td>
-      </tr>
-      <tr>
-        <td>Métro / Tram</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.metroTramEtudiant" /></td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.metroTramSalarie" /></td>
-      </tr>
-      <tr>
-        <td>Moto</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.motoEtudiant" /></td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.motoSalarie" /></td>
-      </tr>
-      <tr>
-        <td>Train régional</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.trainRegEtudiant" /></td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.trainRegSalarie" /></td>
-      </tr>
-      <tr>
-        <td>Trottinette</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.trottinetteEtudiant" /></td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.trottinetteSalarie" /></td>
-      </tr>
-      <tr>
-        <td>Vélo</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.veloEtudiant" /></td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.veloSalarie" /></td>
-      </tr>
-      <tr>
-        <td>Vélo électrique</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.veloElecEtudiant" /></td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.veloElecSalarie" /></td>
-      </tr>
-      <tr>
-        <td>Vélo mécanique</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.veloMecEtudiant" /></td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.veloMecSalarie" /></td>
-      </tr>
-      <tr>
-        <td>Voiture électrique</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.voitureElecEtudiant" /></td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.voitureElecSalarie" /></td>
-      </tr>
-      <tr>
-        <td>Voiture hybride</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.voitureHybEtudiant" /></td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.voitureHybSalarie" /></td>
-      </tr>
-      <tr>
-        <td>Voiture thermique</td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.voitureThEtudiant" /></td>
-        <td><input type="number" class="value-input" [(ngModel)]="items.voitureThSalarie" /></td>
-      </tr>
-      </tbody>
-    </table>
+  <div class="page-title">
+    <h2>Mobilité domicile-travail</h2>
+    <span class="help-icon"
+          title="Merci de renseigner la distance totale parcourue par les salariés et les étudiants sur l'année UNIQUEMENT POUR LES TRAJETS DOMICILE -TRAVAIL pour chaque mode de transport ainsi que dans le tableau du bas, le nombre de jours de déplacements moyens de vos salariés et étudiants sur l'année (exemple : base 210 jours pour 80% des salariés et 168 jours pour 20% soit 202 jours de moyenne. En moyenne chaque salarié prend 30 jours de télétravail par an (sans déplacements sur le campus) soit 172 jours au total. Exemple 2 : 10% des salariés sont vacataires et viennent en moyenne 50 jours par an contre 210 jours pour les 90% autres, moyenne de 194 jours.">
+          <svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="black"></circle>
+            <rect x="11" y="10" width="2" height="6" fill="white"></rect>
+            <circle cx="12" cy="8" r="1" fill="white"></circle>
+          </svg>
+        </span>
   </div>
+  <div class="panels-wrapper">
+    <div class="left-panel">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th *ngFor="let group of travelerGroups">{{ group }} (jours)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Nombre de jours de déplacement (an)</strong></td>
+            <td>
+              <input class="value-input" type="number" [(ngModel)]="nbJoursEtudiant" (blur)="updateData()" />
+            </td>
+            <td>
+              <input class="value-input" type="number" [(ngModel)]="nbJoursSalarie" (blur)="updateData()" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Moyen de transport</th>
+            <th *ngFor="let group of travelerGroups">{{ group }} (km)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let mode of transportModes">
+            <td>{{ mode }}</td>
+            <td *ngFor="let group of travelerGroups">
+              <input type="number" class="value-input" [ngModel]="getValue(mode, group)"
+                (ngModelChange)="setValueTemp(mode, group, $event)" (blur)="applyValue(mode, group)" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="right-panel">
+      <h2>Résultats des émissions GES</h2>
+      <table class="data-table">
+        <tbody>
+          <tr>
+          <td>Total des émissions GES étudiant (en Tonnes CO₂e)</td>
+          <td>{{ resultats?.totalEtudiants || 0 }}</td>
+        </tr>
+        <tr>
+          <td>Total des émissions GES salarié (en Tonnes CO₂e)</td>
+          <td>{{ resultats?.totalSalaries || 0 }}</td>
+        </tr>
+        <tr>
+          <td>Distance annuelle par salarié</td>
+          <td>{{ resultats?.distanceAnnuelleParUsagerSalaries || 0 }} km</td>
+        </tr>
+        <tr>
+            <td>Distance annuelle par salarié</td>
+            <td>{{ resultats?.distanceAnnuelleParUsagerSalaries || 0 }} km</td>
+          </tr>
+          <tr>
+            <td>Distance annuelle par étudiant</td>
+            <td>{{ resultats?.distanceAnnuelleParUsagerEtudiants || 0 }} km</td>
+          </tr>
+          <tr>
+            <td>Nombre de jours déplacement salariés</td>
+            <td>{{ resultats?.nombreDeJoursDeDeplacementSalaries || 0 }}</td>
+          </tr>
+          <tr>
+            <td>Nombre de jours déplacement étudiants</td>
+            <td>{{ resultats?.nombreDeJoursDeDeplacementEtudiants || 0 }}</td>
+          </tr>
+          <tr>
+            <td>Distance domicile-travail moyenne salariés</td>
+            <td>{{ resultats?.distanceDomicileTravailMoyenneSalaries || 0 }} km</td>
+          </tr>
+          <tr>
+            <td>Distance domicile-travail moyenne étudiants</td>
+            <td>{{ resultats?.distanceDomicileTravailMoyenneEtudiants || 0 }} km</td>
+          </tr>
+          <tr>
+            <td>Part modale voiture thermique salariés</td>
+            <td>{{ resultats?.partModaleVoitureThermiqueSalaries || 0 }} %</td>
+          </tr>
+          <tr>
+            <td>Part modale voiture thermique étudiants</td>
+            <td>{{ resultats?.partModaleVoitureThermiqueEtudiants || 0 }} %</td>
+          </tr>
+          <tr>
+            <td>Part modale voiture électrique salariés</td>
+            <td>{{ resultats?.partModaleVoitureElectriqueSalaries || 0 }} %</td>
+          </tr>
+          <tr>
+            <td>Part modale voiture électrique étudiants</td>
+            <td>{{ resultats?.partModaleVoitureElectriqueEtudiants || 0 }} %</td>
+          </tr>
+          <tr>
+            <td>Part modale modes doux salariés</td>
+            <td>{{ resultats?.partModaleModesDouxSalaries || 0 }} %</td>
+          </tr>
+          <tr>
+            <td>Part modale modes doux étudiants</td>
+            <td>{{ resultats?.partModaleModesDouxEtudiants || 0 }} %</td>
+          </tr>
+          <tr>
+            <td>Intensité carbone moyenne salariés</td>
+            <td>{{ resultats?.intensiteCarboneMoyenSalaries || 0 }} kgCO₂</td>
+          </tr>
+          <tr>
+            <td>Intensité carbone moyenne étudiants</td>
+            <td>{{ resultats?.intensiteCarboneMoyenEtudiants || 0 }} kgCO₂</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <app-save-footer [path]="ONGLET_KEYS.MobiliteDomTrav"
+    (estTermineChange)="onEstTermineChange($event)"></app-save-footer>
 </div>
