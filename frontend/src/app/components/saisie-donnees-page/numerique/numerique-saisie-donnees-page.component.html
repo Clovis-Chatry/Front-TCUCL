@@ -22,7 +22,7 @@
       <label for="tipUtilisateur">TIP utilisateur</label>
       <input id="tipUtilisateur" type="number" [(ngModel)]="tipUtilisateur" (blur)="updateData()"/>
 
-      <label for="partTrafic">Part trafic France / Étranger (%)</label>
+      <label for="partTrafic">Part trafic France / Étranger (Valeur comprise entre 0 et 1)</label>
       <input id="partTrafic" type="number" [(ngModel)]="partTraficFranceEtranger" (blur)="updateData()"/>
     </div>
 
@@ -86,15 +86,10 @@
       </tbody>
     </table>
   </div>
-
-  <div *ngIf="resultats" class="results">
-    <h3>Résultats calculés</h3>
+  <div *ngIf="resultats" class="bottom-panel">
+    <h2>Résultats des émissions GES</h2>
     <table class="data-table">
       <tbody>
-      <tr>
-        <td>Méthode simplifiée</td>
-        <td>{{ resultats.methodeSimplifieeResultat || 0 }} kgCO2e</td>
-      </tr>
       <tr>
         <td>Empreinte carbone data center</td>
         <td>{{ resultats.empreinteCarboneDataCenter || 0 }} kgCO2e</td>
@@ -110,6 +105,5 @@
       </tbody>
     </table>
   </div>
-
   <app-save-footer [path]="ONGLET_KEYS.Numerique" (estTermineChange)="onEstTermineChange($event)"></app-save-footer>
 </div>

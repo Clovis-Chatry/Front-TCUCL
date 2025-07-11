@@ -111,6 +111,28 @@
     </div>
     </div>
   </div>
+  <div *ngIf="resultats" class="bottom-panel">
+    <h2>Résultats des émissions GES</h2>
+    <table class="data-table">
+      <thead>
+      <tr>
+        <th>Poste</th>
+        <th>Valeur (tCO2e/an)</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>Total poste bâtiment</td>
+        <td>{{ resultats.totalPosteBatiment !== 'NaN' ? resultats.totalPosteBatiment : '0' }}</td>
+      </tr>
+      <tr>
+        <td>Total poste photovoltaïque</td>
+        <td>{{ resultats.totalPostePhotovoltaique !== 'NaN' ? resultats.totalPostePhotovoltaique : '0' }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
   <app-save-footer [path]="ONGLET_KEYS.AutreImmob"></app-save-footer>
 </div>
 

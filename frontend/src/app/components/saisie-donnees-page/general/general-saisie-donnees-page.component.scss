@@ -84,31 +84,3 @@ td {
   box-sizing: border-box;
 }
 
-.right-panel {
-  width: 40%;
-  background-color: white;
-  padding: 2em;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  box-sizing: border-box;
-}
-
-.right-panel h3 {
-  font-size: 1.4rem;
-  color: #2c3e50;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-.right-panel .data-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.right-panel td {
-  padding: 0.7em;
-  text-align: left;
-  border-bottom: 1px solid #e0e0e0;
-  background-color: #f3f3f3; // fond grisé uniforme
-}
