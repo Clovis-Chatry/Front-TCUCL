@@ -89,7 +89,7 @@
               <tbody>
               <tr *ngFor="let field of repasFields">
                 <td>{{ field.label }}</td>
-                <td><input type="number" [(ngModel)]="items[field.key]" (blur)="updateAchat()" /></td>
+                <td><input type="number" [(ngModel)]="items[field.key]" (blur)="updateAchat()"/></td>
                 <td class="readonly-cell"></td>
               </tr>
               </tbody>
@@ -121,7 +121,6 @@
       </div>
     </div>
 
-    <!-- Résultats -->
     <div *ngIf="resultatAchats" class="right-panel">
       <h2>Résultats des émissions GES</h2>
       <table class="data-table">
