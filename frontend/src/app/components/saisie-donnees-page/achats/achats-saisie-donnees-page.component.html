@@ -2,29 +2,25 @@
   <div class="page-title">
     <h2>Achats</h2>
     <span class="help-icon" title="Lorem ipsum">
-        <svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="black"></circle>
-          <rect x="11" y="10" width="2" height="6" fill="white"></rect>
-          <circle cx="12" cy="8" r="1" fill="white"></circle>
-        </svg>
+      <svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="black"></circle>
+        <rect x="11" y="10" width="2" height="6" fill="white"></rect>
+        <circle cx="12" cy="8" r="1" fill="white"></circle>
+      </svg>
     </span>
   </div>
+
   <div class="panels-wrapper">
     <div class="left-panel">
-      <h2>Achats</h2>
       <h2>Poste consommable</h2>
       <table class="data-table">
         <thead>
-        <tr>
-          <th>Élément</th>
-          <th>Unité</th>
-          <th>Quantité</th>
-        </tr>
+        <tr><th>Élément</th><th>Quantité</th><th>Unité</th></tr>
         </thead>
         <tbody>
         <tr *ngFor="let field of consommablesFields">
           <td>{{ field.label }}</td>
-          <td><input type="number" [(ngModel)]="items[field.key]" (blur)="updateAchat()"/></td>
+          <td><input type="number" [(ngModel)]="items[field.key]" (blur)="updateAchat()" /></td>
           <td>{{ field.unit }}</td>
         </tr>
         </tbody>
@@ -33,16 +29,12 @@
       <h2>Poste textile</h2>
       <table class="data-table">
         <thead>
-        <tr>
-          <th>Élément</th>
-          <th>Unité</th>
-          <th>Quantité</th>
-        </tr>
+        <tr><th>Élément</th><th>Quantité</th><th>Unité</th></tr>
         </thead>
         <tbody>
         <tr *ngFor="let field of textileFields">
           <td>{{ field.label }}</td>
-          <td><input type="number" [(ngModel)]="items[field.key]" (blur)="updateAchat()"/></td>
+          <td><input type="number" [(ngModel)]="items[field.key]" (blur)="updateAchat()" /></td>
           <td>{{ field.unit }}</td>
         </tr>
         </tbody>
@@ -50,57 +42,49 @@
 
       <h2>Poste restauration</h2>
       <p>Avez-vous déjà calculé le bilan carbone du poste restauration ?</p>
-      <label><input type="radio" name="hasBilanCarbone" [(ngModel)]="items.hasBilanCarbone" [value]="true"(change)="updateAchat()"/> Oui</label>
-      <label><input type="radio" name="hasBilanCarbone" [(ngModel)]="items.hasBilanCarbone" [value]="false"(change)="updateAchat()"/>
-        Non</label>
+      <label><input type="radio" name="hasBilanCarbone" [(ngModel)]="items.hasBilanCarbone" [value]="true" (change)="updateAchat()" /> Oui</label>
+      <label><input type="radio" name="hasBilanCarbone" [(ngModel)]="items.hasBilanCarbone" [value]="false" (change)="updateAchat()" /> Non</label>
 
+      <!-- Bilan carbone direct -->
       <div *ngIf="items.hasBilanCarbone">
-        <label>Bilan carbone total (tCO2e/an) :
-          <input type="number" [(ngModel)]="items.bilanCarboneTotal"(blur)="updateAchat()"/>
+        <label>Bilan carbone total (tCO₂e/an) :
+          <input type="number" [(ngModel)]="items.bilanCarboneTotal" (blur)="updateAchat()" />
         </label>
       </div>
 
+      <!-- Méthodes alternatives -->
       <div *ngIf="items.hasBilanCarbone === false">
         <p>Connaissez-vous la quantité d'aliments consommés (en tonnes) ?</p>
-        <label><input type="radio" name="quantiteAliments" [(ngModel)]="items.connaitQuantiteAliments" [value]="true"(change)="updateAchat()"/>
-          Oui</label>
-        <label><input type="radio" name="quantiteAliments" [(ngModel)]="items.connaitQuantiteAliments" [value]="false"(change)="updateAchat()"/>
-          Non</label>
+        <label><input type="radio" name="quantiteAliments" [(ngModel)]="items.connaitQuantiteAliments" [value]="true" (change)="updateAchat()" /> Oui</label>
+        <label><input type="radio" name="quantiteAliments" [(ngModel)]="items.connaitQuantiteAliments" [value]="false" (change)="updateAchat()" /> Non</label>
 
+        <!-- Méthode : quantité d’aliments -->
         <div *ngIf="items.connaitQuantiteAliments">
           <table class="data-table">
             <thead>
-            <tr>
-              <th>Aliment</th>
-              <th>Poids en tonne</th>
-              <th>Émissions GES (TCO2e/an)</th>
-            </tr>
+            <tr><th>Aliment</th><th>Poids (tonnes)</th><th>Émissions GES</th></tr>
             </thead>
             <tbody>
             <tr *ngFor="let field of alimentsFields">
               <td>{{ field.label }}</td>
-              <td><input type="number" [(ngModel)]="items[field.key]" (blur)="updateAchat()"/></td>
+              <td><input type="number" [(ngModel)]="items[field.key]" (blur)="updateAchat()" /></td>
               <td class="readonly-cell"></td>
             </tr>
             </tbody>
           </table>
         </div>
 
+        <!-- Méthode : nombre de repas -->
         <div *ngIf="items.connaitQuantiteAliments === false">
           <p>Connaissez-vous le nombre de repas consommés dans l'année par type ?</p>
-          <label><input type="radio" name="repasParType" [(ngModel)]="items.connaitRepasParType" [value]="true"(change)="updateAchat()"/>
-            Oui</label>
-          <label><input type="radio" name="repasParType" [(ngModel)]="items.connaitRepasParType" [value]="false"(change)="updateAchat()"/>
-            Non</label>
+          <label><input type="radio" name="repasParType" [(ngModel)]="items.connaitRepasParType" [value]="true" (change)="updateAchat()" /> Oui</label>
+          <label><input type="radio" name="repasParType" [(ngModel)]="items.connaitRepasParType" [value]="false" (change)="updateAchat()" /> Non</label>
 
+          <!-- Méthode : nombre de repas détaillé -->
           <div *ngIf="items.connaitRepasParType">
             <table class="data-table">
               <thead>
-              <tr>
-                <th>Type de repas</th>
-                <th>Nombre de repas</th>
-                <th>Émissions GES (TCO2e/an)</th>
-              </tr>
+              <tr><th>Type de repas</th><th>Nombre</th><th>Émissions GES</th></tr>
               </thead>
               <tbody>
               <tr *ngFor="let field of repasFields">
@@ -111,17 +95,37 @@
               </tbody>
             </table>
           </div>
+
+          <!-- Méthode rapide -->
+          <div *ngIf="items.connaitRepasParType === false">
+            <p>Méthode rapide : nombre de personnes servies par régime</p>
+            <table class="data-table">
+              <thead>
+              <tr><th>Régime</th><th>Nombre de personnes</th><th>Émissions GES</th></tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>Régime classique</td>
+                <td><input type="number" [(ngModel)]="items.methodeRapideNombrePersonnesServiesRegimeClassique" (blur)="updateAchat()" /></td>
+                <td class="readonly-cell"></td>
+              </tr>
+              <tr>
+                <td>Régime flexitarien</td>
+                <td><input type="number" [(ngModel)]="items.methodeRapideNombrePersonnesServiesRegimeFlexitarien" (blur)="updateAchat()" /></td>
+                <td class="readonly-cell"></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
+
     <div *ngIf="resultatAchats" class="right-panel">
       <h2>Résultats des émissions GES</h2>
       <table class="data-table">
         <thead>
-        <tr>
-          <th>Poste / Élément</th>
-          <th>Émissions GES (tCO₂e/an)</th>
-        </tr>
+        <tr><th>Poste / Élément</th><th>Émissions GES (tCO₂e/an)</th></tr>
         </thead>
         <tbody>
         <ng-container *ngFor="let entry of resultatAchatsEntries">
@@ -134,5 +138,6 @@
       </table>
     </div>
   </div>
+
   <app-save-footer [path]="ONGLET_KEYS.Achats" (estTermineChange)="onEstTermineChange($event)"></app-save-footer>
 </div>

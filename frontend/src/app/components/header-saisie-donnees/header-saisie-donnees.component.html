@@ -34,9 +34,6 @@
   <!-- Barre de navigation dans un rectangle blanc -->
   <div class="nav-wrapper">
     <div class="nav-container">
-      <!-- Flèche gauche -->
-      <button class="nav-arrow left" *ngIf="visibleCount < tabs.length" (click)="scrollLeft()"
-        [disabled]="startIndex === 0">←</button>
 
       <!-- Conteneur des onglets -->
       <div class="tabs-container" #tabsContainer>
@@ -47,11 +44,6 @@
           </button>
         </div>
       </div>
-
-      <!-- Flèche droite -->
-      <button class="nav-arrow right" *ngIf="visibleCount < tabs.length" (click)="scrollRight()"
-        [disabled]="startIndex + visibleCount >= tabs.length">→
-      </button>
     </div>
   </div>
 </div>

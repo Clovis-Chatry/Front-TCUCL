@@ -128,18 +128,6 @@ export class HeaderSaisieDonneesComponent implements OnInit, AfterViewInit {
     return this.tabs.slice(this.startIndex, this.startIndex + this.visibleCount);
   }
 
-  scrollLeft() {
-    if (this.startIndex > 0) {
-      this.startIndex--;
-    }
-  }
-
-  scrollRight() {
-    if (this.startIndex + this.visibleCount < this.tabs.length) {
-      this.startIndex++;
-    }
-  }
-
   save() {
     this.loading = true;
     setTimeout(() => {
