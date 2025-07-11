@@ -8,7 +8,8 @@
 
 .top-sections {
   display: flex;
-  gap: 3em; /* espace entre les deux cartes */
+  gap: 3em;
+  /* espace entre les deux cartes */
   justify-content: flex-start;
   align-items: flex-start;
 }
@@ -65,10 +66,14 @@
   padding: 0.2em 0.6em;
   border-radius: 6px;
 }
+
 .card[data-title="Paramètres personnels"] {
-  max-width: 600px;  /* Plus large */
-  flex-grow: 1;      /* Peut grandir pour utiliser l’espace dispo */
+  max-width: 600px;
+  /* Plus large */
+  flex-grow: 1;
+  /* Peut grandir pour utiliser l’espace dispo */
 }
+
 /* Limiter la largeur des deux premières sections */
 .card[data-title="Paramètres personnels"],
 .card[data-title="Changer son mot de passe"] {
@@ -174,16 +179,45 @@ button:hover {
   font-size: 0.95em;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
-  width: fit-content; /* ✅ réduit le conteneur à son contenu */
+  width: fit-content;
+  /* ✅ réduit le conteneur à son contenu */
 }
 
 .checkbox-line input[type="checkbox"] {
-  margin: 0;         /* ✅ empêche tout décalage */
+  margin: 0;
+  /* ✅ empêche tout décalage */
   padding: 0;
+}
+
+.card[data-title="Changer son mot de passe"] form {
+  display: flex;
+  flex-direction: column;
+}
+
+.card[data-title="Changer son mot de passe"] label {
+  margin-bottom: 0;
+  /* colle le label à l’input */
+  font-weight: 500;
+  font-size: 0.95em;
+}
+
+.card[data-title="Changer son mot de passe"] input {
+  margin-bottom: 1em;
+  /* espace entre l’input et le label suivant */
+  padding: 0.4em;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 0.95em;
+}
+
+/* Espacement spécifique au bouton */
+.card[data-title="Changer son mot de passe"] button {
+  margin-top: 0.6em;
 }
 
 .checkbox-line label {
   margin: 0;
   padding: 0;
-  white-space: nowrap; /* ✅ empêche le retour à la ligne */
+  white-space: nowrap;
+  /* ✅ empêche le retour à la ligne */
 }

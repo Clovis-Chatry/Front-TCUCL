@@ -85,10 +85,12 @@ main {
   color: green;
   font-weight: bold;
 }
+
 .tabs-container {
   display: flex;
   width: 100%;
-  background-color: #f7f1f1; /* Couleur de fond du rectangle */
+  background-color: #f7f1f1;
+  /* Couleur de fond du rectangle */
   border-radius: 5px 5px 0 0;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -111,6 +113,25 @@ main {
 }
 
 .tab-button.active {
-  border-bottom: 3px solid #329dd5; /* Couleur bleue soulignée */
+  border-bottom: 3px solid #329dd5;
+  /* Couleur bleue soulignée */
   background-color: #ffffff;
+}
+
+.home-button {
+  background-color: #329dd5;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.home-button:hover {
+  background-color: #267cb1;
+  transform: translateY(-2px);
 }

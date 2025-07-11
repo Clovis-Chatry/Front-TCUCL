@@ -1,46 +1,49 @@
 <div class="dashboard-page">
   <div class="dashboard dashboard-container">
-  <h2>Saisie des données</h2>
+    <h2>Saisie des données</h2>
 
-  <div class="dashboard-buttons" >
-    <button class="main-button" (click)=goToGeneralOnglet()>
-      ✏️ Renseigner année courante
-    </button>
+    <div class="dashboard-buttons">
+      <button class="main-button" (click)=goToGeneralOnglet()>
+        ✏️ Renseigner année courante
+      </button>
 
-    <div class="main-button year-selector-button" (click)="goToGeneralOngletAvecAnnee()">
-      <div class="year-button-text">
-        ✏️ Modifier une autre année
-      </div>
-      <select class="year-dropdown" [(ngModel)]="selectedYear" (ngModelChange)="onYearChange($event)" (click)="$event.stopPropagation()">
-        <option *ngFor="let year of years" [value]="year.value">{{ year.label }}</option>
-      </select>
-    </div>
-  </div>
-
-  <p class="subtitle">
-    État d’avancement de la saisie des données de l’année courante
-  </p>
-
-  <div class="status-grid">
-    <div class="column">
-      <div class="row" *ngFor="let onglet of onglets.slice(0, 6)">
-        <span class="icon" [ngClass]="getStatus(onglet.statusKey) ? 'status-termine' : 'status-en-cours'">
-          {{ getStatus(onglet.statusKey) ? '✅' : '⏳' }}
-        </span>
-        {{ onglet.label }}
-        <span class="edit" (click)="goToSaisie(onglet)">✏️</span>
+      <div class="main-button year-selector-button" (click)="goToGeneralOngletAvecAnnee()">
+        <div class="year-button-text">
+          ✏️ Modifier une autre année
+        </div>
+        <select class="year-dropdown" [(ngModel)]="selectedYear" (ngModelChange)="onYearChange($event)"
+          (click)="$event.stopPropagation()">
+          <option *ngFor="let year of years" [value]="year.value">{{ year.label }}</option>
+        </select>
       </div>
     </div>
-    <div class="column">
-      <div class="row" *ngFor="let onglet of onglets.slice(6)">
-        <span class="icon" [ngClass]="getStatus(onglet.statusKey) ? 'status-termine' : 'status-en-cours'">
-          {{ getStatus(onglet.statusKey) ? '✅' : '⏳' }}
-        </span>
-        {{ onglet.label }}
-        <span class="edit" (click)="goToSaisie(onglet)">✏️</span>
+
+    <p class="subtitle">
+      État d’avancement de la saisie des données de l’année courante
+    </p>
+
+    <div class="status-grid">
+      <div class="column">
+        <div class="row" *ngFor="let onglet of onglets.slice(0, 6)">
+          <span class="icon" [ngClass]="getStatus(onglet.statusKey) ? 'status-termine' : 'status-en-cours'">
+            {{ getStatus(onglet.statusKey) ? '✅' : '⏳' }}
+          </span>
+          {{ onglet.label }}
+          <span class="edit" (click)="goToSaisie(onglet)">✏️</span>
+        </div>
+      </div>
+      <div class="column">
+        <div class="row" *ngFor="let onglet of onglets.slice(6)">
+          <span class="icon" [ngClass]="getStatus(onglet.statusKey) ? 'status-termine' : 'status-en-cours'">
+            {{ getStatus(onglet.statusKey) ? '✅' : '⏳' }}
+          </span>
+          {{ onglet.label }}
+          <span class="edit" (click)="goToSaisie(onglet)">✏️</span>
+        </div>
       </div>
     </div>
   </div>
+  <div class="dashboard dashboard-side">
+    <app-bilan-par-secteur [sectors]="sectors" [total]="total"></app-bilan-par-secteur>
   </div>
-  <div class="dashboard dashboard-side"></div>
 </div>
