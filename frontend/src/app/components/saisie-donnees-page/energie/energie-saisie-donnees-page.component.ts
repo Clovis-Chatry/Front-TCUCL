@@ -40,6 +40,7 @@ export class EnergieSaisieDonneesPageComponent implements OnInit {
       const id = params.get('id');
       if (id) {
         this.loadData(id);
+        this.loadResultats(id);
       }
     });
   }
@@ -73,7 +74,6 @@ export class EnergieSaisieDonneesPageComponent implements OnInit {
         };
         this.estTermine = data.estTermine ?? false;
         this.statusService.setStatus(ONGLET_KEYS.Energie, this.estTermine);
-        this.loadResultats(id);
       },
       (error) => {
         console.error("Erreur lors du chargement des données", error);
@@ -108,7 +108,9 @@ export class EnergieSaisieDonneesPageComponent implements OnInit {
         },
         {headers}
       ).subscribe({
-        next: () => {},
+        next: () => {
+          this.loadResultats(id);
+        },
         error: err => console.error('Erreur lors de la mise à jour de ConsoGaz', err)
       });
     } else {

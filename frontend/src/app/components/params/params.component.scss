@@ -8,12 +8,27 @@
 
 .top-sections {
   display: flex;
-  gap: 3em;
-  /* espace entre les deux cartes */
+  flex-wrap: wrap;     // autorise le retour à la ligne
+  gap: 3em;            // espace horizontal ET vertical entre cartes
   justify-content: flex-start;
   align-items: flex-start;
 }
 
+.top-sections > section.card {
+  flex: 1 1 calc(50% - 1.5em);  // 50% largeur moins la moitié du gap
+  max-width: calc(50% - 1.5em);
+  box-sizing: border-box;        // pour prendre en compte le padding dans la largeur
+  min-width: 280px;              // éviter que ça soit trop petit sur petit écran
+}
+.params-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.params-row > section {
+  flex: 1;
+  min-width: 400px; /* pour éviter qu’ils soient trop serrés sur petit écran */
+}
 /* Bouton de retour */
 .top-bar {
   padding: 1em 2.2em;

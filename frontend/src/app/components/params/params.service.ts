@@ -41,4 +41,10 @@ export class ParamService {
   deleterUser(utilisateurId: number, headers: any) {
     return this.http.delete(ApiEndpoints.Utilisateur.deleterUser(utilisateurId), { headers })
   }
+
+  importerFichier(formData: FormData, headers: any) {
+    return this.http.post(ApiEndpoints.Utilisateur.importerFichier(), formData, {
+      headers
+    });
+  }
 }

@@ -117,40 +117,6 @@ export class AutreImmobilisationPageComponent implements OnInit {
     });
   }
 
-  ajouterMachine() {
-    this.items.machines.push({
-      nom: this.items.machineType,
-      nombre: this.items.machineNombre,
-      poids: this.items.machinePoids,
-      amortissement: this.items.machineAmortissement,
-      gesConnu: this.items.machineGESConnu,
-      gesReel: this.items.machineGESReel
-    });
-
-    // Réinitialiser les champs
-    this.items.machineType = '';
-    this.items.machineNombre = null;
-    this.items.machinePoids = null;
-    this.items.machineAmortissement = null;
-    this.items.machineGESConnu = '';
-    this.items.machineGESReel = null;
-
-    this.updateData();
-  }
-
-  onMachinesElectriquesChange(value: boolean): void {
-    this.items.machinesElectriques = value;
-    if (!value) {
-      this.items.machines = [];
-    }
-    this.updateData();
-  }
-
-  supprimerMachine(index: number): void {
-    this.items.machines.splice(index, 1);
-    this.updateData();
-  }
-
   onGesConnuChange(connuKey: string, reelKey: string): void {
     const value = this.items[connuKey];
     if (value === false || value === 'false') {
@@ -178,6 +144,9 @@ export class AutreImmobilisationPageComponent implements OnInit {
 
     const payload = this.mapper.toDto({ ...this.items, estTermine: this.estTermine });
     this.http.patch(ApiEndpoints.autreImmobilisationOnglet.update(id), payload, { headers }).subscribe({
+      next: () => {
+        this.loadResultats(id);
+      },
       error: err => console.error('PATCH immob echoue', err)
     });
   }

@@ -289,4 +289,39 @@ export class ParamsComponent {
   goBackToDashboard(): void {
     this.router.navigate(['/dashboard']);
   }
+
+  selectedFile: File | null = null;
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+    }
+  }
+
+  importFile(): void {
+    if (!this.selectedFile) {
+      alert("Aucun fichier sélectionné.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', this.selectedFile);
+
+    const headers = {
+      'Authorization': `Bearer ${this.authService.getToken()}`
+      // ⚠️ Ne PAS mettre Content-Type ici ! Angular s'en charge pour FormData.
+    };
+
+    this.paramService.importerFichier(formData, headers).subscribe({
+      next: () => {
+        alert('Fichier importé avec succès.');
+        this.selectedFile = null;
+      },
+      error: (err) => {
+        console.error('Erreur lors de l\'import du fichier :', err);
+        alert('Erreur lors de l\'import.');
+      }
+    });
+  }
 }
