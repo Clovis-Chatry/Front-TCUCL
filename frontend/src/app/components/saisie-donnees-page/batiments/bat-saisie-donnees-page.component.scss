@@ -99,3 +99,10 @@
   overflow-x: hidden;
   margin-top: 2rem; // pour espacer du contenu précédent
 }
+
+.bottom-panel td {
+  padding: 0.7em;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f3f3f3; // fond grisé uniforme
+}
