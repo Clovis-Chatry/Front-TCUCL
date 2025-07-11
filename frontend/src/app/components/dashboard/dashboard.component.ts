@@ -118,8 +118,6 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-
-
   goToGeneralOnglet(): void {
     const ongletId = this.ongletIdMap['generalOnglet'];
     if (ongletId) {

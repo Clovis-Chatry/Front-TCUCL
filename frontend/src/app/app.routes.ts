@@ -43,7 +43,6 @@ import {
 } from './components/saisie-donnees-page/general/general-saisie-donnees-page.component';
 import { SyntheseEgesComponent } from './components/affichage-graphiques/synthese/synthese-eges-page.component';
 
-
 export const routes: Routes = [
   {
     path: '',
