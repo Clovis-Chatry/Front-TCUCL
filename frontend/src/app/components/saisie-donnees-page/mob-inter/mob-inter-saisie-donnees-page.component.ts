@@ -27,6 +27,7 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
   private mapper = inject(MobInterOngletMapperService);
 
   onglet: MobInternationalOngletModel = { voyages: [] };
+  resultats: any = null;
 
   /**
    * Voyage saisi dans le formulaire. Tous les champs numériques sont
@@ -52,7 +53,10 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
     });
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
-      if (id) this.loadData(id);
+      if (id) {
+        this.loadData(id);
+        this.loadResultats(id);
+      }
     });
   }
 
@@ -118,7 +122,33 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
     const payload = this.mapper.toDto(this.onglet);
 
     this.http.patch(ApiEndpoints.mobInternationaleOnglet.update(id), payload, { headers }).subscribe({
+      next: () => {
+        this.loadResultats(id);
+      },
       error: err => console.error('PATCH mobilite internationale echoue', err)
     });
+  }
+
+  loadResultats(ongletId: string): void {
+    const token = this.authService.getToken();
+    if (!token) {
+      console.error("Token d'authentification manquant");
+      return;
+    }
+
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    };
+
+    this.http.get<any>(`${ApiEndpoints.mobInternationaleOnglet.resultats(ongletId)}`, { headers })
+      .subscribe({
+        next: data => {
+          this.resultats = data;
+        },
+        error: err => {
+          console.error('Erreur lors du chargement des résultats :', err);
+        }
+      });
   }
 }
