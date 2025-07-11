@@ -91,7 +91,7 @@
               <td>{{ user.prenom }}</td>
               <td>
                 <input type="checkbox" [checked]="user.estAdmin" (change)="onToggleAdmin(user)"
-                       [disabled]="!isAdmin || !isSuperAdmin()"/>
+                       [disabled]="!isAdmin || !isSuperAdmin"/>
               </td>
               <td>
                 <button title="Supprimer" (click)="deleterUser(user.id)">🗑️</button>
