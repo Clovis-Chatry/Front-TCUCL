@@ -28,6 +28,8 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
 
   onglet: MobInternationalOngletModel = { voyages: [] };
   resultats: any = null;
+  rajouter: boolean = false;
+  selectedFile: File | null = null;
 
   /**
    * Voyage saisi dans le formulaire. Tous les champs numériques sont
@@ -148,6 +150,49 @@ export class MobiliteInternationaleSaisieDonneesPageComponent implements OnInit 
         },
         error: err => {
           console.error('Erreur lors du chargement des résultats :', err);
+        }
+      });
+  }
+
+  triggerFileInput(rajouter: boolean) {
+    this.rajouter = rajouter;
+    const fileInput = document.querySelector<HTMLInputElement>('input[type="file"]');
+    fileInput?.click();
+  }
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+      this.importerFichier();
+    }
+  }
+
+  importerFichier() {
+    if (!this.selectedFile) return;
+    const id = this.route.snapshot.paramMap.get('id');
+    const token = this.authService.getToken();
+    if (!token) {
+      console.error("Token d'authentification manquant");
+      return;
+    }
+
+    const headers = {
+      Authorization: `Bearer ${token}`
+    };
+
+    const formData = new FormData();
+    formData.append('file', this.selectedFile);
+    formData.append('rajouter', String(this.rajouter));
+
+    this.http.post(ApiEndpoints.mobInternationaleOnglet.import(id), formData, {headers})
+      .subscribe({
+        next: () => {
+          alert('Import réussi');
+          // Recharge les données si nécessaire
+        },
+        error: () => {
+          alert('Échec de l’import');
         }
       });
   }

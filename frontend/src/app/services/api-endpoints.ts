@@ -81,7 +81,8 @@ export const ApiEndpoints = {
   mobInternationaleOnglet: {
     getById: (id: string) => `${BASE_URL}/${ONGLET_KEYS.MobInternationale}/${id}`,
     update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.MobInternationale}/${id}`,
-    resultats: (id: string) => `${BASE_URL}/${ONGLET_KEYS.MobInternationale}/${id}/resultat`
+    resultats: (id: string) => `${BASE_URL}/${ONGLET_KEYS.MobInternationale}/${id}/resultat`,
+    import:(id: string | null) => `${BASE_URL}/${ONGLET_KEYS.MobInternationale}/${id}/import-voyage`,
   },
   BatimentsOnglet: {
     getBatimentImmobilisationMobilier: (id: string) =>
@@ -109,6 +110,7 @@ export const ApiEndpoints = {
     recupererUtilisateurPourEntite: (entiteId: number) => `${BASE_URL}/parametre/utilisateur-entite/${entiteId}`,
     creerutilisateur: (entiteId: number) => `${BASE_URL}/parametre/inscription-utilisateur/${entiteId}`,
     updateAdminStatus: (utilisateurId: number) => `${BASE_URL}/parametre/modifier-est-admin/${utilisateurId}`,
+    importerFichier:() => `${BASE_URL}/parametre/import-facteurs-emission`,
     getAllEntiteNomId: `${BASE_URL}/parametre/all-entite-nom-id`,
     deleterUser: (utilisateurId: number) => `${BASE_URL}/parametre/supprimer-utilisateur/${utilisateurId}`,
   },

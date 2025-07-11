@@ -21,8 +21,8 @@ export interface AchatConsommable {
 }
 
 export interface AchatTextile {
-  Chemise_nb?: number | null;
-  Polaire_nb?: number | null;
+  chemise_nb?: number | null;
+  polaire_nb?: number | null;
   Pull_Acrylique_nb?: number | null;
   Pull_Coton_nb?: number | null;
   T_shirt_polyester_nb?: number | null;

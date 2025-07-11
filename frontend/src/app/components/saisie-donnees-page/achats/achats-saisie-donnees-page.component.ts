@@ -209,7 +209,7 @@
       const payload = this.mapper.toDto({ ...this.items, estTermine: this.estTermine });
       this.http.patch(ApiEndpoints.AchatsOnglet.update(id), payload, { headers }).subscribe({
         next: () => {
-          this.loadData(id);
+          this.getResultatAchats(id);
         },
         error: err => console.error("PATCH achats échoué", err)
       });

@@ -10,6 +10,15 @@
         </svg>
       </span>
     </div>
+    <div class="import-buttons">
+      <!-- Input fichier caché -->
+      <p>Importer ou remplacer le fichier excel des mobilités internationales</p>
+      <input #fileInput type="file" (change)="onFileSelected($event)" hidden />
+
+      <!-- Deux boutons qui déclenchent le même input, mais avec rajouter = true / false -->
+      <button type="button" (click)="triggerFileInput(true)" class="btn-space">Importer</button>
+      <button type="button" (click)="triggerFileInput(false)">Remplacer</button>
+    </div>
 
     <details>
       <summary><strong>Saisir une destination</strong></summary>
