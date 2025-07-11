@@ -42,7 +42,7 @@ export class BatimentsService {
     return this.http.patch(ApiEndpoints.BatimentsOnglet.update(BatimentsOnglet), payload, { headers });
   }
 
-  getResult(id: string, headers: any): Observable<BatimentResultat> {
-    return this.http.get<BatimentResultat>(ApiEndpoints.BatimentsOnglet.getResult(id), { headers });
+  chargerResultatGES(id: string, headers: any): Observable<any> {
+    return this.http.get<any>(ApiEndpoints.BatimentsOnglet.resultats(id), {headers});
   }
 }

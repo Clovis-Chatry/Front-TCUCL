@@ -9,8 +9,10 @@ export class AchatMapperService {
     const rest = dto.achatRestauration || {};
     return {
       // consommables
-      papierCons: cons.papier_T,
-      livresCons: cons.livres_T,
+      papierConsTonnes: cons.papier_T,
+      papierConsRamettes: cons.papier_nb,
+      livresConsTonnes: cons.livres_T,
+      livresConsNb: cons.livres_nb,
       cartonNeufCons: cons.cartonNeuf_T,
       cartonRecycleCons: cons.cartonRecycle_T,
       fournituresCons: cons.petitesFournitures_Eur,
@@ -79,8 +81,10 @@ export class AchatMapperService {
       estTermine: model.estTermine,
       note: model.note,
       achatConsommable: {
-        papier_T: model.papierCons,
-        livres_T: model.livresCons,
+        papier_T: model.papierConsTonnes,
+        papier_nb: model.papierConsRamettes,
+        livres_T: model.livresConsTonnes,
+        livres_nb: model.livresConsNb,
         cartonNeuf_T: model.cartonNeufCons,
         cartonRecycle_T: model.cartonRecycleCons,
         petitesFournitures_Eur: model.fournituresCons,

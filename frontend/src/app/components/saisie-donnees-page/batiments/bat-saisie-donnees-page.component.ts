@@ -31,6 +31,9 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
   private statusService = inject(OngletStatusService);
   private batService = inject(BatimentsService);
   batimentOngletId: string = '';
+  totalPosteBatiment!: number;
+  totalPosteEntretien!: number;
+  totalPosteMobilier!: number;
   ONGLET_KEYS = ONGLET_KEYS;
   batimentTypes = Object.values(EnumBatiment_TypeBatiment);
   structureTypes = Object.values(EnumBatiment_TypeStructure);
@@ -183,6 +186,7 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.batimentOngletId = params.get('id') || '';
       this.loadData();
+      this.chargerResultatGES();
     });
   }
 
@@ -212,6 +216,7 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     };
     this.batService.ajouterBatiment(this.batimentOngletId, batimentAAjouter, headers).subscribe(() => {
       this.loadData();
+      this.chargerResultatGES();
       this.resetFormBatiment();
     })
   }
@@ -229,6 +234,7 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
         .ajouterEntretien(this.batimentOngletId, entretienAAjouter, headers)
         .subscribe(() => {
           this.loadData();
+          this.chargerResultatGES();
           this.resetFormRenovation();
         })
   }
@@ -243,6 +249,7 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
       .ajouterMobilier(this.batimentOngletId, mobilierAAjouter, headers)
       .subscribe(() => {
         this.loadData();
+        this.chargerResultatGES();
         this.resetFormMobilier();
       });
   }
@@ -263,6 +270,7 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
         next: () => {
           this.batimentOnglet.batiments.splice(index, 1);
           this.loadData();
+          this.chargerResultatGES();
         },
         error: err => {
           console.error('Erreur lors de la suppression', err);
@@ -287,6 +295,7 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
         next: () => {
           this.batimentOnglet.entretiens.splice(index, 1);
           this.loadData();
+          this.chargerResultatGES();
         },
         error: err => {
           console.error('Erreur lors de la suppression', err);
@@ -305,6 +314,7 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
           next: () => {
             this.batimentOnglet.mobiliers.splice(index, 1);
             this.loadData();
+            this.chargerResultatGES();
           },
           error: err => {
             console.error('Erreur lors de la suppression', err);
@@ -327,6 +337,20 @@ export class BatimentsSaisieDonneesPageComponent implements OnInit {
     const payload = this.mapper.createPayloadFromModel(this.batimentOnglet);
     this.batService.updateOnglet(this.batimentOngletId, payload, headers).subscribe({
       error: err => console.error('Erreur mise à jour batiments', err)
+    });
+  }
+
+  chargerResultatGES() {
+    const headers = this.getAuthHeaders();
+    this.batService.chargerResultatGES(this.batimentOngletId, headers).subscribe({
+      next: (result) => {
+        this.totalPosteBatiment = result.totalPosteBatiment;
+        this.totalPosteEntretien = result.totalPosteEntretien;
+        this.totalPosteMobilier = result.totalPosteMobilier;
+      },
+      error: (err) => {
+        console.error('Erreur lors du chargement des totaux GES', err);
+      }
     });
   }
 

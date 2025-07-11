@@ -1,4 +1,4 @@
-import { ONGLET_KEYS } from '../constants/onglet-keys';
+import {ONGLET_KEYS} from '../constants/onglet-keys';
 
 const BASE_URL = 'http://localhost:8080';
 
@@ -26,6 +26,7 @@ export const ApiEndpoints = {
     deleteMachine: (id: string, idMachine: string) =>
       `${BASE_URL}/${ONGLET_KEYS.EmissionsFugitives}/${id}/machine/${idMachine}`,
     update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.EmissionsFugitives}/${id}`,
+    resultats: (id: string) => `${BASE_URL}/${ONGLET_KEYS.EmissionsFugitives}/${id}/resultat`,
   },
 
   DomTravOnglet: {
@@ -37,6 +38,7 @@ export const ApiEndpoints = {
   AutreMobFrOnglet: {
     getById: (id: string) => `${BASE_URL}/${ONGLET_KEYS.AutreMobFr}/${id}`,
     update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.AutreMobFr}/${id}`,
+    resultats: (id: string) => `${BASE_URL}/${ONGLET_KEYS.AutreMobFr}/${id}/resultat`,
   },
 
   DechetsOnglet: {
@@ -48,6 +50,7 @@ export const ApiEndpoints = {
   AchatsOnglet: {
     getById: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Achats}/${id}`,
     update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Achats}/${id}`,
+    resultat: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Achats}/${id}/resultat`
   },
 
   autreImmobilisationOnglet: {
@@ -87,15 +90,15 @@ export const ApiEndpoints = {
     ajouterEntretien: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}/entretienCourant`,
     supprimerEntretien: (tabId: string, entretienId: number) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${tabId}/entretienCourant/${entretienId}`,
 
-
     ajouterMobilier: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}/mobilierElectromenager`,
     supprimerMobilier: (tabId: string, mobilierId: number) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${tabId}/mobilierElectromenager/${mobilierId}`,
     update: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}`,
-    getResult: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}/resultat`
+    resultats: (id: string) => `${BASE_URL}/${ONGLET_KEYS.Batiments}/${id}/resultat`,
   },
   AutoOnglet: {
     getById: (id: string) => `${BASE_URL}/vehiculeOnglet/${id}`,
-    update: (id: string) => `${BASE_URL}/vehiculeOnglet/${id}`
+    update: (id: string) => `${BASE_URL}/vehiculeOnglet/${id}`,
+    resultats: (id: string) => `${BASE_URL}/vehiculeOnglet/${id}/resultat`
   },
 
   Utilisateur: {

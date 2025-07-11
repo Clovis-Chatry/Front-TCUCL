@@ -1,54 +1,104 @@
 <div class="main-container">
-  <div class="left-panel">
-    <div class="page-title">
-      <h2>Autre mobilité en France</h2>
-      <span class="help-icon" title="Merci de renseigner les nombres de déplacements (1 déplacement = 1 aller simple) et la distance totale aller/retour parcourue par l'ensemble de ces déplacements et par type de trajets, ceci UNIQUEMENT pour les déplacements en France hors domicile - travail (stages, déplacements professionnels, alternances...), Les trajets en modes doux comme le métro, tram, vélo... sont négligés car concernent des distances faibles au regard des autres distances parcourues. ">
+  <div class="content-panels">
+    <div class="left-panel">
+      <div class="page-title">
+        <h2>Autre mobilité en France</h2>
+        <span class="help-icon"
+              title="Merci de renseigner les nombres de déplacements (1 déplacement = 1 aller simple) et la distance totale aller/retour parcourue par l'ensemble de ces déplacements et par type de trajets, ceci UNIQUEMENT pour les déplacements en France hors domicile - travail (stages, déplacements professionnels, alternances...), Les trajets en modes doux comme le métro, tram, vélo... sont négligés car concernent des distances faibles au regard des autres distances parcourues. ">
         <svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="black"></circle>
           <rect x="11" y="10" width="2" height="6" fill="white"></rect>
           <circle cx="12" cy="8" r="1" fill="white"></circle>
         </svg>
       </span>
+      </div>
+      <table class="data-table">
+        <thead>
+        <tr>
+          <th rowspan="2">Moyen de transport</th>
+          <th colspan="2" *ngFor="let group of travelerGroups">{{ group }}</th>
+        </tr>
+        <tr>
+          <ng-container *ngFor="let group of travelerGroups">
+            <th>Distance parcourue (km)</th>
+            <th>Nombre d'allers</th>
+          </ng-container>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let mode of transportModes">
+          <td><strong>{{ mode }}</strong></td>
+          <ng-container *ngFor="let group of travelerGroups">
+            <td>
+              <input
+                type="number"
+                class="value-input"
+                [ngModel]="getValue(mode, group, 'distanceKm')"
+                (ngModelChange)="setValueTemp(mode, group, 'distanceKm', $event)"
+                (blur)="applyValue(mode, group, 'distanceKm')"
+              />
+            </td>
+            <td>
+              <input
+                type="number"
+                class="value-input"
+                [ngModel]="getValue(mode, group, 'oneWayTrips')"
+                (ngModelChange)="setValueTemp(mode, group, 'oneWayTrips', $event)"
+                (blur)="applyValue(mode, group, 'oneWayTrips')"
+              />
+            </td>
+          </ng-container>
+        </tr>
+        </tbody>
+      </table>
     </div>
-    <table class="data-table">
-      <thead>
-      <tr>
-        <th rowspan="2">Moyen de transport</th>
-        <th colspan="2" *ngFor="let group of travelerGroups">{{ group }}</th>
-      </tr>
-      <tr>
-        <ng-container *ngFor="let group of travelerGroups">
-          <th>Distance parcourue (km)</th>
-          <th>Nombre d'allers</th>
-        </ng-container>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let mode of transportModes">
-        <td><strong>{{ mode }}</strong></td>
-        <ng-container *ngFor="let group of travelerGroups">
-          <td>
-            <input
-              type="number"
-              class="value-input"
-              [ngModel]="getValue(mode, group, 'distanceKm')"
-              (ngModelChange)="setValueTemp(mode, group, 'distanceKm', $event)"
-              (blur)="applyValue(mode, group, 'distanceKm')"
-            />
-          </td>
-          <td>
-            <input
-              type="number"
-              class="value-input"
-              [ngModel]="getValue(mode, group, 'oneWayTrips')"
-              (ngModelChange)="setValueTemp(mode, group, 'oneWayTrips', $event)"
-              (blur)="applyValue(mode, group, 'oneWayTrips')"
-            />
-          </td>
-        </ng-container>
-      </tr>
-      </tbody>
-    </table>
+    <!-- PANEL DROIT -->
+    <div class="right-panel">
+      <h2>Résultats calculés</h2>
+      <table class="result-table">
+        <thead>
+        <tr>
+          <th></th>
+          <th>Salarie</th>
+          <th>Etudiant</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>Distance annuelle moyenne (km)</td>
+          <td>{{ resultat?.distanceAnnuelleMoyenneParUsagerSalarie }}</td>
+          <td>{{ resultat?.distanceAnnuelleMoyenneParUsagerEtudiant }}</td>
+        </tr>
+        <tr>
+          <td>Voiture thermique (%)</td>
+          <td>{{ resultat?.partModaleVoitureThermiqueSalarie }}</td>
+          <td>{{ resultat?.partModaleVoitureThermiqueEtudiant }}</td>
+        </tr>
+        <tr>
+          <td>Voiture électrique (%)</td>
+          <td>{{ resultat?.partModaleVoitureElectriqueSalarie }}</td>
+          <td>{{ resultat?.partModaleVoitureElectriqueEtudiant }}</td>
+        </tr>
+        <tr>
+          <td>Avion (%)</td>
+          <td>{{ resultat?.partModaleAvionSalarie }}</td>
+          <td>{{ resultat?.partModaleAvionEtudiant }}</td>
+        </tr>
+        <tr>
+          <td>Modes doux (%)</td>
+          <td>{{ resultat?.partModaleModesDouxSalarie }}</td>
+          <td>{{ resultat?.partModaleModesDouxEtudiant }}</td>
+        </tr>
+        <tr>
+          <td>Intensité carbone moyenne (kgCO₂e/km)</td>
+          <td>{{ resultat?.intensiteCarboneMoyenSalarie }}</td>
+          <td>{{ resultat?.intensiteCarboneMoyenEtudiant }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-  <app-save-footer [path]="ONGLET_KEYS.AutreMobFr" (estTermineChange)="onEstTermineChange($event)"></app-save-footer>
+</div>
+<div>
+<app-save-footer [path]="ONGLET_KEYS.AutreMobFr" (estTermineChange)="onEstTermineChange($event)"></app-save-footer>
 </div>

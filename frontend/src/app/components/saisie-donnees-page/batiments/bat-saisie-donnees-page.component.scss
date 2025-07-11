@@ -88,3 +88,14 @@
     border-top: 1px solid #ddd;
   }
 }
+.bottom-panel {
+  flex: 1;
+  background-color: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  min-width: 0;
+  overflow-x: hidden;
+  margin-top: 2rem; // pour espacer du contenu précédent
+}
