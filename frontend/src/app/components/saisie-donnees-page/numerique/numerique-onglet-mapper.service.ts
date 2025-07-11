@@ -25,11 +25,11 @@ export class NumeriqueOngletMapperService {
       estTermine: dto.estTermine,
       note: dto.note,
       cloudDataDisponible: dto.cloudDataDisponible ?? null,
-      traficCloud: dto.TraficCloudUtilisateur != null ? Number(dto.TraficCloudUtilisateur) : null,
-      tipUtilisateur: dto.TraficTipUtilisateur != null ? Number(dto.TraficTipUtilisateur) : null,
+      traficCloud: dto.traficCloudUtilisateur != null ? Number(dto.traficCloudUtilisateur) : null,
+      tipUtilisateur: dto.traficTipUtilisateur != null ? Number(dto.traficTipUtilisateur) : null,
       partTraficFranceEtranger:
-        dto.PartTraficFranceEtranger != null && !isNaN(Number(dto.PartTraficFranceEtranger))
-          ? Number(dto.PartTraficFranceEtranger)
+        dto.partTraficFranceEtranger != null && !isNaN(Number(dto.partTraficFranceEtranger))
+          ? Number(dto.partTraficFranceEtranger)
           : null,
       equipements,
     };
@@ -40,9 +40,9 @@ export class NumeriqueOngletMapperService {
       estTermine: model.estTermine,
       note: model.note,
       cloudDataDisponible: model.cloudDataDisponible,
-      TraficCloudUtilisateur: model.traficCloud != null ? Number(model.traficCloud) : null,
-      TraficTipUtilisateur: model.tipUtilisateur != null ? Number(model.tipUtilisateur) : null,
-      PartTraficFranceEtranger:
+      traficCloudUtilisateur: model.traficCloud != null ? Number(model.traficCloud) : null,
+      traficTipUtilisateur: model.tipUtilisateur != null ? Number(model.tipUtilisateur) : null,
+      partTraficFranceEtranger:
         model.partTraficFranceEtranger != null && !isNaN(Number(model.partTraficFranceEtranger))
           ? Number(model.partTraficFranceEtranger)
           : null,

@@ -63,11 +63,16 @@ export class AutreImmobilisationPageComponent implements OnInit {
     machineGESConnu: '',
     machineGESReel: null,
 
+    // Resultats
+    totalPosteBatiment: null,
+    totalPostePhotovoltaique: null,
+
     machines: []
   };
 
   estTermine = false;
   ONGLET_KEYS = ONGLET_KEYS;
+  resultats: any = null;
 
   onEstTermineChange(value: boolean): void {
     this.estTermine = value;
@@ -83,6 +88,7 @@ export class AutreImmobilisationPageComponent implements OnInit {
       const id = params.get('id');
       if (id) {
         this.loadData(id);
+        this.loadResultats(id);
       }
     });
   }
@@ -175,4 +181,28 @@ export class AutreImmobilisationPageComponent implements OnInit {
       error: err => console.error('PATCH immob echoue', err)
     });
   }
+
+  loadResultats(id: string): void {
+    const token = this.authService.getToken();
+
+    if (!token) {
+      console.error("Token d'authentification manquant");
+      return;
+    }
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    };
+
+    this.http.get(ApiEndpoints.autreImmobilisationOnglet.resultat(id), { headers }).subscribe({
+      next: res => {
+        this.resultats = res;
+      },
+      error: err => {
+        console.error("Erreur lors de la récupération des résultats", err);
+      }
+    });
+  }
+
 }
