@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, inject, Input, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -7,7 +7,7 @@ import { OngletService } from '../header-saisie-donnees/onglet.service';
 import { AnneeService} from '../../services/annee.service';
 import {AuthService} from '../../services/auth.service';
 import { ONGLET_KEYS } from '../../constants/onglet-keys';
-import {MatIcon} from '@angular/material/icon';
+import {UserService} from '../../services/user.service';
 
 const extractRoute = (url: string): string =>
   url.split('/').slice(3).join('/').replace(/\/$/, '');
@@ -22,6 +22,9 @@ type YearRange = { label: string; value: number };
   imports: [CommonModule, FormsModule]
 })
 export class DashboardComponent implements OnInit {
+  private userService = inject(UserService);
+
+  isSuperAdmin = this.userService.isSuperAdmin;
   currentYear: number;
   selectedYear: number;
   years: YearRange[] = [];
