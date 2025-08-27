@@ -9,7 +9,7 @@ import { tap, catchError, map } from 'rxjs/operators';
 })
 export class AuthService {
   isAuthenticated = signal(false);
-  private baseUrl = 'http://localhost:8080/auth';
+  private baseUrl = 'https://trajectoirecarbone.univ-catholille.fr';
   userInfo = signal<{ firstName: string; lastName: string; email: string } | null>(null);
 
   constructor(private router: Router, private http: HttpClient) {}
