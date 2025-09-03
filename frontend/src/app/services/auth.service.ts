@@ -3,13 +3,14 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { tap, catchError, map } from 'rxjs/operators';
+import {ApiEndpoints} from './api-endpoints';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
   isAuthenticated = signal(false);
-  private baseUrl = 'https://trajectoirecarbone.univ-catholille.fr';
   userInfo = signal<{ firstName: string; lastName: string; email: string } | null>(null);
 
   constructor(private router: Router, private http: HttpClient) {}
@@ -17,7 +18,7 @@ export class AuthService {
   login(email: string, password: string): Observable<boolean> {
     const loginData = { email: email, mdp: password };
 
-    return this.http.post<any>(`${this.baseUrl}/connexion`, loginData).pipe(
+    return this.http.post<any>(ApiEndpoints.auth.connexion(), loginData).pipe(
       tap(response => {
         localStorage.setItem('auth_token', response.jeton);
         this.userInfo.set(response.user);

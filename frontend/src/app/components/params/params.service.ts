@@ -18,7 +18,7 @@ export class ParamService {
   }
 
   changePassword(body: { email: string, ancienMdp: string, nouveauMdp: string }, headers: any): Observable<any> {
-    return this.http.post('http://localhost:8080/parametre/change-mdp', body, { headers });
+    return this.http.post(ApiEndpoints.Utilisateur.changerMdp(), body, { headers });
   }
 
   getUtilisateurParEntiteId(entiteId: number, headers: any): Observable<UtilisateurDto[]> {
@@ -35,7 +35,7 @@ export class ParamService {
   }
 
   getAllEntiteNomId(headers: any): Observable<{ id: number, nom: string }[]> {
-    return this.http.get<EntityNomId[]>(ApiEndpoints.Utilisateur.getAllEntiteNomId, { headers });
+    return this.http.get<EntityNomId[]>(ApiEndpoints.Utilisateur.getAllEntiteNomId(), { headers });
   }
 
   deleterUser(utilisateurId: number, headers: any) {

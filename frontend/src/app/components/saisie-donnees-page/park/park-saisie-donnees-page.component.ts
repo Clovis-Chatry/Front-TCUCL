@@ -140,7 +140,7 @@ export class ParkSaisieDonneesPageComponent implements OnInit {
 
   loadTotalEmission(ongletId: string): void {
     const headers = this.getAuthHeaders();
-    this.http.get<{ totalEmissionGES: number }>(`http://localhost:8080/parkingVoirieOnglet/${ongletId}/resultat`, { headers }).subscribe({
+    this.http.get<{ totalEmissionGES: number }>(ApiEndpoints.ParkingVoirieOnglet.getResult(ongletId), { headers }).subscribe({
       next: (res) => {
         this.totalEmissionGES = res.totalEmissionGES;
       },

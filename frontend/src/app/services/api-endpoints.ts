@@ -1,6 +1,7 @@
 import {ONGLET_KEYS} from '../constants/onglet-keys';
 
-const BASE_URL = 'https://trajectoirecarbone.univ-catholille.fr';
+const BASE_URL = 'https://trajectoirecarbone.univ-catholille.fr/api';
+// const BASE_URL = 'http://localhost:8080/api';
 
 export const ApiEndpoints = {
   Onglets: {
@@ -111,13 +112,17 @@ export const ApiEndpoints = {
     creerutilisateur: (entiteId: number) => `${BASE_URL}/parametre/inscription-utilisateur/${entiteId}`,
     updateAdminStatus: (utilisateurId: number) => `${BASE_URL}/parametre/modifier-est-admin/${utilisateurId}`,
     importerFichier:() => `${BASE_URL}/parametre/import-facteurs-emission`,
-    getAllEntiteNomId: `${BASE_URL}/parametre/all-entite-nom-id`,
+    getAllEntiteNomId:() => `${BASE_URL}/parametre/all-entite-nom-id`,
     deleterUser: (utilisateurId: number) => `${BASE_URL}/parametre/supprimer-utilisateur/${utilisateurId}`,
+    changerMdp:()=>`${BASE_URL}/parametre/change-mdp`
   },
 
   SyntheseEges: {
     getByEntite: (entiteId: number, annee: number) =>
       `${BASE_URL}/synthese-eges/${entiteId}?annee=${annee}`
+  },
 
+  auth: {
+    connexion: () => `${BASE_URL}/connexion`
   }
 }
